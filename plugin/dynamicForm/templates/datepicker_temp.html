@@ -1,0 +1,39 @@
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <% if (elementDetails.date_selection_criteria == "both") { %>
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <label for="<%= elementDetails.column_name %>" id="datepickerBT" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+                    <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" class="dynamicData form-control datepickerBT"
+                        name="<%= elementDetails.column_name %>" type="text" value="<%=elementData[elementDetails.column_name]%>" placeholder="<%= elementDetails.placeholder %>" <%= elementDetails.requiredHtml %>>
+                </div>
+            </div>
+        <% }else if (elementDetails.date_selection_criteria == "future"){ %>
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <label for="<%= elementDetails.column_name %>" id="datepickerBT" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+                    <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" class="dynamicData form-control futureDatepickerBT"
+                        name="<%= elementDetails.column_name %>" type="text" value="<%=elementData[elementDetails.column_name]%>" placeholder="<%= elementDetails.placeholder %>" <%= elementDetails.requiredHtml %>>
+                    <span class="module-help-info">&nbsp;(select only future dates.)</span>
+                </div>
+            </div>
+        <% } else if (elementDetails.date_selection_criteria == "past"){ %>
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <label for="<%= elementDetails.column_name %>" id="datepickerBT" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+                    <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" class="dynamicData form-control pastDatepickerBT"
+                        name="<%= elementDetails.column_name %>" type="text" value="<%=elementData[elementDetails.column_name]%>" placeholder="<%= elementDetails.placeholder %>" <%= elementDetails.requiredHtml %>>
+                        <span class="module-help-info">&nbsp;(select only past dates.)</span>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+        

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mpdf/mpdf":"^8.0.13",
+        "google/apiclient": "^2.15.0"
+    }
+}

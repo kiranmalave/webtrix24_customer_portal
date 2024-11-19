@@ -1,0 +1,45 @@
+<div id="filterData" class="modelbox">
+  <form id="demo-form" action="#">
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-6">
+      
+      <select id="textSearch" class="form-control " roleName="textSearch">
+          <option value="roleName">Role Name</option>
+         
+        </select>
+    </div>
+    <div class="col-xs-6">
+      <input id="textval" class="form-control txtchange" roleName="textval" type="text">
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-6">
+      <div class="form-group form-float ws-form-option">
+        <label class="form-label">Order By:</label>
+        <ul class="item-container" data-valid="orderBy">
+            <li class="orderBy multiOptionSel" data-single="Y" data-value="roleName">Role Name</li>
+            <li class="orderBy multiOptionSel" data-single="Y" data-value="created_date">Created Date</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group form-float ws-form-option">
+        <label class="form-label">Order:</label>
+        <ul class="item-container" data-valid="order">
+            <li class="order multiOptionSel" data-single="Y" data-value="ASC">Ascending</li>
+            <li class="order multiOptionSel" data-single="Y" data-value="DESC">Descending</li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-12">
+      <input type="button" id="filterSearch" class="btn btn-success" value="Search"></button>
+      <input type="button" id="resetSearch" class="btn btn-success resetval" value="Reset"></button>
+      
+    </div>
+    
+  </form>
+  
+</div>

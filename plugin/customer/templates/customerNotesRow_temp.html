@@ -1,0 +1,28 @@
+<tr class="even pointer editNote" data-id="<%=notesDetails.attributes.note_id%>" data-time="<%=notesDetails.attributes.reminder_date%>">
+    <td>
+        <div class="point">
+            <div class="pointDetails">
+                <div class="pointRound">
+
+                </div>
+                <p>General</p>
+            </div>
+           
+            <span class="notetime"><%=notesDetails.attributes.timeString%></span>
+        </div>
+        <span class="editnotestHeading">
+            <% if (notesDetails.attributes.title != "" ){ %>
+                <%=notesDetails.attributes.title%>
+             <% }else{ %>
+                <span>Title</span>
+            <% } %>
+            <!-- <%=notesDetails.attributes.title%> -->
+        </span>
+        <div class="editNoteDesc" data-title="<%=notesDetails.attributes.title%>">
+            <%=notesDetails.attributes.note_desc%>
+        </div>
+    </td>
+    <td class="noteDelete">
+        <button type="button" class="ws-btn-default deleteNote"  data-id="<%=notesDetails.attributes.note_id%>" data-view="delete" data-toggle="tooltip" data-placement="top" data-content="Delete"><i class="material-icons">delete</i></button>
+    </td>
+</tr>

@@ -1,0 +1,7 @@
+<div class="addModuleRow addModuleRowDef <%=module%>" style="position: relative;" >
+    <% if(isDef == false) {%>
+        <button id="removeModule" class="btn btn-small btn-default removeModule" data-id="<%=menuID%>"><img class="invoiceDeleteImg" src="images/deleteImg.png"></button>
+    <% } %>
+    <span class="defModuleName"><% if(module != null) {%><%=module.replace(/_/g, ' ')%> <% }else {%><% } %></span>
+    <div class="conditions"></div>
+</div>

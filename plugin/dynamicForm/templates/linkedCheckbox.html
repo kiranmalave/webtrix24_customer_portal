@@ -1,0 +1,29 @@
+
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <div>
+            <label for="<%= elementDetails.column_name %>" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+        </div>
+
+        <% selectOptions.forEach(function(option) { %>
+            <input
+                data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>"
+                class="form-control <%= (elementDetails.allowMultiSelect == 'yes') ? 'multiselectOpt' : 'singleSelectOpt' %>""
+                name="<%= elementDetails.column_name %>"
+                value="<%= option[0] %>"
+                <%= elementDetails.requiredHtml %>
+                type="checkbox"
+                <% if (elementData[elementDetails.column_name] && elementData[elementDetails.column_name].includes(option[0])) { %>checked<% } %>
+            >
+            <label for="checkbox_<%= option[0] %>_<%= elementDetails.fieldID %>"><%= option[1] %></label>
+            <% if (elementDetails.itemAlign === "vertical") { %><br><% } %>
+        <% }); %>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<h4>Today</h4>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Title</th>
+                <th class="p-2">Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(todayList, function(appointment) {%>
+                <tr>
+                    <td class="p-2"><%= appointment.attributes.title %></td>
+                    <td class="p-2"><%= appointment.attributes.start_date %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+
+<h4>Upcoming</h4>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Title</th>
+                <th class="p-2">Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(upcomingList, function(appointment) {%>
+                <tr>
+                    <td class="p-2"><%= appointment.attributes.title %></td>
+                    <td class="p-2"><%= appointment.attributes.start_date %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+
+<h4>Past</h4>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Title</th>
+                <th class="p-2">Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(pastList, function(appointment) {%>
+                <tr>
+                    <td class="p-2"><%= appointment.attributes.title %></td>
+                    <td class="p-2"><%= appointment.attributes.start_date %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

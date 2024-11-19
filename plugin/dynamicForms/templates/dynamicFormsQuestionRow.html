@@ -1,0 +1,267 @@
+<div class="even pointer" id="ws-even<%=insertID%>">
+    <div class="a-center">
+        <div class=" list-row mt-5">
+            <div class="icon-left">
+                <div class="ws-icon">
+                    <span class="input-group-addon lg"><i class="material-icons"></i></span>
+                </div>
+            </div>
+            <div class="right-layout ws-option-question card-body shadow mb-1 hoverQustion pick" id="registrationForm" style="padding-top:30px;">
+                <div class="row">
+                    <div class="col-7">       
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="question_name" class="form-label questionLabel">Question</label>
+                                <input id="question_name" class="form-control text-description" data-text="<%=i%>" name="question_name" type="text" value=""> 
+                                <div id="quill-editor-container<%=i%>" class="hideQuill <%=i%>-editor" style="display: none;"></div>   
+                            
+                            </div>
+                           
+                        </div>                            
+                    </div>
+                    <div class="col-1">
+                        <div class="pt-2 larg-media">
+                            <button class="loadMedia bg-white" type="button" id="question-media"
+                                    data-change="ws-bg-image" data-toggle="modal" data-target="#defaultModal">
+                                    <span class="material-icons">photo_size_select_actual</span>
+                            </button>            
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="from-line">
+                            <select id="question_type" name="" class="form-control dropval ws-select show-tick repeatChange mt-1 addicon" title="">
+                                <option <% if(formDetails.question_type=="short_answer" ){%>selected<%}%> value="short_answer"> Short answer</option>
+                                <option <% if(formDetails.question_type=="paragraph" ){%>selected<%}%> value="paragraph">Paragraph</option>
+                                <option <% if(formDetails.question_type=="choice" ){%>selected<%}%> selected value="choice">Multiple choice</option>
+                                <option <% if(formDetails.question_type=="checkboxes" ){%>selected<%}%> value="checkboxes">Checkboxes</option>
+                                <option <% if(formDetails.question_type=="dropdown" ){%>selected<%}%> value="dropdown">dropdown</option>
+                                <option <% if(formDetails.question_type=="question_date" ){%>selected<%}%> value="question_date">Date</option>
+                                <option <% if(formDetails.question_type=="question_time" ){%>selected<%}%> value="question_time">Time</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 d-none">
+                    <img id="profile_pic_view" style="max-width: 100%;" src="">
+                </div>
+                <div class="col-md-12 d-none">       
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="question_description" class="form-label">Description</label>
+                            <input id="question_description" class="form-control text-description" name="question_description" type="text" value=""> 
+                        </div>
+                        <div id="quill-editor-container"  style="display: none;"></div>   
+                    </div>                            
+                </div>
+
+                <div class="change-question-box"<% if(formDetails.question_type=="choice" ){%> style="display:block;"<%}
+                    else{%><%}%>>
+                    <div class="customer_records_multiple">
+                        <div class="d-flex multipleCls" id="multiple-choice">
+                            <div class="ws-radio-btn  pt-3">
+                                <input name="group5" type="radio" id="" class="with-gap radio-col-blue dropval" >
+                                <label for=""></label>
+                            </div>
+                            <div class="ws-question-change col-9">       
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="options" class="form-control txtchange" name="options" type="text" placeholder="Option 1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ws-load-media  pt-3">
+                                <button class="loadMedia bg-white" type="button" id="option_media" 
+                                    data-change="ws-bg-image" data-toggle="modal" data-target="#defaultModal">
+                                <span class="material-icons">photo_size_select_actual</span>
+                                </button>         
+                            </div> 
+                            <a href="#" class="removemultiple btn-remove-customer col-1 mt-3 removeCheck">
+                                <i class="material-icons">close</i>
+                            </a>  
+
+                            
+                        </div>
+                        <div class="hoverShow" style="position:relative; width:30%;" >
+                            <img class="col-md-12 mb-3" id="profile_pic_view2" style="max-width: 100%;" src="">
+                            <div class="closeButtonMultiple">
+                                <i class="material-icons">
+                                    cancel
+                                </i>
+                            </div>
+                        </div>  
+                        
+                    </div>
+                    <div class="ws-addOtherOptions d-flex">
+                        <div class="pt-3">
+                            <input name="group5" type="radio" id="" class="with-gap radio-col-blue dropval" >
+                            <label for=""></label>
+                        </div>
+                        <div class="col-3">       
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <button id="options" class="form-control add-options" type="button">Add option </button>
+                                </div>
+                            </div>
+                        </div>                               
+                    </div>
+                </div>
+                <div class="change-question-dropdown"<% if(formDetails.question_type=="dropdown" ){%> style="display:block;"<%}else{%>style="display:none;"<%}%>>
+                    <div class="customer_records_dropdown">
+                        <div class="d-flex dropdownCls" id="multiple-dropdown">
+                            <div class="ws-question-change Dropdown col-9" style="padding-left:0;">       
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="options" class="form-control txtchange" name="options" type="text" placeholder="Option 1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ws-load-media pt-3">
+                                <button class="loadMedia bg-white" type="button" id="option_media" 
+                                    data-change="ws-bg-image" data-toggle="modal" data-target="#defaultModal">
+                                <span class="material-icons">photo_size_select_actual</span>
+                                </button>         
+                            </div> 
+                            <a href="#" class="removeDropdown btn-remove-customer col-1 mt-3">
+                                <i class="material-icons">close</i>
+                            </a>  
+
+                            
+                        </div>
+                        <div class="hoverShow" style="position:relative; width:30%;" >
+                            <img class="col-md-12 mb-3" id="profile_pic_view3" style="max-width: 100%;" src="">
+                            <div class="closeButtonMultiple">
+                                <i class="material-icons">
+                                    cancel
+                                </i>
+                            </div>
+                        </div>  
+                        
+                    </div>
+                    <div class="ws-addOtherOptions d-flex">
+                       <div class="col-3" style="padding-left:0;">       
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <button id="options" class="form-control add-options-dropDown" type="button">Add option </button>
+                                </div>
+                            </div>
+                        </div>                               
+                    </div>
+                </div>
+
+                <div class="short-answer-show" <% if(formDetails.question_type=="short_answer" ){%> style="display:block;"<%}else{%>style="display:none;"<%}%>>
+                    <div class="">       
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="short-answer" class="form-label">Short Answer Text</label>
+                                <input id="short-answer" class="form-control" name="short-answer" type="text" value=""> 
+                            </div>
+                        </div>                            
+                    </div>
+                </div>
+                
+                <div class="paragraph-show" <% if(formDetails.question_type=="paragraph" ){%> style="display:block;"<%}else{%>style="display:none;"<%}%>>
+                    <div class="">       
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="paragraph-answer" class="form-label">Long Answer Text</label>
+                                <input id="paragraph-answer" class="form-control" name="paragraph-answer" type="text" value=""> 
+                            </div>
+                        </div>                            
+                    </div>
+                </div>
+                 <div class="change-question-checkbox"<% if(formDetails.question_type=="checkboxes" ){%> style="display:block;"<%}else{%>style="display:none;"<%}%>>
+                    <div class="customer_records_checkbox">
+                        <div class="d-flex checkboxCls" id="multiple-box">
+                            <div class="ws-radio-btn  pt-3">
+                                <input id="#" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                                <label for="">&nbsp;</label>
+                            </div>
+                            <div class="ws-question-change col-9">       
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="options" class="form-control txtchange" name="options" type="text" placeholder="Option 1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ws-load-media pt-3">
+                                <button class="loadMedia bg-white" type="button" id="option_media" 
+                                    data-change="ws-bg-image" data-toggle="modal" data-target="#defaultModal">
+                                <span class="material-icons">photo_size_select_actual</span>
+                                </button>         
+                            </div> 
+                            <a href="#" class="checkBoxRemove btn-remove-customer removeCheckBox col-1 mt-3">
+                                <i class="material-icons">close</i>
+                            </a>    
+                        </div>
+                        <div class="hoverShow" style="position:relative; width:30%;" >
+                            <img class="col-md-12 mb-3" id="profile_pic_view1" style="max-width: 100%;" src="">
+                            <div class="closeButtonMultiple">
+                                <i class="material-icons">
+                                    cancel
+                                </i>
+                            </div>
+                        </div>  
+                        
+                    </div>
+                  
+                    <div class="ws-addOtherOptions d-flex">
+                        <div class="pt-3">
+                            <input id="#" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                            <label for="">&nbsp;</label>
+                        </div>
+                        <div class="col-3">       
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <button id="options" class="form-control add-checkbox" type="button">Add option </button>
+                                </div>
+                            </div>
+                        </div>                               
+                    </div>
+                </div>
+                <div class="date-show"<% if(formDetails.question_type=="question_date" ){%> style="display:block;"<%}else{%>style="display:none;"<%}%>>
+                    <div class="">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line">
+                                <input id="date" type="text" class="form-control txtchange" name="date" value="" data-provide="datepicker">
+                                <label for="date" class="form-label">Date</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="time-show"<% if(formDetails.question_type=="question_time" ){%> style="display:block;"<%}else{%>style="display:none;"<%}%>>
+                    <div class="">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line">
+                                <input id="time" type="text" class="form-control txtchange" name="time" value="" time-provide="timepicker">
+                                <label for="time" class="form-label">time</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 ws-footer-question d-inline-flex justify-content-end pt-3">
+                    <div class="text-right ">
+                        <button type="button" class="ws-btn-default add-duplicate-question" data-toggle="tooltip" data-placement="top" data-content="Duplicate"><i class="material-icons">content_copy</i></button>
+                        <button type="button" class="ws-btn-default remove-questions" data-toggle="tooltip" data-placement="top" data-content="Delete"><i class="material-icons">delete</i></button>
+                    </div>
+                    <div class=" ws-question-line"></div>
+                    <div class="switch pt-2">
+                        <label>Required
+                        <input type="checkbox" id="requrieds">
+                        <span class="lever switch-col-indigo"></span></label>
+                    </div>
+                    <!-- <div class="dropdown">
+                        <a  class="dropdown-toggle ws-footer-dropdown  ws-btn-default " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" data-content="More options" style="cursor: pointer;"> <i class="zmdi zmdi-more-vert"></i> </a>
+                        <ul class="dropdown-menu pull-right dropval ws-select show-tick from-control dropDownlistShow">   
+                            <li>Description</li>
+                            <li>Go to section base on answer</li>
+                            <li>Shuffle option on order</li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+              

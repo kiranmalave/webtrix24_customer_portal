@@ -1,0 +1,76 @@
+<div style="padding : 20px">
+  <!-- <header  id="emailData"> -->
+      <h2 class="overlay-title">Account Group Master</h2>
+      <div class="overlayActions">
+          <span class="action-item overlay-close app-btn" data-to-close="accGroupData">
+              <span class="material-icons">close</span>
+          </span>
+      </div>
+
+
+<div id="accGroupData" class="modelbox">
+    <div class="clearfix">&nbsp;</div>
+
+<form id="accGroupDetails" name="accGroupDetails" action="#">
+    <div class="col-xs-12">
+        <div class="member-profile-img">
+            <img src="">
+        </div>
+    </div>
+    <div class="col-xs-12 form-control-row">
+      <div class="col-sm-6 ">
+          
+          <label for="accGroupName">Account Group Name<span class="error">*</span> :</label>
+          <input id="accGroupName" class="form-control txtchange" name="accGroupName" maxlength="45" type="text" value="<%=  accGroupName %>">
+      </div> 
+      <div class="col-sm-6">
+          <label for="subGroupYesNo">Is it a Sub-Group<span class="error"></span> :</label>
+              <ul class="item-container" data-valid="subGroupYesNo">
+                <li class="subGroupYesNo multiSel" data-single="Y" data-value="Y">Yes</li>
+                <li class="subGroupYesNo multiSel" data-single="Y" data-value="N">No</li>
+            </ul> 
+        </div>     
+    </div>   
+    <div class="col-xs-12 form-control-row">
+        <div class="col-sm-6">
+        <label style="width:100%;"for="mainGroupID">Company Branch Name<span class="error">*</span><br>
+            <select id="mainGroupID" name="mainGroupID" class="form-control dropval">
+              <option value="">Select Group</option>
+              <% _.each(accGroupList, function(model) { %>
+                <option <% if(model.accGroupID == mainGroupID){ %> selected <% } %> value="<%=model.accGroupID%>"><%=model.accGroupName%></option>
+              <%}); %>
+            </select>
+          </label>
+        </div>
+        <div class="col-sm-6 ">
+            <label for="scheduleNo">If no show this<span class="error">*</span> :</label>
+                <ul class="item-container" data-valid="scheduleNo">
+                <li class="scheduleNo multiSel" data-single="Y" data-value="assets">Assets</li>
+                <li class="scheduleNo multiSel" data-single="Y" data-value="liabilities">Liabilities</li>
+                <li class="scheduleNo multiSel" data-single="Y" data-value="income">Income</li>
+                <li class="scheduleNo multiSel" data-single="Y" data-value="expenses">Expenses</li>
+             </ul> 
+        </div> 
+    </div>     
+     <div class="col-xs-12 form-control-row">  
+        <div class="col-sm-6 ">
+          <label for="status">Status <span class="error">*</span> :</label>
+            <ul class="item-container" data-valid="status">
+              <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+              <li class="status multiSel" data-single="Y" data-value="inactive">InActive</li>
+              <li class="status multiSel" data-single="Y" data-value="delete">Delete</li>
+            </ul>
+        </div>
+      </div>      
+           
+        
+    
+    <div class="clearfix">&nbsp;</div>
+        
+        <div class="text-center">
+        <div class="clearfix">&nbsp;</div>
+        <button id="saveAccGroupDetails" type="button" class="btn btn-default btn-success ">Save</button>
+      </div>
+      </form>
+</div>
+</div>

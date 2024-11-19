@@ -1,0 +1,270 @@
+<%if(triggerslist.length == 0){%>
+    <div class="trigerCreate">
+        <div class="trigerCreatePic">
+            <img src="images/createCourse.svg"/>
+        </div>
+        <div class="trigerCreateText">
+            <p>Define the timing for user notifications and the preferred mode of delivery</p>
+        </div>
+        <div class="actionBtns">
+            <button type="button" class="btn btnTriger">Add Trigger</button>
+        </div>
+    </div>
+
+<%}else{%>
+    <div class="tableTriger">
+        <button type="button" class="btn btnTriger" style="margin-bottom: 20px;">Add Trigger</button>
+        <div class="body">
+            
+            <div class="trigerdetials">
+                <div class="trigerTableHeader">
+                    <ul class="listTableHeader">
+                        <li>
+                            Trigger Name
+                        </li>
+                        <li>
+                            Trigger For
+                        </li>
+                        <li>
+                            Course/Lesson Title
+                        </li>
+                        <li>
+                            Trigger Type
+                        </li>
+                        <li>
+                            Trigger Time
+                        </li>
+                        <li>
+                            Action
+                        </li>
+                    </ul>
+                </div>
+                <div class="trigerTableBody">
+                    <%_.each(triggerslist , function(trigger){%>
+                    <ul class="listTable">
+                       <li>
+                        <p> <%=trigger.attributes.trigger_name%></p>
+                           
+                            <span class="truncate"><%=trigger.attributes.trigger_name%>
+                            </span>
+                       </li>
+                       <li>
+                            <%if(trigger.attributes.trigger_type == 'on_course'){%> Course <%}else { %> Lesson <%}%>
+                       </li>
+                       <li>
+                             ---
+                       </li>
+                       <li>
+                            <%if(trigger.attributes.notification_type == 'email'){%> Email <%}else if(trigger.attributes.notification_type == 'sms') { %> SMS <%}else{%>BOTH<%}%>
+                       </li>
+                       <li>
+                            <%if(trigger.attributes.send_on == 'before'){%> Before <%}else if(trigger.attributes.send_on == 'after') { %> After <%}else{%>Same Date<%}%>
+                             
+                       </li>
+                       <li>
+                        <button type="button" class="ws-btn-default editTrigger" data-schemaID="<%=trigger.attributes.schema_id%>" ><i class="material-icons">mode_edit</i></button>
+                        <button type="button" data-schemaID = "<%=trigger.attributes.schema_id%>" class="ws-btn-default deleteTrigger "  data-action="close"><i class="material-icons">delete</i></button>
+                       </li>
+                    </ul>
+                    <div id = "fromEditDetails-<%=trigger.attributes.schema_id%>" class="fromEditDetails" style="display: none;">
+                        <form id="triggerDetails-<%=trigger.attributes.schema_id%>" name="triggerDetails" action="#">    
+                            <div class="row ws-main-container" id="trigger-<%=trigger.attributes.schema_id%>">
+                                <div class="col-md-12">
+                                    
+                                    <div class="list-row">
+                                        
+                                        <div class="right-layout">
+                                            <!-- <div class="text-right actionBtns">
+                                                <button type="button" data-schemaID = "<%=trigger.attributes.schema_id%>" class="ws-btn-default deleteTrigger "  data-action="close"><i class="material-icons">delete</i></button>
+                                            </div> -->
+                                            <div class="text-left" style="margin-top:10px;margin-bottom:20px;">
+                                                <span>Edit Trigger</span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            <input id="trigger_name" data-triggerID = "<%=trigger.attributes.schema_id%>" type="text" class="form-control dropval-i txtchange trigger-id-<%=trigger.attributes.schema_id%>" name="trigger_name" value="<%=trigger.attributes.trigger_name%>">
+                                                            <label for="trigger_name" class="form-label">Triger Name</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            <select for="notification_type" id="notification_type" data-triggerID = "<%=trigger.attributes.schema_id%>" name="notification_type" title="Notification Type" class="form-control  dropval-i  ws-select  show-tick repeatChange trigger-id-<%=trigger.attributes.schema_id%>">
+                                                                <!-- <select for="" id="" name="trigger_type" title="Select Trigger Type" class="form-control  dropval-i   show-tick repeatChange"> -->
+                                                                    <option class="addNew" value="">Select Notification Type </option>    
+                                                                    <option class="" value="email" <%if(trigger.attributes.notification_type == "email"){%>selected<%}%> >Email</option>
+                                                                    <option class="" value="sms" <%if(trigger.attributes.notification_type == "sms"){%>selected<%}%> >SMS</option>
+                                                                    <option class="" value="both" <%if(trigger.attributes.notification_type == "both"){%>selected<%}%> >Both</option>
+                                                                </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            <select for="trigger_type" id="trigger_type" name="trigger_type" title="Trigger On" data-triggerID = "<%=trigger.attributes.schema_id%>" class="form-control  dropval-i ws-select  show-tick repeatChange trigger-id-<%=trigger.attributes.schema_id%>">
+                                                        <!-- <select id="trigger_type" name="trigger_type" title="Select Trigger Type" class="form-control  dropval-i"> -->
+                                                            <!-- <select for="" id="" name="trigger_type" title="Select Trigger Type" class="form-control  dropval-i   show-tick repeatChange"> -->
+                                                                <option class="addNew" value="">Select Trigger Type </option>    
+                                                                <option class="" value="on_course" <%if(trigger.attributes.trigger_type == "on_course"){%>selected<%}%> >Course</option>
+                                                                <option class="" value="on_lesson" <%if(trigger.attributes.trigger_type == "on_lesson"){%>selected<%}%>  >Lesson</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" id="lesson-div-<%=trigger.attributes.schema_id%>" style="display: none;">
+                                                <div class="col-md-5">
+                                                    <div class="form-float form-group ">
+                                                        <div class="form-line">
+                                                            <select for="lesson_list" id="lesson_list" data-triggerID = "<%=trigger.attributes.schema_id%>" name="lesson_list" title="Select Lesson" class="form-control  dropval-i ws-select  show-tick repeatChange trigger-id-<%=trigger.attributes.schema_id%>">
+                                                                <option class="addNew" value="">Select Lesson </option>    
+                                                                <% _.each(lessonList, function(lesson) { %> 
+                                                                    <option value="<%=lesson.lesson_id%>"  ><%=lesson.attributes.lesson_title%></option>
+                                                                <%})%>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="clearfix">&nbsp;</div>
+                                                <div class="col-md-3">
+                                                    <div class="form-float form-group ">
+                                                        <div class="form-line">
+                                                            
+                                                            <select for="action" id="action" name="action" title="Select Action" data-triggerID = "<%=trigger.attributes.schema_id%>" class="form-control  dropval-i ws-select  show-tick repeatChange trigger-id-<%=trigger.attributes.schema_id%>">
+                                                                <option class="addNew" value=""> Select Action</option>
+                                                                <option value="complete" <%if(trigger.attributes.action == "complete"){%>selected<%}%>  > On Complete</option>
+                                                                <option value="update" <%if(trigger.attributes.action == "update"){%>selected<%}%>  > On Update</option>
+                                                                <option value="expired" <%if(trigger.attributes.action == "expired"){%>selected<%}%>  > On Expired</option>
+                                                                <option value="start_date" <%if(trigger.attributes.action == "start_date"){%>selected<%}%>  > On Start Date</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    
+                                                    <div class="form-float form-group ">
+                                                        <div class="form-line">
+                                                            <select for="send_on" id="send_on" name="send_on" title="Send On" data-triggerID = "<%=trigger.attributes.schema_id%>" class="form-control  dropval-i ws-select show-tick repeatChange  trigger-id-<%=trigger.attributes.schema_id%> send_on-<%=trigger.attributes.schema_id%>">
+                                                                <option class="addNew" value="">Select Send On</option>
+                                                                <option value="before" <%if(trigger.attributes.send_on == "before"){%>selected<%}%>  >Before date</option>
+                                                                <option value="on_date" <%if(trigger.attributes.send_on == "on_date"){%>selected<%}%>  >Same Date</option>
+                                                                <option value="after" <%if(trigger.attributes.send_on == "after"){%>selected<%}%>  >After Date</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="row" id="interval-div-<%=trigger.attributes.schema_id%>" <%if( trigger.attributes.send_on == "on_date" ){%> style="display: none;"<%}%> >
+                                                <div class="clearfix">&nbsp;</div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            <select for="inteval_type" id="inteval_type" data-triggerID = "<%=trigger.attributes.schema_id%>"  name="inteval_type" title="Interval Type" class="form-control  ws-select  dropval-i   show-tick repeatChange trigger-id-<%=trigger.attributes.schema_id%>" >
+                                                                <option value="" <%if(trigger.attributes.inteval_type == ""){%>selected<%}%> >Select Interval Type</option>
+                                                                <option value="day" <%if(trigger.attributes.inteval_type == "day"){%>selected<%}%> > Days</option>S
+                                                                <option value="week" <%if(trigger.attributes.inteval_type == "week"){%>selected<%}%> >  Weeks</option>
+                                                                <option value="month" <%if(trigger.attributes.inteval_type == "month"){%>selected<%}%> > Months</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-md-3" id="month-div-<%=trigger.attributes.schema_id%>"  <% if( trigger.attributes.inteval_type == 'month') {%>   style="display: block;" <%}else{%> style="display: none;"<%}%> >
+                                                    <div class="form-group input-group form-float">
+                                                        <div class="form-line">
+                                                            <select for="months_week" id="months_week" data-triggerID = "<%=trigger.attributes.schema_id%>" name="months_week" title="Months Week"  class="form-control trigger-id-<%=trigger.attributes.schema_id%>  ws-select  dropval-i   show-tick repeatChange">
+                                                                <option <%if(trigger.attributes.months_week == "first"){%>selected<%}%> value="first">First</option>
+                                                                <option <%if(trigger.attributes.months_week == "second"){%>selected<%}%> value="second">Second</option>
+                                                                <option <%if(trigger.attributes.months_week == "third"){%>selected<%}%> value="third">Third</option>
+                                                                <option <%if(trigger.attributes.months_week == "fourth"){%>selected<%}%> value="fourth">Fourth</option>
+                                                                <option <%if(trigger.attributes.months_week == "last"){%>selected<%}%> value="last">Last</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-md-3" id="week-div-<%=trigger.attributes.schema_id%>" <% if( trigger.attributes.inteval_type == 'month' || trigger.attributes.inteval_type == 'week' ) {%>   style="display: block;" <%}else{%> style="display: none;"<%}%> >
+                                                    <div class="form-group input-group form-float">
+                                                        <div class="form-line">
+                                                            <select for="week_days" id="week_days" data-triggerID = "<%=trigger.attributes.schema_id%>" name="week_days" title="Week Days"  class="form-control trigger-id-<%=trigger.attributes.schema_id%>  ws-select  dropval-i   show-tick repeatChange">
+                                                                <option value="monday" <%if(trigger.attributes.week_days == "monday"){%>selected<%}%>   >Monday</option>
+                                                                    <option value="tuesday" <%if(trigger.attributes.week_days == "tuesday"){%>selected<%}%>  >TuesDay</option>
+                                                                    <option value="wednesday" <%if(trigger.attributes.week_days == "wednesday"){%>selected<%}%> >WednesDay</option>
+                                                                    <option value="thursday" <%if(trigger.attributes.week_days == "thursday"){%>selected<%}%> >Thursday</option>
+                                                                    <option value="friday" <%if(trigger.attributes.week_days == "friday"){%>selected<%}%> >Friday</option>
+                                                                    <option value="saturday" <%if(trigger.attributes.week_days == "saturday"){%>selected<%}%> >Saturday</option>
+                                                                    <option value="sunday" <%if(trigger.attributes.week_days == "sunday"){%>selected<%}%> >Sunday</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-md-2" id="day-div-<%=trigger.attributes.schema_id%>"  <% if( trigger.attributes.inteval_type == 'month' || trigger.attributes.inteval_type == 'week' || trigger.attributes.inteval_type == 'day' ) {%>   style="display: block;" <%}else{%>style="display: none;"<%}%>  >
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            <input id="interval_span" data-triggerID = "<%=trigger.attributes.schema_id%>" type="text" class="form-control txtchange dropval-i trigger-id-<%=trigger.attributes.schema_id%>" name="interval_span" value="<%=trigger.attributes.interval_span%>">
+                                                            <label for="interval_span" class="form-label">Interval Span</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="row " id="stop-t-div-<%=trigger.attributes.schema_id%>" <%if( trigger.attributes.send_on == 'on_date' || trigger.attributes.send_on == 'before'){%>style="display: none;"<%}%> >
+                                                <div class="clearfix">&nbsp;</div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            
+                                                            <select for="stop_type" data-triggerID = "<%=trigger.attributes.schema_id%>" id="stop_type" name="stop_type" title="Stop Type"  class="form-control trigger-id-<%=trigger.attributes.schema_id%>   dropval-i  ws-select show-tick repeatChange">
+                                                                <option value="">Select Stop Type</option>
+                                                                <option value="interval" <%if(trigger.attributes.stop_type == "interval"){%>selected<%}%> >Stop After Interval</option>
+                                                                <option value="date" <%if(trigger.attributes.stop_type == "date"){%>selected<%}%> > Stop After Date</option>
+                                                                <option value="infinite" <%if(trigger.attributes.stop_type == "infinite"){%>selected<%}%> > No End Date</option>
+                                                            </select>   
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 end-date-div-<%=trigger.attributes.schema_id%>" <%if(trigger.attributes.stop_type != "date"){%> style="display: none;"<%}%> >
+                                                    <div class="form-group input-group form-float">
+                                                        <div class="form-line">
+                                                        
+                                                            <input id="end_date" data-triggerID = "<%=trigger.attributes.schema_id%>" type="text" data-provide="datepicker" class="form-control dropval-i trigger-id-<%=trigger.attributes.schema_id%>" name="end_date"
+                                                                value="<%=trigger.attributes.end_date%>">
+                                                            <label for="end_date" class="form-label">End Date</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 total-comp-inte-<%=trigger.attributes.schema_id%>" <%if(trigger.attributes.stop_type != "interval"){%> style="display: none;"<%}%>  >
+                                                    <div class="form-group form-float">
+                                                        <div class="form-line">
+                                                            <input id="total_complete_interval" data-triggerID = "<%=trigger.attributes.schema_id%>" type="text" class="form-control dropval-i txtchange trigger-id-<%=trigger.attributes.schema_id%>" name="total_complete_interval" value="<%=trigger.attributes.total_complete_interval%>">
+                                                            <label for="total_complete_interval" class="form-label">Total Complete Interval</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <%});%>
+                </div>
+            </div>
+         
+        
+        </div>
+    </div>
+    
+
+   
+<%}%>

@@ -1,0 +1,234 @@
+<div class="tab-pane in active">
+  <form id="serviceDetails" name="serviceDetails" action="#">
+    <div class="text-right actionBtns">
+      <button type="button" class="btn bg-indigo saveServiceDetails" data-action="close">Save</button>
+      <button type="button" class="btn bg-indigo saveServiceDetails" data-action="new">Save New</button>
+    </div>
+    <div class="row ws-main-container">
+      <div class="col-md-8 ws-appointment-container">
+        <div class="clearfix">&nbsp;</div>
+        <div class="list-row">
+          <div class="icon-left">
+            <div class="ws-icon">
+              &nbsp;
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group form-float">
+                  <div class="form-line">
+                    <label for="serviceTitle" class="form-label">Service Title</label>
+                    <input id="serviceTitle" type="text" class="form-control txtchange" autocomplete="off" name="serviceTitle" autocomplete="off"
+                      value="<%=model.serviceTitle%>">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-float">
+                  <div class="form-line">
+                    <label for="serviceLink" class="form-label">Service Link</label>
+                    <input id="serviceLink" class="form-control txtchange" autocomplete="off" name="serviceLink" autocomplete="off"
+                      value="<%=model.serviceLink%>">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="list-row">
+          <div class="icon-left">
+            <div class="ws-icon">
+              &nbsp;
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Service Type:</label>
+                <ul class="item-container" data-valid="service_type">
+                    <li class="service_type multiSel" data-single="Y"
+                        data-value="Service">Services</li>
+                    <li class="service_type multiSel" data-single="Y" data-value="Product">
+                       Product</li>
+                </ul>
+              </div>
+              <div class="col-md-6 mt-2">
+                <div class="form-group form-float">
+                  <div class="rept-time">
+                      <select id="category_id" name="category_id" class="form-control dropval ws-select show-tick repeatChange">
+                          <option value="">Service Category</option>
+                          <% 
+                            _.each(categoryList, function(model1) { %>
+                                <option <% if(model1.attributes.category_id == model.category_id ){ %> selected <% } %> 
+                                value="<%=model1.attributes.category_id%>"><%=model1.attributes.categoryName%></option>
+                            <%})%>
+                      </select>
+                  </div>
+                </div>
+              </div>        
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="list-row">
+          <div class="icon-left">
+            <div class="ws-icon">
+              &nbsp;
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-6 mt-2">
+                <div class="form-group form-float">
+                  <div class="rept-time">
+                    <label style="width:100%;" for="parent_id">Parent <%=model.parent_id%><span class="error">*</span><br>
+                      <select id="parent_id" name="parent_id" class="form-control dropval ws-select">
+                        <option value="">Select Parent</option>
+                        <% _.each(servicesList, function(model1) { %>
+                          <option <% if(model1.attributes.service_id==model.parent_id){ %> selected <% } %> value="
+                                  <%=model1.attributes.service_id%>" <% if(model1.attributes.service_id==model.service_id) { %>
+                                  disabled <% } %>>
+                                    <%=model1.attributes.serviceTitle%>
+                          </option>
+                          <%}); %>
+                      </select>
+                    </label>
+                      
+                  </div>
+                </div>
+              </div>        
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="list-row">
+          <div class="icon-left mt-3">
+            <div class="ws-icon">
+              <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-12">
+                <label for="serviceDescription"></label>
+                <div id="serviceDescription" class="form-control">
+                  <%=model.serviceDescription%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-row" style="margin-top:90px;">
+          <div class="icon-left">
+            <div class="ws-icon">
+              &nbsp;
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-12">
+                  <!-- <span class="input-group-addon right"><i class="material-icons">date_range</i></span> -->
+                  <label for="pageCss">Page Css<span class="error"></span> :</label>
+                  <textarea id="pageCss" rows="4" class="ckeditor form-control txtchange" autocomplete="off"
+                    name="pageCss"><%=model.pageCss %></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-row">
+          <div class="icon-left">
+            <div class="ws-icon">
+              &nbsp;
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-12">
+                  <label for="pageCode">Page JavaScript</label>
+                  <textarea id="pageCode" rows="4" class="ckeditor form-control txtchange"
+                    name="pageCode"><%=model.pageCode %></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="list-row">
+          <div class="icon-left">
+            <div class="ws-icon">
+              &nbsp;
+            </div>
+          </div>
+          <div class="right-layout">
+            <div class="row">
+              <div class="col-md-12">
+                  <label for="pageContent">Page Content</label>
+                  <textarea id="pageContent" rows="4" class="ckeditor form-control txtchange"
+                    name="pageContent"><%=model.pageContent %></textarea>
+              </div>
+            </div>
+          </div>
+              
+        <div class="clearfix">&nbsp;</div>
+        <div id="dynamicFormFields" class="dynamic-align"></div>
+        </div>
+    
+
+      </div>
+      <div class="col-md-4 ws-assignee-container">
+        <div class="row">
+          <div class="col-md-12 ws-assignee-column">
+            <label for="assignee"  style="margin-left: 7px;">Profile Picture</label>
+            <div class="clearfix">&nbsp;
+              <input id="typehead" class="btn loadMedia" type="button" value="serviceImage" autocomplete="off" name="Service Image"
+                data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+            </div>
+          </div>
+          <div class="col-md-12 mt-5">
+            <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.serviceImage%>">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

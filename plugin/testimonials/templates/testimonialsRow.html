@@ -1,0 +1,36 @@
+<tr class="even pointer bg-<%=testimonialsDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= testimonialsDetails.attributes.testimonial_id%>" class="memberlistcheck chk-col-amber deleteCard"
+        data-testimonial_id="<%= testimonialsDetails.attributes.testimonial_id%>" type="checkbox">
+      <label for="cAll_<%= testimonialsDetails.attributes.testimonial_id%>">&nbsp;</label>
+    </div>
+  </td>
+
+  <!-- <td class="loadview" data-toggle="modal" data-target="#myModal"
+    data-testimonial_id="<%=testimonialsDetails.attributes.testimonial_id%>" data-show="singleTestimonialsData" style="padding-left: 22px !important; padding-top: 6px !important;">
+
+    <%=testimonialsDetails.attributes.testimonial_name%>
+  </td>
+  <td class="draglinerow" >
+    <%= formatDate(testimonialsDetails.attributes.created_date,'no') %>
+  </td> -->
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth">
+      <div class="nametooltip truncateColumns loadview" data-testimonial_id="<%=testimonialsDetails.attributes.testimonial_id%>" data-view="singleTestimonialsData">
+      <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+        <%= testimonialsDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+      <% } else { %>
+        <% if(testimonialsDetails.attributes[""+column.column_name] == "" || testimonialsDetails.attributes[""+column.column_name] == null){%>
+          -
+        <%}else{%>
+          <%=testimonialsDetails.attributes[""+column.column_name]%>
+        <%}%>
+      <% } %>
+      </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-testimonial_id="<%=testimonialsDetails.attributes.testimonial_id%>" data-view="singleTestimonialsData"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit">mode_edit</i></button>
+      </td>
+</tr>

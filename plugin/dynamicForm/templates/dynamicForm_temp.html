@@ -1,0 +1,62 @@
+   <div class="container-fluid">
+       <div class="row clearfix">
+           <div class="col-lg-12">
+               <div class="card">
+                    <div class="header">
+                      <h2>Fields </h2>
+                  </div>
+                    <div class="body">
+                      <div class="actionList">
+                        <!-- <div class="action-icons-div ml-1"> -->
+                        <%if(permission.delete=="yes" ) { %>
+                          <span type="button" style="display: none;" class="changeStatus deleteAll" data-action="delete"><i
+                              class="material-icons dlt-btn">delete</i></span>
+                          <% } %>
+                      </div>
+                       <table id="clist" class="table bulk_action tableList table table-hover m-b-0 footable footable-1 footable-paging footable-paging-center breakpoint-lg">
+                        <thead id="thead">
+                          <tr class="footable-header">
+                            <th>
+                              <div class="listCheckbox">
+                                  <input id="cAll" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                                  <label for="cAll">&nbsp;</label>
+                              </div>
+                            </th>
+                            <!-- <th class="column-title">User Role ID</th> -->
+                            <th class="column-title">Email</th>
+                            <th class="column-title">Status</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="dynamicFormList">
+                        </tbody>
+                      </table>
+                      <div class="profile-loader-msg text-center"></div>
+                      <div class="profile-loader text-center">
+                        <div class="preloader table">
+                          <div class="loderGif table">
+                            <img src="images/webloader.gif" alt="User" />
+                          </div>
+                        </div>
+                      </div>
+                      <div id="loadMember" data-index="1" data-currPage="1"></div>
+                    </div>
+                    <!-- paggination -->
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+                            class="page-info"></span></div>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- paggination -->
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>

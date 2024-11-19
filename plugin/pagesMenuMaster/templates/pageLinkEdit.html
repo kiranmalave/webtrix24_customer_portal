@@ -1,0 +1,28 @@
+<div class="menu-item-setting menuIdCls_<%=id%>" id="menu-item-setting-5">
+  <div class="clearfix">
+      <div class="form-group-sm form-float mb-3">
+        <div class="form-line">
+          <p><b>URL</b></p>
+            <input type="url" class="form-control" name="url" required="" aria-required="true" value="<%=pagelink%>" disabled style="cursor:not-allowed;">
+        </div>
+      </div>
+      <div class="form-group-sm form-float mb-3">
+      <div class="form-line">
+        <p><b>Navigation Lable</b></p>
+        <input type="text" class="form-control updatePageDetails" data-pageID="<%=id%>" data-id="pageTitle" name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true" value="<%=pagetitle%>"> 
+      </div>
+      </div>
+      <!-- <div class="form-group-sm form-float mb-3">                    
+          <div class="form-line">
+            <p><b>Title Attribute</b></p>
+              <input type="text" class="form-control" name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true">
+          </div>
+      </div> -->
+      <div class="menu-item-actions description-wide submitbox">
+          <!-- <a class="item-delete submitdelete deletion text-danger" id="delete-5" href="#">Remove</a>	 -->
+          <!-- <span class="meta-sep hide-if-no-js"> | </span> -->
+          <!-- <a class="item-cancel submitcancel hide-if-no-js" id="cancel-5" href="#">Cancel</a> -->
+          <span class="item-cancel clacel submitcancel hide-if-no-js" data-pageID="<%=id%>">Cancel</span>
+        </div>
+  </div>
+</div>

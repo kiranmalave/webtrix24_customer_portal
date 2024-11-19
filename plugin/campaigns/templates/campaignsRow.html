@@ -1,0 +1,24 @@
+<tr class="even pointer bg-<%=campaignsDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= campaignsDetails.attributes.campaign_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-campaign_id="<%= campaignsDetails.attributes.campaign_id %>" type="checkbox">
+      <label for="cAll_<%= campaignsDetails.attributes.campaign_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-campaign_id="<%=campaignsDetails.attributes.campaign_id%>" data-view="singleCampaignsData">
+      <div class="nametooltip truncateColumns">
+      <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+        <%=campaignsDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+          <% }else { %>
+            <%=campaignsDetails.attributes[""+column.column_name]%>
+              <% } %>
+        </div>
+    </td>
+    <% }); %>
+      </td>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-campaign_id="<%=campaignsDetails.attributes.campaign_id%>" data-view="singleCampaignsData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+      </td>
+</tr>

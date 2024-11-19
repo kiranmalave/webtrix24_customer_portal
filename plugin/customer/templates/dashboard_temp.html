@@ -1,0 +1,134 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12 nopadding">
+      <div class="card overflowhidden">
+        <div class="profile-header">
+          <div class="profile_info row">
+            <div class="col-lg-2 col-md-4 col-12">
+
+              <div class="profile-image float-md-right">
+                <% if(customerModel.attributes.customer_image=="" ) {%>
+                  <img src="<%=APPPATH%>images/site/defaultImage.jpg" />
+                <%}else{%>
+                  <img id="profile_pic_view1" style="max-width: 100%;" src="<%=customerModel.attributes.customer_image%>" />
+                <%}%>
+              </div>
+
+            </div>
+
+            <div class="col-lg-10 col-md-8 col-12">
+              <div class="row">
+                <div class="col-lg-6 col-md-4 col-12">
+                  <h4 class="m-t-5 m-b-0">
+                    <% if(customerModel.attributes.record_type=='company' ){%>
+                      <%=customerModel.attributes.company_name%>
+                    <%}else{%>
+                      <%=customerModel.attributes.name%>
+                    <%}%>
+
+                  </h4>
+                  <span class="m-t-5 job_post">
+                    <%=customerModel.attributes.address%>
+                  </span>
+                </div>
+                <div class="col-lg-6 col-md-4 col-12">
+                  <h4 class="m-t-5 m-b-0">
+                    <strong>Contact Person Details</strong>
+                  </h4>
+                  <% if(customerModel.attributes.record_type=='company' ){%>
+                    <span class="m-t-5 job_post">Name :- <%=customerModel.attributes.person_name%></span>
+                    <%}%>
+
+                      <span class="m-t-5 job_post">Email :- <a href=mailto:"<%=customerModel.attributes.email%>">
+                          <%=customerModel.attributes.email%>
+                        </a> </span>
+                      <span class="m-t-5 job_post">Phone :- <a href="tel:<%=customerModel.attributes.mobile_no%>">
+                          <%=customerModel.attributes.mobile_no%>
+                        </a></span>
+                      <span class="m-t-5 job_post">Website :- <a href="<%=customerModel.attributes.website%>">
+                          <%=customerModel.attributes.website%>
+                        </a></span>
+                </div>
+              </div>
+
+
+            </div>
+            <button type="button" class="ws-btn-default loadview headerbtn"
+              data-customer_id="<%=customerModel.attributes.customer_id%>" data-view="singlecustomerview"
+              data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+          </div>
+        </div>
+        <div class="profile-sub-header">
+          <div class="box-list">
+            <ul class="text-center alineCenter">
+              <li class="tablinks active" data-type="task"><i class="material-icons">assignment_turned_in </i>
+                <p>Tasks</p>
+              </li>
+              <li class="tablinks" data-type="invoice"><i class="material-icons"> assignment </i>
+                <p>Invoices</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="col-lg-3 col-md-6 col-sm-12 pr-1 nopadding">
+      <div class="card activities">
+        <div class="header">
+          <h2>Activities</h2>
+        </div>
+        <div class="body">
+          <% _.each(historyList, function(model1) { %>
+            <div class="streamline b-l b-accent">
+              <div class="sl-item">
+                <div class="sl-content addtoolTip">
+                  <div class="text-muted-dk">
+                    <%=model1.attributes.timeString%>
+                  </div>
+                  <% if(model1.attributes.description == "update"){%>
+                      <p class="addtool">
+                        <%=model1.attributes.record_type%>
+                          <span class="text-info">
+                            <%=model1.attributes.description%>
+                          </span>
+                      </p>
+                  <%}else{%>
+                    <p class="addtool">
+                      <%=model1.attributes.action_type%>
+                    </p>
+                  <%}%>
+                </div>
+              </div>
+            </div>
+            <%})%>
+        </div>
+      </div>
+    </div>
+    <div id="dasboradHolder" class="col-lg-9 col-md-6 col-sm-12 pl-1 nopadding">
+      <div id="tasks"></div>
+
+      <div id="project"></div>
+
+      <div id="invoice"></div>
+    </div>
+    <div class="sidebar-right">
+      <ul class="nav side-menu">
+
+      </ul>
+    </div>
+
+    <!-- Large Size -->
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div id="mediaLoad" class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+          </div>
+        </div>
+      </div>
+    </div>

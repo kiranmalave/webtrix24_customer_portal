@@ -1,0 +1,38 @@
+<div class="dashEle" style="position: relative;">
+     
+     <div class="ele-header">
+          <div class="col-md-8">
+               <p><%=model.name%></p>
+          </div>
+          <div class="dropdown">
+               <button class="btn settingsButton dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="material-icons">settings</span>
+               </button>
+               <button class="btn deleteButton dropdown-toggle" data-id="<%=model.id%>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="material-icons">delete</span>
+               </button>
+          </div>
+     </div>
+     <% if(model.view_type == 'graph') {%>
+          <canvas class="chart-canvas" id="Chart_<%=model.id%>"></canvas>
+     <%}else{%>
+          <div class="customTableClass">
+               <table id="clist" style="width: 100%;" class="tableList table-hover table-bordered incomeTable_<%=dashboard_id%>">
+                    <thead id="thead">
+                         <tr class="headings">
+                              <th class="p-2">Day</th>
+                              <th class="p-2">Amount</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                         <% for(i = model.lables.length-1  ; i >= 0  ; i--){ %>
+                              <tr>
+                                   <td class="p-2"><%=model.lables[i]%></td>
+                                   <td class="p-2"><%=model.amounts[i]%></td>
+                              </tr>
+                         <% } %>
+                    </tbody>
+               </table>
+          </div>
+     <%}%>
+</div>

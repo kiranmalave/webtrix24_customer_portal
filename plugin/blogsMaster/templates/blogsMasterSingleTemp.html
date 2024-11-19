@@ -1,0 +1,155 @@
+<div class="tab-pane in active">
+  <div id="blogsMasterSingleView">
+    <form id="blogsDetails" name="blogsDetails" action="#" style="padding: 0px 10px;">
+      <div class="text-right actionBtns">
+        <button type="button" class="btn bg-indigo saveDetails" data-action="close">Save</button>
+        <button type="button" class="btn bg-indigo saveDetails" data-action="new">Save & new</button>
+      </div>
+      <div class="row mb-1">
+        <div class="col-md-6">
+          <div class="clearfix">&nbsp;</div>
+          <div class="form-group form-float">
+            <div class="form-line">
+              <label for="blogTitle" class="form-label">Blog Title<span class="error">*</span> : </label>
+              <input id="blogTitle" type="text" class="form-control txtchange titleChange" name="blogTitle"
+                value="<%=model.blogTitle%>">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <% const catID=model.category ? model.category.split(','):[]%>
+            <label for="category" class="form-label text-secondary">Category<span class="error">*</span>:</label>
+            <select id="category" name="category" class="form-control dropval ws-select show-tick repeatChange"
+              multiple>
+              <%_.each(categoryList,function(model1){%>
+                <option <% if(catID.includes(model1.attributes.categoryID) ){ %> selected <% } %>
+                    value="<%=model1.attributes.categoryID%>"><%=model1.attributes.categoryName%>
+                </option>
+                <%})%>
+            </select>
+        </div>
+      </div>
+      <div class="row mb-1">
+        <div class="col-md-6">
+          <div class="form-group form-float">
+            <div class="form-line">
+              <label for="blogImage" class="form-label">Blog Image<span class="error">*</span> : </label>
+              <input id="blogImage" type="text" class="form-control txtchange" name="blogImage"
+                value="<%=model.blogImage%>">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-float">
+            <div class="form-line">
+              <label for="metaKeywords" class="form-label">Meta Keywords <span class="error">*</span> : </label>
+              <input id="metaKeywords" type="text" class="form-control txtchange" name="metaKeywords"
+                value="<%=model.metaKeywords%>">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-1">
+        <div class="col-md-6">
+          <div class="form-group form-float">
+            <div class="form-line">
+              <label for="blogLink" class="form-label">Blog Link<span class="error">*</span> : </label>
+              <input id="blogLink" type="text" class="form-control txtchange" name="blogLink"
+                value="<%=model.blogLink%>">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-float">
+            <div class="form-line">
+              <label for="blogSubTitle" class="form-label">Blog Subtitle<span class="error">*</span> : </label>
+              <input id="blogSubTitle" type="text" class="form-control txtchange" name="blogSubTitle"
+                value="<%=model.blogSubTitle%>">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-md-6">
+          <div class="form-group form-float">
+            <div class="form-line">
+              <div class="clearfix">&nbsp;</div>
+              <label for="metaDesc" class="form-label"> Meta Description <span class="error">*</span> : </label>
+              <input id="metaDesc" type="text" class="form-control txtchange" name="metaDesc"
+                value="<%=model.metaDesc%>">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="blogTemplate" class="form-label text-secondary">Blog Template <span class="error">*</span> :
+          </label>
+          <select id="blogTemplate" name="blogTemplate" class="form-control dropval ws-select show-tick repeatChange">
+            <option value="default" <% if(model.blogTemplate==' default' ){ %> selected <% } %>>Default</option>
+            <option value="withoutHF" <% if(model.blogTemplate=='withoutHF' ){ %> selected <% } %>>Without Header
+                and
+                Footer
+            </option>
+            <option value="withHF" <% if(model.blogTemplate=='withHF' ){ %> selected <% } %>>With Header and Footer
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="status">Status <span class="error">*</span> :</label>
+          <ul class="item-container" data-valid="status">
+            <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+            <li class="status multiSel" data-single="Y" data-value="inactive">InActive</li>
+            <li class="status multiSel" data-single="Y" data-value="delete">Delete</li>
+          </ul>
+        </div>
+      </div>
+  </div>
+</div>
+<!--    <div class="row mb-1">     -->
+<div class="row">
+  <div class="icon-left">
+    <div class="ws-icon" style="padding-top :25px; padding-left:10px;">
+      <span class="input-group-addon right"><i class="material-icons">link</i></span>
+    </div>
+  </div>
+  <div class="col-md-11">
+    <label for="pageCode">Blog JavaScript<span class="error"></span> :</label>
+    <textarea id="pageCode" rows="4" class="ckeditor form-control txtchange"
+      name="pageCode"><%=model.pageCode %></textarea>
+  </div>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+
+<div class="row">
+  <div class="icon-left">
+    <div class="ws-icon" style="padding-top :25px; padding-left:10px;">
+      <span class="input-group-addon right"><i class="material-icons">link</i></span>
+    </div>
+  </div>
+  <div class="col-md-11">
+    <label for="pageCss">Blog Css<span class="error"></span> :</label>
+    <textarea id="pageCss" rows="4" class="ckeditor form-control txtchange"
+      name="pageCss"><%=model.pageCss %></textarea>
+  </div>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+
+<div class="row">
+  <div class="icon-left">
+    <div class="ws-icon" style="padding-top :25px; padding-left:10px;">
+      <span class="input-group-addon right"><i class="material-icons">sort</i></span>
+    </div>
+  </div>
+  <div class="col-md-11">
+    <label for="description">Description<span class="error"></span> :</label>
+    <div id="description" class="form-control">
+      <%=model.description%>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+</div>

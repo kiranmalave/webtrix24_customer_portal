@@ -1,0 +1,294 @@
+.container .profile-header {
+  box-shadow: 0px 2px 44px 4px #00000012;
+  background: #ffffff;
+}
+.activity-body {
+  height: 312px;
+  overflow-y: auto;
+  padding-top: 0;
+  scrollbar-width: thin;
+}
+
+.timeline {
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 17px;
+  width: 2px;
+  background-color: #dfeaf6;
+}
+.timeline li {
+  margin-bottom: 17px;
+}
+.timeline li .list-row.icon-list {
+  align-items: center;
+  position: relative;
+  margin-left: 0px;
+}
+.activity-heading {
+  font-family: Raleway;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23.48px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  padding: 20px 0 5px 0;
+}
+
+.activity-title {
+  font-size: 14px;
+  font-weight: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+}
+
+.activity-time {
+  font-size: 12px;
+  font-weight: 300;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: auto;
+  color: #495058;
+  position: absolute;
+  right: 15px;
+  top: 6px;
+}
+
+.activity-description {
+  font-size: 12px;
+  font-weight: 300;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 98%;
+  margin-top: 3px;
+  margin-bottom: 0px;
+}
+
+.activity-details {
+  margin-left: 7.07px;
+  margin-top: 7px;
+}
+
+.quicklinks {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.quicklinks i:hover {
+  color: #fff !important;
+}
+
+dash-icon {
+  color: #fff;
+}
+
+.imgc {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-details .name {
+  font-family: Raleway;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 23.48px;
+  display: flex;
+  justify-content: center;
+  margin-top: 7px;
+}
+
+.profile-details .location, .website-priority, .n-lead {
+  font-family: Raleway;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16.44px;
+  display: flex;
+  justify-content: center;
+  color: #69717a;
+}
+
+.clientdash-left {
+  width: 350px;
+  flex-shrink: 0;
+}
+
+.clientdash-right {
+  width: calc(100vw - 453px);
+}
+
+.icon-size {
+  width: 20px;
+  height: 15px;
+}
+
+/* clientdash-right */
+
+.container2 .client-tabs .nav-link.active {
+  background: #cdd5dd;
+  color: #69717a;
+  border-radius: 10px;
+}
+.client-tabs .nav-item a {
+  font-family: Raleway;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.78px;
+  color: #495058;
+}
+.finance-card-container {
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+  margin: 7px auto;
+  gap: 0 8px;
+}
+.finance-card {
+  width: auto;
+  border-radius: 8px;
+  padding: 10px 10px 2px 10px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.finance-card-title {
+  font-size: 12px;
+  font-weight: 400;
+}
+.finance-card-value {
+  font-size: 22px;
+  font-weight: 400;
+  display: inline-block;
+  line-height: 1;
+  border-bottom: 1px solid #fff;
+  margin: 3px 0 10px 0;
+}
+.finance-card-footer {
+  display: flex;
+  justify-content: space-between;
+}
+.finance-card-percentage {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #42ff00;
+}
+
+.finance-card-time {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.finance-color1{ text-shadow: 2px 2px 5px #186baad6;}
+.finance-color2{ text-shadow: 2px 2px 5px #6b20ce;}
+.finance-color3{ text-shadow: 2px 2px 5px #0e2b94;}
+.finance-color4{ text-shadow: 2px 2px 5px #c75d33;}
+.finance-color5{ text-shadow: 2px 2px 5px #237991;}
+
+.tab-heading {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23.48px;
+  margin: 10px 0 0 21px;
+}
+
+.task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.task-details {
+  display: flex;
+  align-items: center;
+}
+.task-label {
+  margin-right: 10px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23.48px;
+}
+.status-item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+.status-circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+}
+.to-do ,.overdue-a, .open {
+  background-color: #FF9393;
+}
+.in-process,.ongoing {
+  background-color: #FFC69C;
+}
+.pending, .onhold, .upcoming, .all-t {
+  background-color: #AFF5FF;
+}
+.completed {
+  background-color: #92ED4A;
+}
+.draft{
+  background-color: #AF93FF;
+}
+.all{
+  background: #7E4AED;
+  border: 1px solid #4234DE;
+}
+.overdue-p{
+  background: #ED714A;
+  border: 1px solid #B92D01;
+}
+.status-text {
+  font-size: 14px;
+  color: #69717a;
+}
+.icon-container {
+  display: flex;
+  gap: 10px;
+}
+.icon {
+  width: 35px;
+  height: 35px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.clientdash-tab {
+  width: calc(100vw - 453px);
+  border-radius: 10px;
+  box-shadow: 0px 2px 44px 4px #00000012;
+  background: #fff;
+  padding: 10px;
+}
+
+.project-row, .amc-row, .ticket-row {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}

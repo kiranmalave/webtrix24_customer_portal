@@ -1,0 +1,82 @@
+<form id="demo-form" action="#">
+  <h6>Filter Search</h6>
+  <hr>
+  <div class="clearfix">&nbsp;</div>
+  <div class="row">
+    <div class="col-md-6">
+      <select id="textSearch" class="form-control " name="textSearch">
+        <option value="blogTitle">Blogs Title</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <input id="textval" class="form-control txtchange" name="textval" type="text">
+    </div>
+  </div>
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <label>Order By:</label>
+      <ul class="item-container" data-valid="orderBy">
+        <li class="orderBy multiOptionSel" data-single="Y" data-value="blogTitle">Blogs Title</li>
+        <li class="orderBy multiOptionSel" data-single="Y" data-value="created_date">Created Date</li>
+      </ul>
+    </div>
+
+    <div class="col-md-12">
+      <label>Order:</label>
+      <ul class="item-container" data-valid="order">
+        <li class="order multiOptionSel" data-single="Y" data-value="ASC">Ascending</li>
+        <li class="order multiOptionSel" data-single="Y" data-value="DESC">Descending</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-12 text-right">
+    <hr>
+    <input type="button" id="filterSearch" class="filterSearch btn btn-raised bg-green waves-effect"
+      value="Search"></button>
+    <input type="button" id="resetSearch" class="btn btn-raised bg-blue-grey resetval" value="Reset"></button>
+
+  </div>
+
+</form>
+
+
+<!-- <form id="demo-form" action="#">
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-6">
+      <select id="textSearch" class="form-control " roleName="textSearch">
+          <option value="blogTitle">Blog Title</option>     
+          <option value="blogLink">Blog Link</option>     
+        </select>
+    </div>
+    <div class="col-xs-6">
+      <input id="textval" class="form-control txtchange" roleName="textval" type="text">
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-6">
+    <label>Order By:</label>
+    <ul class="item-container" data-valid="orderBy">
+        <li class="orderBy multiOptionSel" data-single="Y" data-value="blogTitle">blog Title</li>
+        <li class="orderBy multiOptionSel" data-single="Y" data-value="blogTitle">blog Link</li>
+        
+    </ul>
+    </div>
+    <div class="col-xs-6">
+    <label>Order:</label>
+    <ul class="item-container" data-valid="order">
+        <li class="order multiOptionSel" data-single="Y" data-value="ASC">Ascending</li>
+        <li class="order multiOptionSel" data-single="Y" data-value="DESC">Descending</li>
+    </ul>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-12">
+      <input type="button" id="filterSearch" class="btn btn-success" value="Search"></button>
+      <input type="button" id="resetSearch" class="btn btn-success resetval" value="Reset"></button>
+      
+    </div>
+    
+  </form>
+  
+</div> -->

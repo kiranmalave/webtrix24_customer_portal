@@ -1,0 +1,46 @@
+
+<form id="demo-form" action="#">
+    <h6>Filter Search</h6><hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <label for="textSearch" class="form-label lg">Select</label>
+                    <select id="textSearch" class="form-control " name="textSearch">
+                        <option value="">Select</option>
+                        <option value="t.temp_name">Template Name</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <input id="textval" class="form-control txtchange" name="textval" type="text">
+                    <label for="textval" class="form-label lg"></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <label for="module_name" class="form-label lg">Module Name</label>
+                    <select for="module_name" autocomplete="off" id="module_name" name="module_name" title="Select Module" class="form-control dropval ws-select show-tick repeatChange backgroundHide" data-live-search="true" multiple>
+                        <% _.each(menuList, function(menu) { %>
+                            <option value="<%=menu.menuID%>"> <%=menu.menuName%> </option>
+                        <%})%>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="col-xs-12 text-center filter-footer">
+        <hr>
+        <div class="filter-right">
+            <input type="button" id="filterSearch" class="filterSearch btn btn-raised bg-green waves-effect" value="Search"></button>
+            <input type="button" id="resetSearch" class="btn btn-raised bg-blue-grey resetval" value="Reset"></button>
+            <input id="filterOption" type="button" class="btn btn-raised bg-blue-grey colseFil" value="Close"></button>
+        </div>
+    </div>
+</form>

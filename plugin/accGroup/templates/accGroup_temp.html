@@ -1,0 +1,103 @@
+<div class="appviewPlayground"></div>
+
+<div class="right_col overflow-hidden" role="main">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Account Group Master</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <%if(permission.delete=="yes" ) { %>
+            <li>
+              <button type="button" class="btn btn-default btn-success changeStatus"
+                data-action="delete">Delete</button>
+            </li>
+            <% } %>
+              <%if(permission.add=="yes" ) { %>
+                <li>
+                  <button type="button" class="btn btn-info loadview" data-target="#myModal" data-accGroupID=""
+                    data-show="accGroupData" data-toggle="modal">Add Account Group Details</button>
+                </li>
+                <% } %>
+                  <li>
+                    <button type="button" id="filterOption" class="btn btn-info" data-toggle="modal"
+                      data-target="#myModal">Filter</button>
+                  </li>
+        </ul>
+        <div class="clearfix">&nbsp;</div>
+      </div>
+      <div class="x_content">
+        <div class="">
+          <table id="clist" class="table jambo_table bulk_action tableList table-responsive">
+            <thead id="thead">
+              <tr class="headings">
+                <th>
+                  <div class="bg__control normal">
+                    <label class="check__box">
+                      <input class="checkall" data-tocheck="clist" type="checkbox">
+                      <div class="square__box round"></div>
+                    </label>
+                  </div>
+                </th>
+                <th class="column-title">ID</th>
+                <th class="column-title">Name</th>
+                <th class="column-title">Created Date</th>
+                <th class="column-title">Status</th>
+                <th class="column-title">Action</th>
+                <th class="bulk-actions" colspan="7">
+                  <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span>
+                    ) <i class="fa fa-chevron-down"></i></a>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="accGroupList">
+            </tbody>
+          </table>
+          <div class="profile-loader-msg text-center"></div>
+          <div class="profile-loader text-center" ><img src="systems/images/loading_OLD.gif" width="50" height="50"></div>
+          <div id="loadMember" data-index="1" data-currPage="1"></div>
+        </div>
+        <!-- paggination -->
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite">Showing <span
+                class="page-info"></span> entries</div>
+          </div>
+          <div class="col-sm-7">
+            <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+              <ul class="pagination">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- paggination -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="sidebar-right">
+
+  <ul class="nav side-menu">
+    <%if(permission.delete=="yes" ) { %>
+      <li class="loadview nav-item" data-view="singleAccGroupData">
+        <!-- <button type="button" class="btn btn-default btn-success changeStatus" data-action="delete">Delete</button> -->
+      </li>
+      <% } %>
+        <%if(permission.add=="yes" ) { %>
+          <li class="loadview nav-item" data-view="singleAccGroupData">
+            <span class="material-icons">add</span>
+            <!-- <button type="button" class="btn btn-info loadview" data-target="#myModal" data-menuID="" data-show="singlemenuData"data-toggle="modal">Add Menu Details</button> -->
+          </li>
+          <% } %>
+            <li>
+              <!-- <button type="button" id="filterOption" class="btn btn-info" data-toggle="modal" data-target="#myModal">Filter</button> -->
+            </li>
+            <li>
+              <span class="material-icons">filter_alt</span>
+            </li>
+            <!-- <li class="showOverlay nav-item" data-view="addUserView">
+          <span class="material-icons">add</span>
+      </li> -->
+  </ul>
+</div>

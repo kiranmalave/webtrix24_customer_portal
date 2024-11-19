@@ -1,0 +1,76 @@
+<div class="tab-pane in active">
+    <div id="careerSingleView">
+        <form id="careerDetails" name="careerDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo savecareerDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo savecareerDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="row ws-main-container">
+                <div class="col-md-12">
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="list-row">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                            </div>  
+                        </div>
+                        <div class="right-layout">
+                            <div class="row">
+                                <div class="col">       
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="job_title" class="form-label">Job Title<span class="error">*</span> :</label>
+                                            <input id="job_title" class="form-control txtchange" name="job_title" type="text" autocomplete="off" value="<%=model.job_title%>">                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-row">
+                        <div class="icon-left" style="margin-top:16px;">
+                            <div class="ws-icon">
+                                <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="description"></label>
+                                    <div id="description" class="form-control">
+                                        <%=model.description%>
+                                    </div>
+                                </div>
+                                <div class="clearfix">&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-row">
+                        <div class="icon-left" style="margin-top:16px;">
+                            <div class="ws-icon">
+                                <span class="input-group-addon lg"><i class="material-icons"></i></span>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-float ws-form-option">
+                                        <label for="status" class="form-label">Status<span class="error">*</span> </label>
+                                        <ul class="item-container" data-valid="status">
+                                          <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                                          <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix">&nbsp;</div>
+                    <div id="dynamicFormFields" class="dynamic-align"></div>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

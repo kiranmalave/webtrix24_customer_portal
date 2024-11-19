@@ -1,0 +1,72 @@
+<div class="modal-dialog forShipping" role="document" style="margin: 0;">
+    <form id="customerActivity" name="customerActivity" action="#">
+        <div class="modal-content">
+            <div class="modal-header mb-3">
+              <h5 class="modal-title" id="shippingModalTitle">Shipping Details</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line focused">
+                                <input id="address" title="Addresss" class="form-control txtcolor" autocomplete="off"  name="address" value="<%=model.address%>" placeholder="">
+                                <label for="address" class="form-label">Address <span class="error">*</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line focused">
+                                <input id="zipcode" class="form-control txtchange txtcolor" autocomplete="off" name="zipcode" value="<%=model.zipcode%>">
+                                <label for="zipcode" class="form-label">Zip Code</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 15px;">
+                        <div class="form-group form-float">
+                          <div class="form-line">
+                            <label for="amc_duration" class="form-label">Mobile Number<span class="error">*</span></label>
+                            <div class="ws-input-group">
+                              <div style="flex:0 0 30px">
+                                <div class="salutation removeBorder">
+                                  <select id="country_code" name="country_code" for="country_code"
+                                    class="form-control ws-select show-tick repeatChange backgroundHide txtcolor dropval countrySelect"
+                                    data-live-search="true" title="Ext">
+                                    <option>Ext</option>
+                                    <% _.each(countryExtList, function(country) { %>
+                                      <option <% if(model.country_code== country.value ){ %> selected <%}%> value="
+                                          <%=country.value%>"><%=country.label%>
+                                      </option>
+                                      <%})%>
+                                  </select>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="dropdown bootstrap-select show-tick form-control dropval ws-select repeatChange">
+                                  <input id="mobile_no" class="form-control txtchange txtcolor" autocomplete="off"
+                                    name="mobile_no" value="<%=model.mobile_no%>">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <!-- <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line focused">
+                                <input id="mobile_no" class="form-control txtchange txtcolor" autocomplete="off" name="mobile_no" value="<%=model.mobile_no%>">
+                                <label for="mobile_no" class="form-label">Mobile No:<span class="error">*</span></label>
+                            </div>
+                        </div>
+                    </div>   -->
+                </div>  
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer noteFooter">
+        <div class=" text-right">
+            <button type="button" class="btn bg-indigo saveModal">Save</button>
+            <button type="button" class="btn bg-indigo closeModal">Close</button>
+        </div>
+    </div>
+</div>

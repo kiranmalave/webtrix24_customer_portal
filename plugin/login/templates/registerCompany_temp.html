@@ -1,0 +1,159 @@
+<div class="row">
+  <div class="col-md-5 col-12 logo-login-bg">
+    <div class="AppDetails">
+      <div id="owl-carousel" class="owl-carousel owl-theme">
+        <% _.each(slideList, function(model) { %>
+          <div class="item">
+            <div class="ItemDetails">
+              <img src="<%=model.attributes.image %>" alt="" />
+            </div>
+            <div class="ItemText">
+              <h4><%=model.attributes.title %></h4>
+              <p><%=model.attributes.description %> </p>
+            </div>
+          </div>
+          <%});%>
+      </div>
+    </div>
+    <!-- <div class="ws-logo-login"><img class="img-fluid" src="<%=APPPATH%>images/site/login-image.png"></div> -->
+  </div>
+  <div class="col-md-7 col-12">
+    <div class="login_wrapper">
+      <div class="row login_row">
+        <div class="col-md-12 col-12">
+          <section class="login_content ws-login-form">
+            <div class="right-layout">
+              <div class="level">
+                <p class="progress-text">1/4</p>
+                <div class="progress-container mb-2">
+                  <div class="progress-bar" id="progress-bar">
+                    <div class="progress-step form1 green"></div>
+                    <div class="progress-step form2"></div>
+                    <div class="progress-step form3"></div>
+                    <div class="progress-step form4"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row register_row form-contents active-tab" id="form1">
+                <div class="col-md-12 col-12">
+                  <section class="login_content ws-login-form">
+                    <form action="#">
+                      <p> Please Fill with your details.</p>
+                      <div class="ws-input-group mb-3">
+                        <input id="txt_fname" type="text" class="ws-form-control" placeholder="First Name" required=""
+                          aria-label="Fname" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="ws-input-group mb-3">
+                        <input id="txt_lname" type="text" class="ws-form-control" placeholder="Last Name" required=""
+                          aria-label="Lname" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="ws-input-group mb-3">
+                        <input id="txt_email" type="email" class="ws-form-control" placeholder="Your Email" required=""
+                          aria-label="Email" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="ws-input-group mb-3">
+                        <input id="txt_mobile" type="text" class="ws-form-control" placeholder="Mobile Number" required=""
+                          aria-label="mobileNumber" aria-describedby="basic-addon1">
+                      </div>
+                    </form>
+                  </section>
+                </div>
+              </div> -->
+              <div class="row register_row form-contents active-tab" data-item="1" id="form1">
+                  <section class="login_content ws-login-form">
+                    <form action="#">
+                      <p> &nbsp;</p>
+                      <div class="col-md-12">
+                        <div class="ws-input-group mb-3">
+                          <label class="mb-0">Company Name <span class="error">*</span></label>
+                          <input id="txt_Cname" type="text" class="ws-form-control" placeholder="Company Name" required="" aria-label="Cname" aria-describedby="basic-addon1">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="ws-input-group mb-3">
+                          <label class="mb-0">Company GST No. <span class="">(optional)</span></label>
+                          <input id="txt_gstAC" type="text" class="ws-form-control" required="" aria-label="GSTAC" aria-describedby="basic-addon1">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="ws-input-group mb-3">
+                          <label class="mb-0">Company Website <span class="">(optional)</span></label>
+                          <input id="txt_CompanyWeb" type="text" class="ws-form-control" required="" aria-label="CompanyWeb" aria-describedby="basic-addon1">
+                        </div>
+                      </div>
+                    </form>
+                  </section>
+              </div>
+              <div class="row register_row  form-contents" data-item="2" id="form2">
+                <section class="login_content ws-login-form">
+                    <p>&nbsp;</p>
+                    <div class="col-md-12 col-12">
+                      <div class="ws-input-group mb-3 ws-form-option">
+                        <label class="form-label">How large is your Company?</label>
+                        <ul class="item-container lg" data-valid="discount_type">
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="1">Only Me</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="2-5">2-5</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="6-10">6-10</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="11-20">11-20</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="21-40">21-40</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="41-60">41-60</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="61-100">61-100</li>
+                          <li class="discount_type multiSel" data-render="yes" data-single="Y" data-value="100+">100+</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="clearfix">&nbsp;</div>
+                </section>
+              </div>
+              <div class="row register_row  form-contents" data-item="3" id="form3">
+                <div class="col-md-12 col-12">
+                  <section class="login_content ws-login-form">
+                    <p>&nbsp;</p>
+                      <div class="ws-input-group mb-3 ws-form-option">
+                        <label class="form-label">How do you hear about our company?</label>
+                        <ul class="item-container lg" data-valid="discount_type">
+                          <li class="discount_type multiSel" data-render="no" data-single="Y" data-value="facebook and instagram">Facebook and Instagram</li>
+                          <li class="discount_type multiSel" data-render="no" data-single="Y" data-value="linkedin">Linkedin Profile</li>
+                          <li class="discount_type multiSel" data-render="no" data-single="Y" data-value="website">Our Website</li>
+                          <li class="discount_type multiSel" data-render="no" data-single="Y" data-value="friends">Friends</li>
+                          <li class="discount_type multiSel" data-render="no" data-single="Y" data-value="other">Others</li>
+                        </ul>
+                      </div>
+                    <div class="clearfix">&nbsp;</div>
+                </section>
+                </div>
+              </div>
+              <div class="row register_row  form-contents" data-item="4" id="form4">
+                <div class="col-md-12 col-12">
+                  <section class="login_content ws-login-form">
+                    <div class="attachupdate">
+                      <input type="file" class="btn btn-default btn__action RTU-hiddenFile" id="companyLogo">
+                  </div>
+                  </section>
+                </div>
+                <div class="col-md-12 col-12">
+                  <br>
+                  <ul>
+                    <li>Use a PNG file for better results.</li>
+                    <li>Dimensions of the image should be 200x140 px.</li>
+                  </ul>
+                </div>
+              </div>
+                <div class="text-right">
+                  <div class="mb-3 horizantal-line">                
+                    <hr>
+                </div>
+                  <button type="button" class="btn previous bottom-btn" disabled>Previous</button>
+                  <button type="button" class="btn btnNext bottom-btn">Next</button>
+                  <button type="button" class="btn preSubmit bottom-btn">Submit</button>
+                </div>
+              </div>
+          </section>
+        </div>
+      </div>
+
+     
+      </div>
+    </div>
+  </div>
+</div>

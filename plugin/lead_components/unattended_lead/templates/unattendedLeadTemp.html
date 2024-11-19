@@ -1,0 +1,35 @@
+<div class="dashEle" style="position: relative;">
+     
+     <div class="ele-header">
+          <div class="col-md-8">
+               <p><%=model.name%></p>
+          </div>
+          <div class="dropdown">
+               <button class="btn settingsButton dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="material-icons">settings</span>
+               </button>
+               <button class="btn deleteButton dropdown-toggle" data-id="<%=model.id%>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="material-icons">delete</span>
+               </button>
+          </div>
+     </div>
+     <% if(model.view_type == 'graph') {%>
+          <canvas class="chart-canvas" id="Chart_<%=model.id%>"></canvas>
+     <%}else{%>
+          <div class="dashboardlist" style="height: 88%;">
+               <% model.unattended_leads.slice().reverse().forEach(function(lead) { %>
+                   <div class="lead-item">
+                       <div class="lead-name"><%= lead.name %></div>
+                       <div class="lead-info">
+                           <span class="contact">
+                               <span class="label">Mobile No:</span> <%= lead.mobile_no %>
+                           </span>
+                           <span class="contact">
+                               <span class="label">Email:</span> <%= lead.email %>
+                           </span>
+                       </div>
+                   </div>
+               <% }); %>
+           </div>                   
+     <%}%>
+</div>

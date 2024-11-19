@@ -1,0 +1,575 @@
+<div class="container-fluid" style="margin-top: 20px;">
+  <div class="row">
+    <!-- First Column -->
+    <div class="clientdash-left">
+      <div class="container">
+        <div class="profile-header card">
+          <div class="profile_info">
+            <div class="imgc">
+              <div id="clientProfilePic" class="profile-image">
+                <% if(customerModel.attributes.customer_image=="" ) {%>
+                  <img src="<%=APPPATH%>images/site/defaultImage.jpg" />
+                <%}else{%>
+                  <img id="profile_pic_view1" style="max-width: 100%;" src="<%=UPLOADS%>/customer/<%=customerModel.attributes.customer_id%>/profilePic/<%=customerModel.attributes.customer_image%>" />
+                <%}%>
+                <input type="file" name="slim[]" />
+              </div>
+              <div class="icon-left" style="position: absolute; top: 120px; right: 80px;">
+                <div class="initial" style="background-color: #FFE3AD; width: 35px; height: 35px;">
+                  <% if(customerModel.attributes.type=="customer" ) {%>
+                    C
+                  <%}else{%>
+                    L
+                  <%}%>
+                </div>
+              </div>
+            </div>
+            <div class="profile-details">
+              <h4 class="name">
+                <% if(customerModel.attributes.record_type =='company' ){%>
+                  <%=customerModel.attributes.company_name%>
+                <%}else{%>
+                  <%=customerModel.attributes.name%>
+                <%}%>
+                <% if(customerModel.attributes.record_type=='company' ){%>
+                  <%=customerModel.attributes.person_name%>
+                <%}%>
+              </h4>
+              <p class="location">
+                <%=customerModel.attributes.country%>, <%=customerModel.attributes.state%>, <%=customerModel.attributes.city%>
+              </p>
+              <p class="website-priority" style="margin-top: -6px;">
+                <%=customerModel.attributes.leadSource%>, <%=customerModel.attributes.leadPriority%>
+              </p>
+              <p class="n-lead" style="margin-top: -6px;">
+                <%=customerModel.attributes.leadStage%>
+              </p>
+
+              <div class="quicklinks">
+                <i class="material-icons ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Call">call</i>
+                <i class="material-icons ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="whatsapp Message">chat</i>
+                <i class="material-icons ws-btn-default loadview" data-view="mailView" data-first_name="<%=customerModel.attributes.name%>" data-customer_id="<%=customerModel.attributes.customer_id%>" data-custMail="<%=customerModel.attributes.email%>" data-toggle="tooltip" data-placement="top" data-content="Mail">mail</i>
+                <i class="material-icons ws-btn-default loadview" data-view="notes"  data-first_name="<%=customerModel.attributes.name%>" data-customer_id="<%=customerModel.attributes.customer_id%>" data-custNote="<%=customerModel.attributes.note%>" data-toggle="tooltip" data-placement="top" data-content="Note">assignment</i>
+                <i class="material-icons ws-btn-default loadview" data-view="task" data-customer_id="<%=customerModel.attributes.customer_id%>" data-first_name="<%=customerModel.attributes.name%>" data-toggle="tooltip" data-placement="top" data-content="Task">business_center</i>
+                <i class="material-icons ws-btn-default loadview" data-view="appointment" data-customer_id="<%=customerModel.attributes.customer_id%>" data-email="<%=customerModel.attributes.email%>" data-first_name="<%=customerModel.attributes.name%>" data-view="appointment" data-toggle="tooltip" data-placement="top" data-content="Appointment">date_range</i>
+              </div>
+            </div>
+            <button type="button" class="ws-btn-default loadview headerbtn" data-customer_id="<%=customerModel.attributes.customer_id%>" data-view="singlecustomerview" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+            <!-- <button type="button" class="edit-button" data-customer_id="<%=customerModel.attributes.customer_id%>"
+                    data-view="singlecustomerview">
+                    <i class="material-icons">mode_edit</i>
+                  </button> -->
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body activity-body">
+            <h5 class="card-title activity-heading">Upcoming Activities</h5>
+            <ul class="timeline upcomingActivitiesTimeline" style="list-style-type: none; padding: 0; margin: 0;">
+              <% _.each(upcomingHistoryList, function(models) { %>
+                <li>
+                  <div class="row list-row icon-list">
+                    <div class="icon-left">
+                      <%if(models.attributes.record_type=="task"){%>
+                        <div class="initial" style="background-color: #ADF5FF; width: 35px; height: 35px;">
+                          <i class="material-icons">business_center</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="appointment"){%>
+                        <div class="initial" style="background-color: #FFE3AD; width: 35px; height: 35px;">
+                          <i class="material-icons">date_range</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="notes"){%>
+                        <div class="initial" style="background-color: #FFCAAD; width: 35px; height: 35px;">
+                          <i class="material-icons">assignment</i>
+                        </div>
+                      <%}%>
+                    </div>
+                    <% if(models.attributes.record_type =='task'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Task</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}else if(models.attributes.record_type =='notes'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Notes</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}else if(models.attributes.record_type =='email'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Task</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}else if(models.attributes.record_type =='appointment'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Appointment</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}else if(models.attributes.record_type =='customer'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Customer</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}else if(models.attributes.record_type =='reciept'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Reciept</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}else if(models.attributes.record_type =='lead'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Lead</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                      </div>
+                    <%}%>
+                  </div>
+                </li>
+              <%})%>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body activity-body">
+            <h5 class="card-title activity-heading">Past Activities</h5>
+            <ul class="timeline pastActivitiesTimeline" style="list-style-type: none; padding: 0; margin: 0;">
+              <% _.each(pastHistoryList, function(models) { %>
+                <li>
+                  <div class="row list-row icon-list">
+                    <div class="icon-left">
+                      <%if(models.attributes.record_type=="task"){%>
+                        <div class="initial" style="background-color: #ADF5FF; width: 35px; height: 35px;">
+                          <i class="material-icons">business_center</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="appointment"){%>
+                        <div class="initial" style="background-color: #FFE3AD; width: 35px; height: 35px;">
+                          <i class="material-icons">date_range</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="notes"){%>
+                        <div class="initial" style="background-color: #FFCAAD; width: 35px; height: 35px;">
+                          <i class="material-icons">assignment</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="customer"){%>
+                        <div class="initial" style="background-color: #DFEAF6; width: 35px; height: 35px;">
+                          <i class="material-icons">person</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="lead"){%>
+                        <div class="initial" style="background-color: #C8C7FF; width: 35px; height: 35px;">
+                          <i class="material-icons">person</i>
+                        </div>
+                      <%}else if(models.attributes.record_type=="email"){%>
+                        <div class="initial" style="background-color: #CCFFAD; width: 35px; height: 35px;">
+                          <i class="material-icons">mail</i>
+                        </div>
+                      <%}%>
+                    </div>
+                    <% if(models.attributes.record_type =='task'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Task</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    <% if(models.attributes.record_type =='notes'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Notes</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    <% if(models.attributes.record_type =='email'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Task</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    <% if(models.attributes.record_type =='appointment'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Appointment</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    <% if(models.attributes.record_type =='customer'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Customer</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    <% if(models.attributes.record_type =='reciept'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Reciept</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    <% if(models.attributes.record_type =='lead'){ %>
+                      <div class="activity-details" style="flex-grow: 1;">
+                        <div class="right-layout">
+                          <h6 class="activity-title" style="margin-bottom: 0;">Lead</h6>
+                          <small class="activity-time"><%=models.attributes.timeString%></small>
+                        </div>
+                        <%if(models.attributes.description){%>
+                          <p class="activity-description" style="margin-top: 0;"><%=models.attributes.description%></p>
+                        <%}else{%>
+                          <p class="activity-description" style="margin-top: 0;">-</p>
+                        <%}%>
+                      </div>
+                    <%}%>
+                    
+                  </div>
+                </li>
+              <%})%>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Column -->
+    <div class="clientdash-right">
+      <div class="container2">
+        <!-- <ul id="subNavs" class="nav client-tabs" style="padding-bottom: 10px;position: relative;justify-content: center;">
+          <li class="nav-item " data-item="finance"><a class="nav-link in active" data-toggle="tab" href="#finance">Finance</a></li>
+          <li class="nav-item " data-item="tasks"><a class="nav-link in" data-toggle="tab" href="#task">Tasks</a></li>
+          <li class="nav-item " data-item="projects"><a class="nav-link in" data-toggle="tab" href="#project">Projects</a></li>
+          <li class="nav-item " data-item="amc"><a class="nav-link in" data-toggle="tab" href="#amc">AMC</a></li>
+          <li class="nav-item " data-item="tickets"><a class="nav-link in" data-toggle="tab" href="#tickets">Tickets</a></li>
+        </ul> -->
+        
+        <!-- Tab panels -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane in active" id="finance">
+            <section class="clientdash-tab">
+              <div class="finance-card-container">
+                <div class="finance-card col" style="  background: linear-gradient(248.09deg, #8EE9F6 -0.84%, #72AFDE 84.27%);">
+                  <div class="finance-card-title finance-color1">Client Lifetime Value</div>
+                  <span class="finance-card-value finance-color1">2,40,000.00</span>
+                  <div class="finance-card-footer">
+                    <i class="material-icons" style="color: #42FF00;">trending_up</i>
+                    <span class="finance-card-percentage">30.23%</span>
+                    <span class="finance-card-time">Last Week</span>
+                  </div>
+                </div>
+                <div class="finance-card col" style="background: linear-gradient(248.1deg, #D2AFFF 2.17%, #9A71CF 108.3%);">
+                  <div class="finance-card-title finance-color2">Outstanding Balances</div>
+                  <span class="finance-card-value finance-color2">65,000.00</span>
+                  <div class="finance-card-footer">
+                    <i class="material-icons" style="color: #FF0000;">trending_down</i>
+                    <span class="finance-card-percentage" style="color: #FF0000;">30.23%</span>
+                    <span class="finance-card-time">Last Week</span>
+                  </div>
+                </div>
+                <div class="finance-card col" style="background: linear-gradient(248.28deg, #AFBCFF 0.74%, #5A7AEE 86.7%);">
+                  <div class="finance-card-title finance-color3">Paid Amount</div>
+                  <span class="finance-card-value finance-color3">1,35,000.00</span>
+                  <div class="finance-card-footer">
+                    <i class="material-icons" style="color: #42FF00;">trending_up</i>
+                    <span class="finance-card-percentage">30.23%</span>
+                    <span class="finance-card-time">Last Week</span>
+                  </div>
+                </div>
+                <div class="finance-card col" style="background: linear-gradient(248.1deg, #F7CF68 2.17%, #FDA582 108.3%);">
+                  <div class="finance-card-title finance-color4">Drafts</div>
+                  <span class="finance-card-value finance-color4">40,000.00</span>
+                  <div class="finance-card-footer">
+                    <i class="material-icons" style="color: #42FF00;">trending_up</i>
+                    <span class="finance-card-percentage">30.23%</span>
+                    <span class="finance-card-time">Last Week</span>
+                  </div>
+                </div>
+                <div class="finance-card col" style="background: linear-gradient(248.1deg, #85F7B5 2.17%, #72BBCF 108.3%);">
+                  <div class="finance-card-title finance-color5">Advance Recieved</div>
+                  <span class="finance-card-value finance-color5">00.00</span>
+                  <div class="finance-card-footer">
+                    <i class="material-icons" style="color: #42FF00;">trending_up</i>
+                    <span class="finance-card-percentage">30.23%</span>
+                    <span class="finance-card-time">Last Week</span>
+                  </div>
+                </div>
+              </div>
+              <div class="finance-table row" style="margin-top: 24px; display: flex; justify-content: space-between; width: 100%; margin-left: 0rem;">
+                <div class="make-inline filter-fields">
+                  <div class="filter-search">
+                    <div class="form-group form-float">
+                      <div class="form-line">
+                        <label for="change-filter" class="form-label">Change Filter <span class="error"></span></label>
+                        <input id="change-filter" class="form-control txtchange titleChange" autocomplete="off" name="change-filter" required="" maxlength="45" type="text" value="All Invoices Details">
+                      </div>
+                    </div>
+                  </div>
+                  <div style="order:1" class="ws-more-filters ws-filter-items">
+                    <button type="button" class="addNewfield btn btn-sm" data-action="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="material-icons" style="color: #0A7BFF;" data-toggle="tooltip" data-placement="top" data-content="Add Field" data-original-title="" title="">add</span>
+                    </button>
+                    <div class="dropdown-menu fieldListDetails"></div>
+                  </div>
+                </div>
+                <div class="table-btn row" style="margin: 5px 0 0 0; gap: 10px;">
+                  <div class="addColumns">
+                    <button type="button" class="btn-bgColor softRefresh">
+                      <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Refresh">autorenew</span>
+                    </button>
+                  </div>
+                  <div class="ws-more-actions">
+                    <button type="button" class="dropdown-toggle btn-bgColor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-95,0">
+                      <span class="material-icons">view_list</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="javascript:void(0);" class="list_mode setViewMode" data-value="traditionalList"><span class="material-icons" style="margin-top: 2px;">view_list</span> Traditional List</a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0);" class=" odernlist_mode setViewMode" data-value="modernlist"><span class="material-icons" style="margin-top: 2px;">dns</span> Modern list</a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0);" class="grid_mode setViewMode" data-value="grid"><span class="material-icons" style="margin-top: 2px;">grid_on</span>Grid View</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="task">
+            <section class="clientdash-tab">
+              <div class="task-row">
+                <div class="task-details">
+                  <span class="task-label">Tasks</span>
+                  <div class="status-item">
+                    <div class="status-circle to-do">211</div>
+                    <span class="status-text"><u>To-Do</u></span>
+                  </div>
+                  <div class="status-item">
+                    <div class="status-circle in-process">03</div>
+                    <span class="status-text"><u>In process</u></span>
+                  </div>
+                  <div class="status-item">
+                    <div class="status-circle pending">03</div>
+                    <span class="status-text"><u>Pending</u></span>
+                  </div>
+                  <div class="status-item">
+                    <div class="status-circle completed">03</div>
+                    <span class="status-text"><u>Completed</u></span>
+                  </div>
+                </div>
+                <div class="icon-container">
+                  <div class="addColumns">
+                    <button type="button" class="btn-bgColor softRefresh">
+                      <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Refresh">autorenew</span>
+                    </button>
+                  </div>
+                  <div class="ws-more-actions">
+                    <button type="button" class="dropdown-toggle btn-bgColor" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false" data-offset="-95,0">
+                      <span class="material-icons">view_list</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="javascript:void(0);" class="list_mode setViewMode" data-value="traditionalList"><span
+                            class="material-icons" style="margin-top: 2px;">view_list</span> Traditional List</a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0);" class=" odernlist_mode setViewMode" data-value="modernlist"><span
+                            class="material-icons" style="margin-top: 2px;">dns</span>
+                          Modern list</a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0);" class="grid_mode setViewMode" data-value="grid"><span
+                            class="material-icons" style="margin-top: 2px;">grid_on</span>Grid View</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="finance-table row" style="margin-top: 24px; display: flex; width: 100%; margin-left: 0rem;">
+                <div class="make-inline filter-fields" style="margin: 0 0 0 6px;">
+                  <div class="filter-search">
+                    <div class="form-group form-float">
+                      <div class="form-line">
+                        <label for="change-filter" class="form-label">Change Filter <span class="error"></span></label>
+                        <input id="change-filter" class="form-control txtchange titleChange" autocomplete="off"
+                          name="change-filter" required="" maxlength="45" type="text" value="All Invoices Details">
+                      </div>
+                    </div>
+                  </div>
+                  <div style="order:1" class="ws-more-filters ws-filter-items">
+                    <button type="button" class="addNewfield btn btn-sm" data-action="" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <span class="material-icons" style="color: #0A7BFF;" data-toggle="tooltip" data-placement="top"
+                        data-content="Add Field" data-original-title="" title="">add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          
+          <div role="tabpanel" class="tab-pane" id="project">
+            <section class="clientdash-tab">
+              <div class="project-row">
+                <span class="task-label">Projects</span>
+                <div class="status-item">
+                  <div class="status-circle overdue-p">211</div>
+                  <span class="status-text"><u>Over Due</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle ongoing">03</div>
+                  <span class="status-text"><u>On Going</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle onhold">08</div>
+                  <span class="status-text"><u>On Hold</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle completed">03</div>
+                  <span class="status-text"><u>Completed</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle draft">03</div>
+                  <span class="status-text"><u>Drafts</u></span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="amc">
+            <section class="clientdash-tab">
+              <div class="amc-row">
+                <span class="task-label">AMC</span>
+                <div class="status-item">
+                  <div class="status-circle overdue-a">211</div>
+                  <span class="status-text"><u>Over Due</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle upcoming">03</div>
+                  <span class="status-text"><u>Upcoming</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle all">08</div>
+                  <span class="status-text"><u>All</u></span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="tickets">
+            <section class="clientdash-tab">
+              <div class="ticket-row">
+                <span class="task-label">Tickets</span>
+                <div class="status-item">
+                  <div class="status-circle open">211</div>
+                  <span class="status-text"><u>Open</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle in-process">03</div>
+                  <span class="status-text"><u>In Process</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle completed">08</div>
+                  <span class="status-text"><u>Completed</u></span>
+                </div>
+                <div class="status-item">
+                  <div class="status-circle all-t">03</div>
+                  <span class="status-text"><u>All</u></span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="customMail" class="customMail" style="display: none;"></div>
+
+<div class="customMailMinimize" style="display: none;">
+  <div class="titleSec">
+    <span>New Message</span>
+  </div>
+  <div class="iconSec">
+    <button type="button" class="btn  minimize showMax">
+      <i class="material-icons">
+        maximize
+      </i>
+    </button>
+
+    <button type="button" class="btn  openFull">
+      <img src="images/open_blank.svg" alt="" />
+    </button>
+
+    <button type="button" class="btn  close">
+      <i class="material-icons">
+        clear
+      </i>
+    </button>
+
+  </div>
+</div>
+
+<div class="modal fade" id="NoteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg forNote" role="document">
+    <div class="modal-content">
+      <div id="noteMedia" class="modal-body noteSave">
+      </div>
+    </div>
+  </div>
+</div>

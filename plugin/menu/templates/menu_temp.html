@@ -1,0 +1,100 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <!-- <div class="card">
+               <div class="header">
+                 <h2>Application Navigation<small>Create links and assign modules to it</small> </h2>
+             </div>
+               <div class="body">
+                 <div class="actionList">
+                   <%if(permission.delete=="yes" ) { %>
+                     <span type="button" style="display: none;" class="changeStatus deleteAll" data-action="delete" data-toggle="tooltip" data-placement="top" data-content="Delete"><i
+                         class="material-icons"
+                         style="background-color: #F5BF00; border-radius: 50%; padding: 2px 5px; margin-bottom: 10px;">delete</i></span>
+                     <% } %>
+                 </div>
+                  <table id="clist" class="table bulk_action tableList table-hover">
+                   <thead id="thead">
+                     <tr class="headings">
+                       <th>
+                         <div class="listCheckbox">
+                             <input id="cAll" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                             <label for="cAll">&nbsp;</label>
+                         </div>
+                       </th>
+                       <th class="column-title">Menu ID</th>
+                       <th class="column-title">Menu Name</th>
+                       <th class="column-title">Menu Link</th>
+                       <th class="column-title">Created Date</th>
+                       <th class="column-title">Action</th>
+                     </tr>
+                   </thead>
+                   <tbody id="menuList">
+                   </tbody>
+                 </table>
+                 <div class="profile-loader-msg text-center"></div>
+                 <div class="profile-loader text-center">
+                    <div class="preloader table">
+                      <div class="loderGif table">
+                        <img src="images/webloader.gif" alt="User" />
+                      </div>
+                    </div>
+                 </div>
+                 <div id="loadMember" data-index="1" data-currPage="1"></div>
+               </div>
+               <!- - paggination - ->
+               <div class="footer row">
+                 <div class="col-sm-5">
+                   <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+                       class="page-info"></span></div>
+                 </div>
+                 <div class="col-sm-7">
+                   <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+                     <ul class="pagination">
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+               <!- - paggination - ->
+          </div> -->
+
+      <div class="card">
+        <div class="header moduleSec" style="padding: 20px;">
+          <h2>Create and Arrange Positions<small>Drag & drop hierarchical list with mouse and touch
+              compatibility</small> </h2>
+          <div class="leadRight text-right actionBtns topBtnDetails">
+            <div class="header_items">
+              <button id="refreshMenu" type="button" class="refreshMenu btn" style="min-height: 35px; display: none">Changes has been Made Click here to refresh</button>
+            </div>
+            <div class="header_items">
+              <button type="button" class="loadview btn"  data-view="singlemenuData" data-item="menuSingleView" style="min-height: 35px;">Create</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="body">
+          <div class="clearfix m-b-20">
+            <div id="nestableMenu" class="dd ws-nestable nestable-with-handle manuArrange">
+              <ol id="dd-list" class="dd-list"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- <div class="sidebar-right">
+  <ul class="nav side-menu">
+   
+    <%if(permission.add=="yes" ) { %>
+      <li class="loadview nav-item" data-view="singlemenuData" data-item="menuSingleView" data-toggle="tooltip" data-placement="top" data-content="Add">
+        <span class="material-icons">add</span>
+        <span style="font-size: 12px;">Create</span>
+         <button type="button" class="btn btn-info loadview" data-target="#myModal" data-menuID="" data-show="singlemenuData"data-toggle="modal">Add Menu Details</button>
+      </li>
+    <% } %>
+
+  </ul>
+</div> -->
+

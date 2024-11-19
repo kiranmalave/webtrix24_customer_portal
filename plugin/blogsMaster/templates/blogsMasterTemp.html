@@ -1,0 +1,87 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card customModule">
+        <div class="header">
+          <h2>Blogs<small>Create new blogs</small> </h2>
+        </div>
+        <div class="body">
+          <!-- <div class="actionList">
+            <%if(permission.delete=="yes" ) { %>  
+              <span type="button" class="changeStatus deleteAll ds-none" data-action="delete"><i
+                  class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Delete"
+                  style="background-color: #F5BF00; border-radius: 50%; padding: 2px 5px; margin-bottom: 10px;">delete</i></span>
+              <% } %>
+          </div> -->
+          <table id="clist" class="table bulk_action tableList table-hover">
+            <thead id="thead">
+              <tr class="headings">
+                <th class="check-gap">
+                  <div class="listCheckbox">
+                    <input id="cAll" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                    <label for="cAll">&nbsp;</label>
+                  </div>
+                </th>
+                <th class="column-title">Blog Title</th>
+                <th class="column-title">Blog Link</th>
+                <th class="column-title">Category</th>
+                <th class="column-title">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogsMasterList">
+            </tbody>
+          </table>
+          <div class="profile-loader-msg text-center"></div>
+          <div class="profile-loader text-center">
+            <div class="preloader table">
+              <div class="loderGif table">
+                <img src="images/webloader.gif" alt="User" />
+              </div>
+            </div>
+          </div>
+          <div id="loadMember" data-index="1" data-currBlog="1"></div>
+        </div>
+        <!-- paggination -->
+        <div class="footer row">
+          <div class="col-sm-4" style="padding: 0;">
+            <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+                class="page-info f_txt"></span></div>
+          </div>
+          <div class="col-sm-4">
+            <div class="profile-loader-msg text-center"></div>
+          </div>
+          <div class="col-sm-4" style="padding: 0;">
+            <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+              <ul class="pagination"></ul>
+            </div>
+          </div>
+        </div>
+        <!-- paggination -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="sidebar-right">
+  <ul class="nav side-menu">
+    <li id="filterOption" class="nav-item" data-toggle="tooltip" data-placement="top" data-content="Filter"
+      data-item="<%=closeItem%>">
+      <!-- <span class="material-icons">filter</span> -->
+      <span class="material-symbols-outlined">
+        filter_alt
+      </span>
+      <span style="font-size: 12px;">Filter</span>
+      <!-- <button type="button" class="btn btn-info loadview" data-target="#myModal" data-menuID="" data-show="singlemenuData"data-toggle="modal">Add Menu Details</button> -->
+    </li>
+    <%if(permission.add=="yes" ) { %>
+      <li class="loadview nav-item" data-view="singleblogsMasterData" data-item="singleblog">
+        <span class="material-icons">add</span>
+        <span style="font-size: 12px;">Create</span>
+      </li>
+      <% } %>
+
+  </ul>
+</div>
+<div class="ws_filterOptions">
+
+</div>

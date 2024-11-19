@@ -1,0 +1,20 @@
+<tr class="even pointer bg-<%=errorLogDetails.attributes.status%>">
+    <!-- <td class="a-center" style="width:45px;">
+      <div class="listCheckbox">
+        <input id="cAll_<%= errorLogDetails.attributes.errorID %>" class="memberlistcheck chk-col-amber"
+          data-errorID="<%= errorLogDetails.attributes.errorID %>" type="checkbox">
+        <label for="cAll_<%= errorLogDetails.attributes.errorID %>">&nbsp;</label>
+      </div>
+    </td> -->
+    <% _.each(arrangedColumnList, function(column) { %>
+      <td class="draglinerow truncateWidth loadview" data-errorID="<%=errorLogDetails.attributes.errorID%>" data-view="errorLogView">
+        <div class="nametooltip truncateColumns">
+          <%= errorLogDetails.attributes["" + column.column_name] %> 
+        </div>
+      </td>
+    <% }); %>
+    <td class="draglinerow" style="display: flex;">
+      <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Edit"
+        data-errorID="<%=errorLogDetails.attributes.errorID%>" data-view="errorLogView"> <i class="material-icons">edit</i></button>
+    </td>
+</tr>

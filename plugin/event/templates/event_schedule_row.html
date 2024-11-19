@@ -1,0 +1,42 @@
+<% var i = 0 ;%>
+<% _.each(eventDetails, function(timeSlot) { %>
+  <% i++ %>
+  <tr class="even pointer">
+    <td colspan="2">
+      <div class="row">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input id="" type="text" class="form-control txtchange saveScheduler <%=eventDetails.did%>_srpickV" name="<%=did%>_ickV" value="<%=timeSlot.title%>" />
+            <label for="title" class="form-label">Title</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group form-float col-md-5">
+          <div class="form-line">
+            <input id="" type="text" class="form-control start_time <%=eventDetails.did%>_srpickV" name="<%=did%>_ickV" value="<%=timeSlot.startTime%>" />
+            <label for="start_time" class="form-label">Start Time</label>
+          </div>
+        </div>
+        <div class="dhash">-</div>
+        <div class="form-group form-float col-md-5">
+          <div class="form-line">
+            <input id="" type="text" class="form-control end_time <%=eventDetails.did%>_srpickV" name="<%=did%>_ickV" value="<%=timeSlot.endTime%>" />
+            <label for="end_time" class="form-label">End Time</label>
+          </div>
+        </div>
+        <div class="removeExtraSchedule">
+          <span type="button" data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+            <i class="material-icons">delete</i></span>
+        </div>
+      </div>
+      <div class="row">
+        <label for="description" class="form-label">Description</label>
+        <div type="text" id="<%=did%><%=i%>" class="form-control txtchange comment-box <%=did%>_pickV <%=did%><%=i%>_count_text siteEventDesc" data-text="<%=i%>_count" name="description <%=did%>_ickV" data-id="<%=did%>"><%=timeSlot.description%></div>
+        <div class="<%=did%>Editor <%=did%><%=i%>_countEditor" style="margin-bottom: 50px;">
+          <div id="<%=did%><%=i%>_count" class="form-control <%=did%>-editor <%=did%><%=i%>_count-editor" style="display: none;"><%=timeSlot.description%></div>
+        </div>
+      </div>
+    </td>
+  </tr>
+<%})%>

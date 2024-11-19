@@ -1,0 +1,248 @@
+.settings-overlays.overlay-main-container.open{
+  position: fixed;
+  top: 54px;
+  background: #fff;
+  width: 25%;
+  height: calc(100% - 55px);
+  box-shadow: -6px 2px 11px rgb(0 0 0 / 24%);
+  border-right: 1px solid #e7e7e7;
+  transition: transform 200ms cubic-bezier(.6,.2,.3,1), right .2s;
+  transform: translateX(0);
+}
+.ele-header p {
+  font-family: Raleway;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23.48px;
+  text-align: left;
+  color: #495058;
+}
+
+.ele-header .settingsButton {
+  position: absolute;
+  top: -40px;
+  right: 10px;
+}
+.ele-header .deleteButton {
+  position: absolute;
+  top: -40px;
+  right: 30px;
+  display: none;
+}
+.dashEle:hover .ele-header .deleteButton {
+  display: block; 
+}
+.ele-header .ele-settings-dd {
+  top: -9px;
+}
+
+.dashEle {
+  /* position: relative; */
+  height: 350px;
+  width: 600px;
+  background: white;
+}
+
+.dash_temp {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.dashEle {
+  padding: 10px;
+  gap: 0px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 13px 0px #00000017;
+  margin: 20px 0px;
+}
+.sortable-placeholder {
+  background-color: #ccc;
+  width: 100px;  /* Adjust to the same width as sortable items */
+  height: 100px; /* Adjust to the same height as sortable items */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #999; /* Optional: Dashed border to indicate placeholder */
+}
+
+.ui-sortable-handle{
+  cursor: move; 
+}
+
+#elementsModal .modal-content{
+  border: none;
+}
+
+.win-size-grip {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  padding: 4px;
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/wingrip.png) no-repeat;
+}
+.chart-canvas{
+  padding-bottom: 6%;
+}
+
+
+/* Prathamesh CSS */
+.dashboardlist {
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.dashboardlist .lead-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dashboardlist .lead-item:last-child {
+  border-bottom: none;
+}
+
+.dashboardlist .lead-name {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.dashboardlist .lead-info {
+  position: relative;
+  right: 19px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.dashboardlist .lead-info .label {
+  font-weight: 500;
+  color: #888;
+}
+
+.dashboardlist .lead-info .contact {
+  flex: 1;
+  padding: 0 8px;
+}
+
+/* Prathamesh CSS end */
+
+.dash-element-list{
+  margin-top: 0px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.ws-dashboard-element{
+  overflow-y: auto;
+}
+.ws-dashboard-element {
+    /* display: none; */
+    position: fixed;
+    width: 89%;
+    max-height: 90vh;
+    z-index: 999;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0px;
+    border: none;
+    right: -82px;
+    top: 80px;
+    height: 80vh;
+    border-radius: 10px;
+}
+
+.ws-dashboard-element .ws-section-header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 2;
+  position: sticky;
+  /* z-index: 10; */
+  background: white;
+}
+.ws-dashboard-element .ws-section-header > h2{
+  background: #384d9f;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 10px;
+  margin: 0;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+
+.ws-dashboard-playground-elements input[type=text]{
+  height: 26px;
+  width: 100%;
+}
+.ws-dash-element-list.open{
+  display: block;
+}
+
+.ws-dash-element-list{
+      width: 32%;
+      height: 113px;
+      background: #f1f8ff;
+      text-align: center;
+      margin: 4px;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 14px;
+      color: #484848;
+      display: flex;
+      margin: 11px 11px 5px 0px;
+      /* overflow: hidden; */
+}
+.ws-dash-element-list{
+  border-radius: 5px;
+  background: #AFB9C42B;
+}
+.ws-dash-element-list .title{
+  font-family: Raleway;
+  font-size: 16px;
+  margin: 4px 0px 7px 0px;
+  font-weight: 700;
+  line-height: 18.78px;
+  text-align: left;
+}
+.ws-dash-element-list .icon{
+  width: 36px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.ws-dash-element-list .text{
+  text-align: left;
+  margin-left: 10px;
+}
+.ws-dash-element-list .icon.text{
+  background: #e1be00;
+  color: #fff;
+  font-size: 27px;
+  align-content: center;
+  display: flex;
+}
+.ws-list-view .tab-pane.active {
+  /* display: none; */
+  margin-top: 0px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.ws_second-info {
+  color: #797979;
+  font-family: Raleway;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.44px;
+  text-align: left;
+}
+

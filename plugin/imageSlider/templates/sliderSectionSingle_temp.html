@@ -1,0 +1,191 @@
+<div class="tab-pane in active sliderSection lessonView_<%=model.item_id%>">
+    <form id="sliderDetails" name="" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" data-itemID="<%=model.item_id%>"  class="btn bg-indigo saveSliderDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveSliderDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="row ws-main-container">
+            <div class="col-md-8">
+                <div class="clearfix">&nbsp;</div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon"><i class="material-icons">list_alt</i></div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control txtchange" id="title"
+                                            name="title" value="<%=model.title%>" required>
+                                        <label for="title" class="form-label">Title</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">description</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout mb-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="description">Description</label>
+                                <div id="description" class="form-control" name="description">
+                                    <%=model.description%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon"><span class="material-symbols-outlined">edit_note</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float">
+                                <label for="titlePosition" class="form-label">Title & Description Position Setting :</label>
+                                <div class="form-line">
+                                    <select for="titlePosition" id="titlePosition" name="titlePosition" title="Select Position" data-live-search="true" data-toChange="slider_data" class="form-control dropdownVal ws-select show-tick repeatChange">
+                                        <option class="" value="left_top" <% if(model.slider_data && model.slider_data['titlePosition'] == "left_top") { %> selected <% } %>>left top</option>
+                                        <option class="" value="center_top" <% if(model.slider_data && model.slider_data['titlePosition'] == "center_top") { %> selected <% } %>>center top</option>
+                                        <option class="" value="right_top" <% if(model.slider_data && model.slider_data['titlePosition'] == "right_top") { %> selected <% } %>>right top</option>
+                                        <option class="" value="left_middle" <% if(model.slider_data && model.slider_data['titlePosition'] == "left_middle") { %> selected <% } %>>left middle</option>
+                                        <option class="" value="center_middle" <% if(model.slider_data && model.slider_data['titlePosition'] == "center_middle") { %> selected <% } %>>center middle</option>
+                                        <option class="" value="right_middle" <% if(model.slider_data && model.slider_data['titlePosition'] == "right_middle") { %> selected <% } %>>right middle</option>
+                                        <option class="" value="left_bottom" <% if(model.slider_data && model.slider_data['titlePosition'] == "left_bottom") { %> selected <% } %>>left bottom</option>
+                                        <option class="" value="center_bottom" <% if(model.slider_data && model.slider_data['titlePosition'] == "center_bottom") { %> selected <% } %>>center bottom</option>
+                                        <option class="" value="right_bottom" <% if(model.slider_data && model.slider_data['titlePosition'] == "right_bottom") { %> selected <% } %>>right bottom</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="titleFontSize" class="form-label">Title Font Size :</label>
+                                <div class="form-line">
+                                    <select id="titleFontSize" data-live-search="true" data-toChange="slider_data" class="form-control dropdownVal ws-select show-tick">
+                                    <% for (var i = 1; i <= 100; i++) { %>
+                                        <option <% if(model.slider_data && i == model.slider_data['titleFontSize']){ %> selected <%}%> value="<%=i%>"><%=i%></option>
+                                    <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="descFontSize" class="form-label">Description Font Size :</label>
+                                <div class="form-line">
+                                    <select id="descFontSize" data-live-search="true" data-toChange="slider_data" class="form-control dropdownVal ws-select show-tick">
+                                    <% for (var i = 1; i <= 100; i++) { %>
+                                        <option <% if(model.slider_data && i == model.slider_data['descFontSize']){ %> selected <%}%> value="<%=i%>"><%=i%></option>
+                                    <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="titleFontFamily" class="form-label">Title Font Family :</label>
+                                <div class="form-line">
+                                    <select id="titleFontFamily" data-live-search="true" data-toChange="slider_data" class="fontFamilyCls form-control dropdownVal ws-select show-tick">
+                                        <option value="select">Select</option>
+                                        <% _.each(fontlist, function(font,key) { %>
+                                        <option data-key="<%=key%>" <% if(model.slider_data && font.family == model.slider_data['titleFontFamily']){ %> selected <%}%> value="<%=font.family%>"><%=font.family%></option>  
+                                        <%}); %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="titleFontWeight" class="form-label">Title Font Weight :</label>
+                                <div class="form-line">
+                                    <select id="titleFontWeight" class="form-control dropdownVal ws-select show-tick" data-toChange="slider_data">
+                                        <% _.each(subsetForTitle, function(varients,key) { %>
+                                          <option data-key="<%=key%>" <% if(model.slider_data && varients == model.slider_data['titleFontWeight']){ %> selected <%}%> value="<%=varients%>"><%=varients%></option>  
+                                          <%}); %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="descFontFamily" class="form-label">Description Font Family :</label>
+                                <div class="form-line">
+                                    <select id="descFontFamily" data-live-search="true" data-toChange="slider_data" class="fontFamilyCls form-control dropdownVal ws-select show-tick">
+                                        <option value="select">Select</option>
+                                        <% _.each(fontlist, function(font,key) { %>
+                                        <option data-key="<%=key%>" <% if(model.slider_data && font.family == model.slider_data['descFontFamily']){ %> selected <%}%> value="<%=font.family%>"><%=font.family%></option>  
+                                        <%}); %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="descFontWeight" class="form-label">Description Font Weight :</label>
+                                <div class="form-line">
+                                    <select id="descFontWeight" class="form-control dropdownVal ws-select show-tick" data-toChange="slider_data">
+                                        <% _.each(subsetForDesc, function(varients,key) { %>
+                                          <option data-key="<%=key%>" <% if(model.slider_data && varients == model.slider_data['descFontWeight']){ %> selected <%}%> value="<%=varients%>"><%=varients%></option>  
+                                          <%}); %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="titleColor" class="form-label">Title Font Color :</label>
+                                <div class="form-line">
+                                    <div class="colorPicker btn-group mb-3">
+                                        <input type="text" id="titleColor" name="titleColor" data-toChange="slider_data" class="subObj color" value="<%= model.slider_data ? model.slider_data.titleColor : '' %>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="descColor" class="form-label">Description Font Color :</label>
+                                <div class="form-line">
+                                    <div class="colorPicker btn-group mb-3">
+                                        <input type="text" id="descColor" name="descColor" data-toChange="slider_data" class="subObj color" value="<%= model.slider_data ? model.slider_data.descColor : '' %>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <label for="bgColor" class="form-label">Background Color :</label>
+                                <div class="form-line">
+                                    <div class="colorPicker btn-group mb-3">
+                                    <input type="text" id="bgColor" name="bgColor" data-toChange="slider_data" class="subObj color" value="<%= model.slider_data ? model.slider_data.bgColor : '' %>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="col-md-4 ws-assignee-container border-left">
+                <div class="row">
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="col-md-12 ws-assignee-column">
+                        <div class="clearfix">&nbsp;
+                            <input id="typehead" class="btn loadMedia" type="button" value="Cover Photo" name="Media"
+                            autocomplete="off"   data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-5">
+                        <img id="profile_pic_view1" style="max-width: 100%;" src="<%=model.cover_image%>">
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </form>
+</div>

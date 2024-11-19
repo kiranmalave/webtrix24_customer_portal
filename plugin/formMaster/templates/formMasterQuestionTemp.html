@@ -1,0 +1,203 @@
+<div class="right_col overflow-hidden" role="main">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_title">
+        <h6>Form Master</h6>
+      </div>
+        <div class="x_content">
+          <div id="pageMaster" class="modelbox"> 
+            <div class="clearfix">&nbsp;</div>
+            <div class="col-md-12 row mt-5">
+              <div class="col-md-6">
+                <div class="form-group form-float">
+                  <div id="userRoleDetails" class="form-line" name="userRoleDetails" action="#">
+                      <label for="sectionName" class="form-label">Add Section<span class="error">*</span> :</label>
+                      <input id="sectionName" class="form-control txtchange2" name="sectionName" required="" maxlength="55" type="text" value="">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-float">
+                  <div class="form-line">
+                    <label for="sectionID" class="form-label">Section List<span class="error"></span> :</label>
+                    <select id="sectionID" name="sectionID" class="form-control changeMenu ws-select">
+                      <option value="">Select Section</option>
+                      <%_.each(sectionList, function(model){%>
+                      <option <% if(selectedMenu.attributes.sectionID==model.attributes.sectionIndex){%> selected <%}%> value="<%=model.attributes.sectionIndex%>"><%=model.attributes.sectionName%></option>
+                      <%});%>
+                    </select> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class=" col-md-12 mt-2">
+              <button id="saveSectionDetails2" type="button" class="btn btn-info btn-sm">Save</button>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <form id="formQuestionDetails" name="formQuestionDetails" action="#">
+              <div class="col-md-12 row">
+                <div class="col-md-<%if(model.attributes.questionID==null){%>6<%}else{%>6<%}%>">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <label for="question" class="form-label">Enter Question<span class="error">*</span> :</label>
+                      <input id="question" required="" autocomplete="off" class="form-control txtchange" name="question" type="text" value="<%=model.attributes.question%>">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="uploadFormQuestionImage" class="form-label">Select Image<span class="error">*</span> :</label>
+                        <input id="uploadFormQuestionImage" class="form-control fileAdded" name="uploadFormQuestionImage" type="file">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-sm-4 col-xs-12">
+                  <%if((model.attributes.formQuestionImage != null)&&(model.attributes.formQuestionImage != "")) { %> 
+                      <p><img id="output" width="200" src="<%=  IMAGES %>/formQuestionImages/<%=  model.attributes.formQuestionImage %>"/>
+                        <i class="fa fa-trash-o fa-2x deleteQuestionImage" aria-hidden="true"></i>   
+                      </p>
+                  <% }else{%>
+                    <%}%>
+                    <p><img id="output" width="200"/>
+                      <i class="fa fa-trash-o fa-2x deleteQuestionImage" style="display: none;" aria-hidden="true"></i>
+                    </p>     
+                </div>
+              </div>
+              <div class="row col-md-12">
+                <div class="col-md-6">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <label for="fieldType" class="form-label">Select Type<span class="error">*</span> :</label>
+                      <select class="form-control dropval" id="fieldType">
+                        <option <%if(model.attributes.fieldType==""){%> selected  <%}%> value="">Select Field</option>
+                        <option <%if(model.attributes.fieldType=="text"){%> selected  <%}%>  value="text">Text Box</option>
+                        <option  <%if(model.attributes.fieldType=="select"){%> selected  <%}%>  value="select">Drop Down</option>
+                        <option <%if(model.attributes.fieldType=="radio"){%> selected  <%}%>  value="radio">Radio</option>
+                        <option <%if(model.attributes.fieldType=="checkbox"){%> selected  <%}%>  value="checkbox">CheckBox</option>
+                        <option <%if(model.attributes.fieldType=="textarea"){%> selected  <%}%>  value="textarea">Textarea</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <label for="questionFieldsValues" class="form-label">Enter values :</label>
+                      <input id="questionFieldsValues" autocomplete="off"  placeholder="Enter Values (E.g. ABC,XYZ)" class="form-control txtchange" name="questionfieldsValues" type="text" value="<%=model.attributes.questionFieldsValues%>">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 mt-3">
+                <button class="addQuestion btn-sm btn btn-info" id="add">Save</button>
+              </div> 
+              <div class="col-xs-12 mt-3">
+                <div style="border: 2px solid #E6E9ED;"></div>
+              </div>
+            </form>
+            <div class="col-md-12">
+              <div class="member-profile-img">
+                  <img src="">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-sm-9" ></div>
+                <div class="answerEditDelete col-sm-3" style="display: inline-flex;">
+                  <div class="bg__control normal deletechekbox">
+                    <label class="check__box">
+                    <input class="checkall" data-tocheck="clist" type="checkbox">
+                    <div class="square__box round"></div>
+                    </label>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-sm btn-info changeStatus" data-action="delete">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" style="border-bottom: 3px solid #E6E9ED; margin-top: 10px; margin-bottom: 10px;"></div>
+            <div class="row" id="clist">
+              <% _.each(formQuestionMaster, function(model1) { %>
+                <div class="col-md-12" data-position="<%=model1.attributes.position%>" data-index="<%=model1.attributes.questionID%>">
+                  <div class="col-md-10">
+                      <div class="text-wrap"> 
+                        <b><%=model1.attributes.question%></b>
+                      </div>
+                          <%if((model1.attributes.formQuestionImage!="")){%>
+                          <p><img id="output" width="200" src="<%=IMAGES %>/formQuestionImages/<%=model1.attributes.formQuestionImage%>"/></p>
+                          <%}%>
+                          <!--  -->
+                          <%if(model1.attributes.fieldType=="radio"||model1.attributes.fieldType=="checkbox"){
+                          var optionArray= model1.attributes.questionFieldsValues.split(',')
+                          _.each(optionArray, function(value) { 
+                          %>
+                      <div class="text-wrap formAnswerDiv ">
+                        <div class="display-inline">
+                          <div class="form-group form-float">
+                            <div class="form-line">
+                              <input type="<%=model1.attributes.fieldType%>" id="<%=value%>" name="<%=model1.attributes.fieldName%>" class="ansCheckBox" value="<%=value%>">
+                              <label for="<%=value%>" class="form-label"><%=value%></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        <%}) }else if(model1.attributes.fieldType=="text"){%>
+                          <div class="text-wrap">
+                            <input type="<%=model1.attributes.fieldType%>" id="<%=model1.attributes.fieldName%>" class="form-control" name="<%=model1.attributes.fieldName%>" value="">
+                            <br/>
+                          </div>
+                        <% }else if(model1.attributes.fieldType=="select")
+                        {
+                      var optionArray= model1.attributes.questionFieldsValues.split(',')  %>
+                          <div class="text-wrap">
+                          <select class="form-control" id="<%=model1.attributes.fieldName%>" name="<%=model1.attributes.fieldName%>">
+                            <% _.each(optionArray, function(value) { %>
+                              <option value="<%=value%>"><%=value%></option>
+                              <%})%>
+                          </select>
+                        <br/>
+                      </div><%}else if(model1.attributes.fieldType=="textarea"){%>
+                        <div class="text-wrap">
+                        <textarea class="form-control" id="<%=model1.attributes.fieldName%>" name="<%=model1.attributes.fieldName%>" rows="6"></textarea>
+                        <br/>
+                      </div><%}%>
+                  </div>
+                    <div class="answerEditDelete col-md-2" style="display: inline-flex;">
+                      <div class="bg__control normal">
+                        <label class="check__box">
+                        <input class="memberlistcheck" type="checkbox" data-questionID="<%=model1.attributes.questionID%>">
+                        <div class="square__box round"></div>
+                        </label> 
+                      </div>
+                      <button class="btn btn-sm btn btn-info editQuestion " data-questionID="<%=model1.attributes.questionID%>">Edit</button>
+                    </div>
+                    <div class="col-sm-12" style="border-bottom: 3px solid #E6E9ED; margin-top: 10px; margin-bottom: 10px;"></div>
+                </div>
+                  <%}) %>
+            </div>
+            <div class="clearfix">&nbsp;</div>   
+          </div> 
+        </div>
+  </div>
+</div>
+
+
+
+<div class="ws_filterOptions">
+
+</div>
+<!-- Large Size -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div id="mediaLoad" class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 

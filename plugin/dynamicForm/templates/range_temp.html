@@ -1,0 +1,15 @@
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <label for="<%= elementDetails.column_name %>" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+        <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" class="dynamicData form-control rangeSlider txtchange"
+        name="<%= elementDetails.column_name %>" type="range" value="<%= elementData[elementDetails.column_name] ? elementData[elementDetails.column_name] : 0 %>" min="<%= elementDetails.minRangeValue %>" max="<%= elementDetails.maxRangeValue %>" step="<%= elementDetails.stepSize %>" placeholder="<%= elementDetails.placeholder %>" <%= elementDetails.requiredHtml %>>
+        <span class="range-value"><%= elementData[elementDetails.column_name] ? elementData[elementDetails.column_name] : 0 %></span>
+    </div>
+</div>   

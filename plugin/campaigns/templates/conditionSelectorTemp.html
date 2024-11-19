@@ -1,0 +1,11 @@
+<% if(prevConditionLength == 0) {%>
+<div class="addModuleRow addModuleRowDef <%=target_audience%>" id="addMod_1" data-rowIndex = "1">
+    <span class="defModuleName"><% if(target_audience != null) {%> <%=target_audience.replace(/_/g, ' ')%> <% }else{%> Select Target Audience First ! <%}%></span>
+    <div class="conditions"></div>
+</div>
+<% } %>
+<div class="addedModuleRow"></div>
+<% console.log('prevConditionLength', prevConditionLength); %>
+<div class="addNewModuleRow" <% if( prevConditionLength == 2) { %>  style="display:none" <% } %> >
+    <span class="material-icons">add</span>
+</div>

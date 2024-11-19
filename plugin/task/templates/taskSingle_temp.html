@@ -1,0 +1,452 @@
+<div class="tab-pane in active">
+    <div class="ws-top-nav-details">
+        <span class="input-group-addon lg " id="est_time_logs"  data-task_id="<%=model.task_id%>" <%if ( model.task_id==null ) {%> style="color:#ccc" <%}%> data-toggle="modal" data-target="#estimateModal">
+            <i class="material-icons" <%if ( model.task_id==null ) {%> style="color:#ccc" <%}%> >hourglass_empty</i>
+        </span>
+        
+        <span class="input-group-addon lg scroll taskWatch"  data-task_id="<%=model.task_id%>" <%if ( model.task_id==null ) {%> style="color:#ccc" <%}%> data-scroll="comment">
+            <i class="material-icons" <%if ( model.task_id==null ) {%> style="color:#ccc" <%}%> >chat</i>
+        </span>
+        <span class="input-group-addon lg scroll taskWatch" data-task_id="<%=model.task_id%>" <%if ( model.task_id==null ) {%> style="color:#ccc" <%}%> data-scroll="history">
+            <i class="material-icons" <%if ( model.task_id==null ) {%> style="color:#ccc" <%}%> >history</i>
+        </span>
+        <button type="button" id="watcherEye" class="watchers taskWatch" data-action="visableTask" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-180,-10">
+            <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Watchers">visibility</span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="watcherEye">
+            <div class="showWatch">
+                <h4>Watchers</h4>
+                <div class="tm-input forTask"></div>
+                <!-- <div class="showTaskDetails"></div> -->
+                <div class="noWatchers" style="display: none;">
+                    <div class="noWatchersPic">
+                        <img src="images/noWatcher.png" alt="" />
+                    </div>
+                    <h4>No watchers yet</h4>
+                </div>
+                <div class="form-group form-float taskDropDown">
+                    <div class="form-line taskDate forWatcher">
+                        <input id="watchers" type="text" data-source="admin" data-check="name" placeholder="Add Watchers" data-list="name,adminID,photo" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="watchers">
+                    </div>
+                    <div class="dropdown-content1 freeSerachList"></div>
+                </div>
+                <!-- <div class="form-group form-float">
+                    <div class="">
+                        <div class="form-line taskDate forWatcher">
+                            <label><i class="material-icons"> add_circle </i></label>
+                            <input id="watchers" type="text" autocomplete="off" placeholder="Add Watchers" class="form-control ddcnt watcherdetails ws-assignee-input" name="typehead">
+                        </div>
+                        <div id="watcherDropdown" class="dropdown-content taskWatchDropdown"></div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- <div class="watchers taskWatch visableTask" id="watcherEye">
+            <i class="material-icons">visibility</i>
+        </div> -->
+        
+    </div>
+    <div class="actionBtns taskAction">
+        <button type="button" class="btn bg-indigo saveTaskDetails" data-action="close">Save</button>
+        <button type="button" class="btn bg-indigo saveTaskDetails" data-action="new">Save & new</button>
+    </div>
+    <div class="row ws-main-container">
+        <div class="col-md-8 ws-task-container">
+            <form id="taskDetails" name="taskDetails" action="#">
+                <div class="clearfix">&nbsp;</div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group form-float">
+                                    <div class="form-line taskSubject">
+                                        <input id="subject" type="text" class="form-control txtchange" autocomplete="off" name="subject" autocomplete="off" value="<%=model.subject%>">
+                                        <label for="subject" class="form-label lg">Title <span class="error">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <label for="description" class="taskDescription">Description</label>
+                                <div id="task_description" class="form-control mb-3">
+                                    <%=model.description%>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+            </form>
+
+            <div class="list-row mb-3">
+                <div class="icon-left">
+                    <div class="ws-icon"><span class="input-group-addon lg" style="margin-top:8px; ">
+                            <i class="material-icons">attach_file</i>
+                        </span></div>
+                </div>
+                <div class="right-layout">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="mt-2 taskAttachTitle dragdrop-image">Attach File</p>
+                        </div>
+                    </div>
+                    <div class="row attachupdate taskAttach">
+                        <button type="button" class="loadMedia ws-taskModalbtn dotborder" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal"><span class="material-icons">add</span></button>
+                        <div id="attachedDoc" class="row taskAttachDoc"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-row upload" style="display: none;">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                        <span class="material-symbols-outlined"></span>
+                    </div>
+                </div>
+                <div class="right-layout ws-quill">
+                    <div class="row ">
+                        <div class="col-md-12 ws-dragbox taskAttachDragBox">
+                            <div class="ws-assignee-column">
+                                <input type="file" multiple class="btn btn-default btn__action"  id="taskUpload"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right ">
+                            <button type="button" class="btn bg-indigo hideUpload clacel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%if(model.task_id !=null){%>
+                <ul id="taskCom" class="nav nav-tabs task-nav-tab taskComment">
+                    <li class="nav-item" style="margin-left:40px;"><a id="navScrollComment" class="nav-link comment loadview" data-view="singleCommentData" data-task_id="<%=model.task_id%>" data-toggle="tab" href="" style="padding-left:0;padding-right:0;">Comments</a></li>
+                    <li class="nav-item" style="margin-left:20px;"><a id="navScrollHistory" class="nav-link comment loadview" data-view="singleHistoryData" data-task_id="<%=model.task_id%>" data-toggle="tab" href="" style="padding-left:0;padding-right:0;">History</a></li>
+                </ul>
+                <div class="commentbox"></div>
+                <% } %>
+        </div>
+        <div class="col-md-4">
+            <div class="row" style="margin-top:21px;">
+                <div class="col-md-12">
+                    <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                        <div class="form-line taskDate">
+                            <input id="start_date" type="text" class="form-control taskDate" name="start_date" autocomplete="off" value="<%=model.start_date%>">
+                            <label for="start_date" class="form-label taskDate">Start Date</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group input-group form-float taskDropDown" style="margin-bottom:30px;">
+                        <div class="form-line taskDate">
+                            <input id="due_date" type="text" class="form-control taskDate" name="due_date" autocomplete="off" value="<%=model.due_date%>" readonly>
+                            <label for="due_date" class="form-label taskDate">Due Date</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%if(menuName=="task" ){%>
+                <div class="row taskSelectOptions">
+                    <div class="col-md-12" >
+                        <div class="form-group form-float taskDropDown">
+                            <div class="form-line taskDate removeBorder">
+                                <select for="task_priority" autocomplete="off" data-live-search="true" id="task_priority" placeholder="Task Priority" name="task_priority" title="" class="form-control dropval ws-select show-tick repeatChange backgroundHide hideOption">
+                                    <option class="addNew" value=""></option>
+                                    <%if(permission.add=="yes" ) { %>   
+                                        <option class="addNew" value="addPriority">Add Priority</option>
+                                    <%}%>
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="task_priority" )
+                                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                                            <option <% if(model1.category_id==model.task_priority ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%}) %>
+                                    <%})%>
+                                 </select>
+                                <label for="task_priority" class="form-label taskDate tasktop fortask">Task Priority</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-1 priorityClearBtn" style="display: none;"><button type="button" class="clear bg-white" data-view="priority"><span class="material-icons">close</span></button></div> -->
+                </div>
+
+                <div class="row taskSelectOptions">
+                    <div class="col-md-12">
+                        <div class="form-group form-float taskDropDown">
+                            <div class="form-line taskDate removeBorder">
+                                <select id="task_type" autocomplete="off" name="task_type"  data-live-search="true" class="form-control dropval ws-select backgroundHide hideOption" title="">
+                                    <option class="addNew" value=""></option>
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="addType">Add Type</option>
+                                        <%}%>
+                                            <% _.each(categoryList, function(modelcat) { %>
+                                                <% if(modelcat.attributes.slug=="task_type" )
+                                                    _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(model1.category_id==model.task_type ){ %> selected
+                                                        <%}%> value="<%=model1.category_id%>"><%=model1.categoryName%>
+                                                    </option>
+                                                    <%})%>
+                                                <%})%>
+                                </select>
+                                <label for="task_type" class="form-label taskDate tasktop fortask">Task Type</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-1 typeClearBtn"  style="display: none;"><button type="button" class="clear bg-white" data-view="type"><span class="material-icons">close</span></button></div> -->
+                </div>
+
+                <div class="row taskSelectOptions">
+                    <div class="col-md-12">
+                        <div class="form-group form-float" style="margin-bottom: 30px;">
+                            <div class="form-line taskDate removeBorder">
+                                <select id="task_status" autocomplete="off" name="task_status" data-live-search="true" class="form-control dropval ws-select backgroundHide hideOption" title="">
+                                    <option class="addNew" value=""></option>
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="addStatus">Add Status</option>
+                                        <%}%>
+                                            <% _.each(categoryList, function(modelcat) { %>
+                                                <% if(modelcat.attributes.slug=="task_status" )
+                                                    _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(model1.category_id==model.task_status ){ %> selected
+                                                        <%}%> value="<%=model1.category_id%>"><%=model1.categoryName %>
+                                                    </option>
+                                                    <%})%>
+                                                        <%})%>
+                                </select>
+                                <label for="task_status" class="form-label taskDate tasktop fortask">Task Status</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-1 statusClearBtn" style="display: none;"><button type="button" class="clear bg-white" data-view="status"><span class="material-icons">close</span></button></div> -->
+                </div>
+                <%}else if(menuName=="ticket" ){%>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float" style="margin-bottom: 30px;">
+                                <div class="form-line ">
+                                    <select for="task_priority" autocomplete="off" id="task_priority" data-live-search="true" name="task_priority" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addPriority">Add Priority</option>
+                                        <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                            <% if(modelcat.attributes.slug=="ticket_priority" )
+                                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.task_priority ){ %> selected <% } %>value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                            <%})%>
+                                        <%})%>
+                                    </select>
+                                    <label for="task_priority" class="form-label taskDate tasktop fortask">Task Priority</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float" style="margin-bottom: 30px;">
+                                <div class="form-line">
+                                    <select id="task_type" autocomplete="off" name="task_type" data-live-search="true" class="form-control dropval ws-select " title="">
+                                        <option class="addNew" value=""></option>
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addType">Add Type</option>
+                                        <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="ticket_type" )
+                                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.task_type ){ %> selected <%}%> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                            <%})%>
+                                        <%})%>
+                                    </select>
+                                    <label for="task_type" class="form-label taskDate tasktop title=""">Task Type</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <select id="task_status" autocomplete="off" name="task_status" data-live-search="true" class="form-control dropval ws-select" title="Status">
+                                        <option class="addNew" value=""></option>
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addStatus">Add Status</option>
+                                        <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                            <% if(modelcat.attributes.slug=="ticket_status" )
+                                                _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(model1.category_id==model.task_status ){ %> selected <%}%> value="<%=model1.category_id%>"><%=model1.categoryName %></option>
+                                            <%})%>
+                                        <%})%>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="related_to" class="form-label">Related To:</label>
+                                        <select name="related_to" id="related_to" title="" class="ws-select  form-control dropval">
+                                            <option value=""></option>
+                                            <% _.each(relatedList, function(relatedName) { %>
+                                                <option <% if(model.related_to == relatedName ){ %> selected <%}%> value="<%=relatedName%>"><%=relatedName %></option>
+                                            <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 related-to related-project <% if(model.related_to !='project') { %>d-none<%}%>">
+                                <div class="form-group form-float">
+                                    <div class="form-line taskDate">
+                                        <input id="project" type="text" data-source="projects" data-check="title" data-list="title,project_id" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="project" value="<%=model.title%>">
+                                        <label for="project" class="form-label taskDate">Project Name</label>
+                                    </div>
+                                    <div class="freeSerachList"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 related-to related-ticket <% if(model.related_to !='ticket') { %>d-none<%}%>">
+                                <div class="form-group form-float">
+                                    <div class="form-line taskDate">
+                                        <input id="ticket" type="text" data-source="tasks" data-check="title" data-list="title,task_id" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="project" value="<%=model.title%>">
+                                        <label for="ticket" class="form-label taskDate">Ticket Number</label>
+                                    </div>
+                                    <div class="freeSerachList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" >
+                                <div class="form-group form-float" >
+                                    <div class="form-line taskDate">
+                                        <input id="customer_id" type="text" data-source="customer" data-check="name" data-list="name,customer_id,type" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="customer" value="<%=model.customerName%>">
+                                        <label for="customer_id" class="form-label taskDate">Customer</label>
+                                    </div>
+                                    <div class="freeSerachList"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float taskDropDown">
+                                    <div class="form-line taskDate">
+                                        <input id="assignee" type="text" data-source="admin" data-check="name" data-list="name,adminID" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="assignee" value="<%=model.assigneeName%>">
+                                        <label for="assignee" class="form-label taskDate">Assignee</label>
+                                    </div>
+                                    <div class="dropdown-content1 freeSerachList"></div>
+                                </div>
+                                <!-- <div class="assignee-input"></div>
+                                <div id="assigneeDropdown" class="dropdown-content custDrop" style="display: none;">
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float ">
+                                    <div class="form-line">
+                                        <label for="does_repeat" class="form-label">Does Not Repeat :</label>
+                                        <select id="does_repeat" name="does_repeat" autocomplete="off" class="form-control dropval ws-select show-tick repeatChange">
+                                            <option <% if(model.does_repeat=="does_not_repeat" ){%> selected <%}%>  value="does_not_repeat">Does not Repeat</option>
+                                            <option <% if(model.does_repeat=="daily" ){%>selected<%}%> value="daily">Daily</option>
+                                            <option <% if(model.does_repeat=="mon_to_fir" ){%>selected<%}%> value="mon_to_fir">Mon-Fri</option>
+                                            <option <% if(model.does_repeat=="weekend" ){%>selected<%}%>value="weekend">Weekend (Sat-Sun)</option>
+                                            <option <% if(model.does_repeat=="custom" ){%>selected<%}%>value="custom">Custom</option>
+                                        </select>
+                                    </div>
+                                    <div class="ws-repeatTask" <%if(model.does_repeat=="custom" ){%> style="display:block;"<%}else{%>style="display: none;"<%}%> >
+                                    <button type="button" class="loadCustom ws-repeatTaskbtn bg-white" data-item="repeatTaskCustomView" data-view="repeatTask" data-task_id="<%=model.task_id%>" data-toggle="modal" data-target="#defaultModal"><span class="material-icons">add</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                        <%if(menuName == "amc"){%>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="product" class="form-label"> Product :</label>
+                                    <select id="product" autocomplete="off" name="product" class="form-control dropval ws-select" title="Product">
+                                        <option class="addNew" value="">Add New</option>
+                                        <% _.each(productList, function(model1) { %>
+                                            <option <% if(model.product_id == model1.attributes.product_id ){%>selected<%}%> value="<%=model1.attributes.product_id%>"><%=model1.attributes.product_name%></option>
+                                        <%})%>
+                                    </select>
+                                </div>
+                            </div>
+                        <%}%>
+
+                        <div class="clearfix">&nbsp;</div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line taskDate">
+                                        <%if (model.task_id==null){%>
+                                            <input type="text" class="form-control taskCreate taskDate" disabled value="<%=ADMINNAME%>">
+                                        <%}else{%>
+                                            <input type="text" class="form-control taskCreate taskDate" disabled value="<%=model.createdByname%>">
+                                        <%}%>
+                                            <label class="form-label taskDate">Created By</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line taskDate">
+                                        <div class="row">
+                                            <div class="col-md-4 pr-0"><input type="number" id="day" placeholder="Days" class="form-control est_time" value="<%=model.day%>"></div>
+                                            <div class="col-md-4 pr-0">
+                                                <% var hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]; %>
+                                                <select name="hours" id="hours" class="form-control ws-select est_time" title="Hrs">
+                                                    <% _.each(hours, function(hr) { %>
+                                                        <option <% if(model.hours == hr){ %>selected<% } %> value="<%=hr%>"><%=hr%> Hrs</option>
+                                                    <% }); %>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 pr-1">
+                                                <select name="minute" id="minute" class="form-control ws-select est_time" title="Mins">
+                                                    <option <% if(model.minute == "15"){ %>selected<% } %> value="15">15 Min</option>
+                                                    <option <% if(model.minute == "30"){ %>selected<% } %> value="30">30 Min</option>
+                                                    <option <% if(model.minute == "45"){ %>selected<% } %> value="45">45 Min</option>
+                                                    <option <% if(model.minute == "60"){ %>selected<% } %> value="60">60 Min</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label class="form-label taskDate">Estimated Time</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+        </div>
+    </div>
+</div>

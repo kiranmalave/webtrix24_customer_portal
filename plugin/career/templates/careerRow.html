@@ -1,0 +1,23 @@
+<tr class="even pointer bg-<%=careerDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= careerDetails.attributes.job_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-job_id="<%= careerDetails.attributes.job_id %>" type="checkbox">
+      <label for="cAll_<%= careerDetails.attributes.job_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-job_id="<%=careerDetails.attributes.job_id%>" data-view="singleCareerData">
+      <div class="nametooltip truncateColumns">
+      <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+        <%= careerDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+          <% } else { %>
+            <%= careerDetails.attributes["" + column.column_name] %>
+              <% } %>
+            </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-job_id="<%=careerDetails.attributes.job_id%>" data-view="singleCareerData"><i class="material-icons" data-toggle="tooltip" data-placement="top" title="Edit">mode_edit</i></button>
+      </td>
+</tr>

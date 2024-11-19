@@ -1,0 +1,159 @@
+<div class="modal-dialog" role="document">
+  <form id="customRepeatDetails" name="customRepeatDetails" action="#">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="customTimeModal">Custom Recurrence</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3" style="margin-top: 25px;">
+            <label for="week_numb" class="form-label">Repeat every</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group form-float app-count">
+              <div class="">
+                <label for="week_numb" class="form-label"></label>
+                <input id="week_numb" type="number" class="form-control txtchange form-line count-pd app-px" name="week_numb" value="<%=model.week_numb%>" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="repeat_on" class="form-label"></label>
+            <div class="appointment-single-temp">
+            <select id="repeat_on" name="repeat_on" class="form-control dropval ws-repeat ws-select show-tick app-px repeatChange">
+              <option <%if(model.repeat_on=="daily" ){%>selected<%}%> value="daily">Days</option>
+              <option <%if(model.repeat_on=="weekly" ){%>selected<%}%> value="weekly">Weeks</option>
+              <option <%if(model.repeat_on=="monthly" ){%>selected<%}%> value="monthly">Months</option>
+              <option <%if(model.repeat_on=="yearly" ){%>selected<%}%> value="yearly">Years</option>
+            </select>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 ws-daily weekDays" <%if(model.repeat_on=="weekly" ){%> style="display:block"<%}else{%>
+              style="display: none"<%}%>>
+                <label for="days">Repeat on<span class="error"></span> :</label>
+                <ul class="item-container" data-valid="days">
+                  <li class="days multiSel" data-single="N" data-value="mon">
+                    Mon
+                  </li>
+                  <li class="days multiSel" data-single="N" data-value="tue">
+                    Tue
+                  </li>
+                  <li class="days multiSel" data-single="N" data-value="wed">
+                    Wed
+                  </li>
+                  <li class="days multiSel" data-single="N" data-value="thur">
+                    Thur
+                  </li>
+                  <li class="days multiSel" data-single="N" data-value="fri">
+                    Fri
+                  </li>
+                  <li class="days multiSel" data-single="N" data-value="sat">
+                    Sat
+                  </li>
+                  <li class="days multiSel" data-single="N" data-value="sun">
+                    Sun
+                  </li>
+                </ul>
+          </div>
+
+          <div class="col-md-12 ws-weekly monthly_setting" <%if(model.repeat_on=="monthly" ){%> style="display:block"
+            <%}else{%> style="display: none"<%}%>>
+                <label for="monthly" class="form-label">Monthly on Every: </label>
+                <select id="monthly" name="monthly" class="form-control dropval ws-select show-tick repeatChange">
+                  <option <%if(model.monthly=="1" ){%>selected<%}%> value="1">1st</option>
+                  <option <%if(model.monthly=="2" ){%>selected<%}%> value="2">2nd</option>
+                  <option <%if(model.monthly=="3" ){%>selected<%}%> value="3">3rd</option>
+                  <option <%if(model.monthly=="4" ){%>selected<%}%> value="4">4th</option>
+                  <option <%if(model.monthly=="5" ){%>selected<%}%> value="5">5th</option>
+                  <option <%if(model.monthly=="6" ){%>selected<%}%> value="6">6th</option>
+                  <option <%if(model.monthly=="7" ){%>selected<%}%> value="7">7th</option>
+                  <option <%if(model.monthly=="8" ){%>selected<%}%> value="8">8th</option>
+                  <option <%if(model.monthly=="9" ){%>selected<%}%> value="9">9th</option>
+                  <option <%if(model.monthly=="10" ){%>selected<%}%> value="10">10th</option>
+                  <option <%if(model.monthly=="11" ){%>selected<%}%> value="11">11th</option>
+                  <option <%if(model.monthly=="12" ){%>selected<%}%> value="12">12th</option>
+                  <option <%if(model.monthly=="13" ){%>selected<%}%> value="13">13th</option>
+                  <option <%if(model.monthly=="14" ){%>selected<%}%> value="14">14th</option>
+                  <option <%if(model.monthly=="15" ){%>selected<%}%> value="15">15th</option>
+                  <option <%if(model.monthly=="16" ){%>selected<%}%> value="16">16th</option>
+                  <option <%if(model.monthly=="17" ){%>selected<%}%> value="17">17th</option>
+                  <option <%if(model.monthly=="18" ){%>selected<%}%> value="18">18th</option>
+                  <option <%if(model.monthly=="19" ){%>selected<%}%> value="19">19th</option>
+                  <option <%if(model.monthly=="20" ){%>selected<%}%> value="20">20th</option>
+                  <option <%if(model.monthly=="21" ){%>selected<%}%> value="21">21st</option>
+                  <option <%if(model.monthly=="22" ){%>selected<%}%> value="22">22nd</option>
+                  <option <%if(model.monthly=="23" ){%>selected<%}%> value="23">23rd</option>
+                  <option <%if(model.monthly=="24" ){%>selected<%}%> value="24">24th</option>
+                  <option <%if(model.monthly=="25" ){%>selected<%}%> value="25">25th</option>
+                  <option <%if(model.monthly=="26" ){%>selected<%}%> value="26">26th</option>
+                  <option <%if(model.monthly=="27" ){%>selected<%}%> value="27">27th</option>
+                  <option <%if(model.monthly=="28" ){%>selected<%}%> value="28">28th</option>
+                  <option <%if(model.monthly=="29" ){%>selected<%}%> value="29">29th</option>
+                  <option <%if(model.monthly=="30" ){%>selected<%}%> value="30">30th</option>
+                  <option <%if(model.monthly=="31" ){%>selected<%}%> value="31">31st</option>
+                </select>
+          </div>
+          <div class="clearfix">&nbsp;</div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <label>Ends</label>
+            <ul class="ws-endMultiselect" data-valid="ends">
+              <li class="ends multiSel" data-single="Y" data-value="never">
+                <input <%if(model.ends=="never" ){%>checked<%}%> name="group5" type="radio" id="never" class="with-gap
+                  radio-col-blue changeEnds" value="never" />
+                  <label for="never">Never</label>
+              </li>
+              <li class="ends multiSel ends_radioSpacing" data-single="Y" data-value="on">
+                <input <%if(model.ends=="on" ){%>checked<%}%> name="group5" type="radio" id="on" class="with-gap
+                  radio-col-blue changeEnds" value="on" />
+                  <label for="on">On</label>
+              </li>
+              <li class="ends multiSel ends_radioSpacing" data-single="Y" data-value="after">
+                <input <%if(model.ends=="after" ){%>checked<%}%> name="group5" type="radio" id="after" class="with-gap
+                  radio-col-blue changeEnds" value="after" />
+                  <label for="after">After</label>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <div class="row">
+              <div class="form-group" id="date_end" <%if(model.ends=="on" ){%>style="display:block; margin-bottom: 0;
+                margin-top: 60px;"<%}else{%>style="display:none; margin-bottom: 0; margin-top: 60px;"<%}%>>
+                    <div class="form-group input-group form-float">
+                      <span class="input-group-addon right"><i class="material-icons">date_range</i></span>
+                      <div class="form-line">
+                        <input id="end_on_date" type="text" class="form-control txtchange" name="end_on_date"
+                          value="<%=model.end_on_date%>">
+                        <label for="end_on_date" class="form-label"></label>
+                      </div>
+                    </div>
+              </div>
+
+              <div class="form-line" id="occurenceDate" style="margin-top: 65px; display:none;">
+                <div class="form-group form-float app-count" style="margin-top: 20px;">
+                  <label for="end_after_date" class="form-label" style="margin: 5px 5px 0px 7px;">occurrences</label>
+                  <div class="">
+                    <input type="number" class="form-control txtchange form-line app-px" style="padding-left: 10px;" name="end_after_date" id="end_after_date"
+                      value="<%=model.end_after_date%>">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">
+          SAVE CHANGES
+        </button>
+        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">
+          CLOSE
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

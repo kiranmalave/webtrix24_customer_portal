@@ -1,0 +1,43 @@
+ <div id="adminAccessData" class="modelbox">
+    <div class="clearfix">&nbsp;</div>
+
+  <form id="adminDetails" name="adminDetails" action="#">
+    <div class="col-xs-12">
+        <div class="member-profile-img">
+            <img src="">
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-xs-5">
+      <label>Company List</label>
+        <select name="companyList[]" id="companyListData" class="form-control" size="8" multiple="multiple">
+            <% _.each(companyList, function(model) { %>
+              <option title="<%=model.companyName%>" value="<%=model.companyID%>"><%=model.companyName%></option>
+            <%}); %>
+        </select>
+    </div>
+    
+    <div class="col-xs-2">
+        <button type="button" id="companyListData_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+        <button type="button" id="companyListData_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+        <button type="button" id="companyListData_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        <button type="button" id="companyListData_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+    </div>
+    
+    <div class="col-xs-5">
+      <label>Allowed Access Company List</label>
+        <select name="accessCompanyList[]" id="companyListData_to" class="form-control" size="8" multiple="multiple">
+          <% _.each(companyAccess, function(model) { %>
+              <option title="<%=model.companyName%>" value="<%=model.companyID%>"><%=model.companyName%></option>
+            <%}); %>
+
+        </select>
+    </div>
+</div>
+     <div class="clearfix">&nbsp;</div>
+      <div class="text-center">
+        <div class="clearfix">&nbsp;</div>
+        <button id="saveAccessDetails" type="button" class="btn btn-default btn-success">Save</button>
+      </div>
+    </form>
+</div>

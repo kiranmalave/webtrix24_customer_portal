@@ -1,0 +1,22 @@
+<tr class="even pointer bg-<%=serviceDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= serviceDetails.attributes.service_id%>" class="memberlistcheck chk-col-amber"
+        data-service_id="<%= serviceDetails.attributes.service_id %>" type="checkbox">
+      <label for="cAll_<%= serviceDetails.attributes.service_id%>">&nbsp;</label>
+    </div>
+  </td>
+  <td class="loadview" data-service_id="<%=serviceDetails.attributes.service_id%>" data-view="singleServicesData"><a href="#addnewservice/<%= serviceDetails.attributes.service_id %>"><u>
+        <%=serviceDetails.attributes.serviceTitle%>
+      </u></a></td>
+  <!-- <td class=""><%= serviceDetails.attributes.category%></td> -->
+  <td class="loadview" data-service_id="<%=serviceDetails.attributes.service_id%>" data-view="singleServicesData">
+    <%= formatDate(serviceDetails.attributes.created_date,'no') %>
+  </td>
+  <td>
+    <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Edit"
+      data-service_id="<%=serviceDetails.attributes.service_id%>" data-view="singleServicesData"><i
+        class="material-icons">mode_edit</i></button>
+        <a class="ws-btn-default" target="_blank" href="#addnewservices/<%= serviceDetails.attributes.service_id %>" data-toggle="tooltip" data-placement="top" data-content="Design"><i class="material-icons">brush</i></a>
+  </td>
+</tr>

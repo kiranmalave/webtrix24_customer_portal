@@ -1,0 +1,23 @@
+
+<tr class="even pointer bg-<%=expenseDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= expenseDetails.attributes.ticket_id %>" class="memberlistcheck chk-col-amber"
+        data-ticket_id="<%= expenseDetails.attributes.ticket_id %>" type="checkbox">
+      <label for="cAll_<%= expenseDetails.attributes.ticket_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <td><%=expenseDetails.attributes.ticket_id%></td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="loadview" data-ticket_id="<%=expenseDetails.attributes.ticket_id%>" data-view="singleExpenseData">
+        <% if(column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+          <%=campaignsDetails.attributes[""+column.fieldOptions]%>
+        <% }else { %>
+            <%=campaignsDetails.attributes[""+column.column_name]%>
+        <% } %>
+    </td>
+  <% }); %>
+  <td>
+    <button type="button" class="ws-btn-default loadview" data-ticket_id="<%=expenseDetails.attributes.ticket_id%>" data-view="singleExpenseData"><i class="material-icons" data-toggle="tooltip" data-placement="top" title="Edit">mode_edit</i></button>
+  </td>
+</tr>

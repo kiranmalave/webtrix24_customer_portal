@@ -1,0 +1,22 @@
+<tr class="even pointer bg-<%=opportunityDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= opportunityDetails.attributes.opportunity_id %>" class="memberlistcheck chk-col-amber deleteCard" data-opportunity_id="<%= opportunityDetails.attributes.opportunity_id %>" type="checkbox">
+      <label for="cAll_<%= opportunityDetails.attributes.opportunity_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>"  data-view="singleopportunityData">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= opportunityDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+              <%= opportunityDetails.attributes["" + column.column_name] %>
+                <% } %>
+      </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>"  data-view="singleopportunityData"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit">mode_edit</i></button>
+      </td>
+</tr>

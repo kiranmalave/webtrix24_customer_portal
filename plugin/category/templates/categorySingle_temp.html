@@ -1,0 +1,141 @@
+<div class="tab-pane in active">
+    <div id="categorySingleView">
+        <form id="categoryDetails" name="categoryDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo savecategoryDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo savecategoryDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="ws-main-container">
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Basic Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-8">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="categoryName" class="form-label">Name <span class="error">*</span></label>
+                                    <input id="categoryName" class="form-control txtchange titleChange" autocomplete="off" name="categoryName" required="" maxlength="45" type="text" value="<%=model.categoryName%>" <% if(model.is_sys_category == "yes"){%>disabled<%}%>>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="slug" class="form-label">Slug <span class="error">*</span>
+                                        <span class="info-icon-tooltip">
+                                            <span class="material-icons" data-toggle="tooltip" data-content="This field is automatically populated based on the category name.">info</span>
+                                        </span>
+                                    </label>
+                                    <input id="slug" class="form-control txtchange" autocomplete="off" name="slug" required="" type="text" value="<%=model.slug%>" <% if(model.is_sys_category == "yes"){%>disabled<%}%>>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"  <% if(model.is_sys_category == "yes"){%> style="display:none"<%}%>>
+                            <div class="form-group form-float ws-form-option">
+                                <label for="is_parent" class="form-label">Parent category?<span class="error"></span>
+                                    <span class="info-icon-tooltip">
+                                        <span class="material-icons" data-toggle="tooltip" data-content="A parent category is a main category that can have subcategories under it. If this is a parent category, you can later add other categories as subcategories under it.">info</span>
+                                    </span>
+                                </label>
+                                <ul class="item-container" data-valid="is_parent">
+                                    <li class="is_parent multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                                    <li class="is_parent multiSel" data-render="yes" data-single="Y" data-value="no">No</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <% if(model.is_parent !="yes" ){%>
+                                <div class="form-group form-float">
+                                    <div class="form-line" style="border: none;">
+                                        <label for="product_type" class="form-label">Select parent category:
+                                            <span class="error">*</span>
+                                            <span class="info-icon-tooltip">
+                                                <span class="material-icons" data-toggle="tooltip" data-content="Select the parent category to organize this category as a subcategory.">info</span>
+                                            </span>
+                                        </label>
+                                        <select for="parent_id" id="parent_id" name="parent_id" class="form-control dropval ws-select show-tick repeatChange backgroundHide lead-al" data-live-search="true" <% if(model.is_sys_category == "yes"){%>disabled<%}%>>
+                                            <option value="">Select Parent category</option>
+                                            <% _.each(model.categoryList, function(model1) { %>
+                                                <option <% if(model1.category_id==model.parent_id ){ %> selected  <% } %> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                            <%}); %>
+                                        </select>
+                                    </div>
+                                </div>
+                            <%}%>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float ws-form-option">
+                            <div class="" style="border: none;">
+                                <label for="product_type" class="form-label">Category Color:<span class="error">*</span> <span class="material-icons" data-toggle="tooltip" data-content="Choose a color for the category. This color will be displayed in the module list view wherever this category is used, helping to visually distinguish it.">info</span>
+                            </span></label>
+                            </div>
+                            <div class="ws-color-selection item-container" data-valid="cat_color">
+                                <% _.each(colors, function(item) { 
+                                    let fcolor = getFontColor(item);%>
+                                    <span class="ws-color-font <%=model.cat_color%>" <% if(model.cat_color == item) { %>style="background:<%=fcolor%>" <% }%>data-color-code="<%=fcolor%>">
+                                        <span data-render="yes" data-single="Y" data-value="<%=item%>" class="cat_color ws-color multiSel" style="background:<%=item%>" data-color-code="<%=item%>"></span>
+                                    </span>
+                                    <%}); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    sort
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Description</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ws-quill right-layout">
+                    <div class="row left-space">
+                        <div class="col-md-12 m-b-Cls">
+                            <div id="categorydescription" class="form-control mb-3">
+                                <%=model.description%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float ws-form-option">
+                        <label for="status" class="form-label">Status<span class="error">*</span> <span class="info-icon-tooltip">
+                            <span class="material-icons" data-toggle="tooltip" data-content="Select 'Active' to enable the record for use. Choose 'Inactive' to disable the record, making it unavailable for use.">info</span></label>
+                        <ul class="item-container" data-valid="status">
+                            <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                            <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+            <div class="clearfix mt-5">&nbsp;</div>
+        </form>
+    </div>
+</div>

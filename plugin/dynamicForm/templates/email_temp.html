@@ -1,0 +1,20 @@
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <label for="<%= elementDetails.column_name %>" class="form-label">
+                    <%= elementDetails.fieldLabel %>
+                    <span class="error"><%= elementDetails.isRqr %></span>
+                </label>
+                <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" class="dynamicData form-control emailChange" name="<%= elementDetails.column_name %>" type="text" value="<%= elementData[elementDetails.column_name] %>" placeholder="<%= elementDetails.placeholder %>"<% if (elementDetails.minLength > 0) { %> minlength="<%= elementDetails.minLength %>"<% } %> <% if (elementDetails.maxLength > 0) { %> maxLength="<%= elementDetails.maxLength %>"<% } %> <%= elementDetails.requiredHtml %>>
+            </div>
+        </div>
+    </div>
+</div>

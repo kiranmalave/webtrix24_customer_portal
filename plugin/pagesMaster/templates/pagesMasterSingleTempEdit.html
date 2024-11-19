@@ -1,0 +1,43 @@
+
+
+<div class="container-fluid p-0">
+  <div class="ws-builder-header">
+    <div class="right-content">
+      <div class="">
+        <!-- <button class="btn bg-indigo waves-effect" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <span class="material-icons" data-value="keyboard_arrow_down">keyboard_arrow_down</span>
+        </button> -->
+        <span class="isHome" style="display: inline-block;margin-right: 10px;">
+          <!--<input id="isHome" style="margin: 0px;" type="checkbox" <% if(isHome == "yes") { %>checked="checked"<% } %> class="btn btn-info btn-success checkVal"/>&nbsp;Is Home Page&nbsp;&nbsp;-->
+          <div class="listCheckbox">
+            <input id="isHome" type="checkbox" class="chk-col-amber checkVal" <% if(isHome == "yes"){ %>checked="checked"<% } %>>
+            <label for="isHome">&nbsp;Is Home Page&nbsp;</label>
+          </div>
+        </span>
+        <a href="<%=APPPFRONTATH%><%=pageLink%>" target="_blank" class="btn bg-indigo waves-effect" formtarget="_blank">Get Preview</a>
+        <button id="" type="button" class="btn bg-indigo waves-effect getHTML">Save</button>
+        
+      </div>
+    </div>
+  </div>
+
+<!-- page designer code-->
+<div class="emailTemplate">
+  <div class="playgrounddiv"><%=pageCode %></div>
+</div>
+<div class="playgroundelements"></div>
+<div class="emailTemplateDump" style="display: none;"></div>
+</div>
+<div class="ws_filterOptions">
+</div>
+<!-- Large Size -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+          <div id="mediaLoad" class="modal-body"></div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+          </div>
+      </div>
+  </div>
+</div>

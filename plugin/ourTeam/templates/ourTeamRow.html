@@ -1,0 +1,27 @@
+<tr class="even pointer bg-<%=teamDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= teamDetails.attributes.team_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-team_id="<%= teamDetails.attributes.team_id %>" type="checkbox">
+      <label for="cAll_<%= teamDetails.attributes.team_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-team_id="<%=teamDetails.attributes.team_id%>" data-view="singleteamData">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= teamDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+          <% if(teamDetails.attributes[""+column.column_name] == "" || teamDetails.attributes[""+column.column_name] == null){%>
+            -
+          <%}else{%>
+            <%=teamDetails.attributes[""+column.column_name]%>
+          <%}%>
+        <% } %>
+      </div>
+    </td>
+  <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-team_id="<%=teamDetails.attributes.team_id%>" data-view="singleteamData"><i class="material-icons" data-toggle="tooltip" data-placement="top" title="Edit">mode_edit</i></button>
+      </td>
+</tr>

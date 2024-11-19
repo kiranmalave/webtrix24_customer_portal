@@ -1,0 +1,160 @@
+<div class="tab-pane in active">
+    <form id="courseDetails" name="courseDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveCourseDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveCourseDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="row ws-main-container">
+            <div class="col-md-8">
+                <div class="clearfix">&nbsp;</div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="title" type="text" class="form-control txtchange" autocomplete="off" name="title" autocomplete="off"
+                                            value="<%=model.title%>">
+                                        <label for="title" class="form-label">Course Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row ">
+                    <div class="icon-left" style="margin-top:10px;">
+                        <div class="ws-icon">
+                            <span class="input-group-addon"><i class="material-icons"></i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="author_id" autocomplete="off" type="text" class="form-control txtchange"
+                                        autocomplete="off"   name="author_id" value="<%=model.author_id%>">
+                                        <label for="author_id" class="form-label">Author</label>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="category_id" class="form-label lg">Select Category</label>
+                                        <select for="category_id" id="category_id" name="category_id"
+                                            title="Course Category"
+                                            class="form-control dropval ws-select show-tick repeatChange">
+                                            <%if(permission.add=="yes" ) { %>
+                                                <option class="addNew" value="addCourseCategory">Add Category</option>
+                                                <%}%>
+                                                    <% _.each(categoryList, function(modelcat) { %>
+                                                        <% if(modelcat.attributes.slug=="course_list" )
+                                                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                            <option <% if(model1.category_id==model.category_id ){ %>
+                                                                selected
+                                                                <% } %>value="<%=model1.category_id%>">
+                                                                        <%=model1.categoryName%>
+                                                            </option>
+                                                            <%})%>
+                                                        <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <div class="switch paid">
+                                    <label>
+                                        <input type="checkbox" id="ig_checkbox" <%if(model.course_paid=="free" ){%>
+                                        checked <%}%> >
+                                            <span class="lever switch-col-indigo"></span>Make this a free Course</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row mt-2">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row ">
+                            <div class="col-md-6 ws-amount">
+                                <div class="form-group form-float" <%if(model.course_paid=="free" ){%>
+                                    style="display:none;"<%}else{%>style="display:block;"<%}%> >
+                                            <div class="form-line">
+                                                <input id="amount" type="text" class="form-control txtchange" 
+                                                autocomplete="off" autocomplete="off" name="amount" value="<%=model.amount%>">
+                                                <label for="amount" class="form-label">Amount</label>
+                                            </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ws-discount">
+                                <div class="form-group form-float" <%if(model.course_paid=="free" ){%>
+                                    style="display:none;"<%}else{%>style="display:block;"<%}%> >
+                                            <div class="form-line">
+                                                <input id="discount" type="text" class="form-control txtchange"
+                                                autocomplete="off"  name="discount" value="<%=model.discount%>">
+                                                <label for="discount" class="form-label">Discount %</label>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left" style="margin-top:12px;">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout mb-5">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xl-12">
+                                <label for="description"></label>
+                                <div id="description" class="form-control" name="description">
+                                    <%=model.description%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+            </div>
+            <div class="col-md-4 ws-assignee-container border-left">
+                <div class="row">
+                    <div class="col-md-12 ws-assignee-column">
+                        <div class="clearfix">&nbsp;
+                            <input id="typehead" class="btn loadMedia" type="button" value="Cover Photo" name="Media"
+                            autocomplete="off"   data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-5">
+                        <% if(model.cover_image !=" " ) {%>
+                            <img id="profile_pic_view1" style="max-width: 100%;" src="<%=model.cover_image%>">
+                            <%}else{%>
+                                No image uploaded.
+                                <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

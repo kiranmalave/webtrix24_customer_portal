@@ -1,0 +1,41 @@
+<div class="modal-dialog forNote" role="document" style="margin: 0;">
+    <form id="customerActivity" name="customerActivity" action="#">
+            <div class="tableDetails col-md-12">
+                <div class="activitytHeader">
+                    <div class="activitytHeading">
+                        <label class=""><%=categoryName%>'s Subcategory</label>
+                    </div>
+                </div>
+                <div class="noCustRec noCustAdded noCategoryRec" style="display: none; height: 480px !important;" >
+                    <div class="noCustRecDetails" style="width: 380px;">
+                        <div class="noCustRecPic">
+                          <img src="images/noRecrds.png" alt="">
+                        </div>
+                        <div class="noCustRecText">
+                          <h1>There are no <span>
+                              <%=categoryName%>
+                            </span> Subcategories available</h1>
+                            <div class="addRecords">Click here
+                              <div class="buttonAdd">
+                                  <button type="button" class="ws-btn-default loadview" data-view="singleCategoryData" data-load="modal" data-item="taskSingleView" data-toggle="tooltip" data-placement="top" data-content="Add <%=categoryName%>"><i class="material-icons">add</i></button>
+                              </div>
+                              to add the <%=categoryName%>
+                          </div>
+                        </div>
+                     </div>
+            </div>
+                <div class="card activities"> 
+                    <div class="body">
+                        <div id="activityRow">
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+    <div class="modal-footer noteFooter">
+        <div class=" text-right">
+            <button type="button" class="btn bg-indigo closeModal">Close</button>
+        </div>
+    </div>
+</div>

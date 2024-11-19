@@ -1,0 +1,36 @@
+<tr class="even pointer bg-<%=celebrateWithUsDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= celebrateWithUsDetails.attributes.celebrate_id %>" class="memberlistcheck chk-col-amber" data-celebrate_id="<%= celebrateWithUsDetails.attributes.celebrate_id %>" type="checkbox">
+      <label for="cAll_<%= celebrateWithUsDetails.attributes.celebrate_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <% if(column.column_name == 'confirmation_status') { %>
+      column_name : <%=column.column_name%>
+      <td class="draglinerow truncateWidth">
+        <%if(celebrateWithUsDetails.attributes.confirmation_status=="Pending"){%>
+          <button type="button" data-celebrate_id="<%=celebrateWithUsDetails.attributes.celebrate_id%>" data-action="Approved" data-show="approvedView" class="btn btn-success btn-xs loadview" data-toggle="modal" data-target="#myModal">Approve</button>
+          <button type="button" data-celebrate_id="<%=celebrateWithUsDetails.attributes.celebrate_id%>" data-action="Declined" data-show="declinedView" class=" loadview btn btn-primary btn-xs btn-danger" data-toggle="modal"  data-target="#myModal" >  Decline </button>
+       <%}else{%>  
+       <p style="color: <%if(celebrateWithUsDetails.attributes.confirmation_status=='Declined'){%>red<%} else if(celebrateWithUsDetails.attributes.confirmation_status=='Approved'){%>green<%} else {%> #e8960f <%}%>"> <%=celebrateWithUsDetails.attributes.confirmation_status%><%}%> </p>   
+        <!-- <a href="javascript:;">
+            <p class="nametooltip truncateColumns"> <%=celebrateWithUsDetails.attributes.confirmation_status%> </p>
+          </a> -->
+      </td>
+    <% } else { %>
+    <td class="draglinerow truncateWidth">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= celebrateWithUsDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+          <%= celebrateWithUsDetails.attributes["" + column.column_name] %>
+        <% } %>
+      </div>
+    </td>
+    <%}%>
+  <% }); %>
+    <td class="draglinerow">
+      <button type="button" class="ws-btn-default loadview" data-celebrate_id="<%=celebrateWithUsDetails.attributes.celebrate_id%>"  data-show="singlecelebrateWithUsData"><i class="material-icons" data-toggle="tooltip" data-placement="top" title="Edit">mode_edit</i></button>
+    </td>
+</tr>

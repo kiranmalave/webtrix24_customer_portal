@@ -1,0 +1,44 @@
+  
+<li class="col-12">
+  <div class="avatar">
+      <div class="">
+          <input type="radio" id="cAll_<%= taskDetails.attributes.task_id %>"  data-task_id="<%= taskDetails.attributes.task_id %>" <% if(taskDetails.attributes.task_status =='Completed' ) { %> checked <%}%> class="radio-col-green showpoup" />
+          <label for="cAll_<%= taskDetails.attributes.task_id %>">&nbsp;</label>
+      </div>
+  </div>
+  <div class="comment-action">
+    <div class="comment-actionHeading">
+      <div class="comment-actionHeading_left">
+        <h5 class="loadview textwrap c_name" data-task_id="<%=taskDetails.attributes.task_id%>" data-view="singletaskData"><%=taskDetails.attributes.subject%></h5> 
+        <span>
+          <%=taskDetails.attributes.projectNumb%>
+        </span>
+      </div>
+      <div class="comment-actionHeading_right">
+      </div>
+    </div>
+    <p class="c_msg m-b-0 " style="display:none; margin-bottom:0 !important;"> <%=taskDetails.attributes.description%></p>
+    <!-- <div class="badge badge-danger"> <%=taskDetails.attributes.priority_slug%></div> -->
+
+    <% if(taskDetails.attributes.priority_slug=='High' ) { %><span class="badge badge-danger">High</span>
+      <% }else if(taskDetails.attributes.priority_slug=='Highest'){ %><span class="badge badge-danger">Highest</span>
+      <%}else if(taskDetails.attributes.priority_slug=='Medium'){%><span class="badge badge-yellow">Medium</span><%}
+      else if(taskDetails.attributes.priority_slug=='Low'){%><span class="badge badge-light">Low</span><%}
+
+      %>
+
+    <!-- <span class="m-l-10 badge badge-success">  <%=taskDetails.attributes.status_slug%></span> -->
+     <% if(taskDetails.attributes.status_slug =='Complete' ) { %><span class="badge badge-success" data-toggle="tooltip"  data-placement="top" data-content="Status">Completed</span>
+      <% }else if(taskDetails.attributes.status_slug=='In progress'){ %><span class="badge badge-info" data-toggle="tooltip"  data-placement="top" data-content="Status"> In progress</span>
+      <%}else if(taskDetails.attributes.priority_slug=='To-do'){%><span class="badge badge-primary" data-toggle="tooltip"  data-placement="top" data-content="Status">To-do</span><%}
+    %>
+    <%if(taskDetails.attributes.name != null){%>
+      <span class="badge badge-info" data-toggle="tooltip" data-placement="top" data-content="Assignee"> <%=taskDetails.attributes.name%> </span>  
+    <%}%>
+      <%if(taskDetails.attributes.due_date != "0000-00-00" && taskDetails.attributes.due_date != null ){%>
+        <small class="comment-date float-sm-right"><span><i class="material-icons">event</i></span><%=taskDetails.attributes.due_date%></small>  
+      <%}%>
+    <button type="button" class="ws-btn-default loadview editButton" data-task_id="<%=taskDetails.attributes.task_id%>" data-view="singletaskData"  data-toggle="tooltip"  data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+
+  </div>
+</li>

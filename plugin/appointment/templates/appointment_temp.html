@@ -1,0 +1,137 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="">
+          <div class="text-right body AppointmentBtn">
+            <button type="button" class="btn listbtn appointment-event" disabled value="list">
+              <span class="material-icons btn-bgColor">list</span>
+            </button>
+            <button type="button" class="btn calendarbtn appointment-event" value="calendar">
+              <span class="material-icons btn-bgColor">event</span>
+            </button>
+          </div>
+          <div class="row page-calendar">
+            <div class="col-md-5 calenderListView">
+              <div class="calendar-container">
+                <div class="calendar">
+                  <div class="year-header">
+                    <span class="left-button material-icons" id="prev">chevron_left</span>
+                    <span class="year" id="label"></span>
+                    <span class="right-button material-icons" id="next">chevron_right</span>
+                  </div>
+                  <table class="months-table w-100">
+                    <tbody>
+                      <tr class="months-row">
+                        <td class="month">Jan</td>
+                        <td class="month">Feb</td>
+                        <td class="month">Mar</td>
+                        <td class="month">Apr</td>
+                        <td class="month">May</td>
+                        <td class="month">Jun</td>
+                        <td class="month">Jul</td>
+                        <td class="month">Aug</td>
+                        <td class="month">Sep</td>
+                        <td class="month">Oct</td>
+                        <td class="month">Nov</td>
+                        <td class="month">Dec</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="days-table w-100">
+                    <td class="day">Sun</td>
+                    <td class="day">Mon</td>
+                    <td class="day">Tue</td>
+                    <td class="day">Wed</td>
+                    <td class="day">Thu</td>
+                    <td class="day">Fri</td>
+                    <td class="day">Sat</td>
+                  </table>
+                  <div class="frame">
+                    <table class="dates-table w-100">
+                      <tbody class="tbody"></tbody>
+                    </table>
+                  </div>
+                  <%if(permission.add=="yes" ) { %>
+                    <button type="button" class="btn loadview add-event-btn" data-view="singleappointmentData" data-item="appointmentSingleView" data-toggle="tooltip" data-placement="bottom" title="Add Events">Create appointment</button>
+                  <%}%>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7 forappointmentList">
+              <div class="profile-loader text-center table appointment-loader">
+                <div class="preloader table">
+                  <div class="loderGif table">
+                    <img src="images/webloader.gif" alt="User" />
+                  </div>
+                </div>
+              </div>
+              <div id="appointmentList" class="appointment calenderListView"></div>
+              <div class="emptyAppointmentImg ds-none calenderListView">
+                <img id="emptyAppointment"  src="<%=IMAGES%>/imgpsh_fullsize_anim.jpg">
+                <span>No Scheduled Appointment.</span>
+              </div>
+            </div>
+            <div class="col-md-12 calenderView ds-none">
+              <div class="body">
+                <div id="calendar" class="m-t-20 fc fc-unthemed fc-ltr"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div id="loadMember" data-index="1" data-currPage="1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sidebar-right">
+  <ul class="nav side-menu">
+    <li id="filterOption" class="nav-item" data-item="<%=closeItem%>" data-toggle="tooltip" data-placement="top" data-content="Filter">
+      <span class="material-symbols-outlined"> filter_alt </span>
+      <span style="font-size: 12px;">Filter</span>
+    </li>
+    <%if(permission.add=="yes" ) { %>
+      <li class="loadview nav-item" data-view="singleappointmentData" data-item="appointmentSingleView" data-toggle="tooltip" data-placement="top" data-content="Create Appointment">
+        <span class="material-icons">add</span>
+        <span style="font-size: 12px;">Create</span>
+      </li>
+      <% } %>
+  </ul>
+  <ul class="nav side-menu bottom">
+    <li class="loadview nav-item" data-view="mail" data-custMail="-">
+        <span class="material-icons">email</span>
+        <span style="font-size: 12px;">Email</span>
+    </li>
+  </ul>
+
+</div>
+<div class="ws_filterOptions"></div>
+
+<div class="modal fade" id="customTimeModal" tabindex="-1" role="dialog"></div>
+
+<div id="customMail" class="customMail" style="display: none;"></div>
+  
+  <div class="customMailMinimize" style="display: none;">
+    <div class="titleSec">
+      <span>New Message</span>
+    </div>
+    <div class="iconSec">
+      <button type="button" class="btn  minimize showMax">
+        <i class="material-icons">
+          maximize
+        </i>
+      </button>
+
+      <button type="button" class="btn  openFull">
+        <img src="images/open_blank.svg" alt="" />
+      </button>
+
+      <button type="button" class="btn  close">
+        <i class="material-icons">
+          clear
+        </i>
+      </button>
+
+    </div>
+  </div>

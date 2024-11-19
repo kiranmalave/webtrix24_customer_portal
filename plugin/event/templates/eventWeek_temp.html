@@ -1,0 +1,104 @@
+<div>
+  <form id="eventScheduleDetail" name="eventScheduleDetail" action="#">
+    <!-- <div class="text-right actionBtns">
+      <button type="button" class="btn bg-indigo saveSchedulerDetails" data-action="close">
+        Save
+      </button>
+    </div> -->
+    <div class="clearfix">&nbsp;</div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input type="text" class="form-control" disabled value="<%=eventName%>">
+            <label class="form-label">Event Name</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="row fixedDateTime">
+      <div class="col-md-4">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input id="start_date1" type="text" class="form-control txtchange" name="start_date" value="<%=startDate%>">
+            <label for="start_date" class="form-label">Start Date</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input id="end_date1" type="text" class="form-control txtchange" name="end_date" value="<%=endDate%>">
+            <label for="end_date" class="form-label">End Date</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 ws-schedule-list">
+        <% _.each(dateWithoutHyphens, function(dateWithoutHyphens) { %>
+          <div class="row ws-schedule-container pick" name="<%=dateWithoutHyphens%>" id="<%=dateWithoutHyphens%>-day">
+            <div class="col-md-3">
+              <div class="scheduleListCheckbox ">
+                <input id="<%=dateWithoutHyphens%>" name="<%=dateWithoutHyphens%>"
+                  class="membercheck chk-col-amber pickD" type="checkbox" />
+                <label for="<%=dateWithoutHyphens%>">
+                  <%= dateWithoutHyphens.toString().substr(6, 2) + '-' + dateWithoutHyphens.toString().substr(4, 2)
+                    + '-' + dateWithoutHyphens.toString().substr(0, 4) %>
+                </label>
+              </div>
+            </div>
+            <div class="timeDetails col-md-7" id="new_div">
+              <table class="weeklyView" id="ws_<%=dateWithoutHyphens%>"></table>
+            </div>
+            <div class="col-md-2">
+              <div class="addExtraSchedule">
+                <span type="button" data-toggle="tooltip" data-placement="top" data-content="add" data-action="add">
+                  <i class="material-icons">add</i></span>
+              </div>
+            </div>
+          </div>
+          <div class="ws-schedule-border"></div>
+          <% }); %>
+
+            <!-- <% _.each(weekList, function(model1) { %>
+         
+            <% if (model1!="Invalid date" ){%>
+              <%_.each(dateWithoutHyphens, function(dateWithoutHyphens){%>
+              <div class="row ws-schedule-container" id="<%=dateWithoutHyphens%>-day">
+                <div class="col-md-3">
+                  <div class="scheduleListCheckbox">
+                    <input id="<%=dateWithoutHyphens%>" name="<%=dateWithoutHyphens%>"
+                      class="memberlistcheck chk-col-amber pickD" checked type="checkbox" />
+                    <label for="<%=dateWithoutHyphens%>">
+                      <%=model1%>
+                    </label>
+                  </div>
+                </div>
+                <div class="timeDetails col-md-7" id="new_div">
+                  <table class="weeklyView" id="ws_<%=model1%>"></table>
+                </div>
+                <div class="col-md-2">
+                  <div class="addExtraSchedule">
+                    <span type="button" data-toggle="tooltip" data-placement="top" data-content="add" data-action="add">
+                      <i class="material-icons">add</i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="ws-schedule-border"></div>
+              <%}); %> 
+              <%}else{%>
+                <div class="row ws-schedule-container">
+                  <div class="col-md-4">
+                    <label>Please Select Date</Label>
+                  </div>
+                </div>
+                <%}%>
+            <%})%>
+          -->
+
+      </div>
+    </div>
+  </form>
+</div>

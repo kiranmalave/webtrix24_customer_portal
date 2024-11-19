@@ -1,0 +1,37 @@
+<tr class="even pointer demo-icon-container bg-<%=pushServiceDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= pushServiceDetails.attributes.push_service_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-push_service_id="<%= pushServiceDetails.attributes.push_service_id %>" type="checkbox">
+      <label for="cAll_<%= pushServiceDetails.attributes.push_service_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <!-- <td class="draglinerow">
+    <%=pushServiceDetails.attributes.push_service_name%>
+  </td>
+  <td class="draglinerow">
+    <%=pushServiceDetails.attributes.to_email%>
+  </td>
+  <td class="draglinerow">
+    <%=pushServiceDetails.attributes.trigger_type%>
+  </td>
+  <td class="draglinerow">
+    <%=pushServiceDetails.attributes.status%>
+  </td> -->
+  <% _.each(arrangedColumnList, function(column) { %>
+      <td class="draglinerow truncateWidth loadview" data-push_service_id="<%=pushServiceDetails.attributes.push_service_id%>" data-view="notificationView">
+        <div class="nametooltip truncateColumns">
+          <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+            <%= pushServiceDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+          <% } else { %>
+            <%= pushServiceDetails.attributes["" + column.column_name] %>
+          <% } %>
+        </div>
+      </td>
+   <% }); %>
+  <td class="draglinerow">
+    <button type="button" class="ws-btn-default loadview"
+      data-push_service_id="<%=pushServiceDetails.attributes.push_service_id%>" data-view="notificationView"
+      data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+  </td>
+</tr>

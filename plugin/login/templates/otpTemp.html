@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-md-5 col-12 logo-login-bg">
+    <div class="ws-logo-login"><img class="img-fluid" src="<%=APPPATH%>images/site/login-image.png"></div>
+  </div>
+  <div class="col-md-7 col-12">
+    <div class="" style="margin-top: 25%;">
+      <div class="row">
+        <div class="col-md-8 col-12">
+          <section class="login_content ws-login-form">
+            <a class="ws-forgot-link" href="#login"><i class="fa fa-arrow-left"></i> Back to
+              Login</a><br /><br />
+            <form id="validateOtp" action="#">
+              <h2>Reset Password</h2>
+              <p>Please enter OTP and set new password</p>
+              <div class="ws-input-group mb-3">
+                <label>Enter OTP</label>
+                <input id="otp" value="" type="password" maxlength="4" minlength="4" class="ws-form-control txtchange"
+                  placeholder="Enter otp Here" required="" />
+              </div>
+              <div class="clearfix">&nbsp;</div>
+              <div class="ws-input-group mb-3">
+                <label>Enter New Password</label>
+                <input id="password" value="" type="password" class="ws-form-control txtchange"
+                  placeholder="Enter New Password" required="" />
+              </div>
+              <div class="ws-input-group mb-3">
+                <label>Confirm New Password</label>
+                <input id="confirmPassword" value="" type="password" class="ws-form-control txtchange"
+                  placeholder="Confirm New Password" required="" />
+              </div>
+              <div class="ws-input-group mb-3">
+                <button id="checkotp" class="btn btn-block submit ws-btn-primary checkotp"><span>Validate And
+                    Update</span></button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="login_wrapper myUserRegistration">
+  <div class="animate form login_form">
+    <section class="login_content">
+      <form action="#" id="validateOtp">
+        <h1>Enter OTP</h1>
+        <div>
+          <input id="otp" value="" type="password" maxlength="4" minlength="4" class="form-control txtchange"
+            placeholder="Enter otp Here" required="" />
+        </div>
+        <div class="clearfix">&nbsp;</div>
+
+        <h1>Enter New Password</h1>
+        <div>
+          <input id="password" value="" type="password" class="form-control txtchange" placeholder="Enter New Password"
+            required="" />
+        </div>
+        <div>
+          <input id="confirmPassword" value="" type="password" class="form-control txtchange"
+            placeholder="Confirm New Password" required="" />
+        </div>
+        <div>
+          <button id="checkotp" class="btn btn-default checkotp"><span>Validate And Update</span></button>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="separator">
+          <div class="clearfix"></div>
+          <br />
+          <div>
+            <h1>
+              <%= APPNAME%>
+            </h1>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div> -->

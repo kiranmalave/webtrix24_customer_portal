@@ -1,0 +1,44 @@
+<tr class="even pointer bg-<%=eventDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox 123">
+      <input id="cAll_<%= eventDetails.attributes.event_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-event_id="<%= eventDetails.attributes.event_id %>" type="checkbox">
+      <label for="cAll_<%= eventDetails.attributes.event_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <!-- <td class="draglinerow">
+      <%=eventDetails.attributes.title%>  
+  </td> -->
+  <!-- <td class="draglinerow">
+    <%=eventDetails.attributes.start_date%></a>
+  </td>
+  <td class="draglinerow">
+    <%= formatDate(eventDetails.attributes.created_date,'no') %>
+  </td> -->
+
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-event_scheduler_id="<%=eventDetails.attributes.event_scheduler_id%>" data-view="prepareeventschedule">
+      <div class="nametooltip truncateColumns">
+      <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+        <%= eventDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+          <% } else { %>
+            <%= eventDetails.attributes["" + column.column_name] %>
+              <% } %>
+            </div>
+    </td>
+  <% }); %>
+
+  <td class="draglinerow">
+    <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Edit"
+      data-event_id="<%=eventDetails.attributes.event_id%>" data-view="singleeventData"><i
+        class="material-icons">mode_edit</i></button>
+        
+    <% if (eventDetails.attributes.event_type=="site_event" ){%>
+      <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Schedule"
+        data-startDate="<%=eventDetails.attributes.start_date%>" data-endDate=" <%=eventDetails.attributes.end_date%>"
+        data-event_id="<%=eventDetails.attributes.event_id%>" data-eventName="<%=eventDetails.attributes.title%>"
+        data-event_scheduler_id="<%=eventDetails.attributes.event_scheduler_id%>" data-view="prepareeventschedule"><span
+          class="material-symbols-outlined">edit_calendar</span></button>
+      <%}%>
+  </td>
+</tr>

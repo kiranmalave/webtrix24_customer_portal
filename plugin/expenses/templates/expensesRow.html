@@ -1,0 +1,41 @@
+<tr class="even pointer bg-<%=expenseDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= expenseDetails.attributes.expenses_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-expenses_id="<%= expenseDetails.attributes.expenses_id %>" type="checkbox">
+      <label for="cAll_<%= expenseDetails.attributes.expenses_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <% if(column.column_name=='status' ) { %>
+      <td class="draglinerow truncateWidth loadview" data-expenses_id="<%=expenseDetails.attributes.expenses_id%>" data-view="singleExpenseData">
+        <div class="nametooltip truncateColumns">
+          <%if(expenseDetails.attributes.status=="draft" ){%>
+            <span class="badge bg-blue">Drafted</span>
+            <%}else if(expenseDetails.attributes.status=="submitted"){%>
+              <span class="badge badge-warning">Submitted</span>
+              <%}else if(expenseDetails.attributes.status=="approved"){%>
+                <span class="badge badge-success">Approved</span>
+                <%}else if(expenseDetails.attributes.status=="rejected"){%>
+                  <span class="badge badge-danger">Rejected</span>
+                  <%}%>
+        </div>
+      </td>
+      <% } else { %>
+        <td class="draglinerow truncateWidth loadview" data-expenses_id="<%=expenseDetails.attributes.expenses_id%>" data-view="singleExpenseData">
+          <div class="nametooltip truncateColumns">
+            <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+              <%= expenseDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+                <% } else { %>
+
+                  <%= expenseDetails.attributes["" + column.column_name] %>
+                    <% } %>
+          </div>
+        </td>
+        <% } %>
+          <% }); %>
+            <td class="draglinerow">
+              <button type="button" class="ws-btn-default loadview" data-expenses_id="<%=expenseDetails.attributes.expenses_id%>" data-view="singleExpenseData"><i
+                  class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit">mode_edit</i></button>
+            </td>
+      </tr>

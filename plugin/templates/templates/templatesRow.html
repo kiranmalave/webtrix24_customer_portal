@@ -1,0 +1,49 @@
+<tr class="even pointer bg- templateRow" data-tempID="<%=templateDetails.attributes.temp_id %>">
+    <td class="a-center">
+      <div class="listCheckbox">
+        <input id="cAll_<%= templateDetails.attributes.temp_id %>" class="memberlistcheck chk-col-amber deleteCard" data-temp_id="<%= templateDetails.attributes.temp_id %>" type="checkbox">
+        <label for="cAll_<%= templateDetails.attributes.temp_id %>">&nbsp;</label>
+      </div>
+    </td>
+    <!-- <td class="draglinerow">
+        <div class="nametooltip truncateColumns">
+          <span class="" title="<%=templateDetails.attributes.temp_name%>">
+            <%=templateDetails.attributes.temp_name%>
+          </span> 
+        </div>
+    </td>
+    <td class="draglinerow">
+        <div class="nametooltip truncateColumns">
+          <span class="" title="<%=templateDetails.attributes.menuName%>">
+            <%=templateDetails.attributes.menuName%>
+          </span>
+        </div>
+    </td>
+    <td class="draglinerow truncateWidth">
+        <img src="<%=templateDetails.attributes.temp_image%>" style=" width: 25px; height: 25px;display:flex;flex-shrink:0"/>    
+    </td> -->
+    <% _.each(arrangedColumnList, function(column) { %>
+      <% if(column.column_name == 'temp_image'){ %>
+        <td class="draglinerow truncateWidth loadview" data-temp_id="<%=templateDetails.attributes.temp_id%>" data-view="singleTempData">
+          <img src="<%=templateDetails.attributes.temp_image%>" style=" width: 25px; height: 25px;display:flex;flex-shrink:0"/>    
+        </td> 
+      <% }else{ %>
+        <td class="draglinerow truncateWidth loadview" data-temp_id="<%=templateDetails.attributes.temp_id%>" data-view="singleTempData">
+          <div class="nametooltip truncateColumns">
+            <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+              <%= templateDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+              <%= templateDetails.attributes["" + column.column_name] %>
+            <% } %>
+          </div>
+        </td>
+      <% } %>
+     <% }); %>
+      
+    <td class="draglinerow actionColumn">
+        <button type="button" class="ws-btn-default loadview" data-temp_id="<%=templateDetails.attributes.temp_id%>" data-view="singleTempData"  data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    </td>   
+  </tr>
+  
+   
+  

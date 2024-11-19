@@ -1,0 +1,12 @@
+<div id="putLessonList-<%=lessonDetails.attributes.section_id%>" data-course_id="<%=lessonDetails.attributes.course_id%>" data-section_id="<%=lessonDetails.attributes.section_id%>"  >
+    <div id="collapseOne_<%=lessonDetails.attributes.section_id%>" class=" panel-collapse collapse in " role="tabpanel" aria-labelledby="headingOne_<%=lessonDetails.attributes.section_id%> ">
+        <div class="panel-body" >
+            <div style="border:solid;background-color:#607C8E; color:#FFFFFF;" class="addRow ws_add_lesson  loadview" data-section_id ="<%=lessonDetails.attributes.section_id%>" data-course_id ="<%=lessonDetails.attributes.course_id%>" data-lesson_id ="<%=lessonDetails.attributes.lesson_id%>" data-view="singleLessonData"><%=lessonDetails.attributes.lesson_title%></div>
+            <div class="col" style="padding-left: 5px;padding-right:0;margin-botton:3px;">
+            <span type="button" class="changeStatus justify-content-center" data-lessonID="<%=lessonDetails.attributes.lesson_id%>" data-action="delete" data-toggle="tooltip" title="Delete Lesson">
+            <i class="material-icons" style="background-color: #f5f4f2; border-radius: 50%; padding: 5px 5px 5px 5px; margin-top : 2px;">delete</i>
+            </span>
+            </div>
+        </div>
+    </div>"
+</div>

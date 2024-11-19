@@ -1,0 +1,155 @@
+<div class="tab-pane in active campaign_details_view">
+    <!-- <form id="campaignsDetails" name="campaignsDetails" action="#"> -->
+        <div class="row ws-main-container">
+            <!-- TAB PROGRESS -->
+            <div class="col-md-12 p-0">
+                <div class="row">
+                    <div class="progress-bar-container">
+                        <div class="step" data-step_id="1">
+                            <div class="step-circle progress "><i class="material-icons">done_all</i></div>
+                            <div class="label">Basic Info</div>
+                        </div>
+                        <div class="step-line" data-step_id="1"></div>
+
+                        <div class="step" data-step_id="2">
+                            <div class="step-circle "><i class="material-icons">done_all</i></div>
+                            <div class="label">Conditions</div>
+                        </div>
+                        <div class="step-line" data-step_id="2"></div>
+
+                        <div class="step" data-step_id="3">
+                            <div class="step-circle "><i class="material-icons">done_all</i></div>
+                            <div class="label">Delivery Method</div>
+                        </div>
+                        <div class="step-line" data-step_id="3"></div>
+
+                        <div class="step" data-step_id="4">
+                            <div class="step-circle"><i class="material-icons">done_all</i></div>
+                            <div class="label">Actions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /TAB PROGRESS -->
+
+            <div class="col-md-12 ws-appointment-container">
+                <div class="list-row">
+                    <div class="right-layout">
+                        <div id="tab1" class="tab-contents basicDetails active-tab">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="campaign_name">Title <span class="error">*</span></label>
+                                                    <input id="campaign_name" type="text" class="form-control txtchange" name="campaign_name" value="<%=model.campaign_name%>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="">
+                                                <label for="campaign_details">Description</label>
+                                                <div id="campaign_details"><%=model.campaign_details%></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="target_audience">Target Audience<span class="error">*</span></label>
+                                                    <select for="target_audience" id="target_audience" name="target_audience" title="Target Audience" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                        <option value=""> Select Target Audience </option>
+                                                        <option class="" <% if(model.target_audience == 'app_users'){%> selected <%}%> value="app_users">Application Users</option>
+                                                        <option class="" <% if(model.target_audience == 'customers'){%> selected <%}%>  value="customers">Customer</option>
+                                                        <option class="" <% if(model.target_audience == 'leads'){%> selected <%}%>  value="leads">Leads </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="start_date">Start On <span class="error">*</span></label>
+                                                    <input id="start_date" type="text" class="form-control txtchange" name="start_date" value="<%=model.start_date%>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="end_on">End On <span class="error">*</span></label>
+                                                    <select for="end_on" id="end_on" name="end_on" title="End On" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                        <option value="">Select End On</option>
+                                                        <option <% if(model.end_on == 'no_end'){%> selected <%}%> value="no_end">No End</option>
+                                                        <option <% if(model.end_on == 'on_date'){%> selected <%}%> value="on_date">On Date</option>
+                                                        <option <% if(model.end_on == 'after_x_time'){%> selected <%}%> value="after_x_time">After X Time</option>
+                                                        <!-- <option <% if(model.end_on == 'specific_period'){%> selected <%}%> value="specific_period">Specific Period</option> -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                        <div class="col-md-12 end_on_date" <% if(model.end_on == 'on_date') { %> style="display: block;" <% }else{%> style="display: none;" <%}%> >
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="end_on_date">End On Date </label>
+                                                    <input id="end_on_date" type="text" class="form-control" name="end_on_date" value="<%=model.end_on_date%>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 end_after_time" <% if(model.end_on == 'after_x_time') { %> style="display: block;" <% }else{%> style="display: none;" <%}%> >
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="end_after_time">End After Time </label>
+                                                    <input id="end_after_time" type="text" class="form-control txtchange" name="end_after_time" value="<%=model.specific_period_data%>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group form-float mb-2">
+                                                <div class="form-line">
+                                                    <label for="execution_period">Execution Period <span class="error">*</span></label>
+                                                    <select for="execution_period" id="execution_period" name="execution_period" title="Execution Period" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                        <option value="">Select End On</option>
+                                                        <option <% if(model.execution_period == 'daily'){%> selected <%}%>  value="daily">Daily</option>
+                                                        <option <% if(model.execution_period == 'weekly'){%> selected <%}%>  value="weekly">Weekly</option>
+                                                        <option <% if(model.execution_period == 'monthly'){%> selected <%}%>  value="monthly">Monthly</option>
+                                                        <option <% if(model.execution_period == 'alternate_days'){%> selected <%}%>  value="alternate_days">Alternate days</option>
+                                                        <!-- <option <% if(model.execution_period == 'after_x_days'){%> selected <%}%>  value="after_x_days">After every X days</option> -->
+                                                        <!-- <option <% if(model.execution_period == 'custom'){%> selected <%}%>  value="custom">Custom</option> -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab2" class="tab-contents conditionsSelector"></div>
+                        <div id="tab3" class="tab-contents templateSelector"></div>
+                        <div id="tab4" class="tab-contents actionSelector"></div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </div>
+        <!-- ACTION BUTTON -->
+        <div class="text-right notification-action-bar actionBtns">
+            <div class="ws-wizard">
+                <div style="order: 1;">
+                    <button type="button" id="btn-pre" data-tab-action="prev" data-tab-prev="0" data-tab-current="1" data-tab-next="2" class="btn wizard" disabled><img src="images/prev_inactive.png"></button><!--previous-->
+                </div>
+                <div style="order: 2;">
+                    <button type="button" id="save" class="btn bg-indigo saveCampaignsDetails waves-effect hover-tooltip" style="display: none;" >Save<span class="tooltip-text">Tooltip</span></button>
+                    <button type="button" id="skip" class="btn bg-indigo saveCampaignsDetails waves-effect hover-tooltip" style="display: none;" >Skip<span class="tooltip-text">Tooltip</span></button>
+                    <button type="button" id="skip_save" class="btn bg-indigo saveCampaignsDetails waves-effect hover-tooltip" style="display: none;" >Skip & Save<span class="tooltip-text">Tooltip</span></button>
+                    <!-- <button type="button" id="skip&save" class="btn bg-indigo saveCampaignsDetails" data-action="new">Save & new</button> -->
+                    <button type="button" id="btn-next" data-tab-action="next" data-tab-prev="0" data-tab-current="1" data-tab-next="2" class="btn wizard"><img src="images/next_active.png"></button><!--btnNext-->
+                </div>
+            </div>
+        </div>
+    <!-- </form> -->
+</div>

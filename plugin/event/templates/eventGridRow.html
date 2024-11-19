@@ -1,0 +1,69 @@
+<div class="even pointer col-md-4 mb-4  bg-<%=eventDetails.attributes.status%>">
+  <div class="card-body eventGridCard"  data-event_id="<%= eventDetails.attributes.event_id %>">
+
+    <% if(eventDetails.attributes.event_image!="") {%>
+      <div class="cover_image loadview" data-event_id="<%=eventDetails.attributes.event_id%>" data-view="singleeventData">
+        <img id="event_image" src="<%=eventDetails.attributes.event_image%>" style="max-width: 100%; min-width:100%;">
+      </div>
+      <%}else{%>
+        <div class="default">
+          <img src = "<%=APPPATH%>images/no_img.jpg"/>
+        </div>
+       
+    <%}%>
+    
+    
+      
+
+    <div class="eventDetails">
+      <div class="eventDetailsTop">
+        <div class="contacPerson">
+          <i class="material-icons">
+            person
+          </i>
+          <span>
+            <%=eventDetails.attributes.contact_person_name%>
+          </span>
+         
+        </div>
+        <div class="contacPerson">
+          <i class="material-icons">
+            event
+          </i>
+          <%=eventDetails.attributes.created_date%>
+        </div>
+      </div>
+
+        <div class="course_name">
+          <%=eventDetails.attributes.title%>
+        </div>
+
+        <div class="course_description">
+          <%=eventDetails.attributes.description%>
+        </div>
+      
+
+        <div class="footerButton">
+          <% if (eventDetails.attributes.event_type=="site_event" ){%>
+            <button type="button" class="right loadview" data-toggle="tooltip" data-placement="top" data-content="Schedule"
+              data-startDate="<%=eventDetails.attributes.start_date%>" data-endDate="<%=eventDetails.attributes.end_date%>"
+              data-event_id="<%=eventDetails.attributes.event_id%>" data-eventName="<%=eventDetails.attributes.title%>"
+              data-event_scheduler_id="<%=eventDetails.attributes.event_scheduler_id%>" data-view="prepareeventschedule"><i
+                class="material-symbols-outlined">edit_calendar</i></button>
+            <%}%>
+          <button type="button" class="right loadview" data-toggle="tooltip" data-placement="top" data-content="Edit"
+            data-event_id="<%=eventDetails.attributes.event_id%>" data-view="singleeventData"><i
+            class="material-icons">mode_edit</i>
+          </button>
+          <button type="button"  class="changeStatusGrid deleteAll right" data-toggle="tooltip"
+                data-placement="top" data-content="Delete" data-action="delete" data-event_id="<%=eventDetails.attributes.event_id%>"><i class="material-icons">delete</i>
+          </button>
+      </div>
+       
+    </div>
+    
+    <!-- <div class="overlayEvent">
+     
+    </div> -->
+  </div>
+</div>

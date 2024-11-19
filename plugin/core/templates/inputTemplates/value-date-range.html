@@ -1,0 +1,25 @@
+<div class="col-md-12 value-date-range">
+  <%
+  var value = '';
+  if(dVal) {
+    console.log('dVal : ',dVal);
+    var value = dVal.value; value = value.split('/');
+  }%>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <input type="text" id="from_date" class="field_value form-control txtchange" placeholder="From Date" <% if(Array.isArray(value)){ %> value="<%=value[0]%>" <% } %> >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <input type="text" id="to_date" class="field_value form-control txtchange" placeholder="To Date" <% if(Array.isArray(value)){ %> value = "<%=value[1]%>" <% } %> >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

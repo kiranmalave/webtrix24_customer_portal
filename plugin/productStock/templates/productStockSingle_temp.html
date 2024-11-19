@@ -1,0 +1,188 @@
+<div class="tab-pane in active">
+  <form id="productStockDetails" name="productStockDetails" action="#">
+    <div class="text-right actionBtns">
+      <button type="button" class="btn bg-indigo saveProductStockDetails" data-action="close">Save</button>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div id="dynamicFormFields" class="dynamic-align"></div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="row">
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="purchase_number" style="cursor: not-allowed;" class="form-label">
+              <% if(model.purchase_number !=null ){%>Purchase Number:<%}else{%>Purchase Number Will Auto Generate<%}%>
+            </label>
+            <input type="text" name="purchase_number" autocomplete="off" id="purchase_number" class="form-control"
+              disabled value="<%=model.purchase_number%>" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="challan_number" class="form-label">Challan Number:</label>
+            <input type="text" name="challan_number" id="challan_number" autocomplete="off" class="form-control"
+              value="<%=model.challan_number%>" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="vender_id" class="form-label"> Select Vender :</label>
+            <select id="vender_id" name="vender_id" class="form-control dropval ws-select show-tick" title="Select Vendor">
+              <option value="">Select Vendor</option>
+              <% _.each(vendorList, function(vendor) { %>
+                <option <% if(vendor.attributes.vendor_id == model.vender_id){ %> selected <% } %> value="<%=vendor.attributes.vendor_id%>"><%=vendor.attributes.vendor_name%></option>
+              <%})%>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="purchase_date" class="form-label">Purchase Date:</label>
+            <input type="text" name="purchase_date" id="purchase_date" autocomplete="off" class="form-control"
+              value="<%=model.purchase_date%>" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="challan_date" class="form-label">Challan Date:</label>
+            <input type="text" name="challan_date" id="challan_date" class="form-control" autocomplete="off"
+              value="<%=model.challan_date%>" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="store_id" class="form-label"> Select Store :</label>
+            <select id="store_id" name="store_id" class="form-control dropval ws-select show-tick" title="Select Store">
+              <option value="">Select Store</option>
+              <option <% if(model.store_id=="1" ){ %>selected <% } %> value="1">Trimurty General</option>
+              <option <% if(model.store_id=="2" ){ %>selected <% } %> value="2">Dnyaneshwar General</option>
+              <option <% if(model.store_id=="3" ){ %>selected <% } %> value="3">Golden General</option>
+            </select>
+            <!-- <label for="store_id" class="form-label">Stock Inward At Store :</label>
+          <input type="text" name="store_id" id="store_id" class="form-control" value=""/> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-9 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="remark" class="form-label">Remark : </label>
+            <input type="text" autocomplete="off" name="remark" id="remark" class="form-control"
+              value="<%=model.remark%>" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- INVOICE TABLE -->
+    <div class="col-xs-12">
+      <table id="inward_table" class="table table-striped">
+        <tbody class="items-holder">
+          <tr id="item-header" class="text-center">
+            <th style="text-align: center;" >SR No.</th>
+            <th >Type</th>
+            <th colspan="2" style="width: 20%">Quantity.</th>
+            <th style="width: 4%"></th>
+          </tr>
+          <% if(model.purchase_id !='' && model.purchase_id !=null){ _.each(model.purchaseLine, function(modelLine) { %>
+            <tr id="item-<%=modelLine.sr_no%>" class="item-list-box">
+              <!-- SERIAL NO -->
+              <td class="sno"><%=modelLine.sr_no%></td>
+              <!-- PRODUCT/DESC -->
+              <td class="custom-dropdown">
+                  <div class="col-md-12 productDropdown nopadding">
+                      <div class="form-group form-float">
+                          <div class="form-line">
+                            <% if(model.narrList){ %>
+                              <% console.log('narrList : ',selfobj.model.get('narrList')); %>
+                                <% var prod= model.narrList.find((item)=> {return item.product_id == modelLine.product_id; }); } %>
+                                <% console.log('prod : ',prod); %>
+                                <% if(prod==undefined) {%>
+                                    <input autocomplete="off" id="narr_<%=modelLine.srNo%>" type="text" product_id="<%=modelLine.product_id%>" class="form-control pdChange ddcnt taskDate" name="narr_<%=modelLine.srNo%>" value="<%= modelLine.product_id%>" placeholder="Type here to search" />
+                                <% } else {%>
+                                    <input autocomplete="off" id="narr_<%=modelLine.srNo%>" type="text" product_id="<%=modelLine.product_id%>" class="form-control pdChange ddcnt taskDate" name="narr_<%=modelLine.srNo%>" value="<%=prod.product_name%>" placeholder="Type here to search" />
+                                <% } %>
+                                <div class="product-input"></div>
+                                <div id="productDropdown_<%=modelLine.srNo%>" class="dropdown-content custDrop" style="display: none;"></div>
+                          </div>
+                      </div>
+                  </div>
+              </td>
+              <!-- QTY & UNIT -->
+              <td>
+                <div class="">
+                  <div class="form-group form-float">
+                      <div class="form-line">
+                        <input <% if(modelLine.isEdit=='no' ){ %> disabled <% } %> type="text" name="itemQuantity_<%=modelLine.sr_no%>" id="itemQuantity_<%=modelLine.sr_no%>" class="form-control amtChange digits" value="<%=modelLine.product_qty%>">
+                      </div>
+                  </div>
+                </div>
+              </td>
+              <td class="text-right">
+                <div class="del-btn" style="display: none;">
+                  <button id="itemdel_<%=modelLine.sr_no%>" class="del-row btn btn-small btn-default"><img class="invoiceDeleteImg" src="images/deleteImg.png" /></button>
+                </div>
+              </td>
+            </tr>
+            <% }); }else{ %>
+              <tr id="item-1" class="item-list-box">
+                <!-- SERIAL NO -->
+                <td class="sno">1</td>
+                <!-- PRODUCT/DESC -->
+                <td class="custom-dropdown">
+                  <div class="col-md-12 productDropdown nopadding">
+                      <div class="form-group form-float">
+                          <div class="form-line">
+                              <input autocomplete="off" id="narr_1" type="text" class="form-control pdChange ddcnt taskDate" name="narr_1" value="" placeholder="Type here to search" />
+                              <div class="product-input"></div>
+                              <div id="productDropdown_1" class="dropdown-content custDrop" style="display: none;"></div>
+                          </div>
+                      </div>
+                  </div>
+                </td>
+                <!-- QTY & UNIT -->
+                <td>
+                  <div class="">
+                      <div class="form-group form-float">
+                          <div class="form-line">
+                              <input type="text" name="itemQuantity_1" id="itemQuantity_1" class="form-control amtChange" placeholder="0">
+                          </div>
+                      </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="del-btn" style="display: none;">
+                    <button id="itemdel_1" class="del-row btn btn-small btn-default"><img class="invoiceDeleteImg" src="images/deleteImg.png" /></button>
+                  </div>
+                </td>
+              </tr>
+              <% } %>
+        </tbody>
+      </table>
+      <div class="col-xs-12">
+        <div class="addRowClass">
+            <span>Click on</span>
+            <button id="addRow" class="btn btn-default" data-toggle="tooltip" data-placement="top"
+                data-content="Add Rows"><img src="images/addRow.png" /></button>
+            <span>to add more item</span>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+  </form>
+</div>

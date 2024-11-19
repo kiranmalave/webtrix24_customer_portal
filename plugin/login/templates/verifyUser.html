@@ -1,0 +1,61 @@
+
+  <div class="row">
+    <div class="col-md-6 col-12 logo-login-bg">
+      <div class="AppDetails">
+        <div id="owl-carousel" class="owl-carousel owl-theme">
+          <% _.each(slideList, function(model) { %>
+            <div class="item">
+              <div class="ItemDetails">
+                <img src="<%=model.attributes.image %>" alt="" />
+              </div>
+              <div class="ItemText">
+                <h4><%=model.attributes.title %></h4>
+                <p><%=model.attributes.description %> </p>
+              </div>
+            </div>
+          <%});%>
+        </div>
+      </div>
+      <!-- <div class="ws-logo-login"><img class="img-fluid" src="<%=APPPATH%>images/site/login-image.png"></div> -->
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="userVerification login_wrapper">
+        <div class="row login_row">
+          <div class="col-md-12 col-12">
+            <section class="login_content ws-login-form">
+              <a class="ws-forgot-link" href="#login">
+                <span class="material-symbols-outlined">
+                    arrow_left_alt
+                </span>
+                Back to Login
+              </a>
+              <form id="verifyUser" action="#">
+                <h2>Verify User</h2>
+                <div class="clearfix">&nbsp;</div>
+                <div class="ws-input-group mb-3">
+                  <label>Enter Password <span class="requiredField">*</span></label>
+                  <input id="password" name="password" type="password" class="ws-form-control txtchange"
+                  placeholder="Enter Password" />
+                  <a href="javascript:void(0)" class="showHidePassword">
+                    <span id="eyeIcon" class="material-symbols-outlined">visibility_off</span>
+                  </a>
+                </div>
+                <div class="ws-input-group mb-3">
+                  <label>Confirm Password <span class="requiredField">*</span></label>
+                  <input id="confirmPassword" name="confirmPassword" type="password" class="ws-form-control txtchange"
+                    placeholder="Confirm Password" />
+                  <a href="javascript:void(0)" class="showHidePassword">
+                    <span id="eyeIcon" class="material-symbols-outlined">visibility_off</span>
+                  </a>
+                </div>
+                <div class="ws-input-group mb-3">
+                  <button id="verifyCodeAndPass" class="btn btn-block submit ws-btn-primary checkotp"><span>Verify And
+                      Update</span></button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

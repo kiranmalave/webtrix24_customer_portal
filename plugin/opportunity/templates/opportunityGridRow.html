@@ -1,0 +1,68 @@
+<div class="leadopportunity" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>" >    
+    <div class="leadDetails" id="leadCard<%=opportunityDetails.attributes.opportunity_id%>" >
+        <div class="leadDetailsCard loadview" data-first_name="<%=opportunityDetails.attributes.first_name%>"  data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>" data-custMail="<%=opportunityDetails.attributes.email%>" data-view="singleopportunityData">
+            <div class="leadDetailsCardTop">
+                <div class="namedetails" style="display: flex;">
+                    <div class="image" style="padding-right :10px ;">
+                        <%if (opportunityDetails.attributes.opportunity_image == "" ){%>
+                            <span class="initial" style="background-color : <%=opportunityDetails.attributes.initialBgColor%>; color:<%=opportunityDetails.attributes.initialColor%>"><%=opportunityDetails.attributes.initial%> </span>
+                        <%}else{%>
+                            <img src="<%=opportunityDetails.attributes.opportunity_image%>" style=" width: 25px; height: 25px; border-radius: 50%;"/>
+                        <%}%>
+                    </div>
+                    <span><%=opportunityDetails.attributes.name%></span>
+                </div>
+                 <div class="recordType">
+                    <h6><%=opportunityDetails.attributes.record_type%></h6>
+                </div>
+              </div>
+            <div class="leadDetailsCardBody">
+                <h5 class="loadview opportunityEmail" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>" data-custMail="<%=opportunityDetails.attributes.email%>"  data-view="mail"><span><i class="material-icons">email</i></span>
+
+                    <% if(opportunityDetails.attributes.email !=""){%>
+                        <strong><%=opportunityDetails.attributes.email%></strong>
+                        <%} else {%>
+                        <strong>--</strong>
+                    <%}%>
+                </h5>
+                <p><span><i class="material-icons">call</i></span>
+                    <% if(opportunityDetails.attributes.mobile_no != ""){%>
+                         <strong><%=opportunityDetails.attributes.mobile_no%></strong>   
+                    <%} else {%>
+                        <strong>--</strong>
+                    <%}%>
+                </p>
+
+                <p>
+                    <% if(opportunityDetails.attributes.last_activity_type == "task"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=opportunityDetails.attributes.lastActivityTime%> 
+                    <%}else if(opportunityDetails.attributes.last_activity_type == "apointment"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=opportunityDetails.attributes.lastActivityTime%> 
+                    <%}else if(opportunityDetails.attributes.last_activity_type == "email"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=opportunityDetails.attributes.lastActivityTime%> 
+                    <%}else if(opportunityDetails.attributes.last_activity_type == "stage"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=opportunityDetails.attributes.lastActivityTime%> 
+                    <%}else if(opportunityDetails.attributes.last_activity_type == "" || opportunityDetails.attributes.last_activity_type == null){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <strong>-</strong>
+                    <%}%>
+
+                    <% if(opportunityDetails.attributes.assigneePhoto) { %>
+                        <img class="logoImgCls assigneePhoto" src="<%=PROFILEPHOTOUPLOAD%><%=opportunityDetails.attributes.assigneeID%>/profilePic/<%=opportunityDetails.attributes.assigneePhoto%>" data-toggle="tooltip" data-placement="top" data-content="Assignee">
+                    <% } else { %>
+                        <% if(opportunityDetails.attributes.assigneeInitial != "-"){%>
+                            <span class="logoImgCls assigneeInitial initial" data-toggle="tooltip" data-placement="top" data-content="Assignee"><%=opportunityDetails.attributes.assigneeInitial%></span>
+                        <%}%>
+                    <% } %>
+                </p>
+            </div>
+            <div class="leadDetailsCardfooter">
+                <button type="button" class="ws-btn-default loadview"  data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>" data-view="singleopportunityData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+            </div>
+        </div>
+    </div>
+ </div>

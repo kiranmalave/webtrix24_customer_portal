@@ -1,0 +1,49 @@
+<div class="noCustRec" id="noNotesAdded">
+    <div class="noCustRecDetails">
+      <div class="noCustRecPic">
+        <img src="images/noRecrds.png" alt="">
+      </div>
+      <div class="noCustRecText">
+        <h1>You haven’t added any note here</h1>
+        <div class="addRecords">Click here
+          <div class="buttonAdd">
+            <button type="button" class="ws-btn-default loadmodule" data-action="notes" data-toggle="tooltip" data-placement="top"  title="Add Notes"> <i class="material-icons">add</i></button>
+          </div>
+          to add Notes
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="container-fluid" id="notesMainDiv" style="display:none;">
+    <div class="row" style="margin-top: 15px;">
+    <% _.each(projectNotes, function(notes) { %>
+        <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body projectCard">
+            <div class="editNotesProject"><button type="button" class="ws-btn-default loadmodule" data-noteID="<%=notes.note_id%>" data-action="notes"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit Note">mode_edit</i></button><button type="button" class="ws-btn-default deleteProjectNote"  data-id="<%=notes.note_id%>" data-view="delete" data-toggle="tooltip" data-placement="top" data-content="Delete"><i class="material-icons">delete</i></button></div>
+            <h5 class="card-title"><%=notes.title%></h5>
+            <div class="card-text projectNotesDescription"><%=notes.note_desc%></div>
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted"><%=notes.created_date%></small>
+                <div class="d-flex align-items-center">
+                <% if(notes.photo=="" || notes.photo=="avatar-default.svg" || notes.photo==undefined) { %>
+                    <img src="<%=IMAGES%>/avatar-default.png" style="width: 22px; height: 22px;">
+                <% } else { %>
+                    <img src="<%=PROFILEPHOTOUPLOAD%><%=notes.created_by%>/profilePic/<%=notes.photo%>" class="rounded-circle me-2" style="width: 22px; height: 22px;">
+                <% } %>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    <%})%>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm" style="height: 120px;">
+                <div class="card-body loadmodule" data-action="notes" style="display: flex; justify-content: center; align-items:center;">
+                    <span class="material-icons">add</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

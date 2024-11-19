@@ -1,0 +1,8 @@
+<div class="form-group form-float position-relative dynamic-dd" style="display: none;">
+    <div class="form-line">
+        <label for="field_value" class="form-label">Field Value</label>
+        <input autocomplete="off" data-id="<%= options.id %>" id="field_value" data-plugIn="<%= options.linkedWith %>" data-in-type="linkedField" data-fieldID="<%= options.fieldID %>" data-fieldOpt="<%= options.fieldOptions %>"  type="text" class="form-control dvalChange" name="<%= options.column_name %>" data-selection="<%=options.allowMultiSelect%>" <% if(dVal && dVal.value != ''){ %> data-val="<%= dVal.value%>" <% } %> <% if(dVal && dVal.valueToShow != ''){ %>value="<%= dVal.valueToShow%>" <% } %>/>
+    </div>
+</div>
+<div id="field_<%= options.fieldID %>" class="dropdown-content fieldDrop"></div>
+

@@ -1,0 +1,55 @@
+<!-- <tr class="even pointer">
+  <td colspan="2">
+    <div class="row">
+      <div class="form-group form-float col-md-4">
+        <div class="form-line">
+          <input id="" type="text" class="form-control start_time <%=eventDetails.did%>_srpickV"
+            name="<%=eventDetails.did%>_ickV" value="<%=eventDetails.start_time%>">
+          <label for="start_time" class="form-label">Start Time</label>
+        </div>
+      </div>
+      <div class="dhash">-</div>
+      <div class="form-group form-float col-md-4">
+        <div class="form-line">
+          <input id="" type="text" class="form-control end_time <%=eventDetails.did%>_srpickV"
+            name="<%=eventDetails.did%>_ickV" value="<%=eventDetails.end_time%>">
+          <label for="end_time" class="form-label">End Time</label>
+        </div>
+      </div>
+      <div class="removeExtraSchedule">
+        <span type="button" data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+          <i class="material-icons">delete</i></span>
+      </div>
+    </div>
+  </td>
+</tr> -->
+
+
+<% _.each(eventDetails, function(timeSlot) { %>
+  <tr class="even pointer">
+    <!-- Your HTML structure for each time slot -->
+    <td colspan="2">
+      <div class="row evtTime">
+        <div class="form-group form-float col-md-4">
+          <div class="form-line">
+            <input id="" type="text" class="form-control start_time <%=eventDetails.did%>_srpickV" name="<%=did%>_ickV"
+              value="<%=timeSlot.startTime%>">
+            <label for="start_time" class="form-label">Start Time</label>
+          </div>
+        </div>
+        <div class="dhash">-</div>
+        <div class="form-group form-float col-md-4">
+          <div class="form-line">
+            <input id="" type="text" class="form-control end_time <%=eventDetails.did%>_srpickV" name="<%=did%>_ickV"
+              value="<%=timeSlot.endTime%>">
+            <label for="end_time" class="form-label">End Time</label>
+          </div>
+        </div>
+        <div class="removeExtraSchedule">
+          <span type="button" data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+            <i class="material-icons">delete</i></span>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <% }); %>

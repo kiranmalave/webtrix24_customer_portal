@@ -1,0 +1,14 @@
+<div class="even pointer col-md-4 mb-4  bg-<%=courseDetails.attributes.status%>">
+  <div class="card-body shadow ">
+    <div class="cover_image loadview"  data-course_id="<%=courseDetails.attributes.course_id%>" data-view="singleCourseData">
+      <img  id="profile_pic_view"  src=<%if(courseDetails.attributes.cover_image == ""){%> "http://localhost/projects/LMS/images/no_img.jpg"<%}else{%>"<%=courseDetails.attributes.cover_image%>"<%}%> style="max-width: 100%; min-width:100%;"> 
+    </div> 
+    <div class="course_name"><%=courseDetails.attributes.title%></div>
+    <div class="author"><%=courseDetails.attributes.author_id%></div>
+    <!-- <div class="course_paid small"><%=courseDetails.attributes.course_paid%></div> -->
+    <div class="course_price"> <%if(courseDetails.attributes.course_paid=="paid" && courseDetails.attributes.selling_price > 0){ if(courseDetails.attributes.discount>0){%><span>₹ <%=courseDetails.attributes.selling_price%></span><del class="pl-3 text-muted">₹ <%=courseDetails.attributes.amount%></del><span class="pl-3"><%=courseDetails.attributes.discount%>%-Off</span><%}else{%><span>₹ <%=courseDetails.attributes.amount%></span><%}}else{%>free<%}%> </div> 
+    <div><button type="button" class="ws-btn-default float-right loadview" data-toggle="tooltip"  data-placement="top" data-content="Design"  data-course_id="<%=courseDetails.attributes.course_id%>" data-view="singleSectionData"><i class="material-icons">aspect_ratio</i></button> </div>
+  </div>
+</div>
+</div>
+

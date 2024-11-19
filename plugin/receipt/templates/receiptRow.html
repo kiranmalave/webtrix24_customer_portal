@@ -1,0 +1,29 @@
+<tr class="even pointer demo-icon-container bg-<%=receiptDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= receiptDetails.attributes.receipt_id %>" class="memberlistcheck chk-col-amber deleteCard" data-receipt_id="<%= receiptDetails.attributes.receipt_id %>" data-status="<%=receiptDetails.attributes.status%>" type="checkbox">
+      <label for="cAll_<%= receiptDetails.attributes.receipt_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+  <td class="draglinerow truncateWidth loadview" data-receipt_id="<%=receiptDetails.attributes.receipt_id%>" data-view="singlereceiptData">
+    <div class="nametooltip truncateColumns">
+      <span class="td-highlight">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+        <%= receiptDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+        <%= receiptDetails.attributes["" + column.column_name] %>
+        <% } %>
+      </span>
+    </div>
+  </td>
+  <% }); %>
+  <td class="draglinerow">
+    <button type="button" class="ws-btn-default loadview" data-receipt_id="<%=receiptDetails.attributes.receipt_id%>" data-view="singlereceiptData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    <a href="<%=APIPATH%>printReceipt/<%=receiptDetails.attributes.receipt_id%>" target="_blank" data-toggle="tooltip" data-placement="top" data-content="Download" style="color: #5f6368;"><span class="material-symbols-outlined" data-toggle="tooltip" data-placement="top" data-content="Download Data">download</span></a>
+    <% console.log("thi is attachement",receiptDetails.attributes.attachement);%>
+    <% if(receiptDetails.attributes.attachement != ''){%>
+    <a href="<%=UPLOADS%>/receipts/<%=receiptDetails.attributes.receipt_id%>/<%=receiptDetails.attributes.attachement%>" target="_blank" data-toggle="tooltip" data-placement="top" data-content="View Attachment" style="color: #5f6368;"><span class="material-symbols-outlined">visibility</span></a>
+    <% } %>
+  </td>
+</tr>

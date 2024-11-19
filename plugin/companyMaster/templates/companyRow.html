@@ -1,0 +1,48 @@
+<tr class="even pointer bg-<%=companyDetails.attributes.status%>">
+  <% _.each(arrangedColumnList, function(column) { %>
+    <% if(column.column_name == "companyName" ) { %>
+    <td class="draglinerow truncateWidth loadview taskAction" data-infoID="<%=companyDetails.attributes.infoID%>" data-view="singleCompanyData">
+      <div class="companyNameDiv d-flex">
+        <span class="nametooltip truncateColumns"><%=companyDetails.attributes.companyName%></span>
+        <% if(companyDetails.attributes.is_duplicate == "yes"){%>
+          <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Please change the company name to avoid duplication."/>
+        <%}%>
+      </div>
+    </td>
+    <%}else{%>
+    <td class="draglinerow truncateWidth loadview taskAction" data-infoID="<%=companyDetails.attributes.infoID%>" data-view="singleCompanyData">
+      <div class="nametooltip truncateColumns">
+        <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%=companyDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+        <% }else { %>
+          <% if(companyDetails.attributes[""+column.column_name] == "" || companyDetails.attributes[""+column.column_name] == null){%>-<%}else{%><%=companyDetails.attributes[""+column.column_name]%><%}%>
+        <% } %>
+      </div>
+    </td>
+    
+    <% }}); %>
+      </td>
+      <td class="draglinerow">
+        <div style="position: relative;pointer-events: auto;">
+          <div class="showMoreMenuBtn dropleft" >
+            <button type="button" class="btn-bgColor showAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="material-symbols-outlined">more_vert</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li>
+                <a href="javascript:void(0);" class="loadview" title="Edit" data-infoID="<%=companyDetails.attributes.infoID%>" data-view="singleCompanyData"><i class="material-icons">mode_edit</i>Edit</a>
+              </li>
+              <!-- <li>
+                <a href="javascript:void(0);" class="copyContent" title="Copy" data-infoID="<%=companyDetails.attributes.infoID%>" data-view="singleCompanyData"><i class="material-icons">content_copy</i>Copy</a>
+              </li> -->
+              <li>
+                <a href="javascript:void(0);" class="hardDelete" data-infoID="<%=companyDetails.attributes.infoID%>" style="margin: 0;"><i class="material-icons">delete</i>Delete</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- <button type="button" class="ws-btn-default loadview"   data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+        <button class="ws-btn-default copyContent" data-infoID="<%=companyDetails.attributes.infoID%>" data-toggle="tooltip" data-placement="top" data-content="Copy"><i class="material-icons">content_copy</i></button>
+        <button class="ws-btn-default " data-infoID="<%=companyDetails.attributes.infoID%>" data-toggle="tooltip" data-placement="top" data-content="Delete"><i class="material-icons">delete</i></button> -->
+      </td>
+</tr>

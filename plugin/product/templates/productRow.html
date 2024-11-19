@@ -1,0 +1,22 @@
+<tr class="even pointer bg-<%=productDetails.attributes.status2%>" data-product_id="<%=productDetails.attributes.product_id%>" data-view="singleProductData">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= productDetails.attributes.product_id%>" class="memberlistcheck chk-col-amber deleteCard"
+        data-product_id="<%= productDetails.attributes.product_id %>" type="checkbox">
+      <label for="cAll_<%= productDetails.attributes.product_id%>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow loadview" data-product_id="<%=productDetails.attributes.product_id%>" data-view="singleProductData">
+      <span class="td-highlight"><% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+        <%= productDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+          <% } else { %>
+            <%= productDetails.attributes["" + column.column_name] %>
+              <% } %>
+      </span>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-product_id="<%=productDetails.attributes.product_id%>" data-view="singleProductData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+      </td>
+</tr>

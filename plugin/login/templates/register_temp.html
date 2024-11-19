@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-5 col-12 logo-login-bg">
+    <div class="AppDetails">
+      <div id="owl-carousel" class="owl-carousel owl-theme">
+        <% _.each(slideList, function(model) { %>
+          <div class="item">
+            <div class="ItemDetails">
+              <img src="<%=model.attributes.image %>" alt="" />
+            </div>
+            <div class="ItemText">
+              <h4><%=model.attributes.title %></h4>
+              <p><%=model.attributes.description %> </p>
+            </div>
+          </div>
+          <%});%>
+      </div>
+    </div>
+    <!-- <div class="ws-logo-login"><img class="img-fluid" src="<%=APPPATH%>images/site/login-image.png"></div> -->
+  </div>
+  <div class="col-md-7 col-12">
+    <div class="login_wrapper">
+      <div class="row login_row">
+        <div class="col-md-12 col-12">
+          <section class="login_content ws-login-form">
+            <form id="getUserDetails" action="#">
+              <h2>Get Started for Free</h2> <!--Welcome Back..!-->
+              <p class="mb-4">Unlock the power of CRM to streamline processes, enhance customer engagement, and drive business growth. Automate tasks, personalize interactions, and make data-driven decisions to strengthen relationships and boost efficiency.</p>
+              <div class="ws-input-group mb-4">
+                <label class="mb-0">Name <span class="error">*</span></label>
+                <input id="txt_fname" name="txt_fname" type="text" class="ws-form-control" required="" aria-label="Fname" aria-describedby="basic-addon1">
+              </div>
+              <div class="ws-input-group mb-4">
+                <label class="mb-0">Email <span class="error">*</span></label>
+                <input id="txt_email" name="txt_email" type="text" class="ws-form-control" required="" aria-label="email" aria-describedby="basic-addon1">
+              </div>
+              <div class="ws-input-group mb-4">
+                <label class="mb-0">Phone Number<span class="error">*</span></label>
+                <div class="reg-country">
+                  <div>
+                    <select id="countryCode" name="countryCode" for="countryCode" class="form-control ws-select show-tick repeatChange backgroundHide txtcolor dropval countrySelect" data-live-search="true" title="Ext">
+                      <% _.each(countryExtList, function(country) { %>
+                          <option <% if("+91" == country.value ){ %> selected <%}%> value="<%=country.value%>"><%=country.label%></option>
+                      <%})%>
+                    </select>
+                  </div>
+                  <div>
+                    <input id="txt_phone" name="txt_phone" type="text" class="ws-form-control" maxlength="12" required="" aria-label="Fname" aria-describedby="basic-addon1">
+                  </div>
+                </div>
+              </div>
+              <div class="ws-input-group mb-3">
+                <label for="txt_checkbox">By registering, you accept the Webtrix24 <a href="#">Terms of Use</a> and agree to the <a hre="#">Privacy Policy.</a></label>
+              </div>
+              <div class="ws-input-group mb-3 d-flex loginRegBtn">
+                <button id="user-login" class="btn btn-block submit ws-btn-primary"><span>Get Started</span></button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

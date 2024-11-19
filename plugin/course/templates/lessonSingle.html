@@ -1,0 +1,412 @@
+<div class="tab-pane in active lessonView_<%=model.lesson_id%>">
+    <form id="lessonDetails" name="lessonDetails" action="#">
+       
+
+    <div class="text-right actionBtns">
+        <button type="button" data-courseID="<%=model.course_id%>" data-sectionID="<%=model.course_id%>" class="btn bg-indigo saveLessonDetails" data-action="close">Save</button>
+        <button type="button" class="btn bg-indigo saveLessonDetails" data-action="new">Save & new</button>
+    </div>
+    <div class="row ws-main-container">
+        <div class="col-md-8">
+            <div class="clearfix">&nbsp;</div>
+            <div class="list-row">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                    </div>
+                </div>
+                <div class="right-layout">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" class="form-control txtchange" id="lesson_title"
+                                        name="lesson_title" value="<%=model.lesson_title%>">
+                                    <label for="lesson_title" class="form-label">Title</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-row">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                        <span class="input-group-addon lg"><i class="material-icons">description</i></span>
+                    </div>
+                </div>
+                <div class="right-layout mb-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="introduction">Description</label>
+                            <div id="introduction" class="form-control" name="introduction">
+                                <%=model.introduction%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix mt-3">&nbsp;</div>
+            <!-- <div class="list-row mt-5">
+                    <div class="icon-left" style="margin-top:10px;">
+                        <div class="ws-icon">
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="switch">
+                                    <label>
+                                    <input type="checkbox" id="ig_checkbox"  name="paid_checkbox" >
+                                    <span class="lever switch-col-indigo"></span>Make this a Free Lesson</label>
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                </div> -->
+            <div class="list-row mt-4">
+                <div class="icon-left">
+                    <div class="ws-icon" style="margin-top:10px;">
+                        <span class="input-group-addon lg"><i class="material-icons">attach_file</i></span>
+                    </div>
+                </div>
+                <div class="right-layout">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="file_type">
+                                <ul class="item-container" data-valid="upload_type">
+                                    <li class="upload_type multiSel <%if(model.upload_type == 'pdf' || model.upload_type == 'image'||model.upload_type =='document' ){%> active<%}%>" data-single="Y" data-value="pdf">PDF/Image/Document</li>
+                                    <li class="upload_type multiSel <%if(model.upload_type == 'video' ){%> active<%}%>" data-single="Y" data-value="video">Video</li>
+                                    <li class="upload_type multiSel <%if(model.upload_type == 'live' ){%> active<%}%>" data-single="Y" data-value="live">Live Class</li>
+                                    <li class="upload_type multiSel<%if(model.upload_type == 'custom_link'){%> active<%}%>" data-single="Y" data-value="custom_link">Custom Links</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="list-row">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                    </div>
+                </div>
+                <div class="right-layout">
+                    <div class="row">
+                        <div class="col-md-12 ws-datatype" style="display: none;">
+                            <ul class="ws-endMultiselect d-flex" data-valid="video_type">
+                                <li class="video_type multiSel ml-2" data-single="Y" data-value="youtube">
+                                    <input name="group5" type="radio" id="youtube"
+                                        class="with-gap radio-col-blue dropval" value="youtube"
+                                        <%if(model.video_type=="youtube" ){%> checked <%}%> />
+                                        <label for="youtube">Youtube</label>
+                                </li>
+                                <li class="video_type multiSel ml-2" data-single="Y" data-value="vimeo">
+                                    <input name="group5" type="radio" id="vimeo" class="with-gap radio-col-blue dropval"
+                                        value="vimeo" <%if(model.video_type=="vimeo" ){%> checked <%}%>/>
+                                        <label for="vimeo">VIEMO</label>
+                                </li>
+                                <li class="video_type multiSel ml-2" data-single="Y" data-value="frame">
+                                    <input name="group5" type="radio" id="frame" class="with-gap radio-col-blue dropval"
+                                        value="frame" <%if(model.video_type=="frame" ){%> checked <%}%>/>
+                                        <label for="frame">In Frame</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12  ws-live_type" style="display: none;">
+                            <ul class="ws-endMultiselect d-flex" data-valid="live_type">
+                                <li class="live_type multiSel" data-single="Y" data-value="live_class">
+                                    <input name="group5" type="radio" id="live_class"
+                                        class="with-gap radio-col-blue dropval" value="live_class"
+                                        <%if(model.live_type=="live_class" ){%> checked <%}%> />
+                                        <label for="live_class">Live Class</label>
+                                </li>
+                                <li class="live_type multiSel ml-1" data-single="Y" data-value="webinar">
+                                    <input name="group5" type="radio" id="webinar"
+                                        class="with-gap radio-col-blue dropval" value="webinar"
+                                        <%if(model.live_type=="webinar" ){%> checked <%}%> />
+                                        <label for="webinar">Webinar</label>
+                                </li>
+                                <li class="live_type multiSel ml-1" data-single="Y" data-value="youtube_class">
+                                    <input name="group5" type="radio" id="youtube_class"
+                                        class="with-gap radio-col-blue dropval" value="youtube_class"
+                                        <%if(model.live_type=="youtube_class" ){%> checked <%}%> />
+                                        <label for="youtube_class">Youtube</label>
+                                </li>
+                                <li class="live_type multiSel ml-1" data-single="Y" data-value="meeting">
+                                    <input name="group5" type="radio" id="meeting"
+                                        class="with-gap radio-col-blue dropval" value="meeting"
+                                        <%if(model.live_type=="meeting" ){%> checked <%}%> />
+                                        <label for="meeting">Zoom Meeting</label>
+                                </li>
+                                <li class="live_type multiSel ml-1" data-single="Y" data-value="zoom_webinar">
+                                    <input name="group5" type="radio" id="zoom_webinar"
+                                        class="with-gap radio-col-blue dropval" value="zoom_webinar"
+                                        <%if(model.live_type=="zoom_webinar" ){%> checked <%}%> />
+                                        <label for="zoom_webinar">Zoom Webinar</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-row">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                    </div>
+                </div>
+                <div class="right-layout">
+                    <div class="row">
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 ws-custom_link" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="custom_link_title" name="custom_link_title" type="text"
+                                        class="form-control txtchange" value="<%=model.custom_link_title%>">
+                                    <label for="custom_link_title" class="form-label">Title</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="custom_link" name="custom_link" type="text"
+                                        class="form-control txtchange" value="<%=model.custom_link%>">
+                                    <label for="custom_link" class="form-label">Custom Link</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-youtube" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="youtube_link" name="youtube_link" type="text"
+                                        class="form-control txtchange" value="<%=model.youtube_link%>">
+                                    <label for="youtube_link" class="form-label">Youtube Link</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="youtube_title" name="youtube_title" type="text"
+                                        class="form-control txtchange" value="<%=model.youtube_title%>">
+                                    <label for="youtube_title" class="form-label">Youtube Title</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-vimeo" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="viemo_link" name="viemo_link" type="text" class="form-control txtchange"
+                                        value="<%=model.viemo_link%>">
+                                    <label for="viemo_link" class="form-label">VIEMO Link</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="viemo_title" name="viemo_title" type="text"
+                                        class="form-control txtchange" value="<%=model.viemo_title%>">
+                                    <label for="viemo_title" class="form-label">VIEMO Title</label>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <div class="col-md-12 ws-live_class" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="class_title" name="class_title" type="text"
+                                        class="form-control txtchange" value="<%=model.class_title%>">
+                                    <label for="class_title" class="form-label">Class Title</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-webinar" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="webinar_title" name="webinar_title" type="text"
+                                        class="form-control txtchange" value="<%=model.webinar_title%>">
+                                    <label for="webinar_title" class="form-label">Webinar Title</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-youtube_class" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="youtubelive_title" name="youtubelive_title" type="text"
+                                        class="form-control txtchange" value="<%=model.youtubelive_title%>">
+                                    <label for="youtubelive_title" class="form-label">Youtube Title</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="youtube_live" type="text" class="form-control txtchange"
+                                        name="youtube_live" value="<%=model.youtube_live%>">
+                                    <label for="youtube_live" class="form-label"> Youtube Link</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-meeting" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" name="meeting_title" id="meeting_title"
+                                        class="form-control txtchange" value="<%=model.meeting_title%>">
+                                    <label for="meeting_title" class="form-label">Meeting Title</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="number" name="duration" id="duration" class="form-control txtchange"
+                                        value="<%=model.duration%>">
+                                    <label for="duration" class="form-label">Duration (in minutes)</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="password" id="password" class="form-control txtchange" name="password"
+                                        value="<%=model.password%>">
+                                    <label for="password" class="form-label">Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-zoom_webinar" style="display: none;">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="zoom_webinar" name="zoom_webinar" type="text"
+                                        class="form-control txtchange" value="<%=model.zoom_webinar%>">
+                                    <label for="zoom_webinar" class="form-label">Zoom Webinar Title</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="number" class="form-control txtchange" id="webinar_number"
+                                        name="webinar_number" value="<%=model.duration%>">
+                                    <label for="webinar_number" class="form-label">Duration (in minutes)</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="password" id="password" class="form-control txtchange" name="password"
+                                        required="" aria-required="true" value="<%=model.webinar_password%>">
+                                    <label for="password" class="form-label">Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-start-available" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group input-group form-float">
+                                        <div class="form-line">
+                                            <input id="start_date" type="text" class="form-control txtchange start_date"
+                                                name="start_date" value="<%=model.start_date%>"
+                                                data-provide="datepicker">
+                                            <label for="start_date" class="form-label">Available Start Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ws-startTime">
+                                    <div class="form-group input-group form-float">
+                                        <div class="form-line">
+                                            <input id="start_time" type="text" class="form-control txtchange"
+                                                name="start_time" value="<%=model.start_time%>">
+                                            <label for="start_time" class="form-label">Available Start Time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ws-end-available mb-4" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group input-group form-float">
+                                        <div class="form-line">
+                                            <input id="end_date" type="text" class="form-control txtchange end_date"
+                                                name="end_date" value="<%=model.end_date%>" data-provide="datepicker">
+                                            <label for="end_date" class="form-label">Avilable End Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ws-EndTime">
+                                    <div class="form-group input-group form-float">
+                                        <div class="form-line">
+                                            <input id="end_time" type="text" class="form-control txtchange"
+                                                name="end_time" value="<%=model.end_time%>">
+                                            <label for="end_time" class="form-label">Avilable End Time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ws-assignee-container border-left">
+            <div class="row">
+                <div class="clearfix">&nbsp;</div>
+                <div class="col-md-12 ws-assignee-column">
+                    <input id="typehead1" class="btn loadMedia" type="button" value="Cover Photo" name="cover_image"
+                        data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                    <!--  <input type="file" multiple class="btn btn-default btn__action" id="fileupload1" />
+-->
+                </div>
+                <div class="col-md-12 mt-5">
+                    <% if(model.cover_image !="" ) {%>
+                        <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.cover_image%>">
+                        <%}else{%>
+                            No image uploaded.
+                            <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="row ws-main-container">
+        <div class="col-md-8">
+            <div class="list-row">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                    </div>
+                </div>
+                <div class="right-layout">
+                    <div class="col-md-12 ws-dragbox" style="display:none;">
+                        <div class="col-md-12 ws-assignee-column">
+                            <div class="clearfix">&nbsp;
+                                <!-- <input id="typehead" class="btn loadMedia" type="button" value="Upload" name="lesson_image"
+                                        data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal"> -->
+                                <input type="file" multiple class="btn btn-default btn__action" id="fileupload" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-5 row">
+                            <% _.each(media,function(fmedia){%>
+                                <div class="thumbnail">
+                                    <div class="centered">
+                                        <% let ff=fmedia.file_name; let fName=ff.split("."); if (-1<$.inArray( fName[2],
+                                            [ 'mp4' ,'mov','avi','3gp' ] )) fName[2]='gif' ; %>
+                                            <img class="img-fluid fileImage img-thumbnail" src="<%=ppath%>/course/<%=fmedia.course_id%>/<%=section%><% if(model.lesson_id != ""){%>/<%=fmedia.lesson_id%>/<%=fName[0]+'.'+fName[1]%><%}else{%>temp-<%=fmedia.course_id%>-<%=section%>/<%=fName[0]+'.'+fName[1]%><%}%>" alt="">
+                                    </div>
+                                </div>
+                                <%})%>
+                        </div>
+                        <!-- <input  type="file" multiple class="btn btn-default btn__action" id="fileupload"/> -->
+                    </div>
+                    <!-- <div class="row">
+                            <div class="col-md-12 ws-dragbox" style="display: none;">
+                            </div>
+                        </div> -->
+                </div>
+                <div class="col-md-12 ws-dragbox1" style="display: none;">
+                    <div class="col-md-12 mt-5 ws-assignee-column">
+                        <div class="clearfix">&nbsp;
+                            <!-- <input id="typehead2" class="btn loadMedia" type="button" value="Upload"
+                                    name="inframe_image" data-change="ws-bg-image" data-toggle="modal"
+                                    data-target="#largeModal2"> -->
+                            <input type="file" multiple class="btn btn-default btn__action" id="fileupload2" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-5">
+                        <% if(model.course_file !="" ) {%>
+                            <video id="inframe_pic_view" style="max-width: 100%;" src="<%=ppath%>/course/<%=courseID%>/<%=section%>/<%=lesson%>/<%=model.course_file%>">
+                            <%}else{%>
+                                No video uploaded.
+                                <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

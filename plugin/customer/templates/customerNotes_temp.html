@@ -1,0 +1,59 @@
+<div class="modal-dialog forNote" role="document" style="margin: 0;">   
+    <form id="customerNotes" name="customerNotes" action="#">
+        <div class="row tableNoteDetails">
+            <div class="tableDetails col-md-4">
+                <div class="notestHeader">
+                    <div class="form-group form-float">
+                        <div class="form-line focused notestHeading">
+                            <!-- <label class="form-label">Note for :</label> -->
+                            <!-- <input type="text" class="form-control noteText" disabled value="<%=name%>"> -->
+                            <span><%=name%>'s Notes</span>
+                        </div>
+                    </div>
+                    <button type="button" class="ws-btn-default newNote" title="New note"><i class="material-icons">add</i></button>
+                </div>
+                <div class="table_notes">
+                    <table id="list" class="table bulk_action tableList table-hover">
+                        <tbody id="notesRow"></tbody>
+                    </table>
+                </div>
+                
+            </div>
+            <div class="noteDetails col-md-8">
+                <div class="noteDetailsHeading">
+                    <div class="col-md-12">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="title" class="form-control txtchange" name="title" placeholder="Title" tabindex="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="noteDetailsBody">
+                    <label id="notesDescription" for="description" class="mb-3"></label>
+                    <div id="notes_description1" class="form-control txtchange" tabindex="2"></div>
+                </div>
+                
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer noteFooter">
+        <div class="text-right notesFooterButtons">
+            <div class="form-group input-group form-float">
+                <div class="form-line ">
+                    <input id="reminder_date" type="text" class="form-control txtchange reminderDate" readonly name="reminder_date" value="">
+                    <label for="reminder_date" class="form-label">Reminder Date</label>
+                </div>
+            </div>
+            <!-- <div class="form-group input-group form-float">
+                <div class="form-line">
+                    <input id="reminder_time" type="text" class="form-control" name="reminder_time" value="" style="background: none;">
+                    <label for="reminder_time" class="form-label">Reminder Time</label>
+                </div>
+            </div> -->
+            <button id="saveNotes" name="post" data- id="post" type="button" class="btn bg-indigo saveNote" data-action="cput" style="height: 30px;">Save</button>
+            <button type="button" class="btn bg-indigo closeModal" style="height: 30px;">Close</button>
+        </div>
+    </div>
+</div>

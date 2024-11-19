@@ -1,0 +1,17 @@
+<div class="col-md-12 date-conditions" > 
+  <div class="form-group form-float">
+    <div class="form-line">
+        <select id="condition" class="form-control dropval changeBox"  name="condition">
+          <option class="addNew" value="">Select Condition</option>
+          <%_.each(conditionList,function(condition){%>
+            <% if(dVal) { %> 
+              <option <% if(dVal.condition == condition.value ){ %> selected <% } %>  value="<%=condition.value%>"><%=condition.label%></option> 
+            <% }else{%>  
+              <option value="<%=condition.value%>"><%=condition.label%></option>
+            <% } %>
+          <%});%>
+        </select>
+    </div>
+  </div>
+</div>
+

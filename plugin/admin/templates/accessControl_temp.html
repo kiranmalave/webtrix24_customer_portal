@@ -1,0 +1,279 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="body">
+          <div class="header">
+            <div class="row">
+              <div class="col-md-6">
+                <h2>Access Control<small>Manage user role access</small> </h2>
+              </div>
+              <div class="col-md-6 mt-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class=" menu-search-div" <% if(accessDetails.roleID == undefined){ %> style="display: none;" <% } %> >
+                      <div class="form-line focused">
+                        <input style="min-width:50px;" id="moduleSearch" type="text" class="form-control freeTextSearch" autocomplete="off" name="" placeholder="Search Modules" value="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <select id="roleID" name="roleID" class="form-control dropval select-access">
+                      <option value="">Select Role</option>
+                      <% _.each(accessDetails.roleList, function(model) { %>
+                        <% if (model.slug !== "super_admin") { %>
+                          <option <% if (model.roleID == accessDetails.roleID) { %> selected <% } %> value="<%= model.roleID %>"><%=model.roleName %></option>
+                        <% } %>
+                      <%}); %>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <button id="saveAccessDetails" type="button" class="btn bg-indigo waves-effect" disabled >Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row customTableClass">
+            <%if(accessDetails.models.length> 0) { %>
+              <div id="moduleTable" class="access-control-list ws-data-rows">
+                <div class="accordion-item head">
+                  <div class="row">
+                    <div class="col-md-2"><span class="title">Module</span></div>
+                    <% if(ROLESLUG == "super_admin"){ %>
+                    <div class="col-md-2 row-item">
+                      <span><span class="title">Module Access</span>
+                        <div class="switch">
+                          <label>
+                            <input class="moduleAccessToggle" type="checkbox" data-column="module_access" data-universal="yes">
+                            <span class="lever switch-col-indigo"></span>
+                          </label>
+                        </div>
+                      </span>
+                    </div>
+                    <%} %>
+                    <div class="col-md-2 row-item">
+                      <span><span class="title">View</span>
+                        <div class="switch">
+                          <label>
+                            <input class="moduleAccessToggle" type="checkbox" data-column="view" data-universal="yes" >
+                            <span class="lever switch-col-indigo"></span>
+                          </label>
+                        </div>
+                    </span>
+                    </div>
+                    <div class="col-md-2 row-item">
+                      <span><span class="title">Add</span>
+                        <div class="switch">
+                          <label>
+                            <input class="moduleAccessToggle" type="checkbox" data-column="add" data-universal="yes" >
+                            <span class="lever switch-col-indigo"></span>
+                          </label>
+                        </div>
+                      </span>
+                    </div>
+                    <div class="col-md-2 row-item">
+                      <span><span class="title">Edit</span>
+                      <div class="switch">
+                        <label>
+                          <input class="moduleAccessToggle" type="checkbox" data-column="edit" data-universal="yes">
+                          <span class="lever switch-col-indigo"></span>
+                        </label>
+                      </div>
+                      </span>
+                    </div>
+                    <div class="col-md-2 row-item">
+                      <span><span class="title">Delete</span>
+                      <div class="switch">
+                        <label>
+                          <input class="moduleAccessToggle" type="checkbox" data-column="delete" data-universal="yes">
+                          <span class="lever switch-col-indigo"></span>
+                        </label>
+                      </div>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion ws-data-rows" id="accordionExample">
+                  <% _.each(accessDetails.models, function(model) { %>
+                    <% if(model.attributes.module_access == "yes" || ROLESLUG == "super_admin"){ %>
+                        <% if(model.attributes.subMenu.length > 0) { %>
+                          <div class="accordion-item item-row row" data-search-module="<%=model.attributes.menuName%>">
+                            <div data-toggle="collapse" data-target="#ws-acc-<%=model.attributes.menuID%>" aria-expanded="true" aria-controls="ws-acc-<%=model.attributes.menuID%>" class="col-md-2">
+                              <h4><%=model.attributes.menuName%></h4>
+                            </div>
+                            <div data-toggle="collapse" data-target="#ws-acc-<%=model.attributes.menuID%>" aria-expanded="true" aria-controls="ws-acc-<%=model.attributes.menuID%>" class="show-close">
+                             <span class="material-icons show">keyboard_arrow_down</span>
+                            </div>
+                            <% if(ROLESLUG == "super_admin"){ %>
+                            <div class="col-md-2 row-item module_access">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="module_access" data-modelID="<%=model.attributes.menuID%>" data-inID="module_access" <% if(model.attributes.module_access=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <% } %>
+                            <div class="col-md-2 row-item view">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="view" data-modelID="<%=model.attributes.menuID%>" data-inID="view" <% if(model.attributes.view=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 row-item add">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="add" data-modelID="<%=model.attributes.menuID%>" data-inID="add" <% if(model.attributes.view=='no' ) { %> disabled <% } %> <% if(model.attributes.add=='yes' ) { %> checked <% } %> >
+                                  <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 row-item edit">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="edit" data-modelID="<%=model.attributes.menuID%>" data-inID="edit" <% if(model.attributes.view=='no' ) { %> disabled <% } %> <% if(model.attributes.edit=='yes' ) { %> checked <% } %> >
+                                  <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 row-item delete">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="delete" data-modelID="<%=model.attributes.menuID%>" data-inID="delete" <% if(model.attributes.view=='no' ) { %> disabled <% } %> <% if(model.attributes.delete=='yes' ) { %> checked <% } %> >
+                                  <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="subItem " data-parent-module="<%=model.attributes.menuName%>">
+                          <% _.each(model.attributes.subMenu, function(model2) { %>
+                            <% if(model2.module_access == "yes" || ROLESLUG == "super_admin"){ %>
+                            <div id="ws-acc-<%=model.attributes.menuID%>" class="collapse item-row row" data-search-module="<%=model2.menuName%>" aria-labelledby="ws-acc-<%=model.attributes.menuID%>" data-parent="#accordionExample" >
+                              <div class="col-md-2 submenu">
+                                <%=model2.menuName%>
+                              </div>
+                              <% if(ROLESLUG == "super_admin"){ %>
+                              <div class="col-md-2 row-item module_access">
+                                <div class="switch">
+                                  <label>
+                                    <input class="moduleAccessToggle" data-column="module_access" type="checkbox" data-modelID="<%=model2.menuID%>" <% if(model2.module_access=='yes') { %> checked <% } %> >
+                                      <span class="lever switch-col-indigo"></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <% } %>
+                              <div class="col-md-2 row-item view">
+                                <div class="switch">
+                                  <label>
+                                    <input class="moduleAccessToggle" type="checkbox" data-column="view" data-modelID="<%=model2.menuID%>" <% if(model2.module_access=='no') { %> disabled <% } %> <% if(model2.view=='yes' ) { %> checked <% } %> >
+                                      <span class="lever switch-col-indigo"></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-md-2 row-item add">
+                                <div class="switch">
+                                  <label>
+                                    <input class="moduleAccessToggle" type="checkbox" data-column="add" data-modelID="<%=model2.menuID%>" <% if(model2.view=='no') { %> disabled <% } %> <% if(model2.add=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-md-2 row-item edit">
+                                <div class="switch">
+                                  <label>
+                                    <input class="moduleAccessToggle" type="checkbox" data-column="edit" data-modelID="<%=model2.menuID%>" <% if(model2.view=='no' ) { %> disabled <% } %> <% if(model2.edit=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-md-2 row-item delete">
+                                <div class="switch">
+                                  <label>
+                                    <input class="moduleAccessToggle" type="checkbox" data-column="delete" data-modelID="<%=model2.menuID%>" <% if(model2.view=='no' ) { %> disabled <% } %> <% if(model2.delete=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <% } %>
+                            <%});%>
+                          </div>
+                        <% } else { %> 
+                          <% if(model.attributes.module_access == "yes" || ROLESLUG == "super_admin"){ %>
+                          <div class="row accordion-item item-row" data-search-module="<%=model.attributes.menuName%>">
+                            <div class="col-md-2 ">
+                              <h4><%=model.attributes.menuName%></h4>
+                            </div>
+                            <% if(ROLESLUG == "super_admin"){ %>
+                            <div class="col-md-2 row-item module_access">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="module_access" data-modelID="<%=model.attributes.menuID%>" data-inID="module_access" <% if(model.attributes.module_access=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <% } %>
+                            <div class="col-md-2 row-item view">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="view" data-modelID="<%=model.attributes.menuID%>" data-inID="view" <% if(model.attributes.module_access=='no' ) { %> disabled <% } %> <% if(model.attributes.view=='yes' ) { %> checked <% } %> >
+                                    <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 row-item add">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="add" data-modelID="<%=model.attributes.menuID%>" data-inID="add" <% if(model.attributes.view=='no' ) { %> disabled <% } %> <% if(model.attributes.add=='yes' ) { %> checked <% } %> >
+                                  <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 row-item edit">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="edit" data-modelID="<%=model.attributes.menuID%>" data-inID="edit" <% if(model.attributes.view=='no' ) { %> disabled <% } %> <% if(model.attributes.edit=='yes' ) { %> checked <% } %> >
+                                  <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 row-item delete">
+                              <div class="switch">
+                                <label>
+                                  <input class="moduleAccessToggle" type="checkbox" data-column="delete" data-modelID="<%=model.attributes.menuID%>" data-inID="delete" <% if(model.attributes.view=='no' ) { %> disabled <% } %> <% if(model.attributes.delete=='yes' ) { %> checked <% } %> >
+                                  <span class="lever switch-col-indigo"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        <% } } %>
+                    <% 
+                  } }); %>
+
+                </tbody>
+              </table>
+              <div class="noCustRec noDataFound" style="display: none;">
+                <div class="noCustRecDetails">
+                  <div class="noCustRecPic">
+                    <img src="images/noSearchData.jpeg" alt="">
+                  </div>
+                  <div class="noCustRecText">
+                    <h1>No Records Found Matching Your Search</h1>
+                  </div>
+                </div>
+              </div>
+              <%}else{%>
+                <div class="dataTables_info text-center" style="width: 100%;"><span class="page-info text-center"></span></div>
+                <% } %>
+          </div>
+        </div>
+        <div id="loadMember" data-index="1" data-currPage="1"></div>
+      </div>
+    </div>
+  </div>
+</div>

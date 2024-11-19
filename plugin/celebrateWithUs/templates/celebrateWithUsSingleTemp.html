@@ -1,0 +1,174 @@
+<div class="tab-pane in active">
+    <form id="celebrateWithUsDetails" name="celebrateWithUsDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo savecelebrateWithUsDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo savecelebrateWithUsDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="row ws-appointment-main-container">
+            <div class="col-md-12">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">
+                                person
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong> Personal Details</strong></label>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row" style="padding-left: 30px;">
+                    <div class="col-md-5" style="margin-top: 2px;">
+                        <div class="form-group form-float" style="margin-bottom: 30px;">
+                            <div class="form-line ">
+                                <select for="prefix" autocomplete="off" id="prefix" name="prefix" title="Prefix" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="addPrefix">Add Prefix</option>
+                                    <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                            <% if(modelcat.attributes.slug=="prefix" )  _.each(modelcat.attributes.sublist, function(model1) { %>
+                                            <option <% if(model1.category_id==model.prefix ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%})%>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="req_by_name" class="form-label">Name</label>
+                                <input id="req_by_name" autocomplete="off" class="form-control txtchange" name="req_by_name"
+                                    type="text" value="<%=model.req_by_name%>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">
+                                person
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong> Contact Details</strong></label>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row" style="padding-left: 30px;">
+                    <div class="col-md-4" style="margin-top: 2px;">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="contact_no" class="form-label">Contact Number</label>
+                                <input id="contact_no" autocomplete="off" class="form-control txtchange" name="contact_no" type="text" value="<%=model.contact_no%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin-top: 2px;">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="whatsapp_no" class="form-label">Whatsapp Number</label>
+                                <input id="whatsapp_no" autocomplete="off" class="form-control txtchange" name="whatsapp_no" type="text" value="<%=model.whatsapp_no%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin-top: 2px;">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="email_id" class="form-label">Email ID</label>
+                                <input id="email_id" autocomplete="off" class="form-control txtchange" name="email_id" type="text" value="<%=model.email_id%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 2px;">
+                        <label for="address" class="Address">Address</label>
+                        <div id="address" class="form-control mb-3">
+                            <%=model.address%>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row icon-list" style="margin-top: 100px">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">
+                                person
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong> Other Details</strong></label>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row" style="padding-left: 30px;">
+                    <div class="col-md-4" style="margin-top: 2px;">
+                        <div class="form-group form-float" style="margin-bottom: 30px;">
+                            <div class="form-line">
+                                <select for="region" autocomplete="off" id="region" name="region" title="Region" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="Region">Add Region</option>
+                                    <%}%>
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="region" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+                                            <option <% if(model1.category_id==model.region ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%></option>
+                                        <%})%>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float" style="margin-bottom: 30px;">
+                            <div class="form-line">
+                                <select for="occasion" autocomplete="off" id="occasion" name="occasion" title="Occasion" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="occasion">Add Occasion</option>
+                                    <%}%>
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="occasion" ) _.each(modelcat.attributes.sublist,
+                                            function(model1) { %>
+                                            <option <% if(model1.category_id==model.occasion ){ %> selected <% } %> value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%})%>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                            <div class="form-line">
+                                <input id="exp_date_of_event" type="text" class="form-control" name="exp_date_of_event" autocomplete="off" value="<%=model.exp_date_of_event%>">
+                                <label for="exp_date_of_event" class="form-label">Expected Event Date</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float" style="margin-bottom: 30px;">
+                            <div class="form-line">
+                                <select for="poc" autocomplete="off" id="poc" name="poc" title="POC" class="form-control dropval ws-select show-tick repeatChange backgroundHide">                                        
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="occasion">Add Poc</option>
+                                    <%}%>
+                                    <% _.each(adminList, function(modelA) { %>
+                                        <option <% if(modelA.attributes.adminID==model.poc ){ %> selected <% } %>value="<%=modelA.attributes.adminID%>"> <%=modelA.attributes.name%> </option> 
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 30px;">
+                    <div class="col-md-8">
+                        <div id="dynamicFormFields" class="dynamic-align"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,35 @@
+<div class="modal-dialog forNote" role="document" style="margin: 0;">
+    <form id="customerActivity" name="customerActivity" action="#">
+            <div class="tableDetails col-md-12">
+                <div class="activitytHeader">
+                    <div class="activitytHeading">
+                        <label class=""><%=name%>'s Activity</label>
+                        <div class="tabButton">
+                            <button type="button" class="btn btn-link btnUpcomming activeAcrive loadView" data-page="upcoming">Upcoming  Activity</button>
+                            <button type="button" class="btn btn-link btnPast loadView" data-page="past">Past Activity</button> 
+                        </div>
+                    </div>
+                </div>
+                <div class="card activities"> 
+                    <div class="noCustRec noActivity noCategoryRec" style="height: 480px !important;" >
+                        <div class="noCustRecDetails" style="width: 380px;">
+                            <div class="noCustRecPic">
+                              <img src="images/noRecrds.png" alt="">
+                            </div>
+                            <div class="noCustRecText">
+                              <h1>There are No Activity Present</h1>
+                            </div>
+                         </div>
+                    </div>
+                    <div class="body">
+                        <div id="activityRow"></div>
+                    </div>
+                </div>
+            </div>
+    </form>
+    <div class="modal-footer noteFooter">
+        <div class=" text-right">
+            <button type="button" class="btn bg-indigo closeModal">Close</button>
+        </div>
+    </div>
+</div>

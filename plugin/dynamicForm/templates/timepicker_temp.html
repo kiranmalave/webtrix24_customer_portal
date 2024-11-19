@@ -1,0 +1,23 @@
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <label for="<%= elementDetails.column_name %>" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+                <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" class="dynamicData form-control timepicker txtchange"
+                    name="<%= elementDetails.column_name %>" type="text" value="<%=elementData[elementDetails.column_name]%>" placeholder="<%= elementDetails.placeholder %>" <%= elementDetails.requiredHtml %>>
+                
+            </div>
+        </div>
+    </div>
+</div>        
+
+
+
+  

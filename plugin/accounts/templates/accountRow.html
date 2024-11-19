@@ -1,0 +1,24 @@
+<tr class="even pointer bg-<%=accountDetails.attributes.status%>" data-account_id="<%=accountDetails.attributes.account_id%>" data-view="singleaccountData">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= accountDetails.attributes.account_id%>" class="memberlistcheck chk-col-amber deleteCard"
+        data-account_id="<%= accountDetails.attributes.account_id %>" type="checkbox">
+      <label for="cAll_<%= accountDetails.attributes.account_id%>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-account_id="<%=accountDetails.attributes.account_id%>" data-view="singleaccountData">
+      <div class="nametooltip truncateColumns">
+        <span class="td-highlight"><% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= accountDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+              <%= accountDetails.attributes["" + column.column_name] %>
+                <% } %>
+        </span>
+      </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-account_id="<%=accountDetails.attributes.account_id%>" data-view="singleaccountData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+      </td>
+</tr>

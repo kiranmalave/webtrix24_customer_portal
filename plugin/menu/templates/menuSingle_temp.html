@@ -1,0 +1,281 @@
+<div class="tab-pane in active">
+
+    <form id="menuDetails" name="menuDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveMenuDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveMenuDetails" data-action="new">Save & new</button>
+        </div>
+
+        <div class="clearfix">&nbsp;</div>
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="custom_module" class="form-label">Do you want to link exiting Module?<span
+                            class="error"></span>
+                        <span class="info-icon-tooltip">
+                            <span class="material-icons" data-toggle="tooltip"
+                                data-content="Select yes to link the new module with existing system-defined modules">info</span>
+                        </span>
+                    </label>
+                    <ul class="item-container" data-valid="custom_module">
+                        <li class="custom_module multiSel" data-render="yes" data-single="Y" data-value="yes">
+                            Yes</li>
+                        <li class="custom_module multiSel" data-render="yes" data-single="Y" data-value="no">No
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="show_on_website" class="form-label">Is Show on Website<span class="error"></span>:
+                    </label>
+                    <ul class="item-container" data-valid="show_on_website">
+                        <li class="show_on_website multiSel" data-render="yes" data-single="Y" data-value="yes">
+                            Yes</li>
+                        <li class="show_on_website multiSel" data-render="yes" data-single="Y" data-value="no">No
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="mobile_screen" class="form-label">Show On Mobile?<span class="error"></span>
+                        <span class="info-icon-tooltip">
+                            <span class="material-icons" data-toggle="tooltip"
+                                data-content="Show this menu on Mobile App.">info</span>
+                        </span>
+                    </label>
+                    <ul class="item-container" data-valid="mobile_screen">
+                        <li class="mobile_screen multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                        <li class="mobile_screen multiSel" data-render="yes" data-single="Y" data-value="no">No
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="is_custom" class="form-label">Is Custom Link?<span class="error"></span>
+                        <span class="info-icon-tooltip">
+                            <span class="material-icons" data-toggle="tooltip"
+                                data-content="Enable this option if you want to link this module with a third-party application. ">info</span>
+                        </span>
+                    </label>
+                    <ul class="item-container" data-valid="is_custom">
+                        <li class="is_custom multiSel" data-render="yes" data-single="Y" data-value="y">Yes</li>
+                        <li class="is_custom multiSel" data-render="yes" data-single="Y" data-value="n">No
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <% if(model.is_custom=="y" ) { %>
+                <div class="col-md-6">
+                    <div class="form-group form-float ws-form-option">
+                        <div class="form-line">
+                            <label for="menu_custom_link" class="form-label">Add Custom Link<span
+                                    class="error">*</span></label>
+                            <input id="menu_custom_link" autocomplete="off" class="form-control txtchange"
+                                name="menu_custom_link" type="text" value="<%=model.menu_custom_link%>">
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+            <% if(model.is_custom=="n" ){%>
+                <div class="col-md-4">
+                    <div class="form-group form-float ws-form-option">
+                        <label for="linked" class="form-label">Is Linked<span class="error"></span>:
+                        </label>
+                        <ul class="item-container" data-valid="linked">
+                            <li class="linked multiSel" data-render="yes" data-single="Y" data-value="y">Yes
+                            </li>
+                            <li class="linked multiSel" data-render="yes" data-single="Y" data-value="n">No
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+
+        <div class="clearfix">&nbsp;</div>
+        <!-- MODULE NAME ,MENU NAME ,MODULE DESCRIPTION ,MENU LINK [START] -->
+        <div class="row">
+            <% if(model.custom_module=="no" ){%>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="module_name" class="form-label">Module Name
+                                <span class="info-icon-tooltip">
+                                    <span class="error">*</span>
+                                    <span class="material-icons" data-toggle="tooltip"
+                                        data-content="Can not edit once saved.">info</span>
+                                </span>
+                            </label>
+                            <input id="module_name"
+                                class="form-control txtchange <%= (model.menuID != "" && model.menuID != null) ? 'disabledCls' : '' %>"
+                                name="module_name" type="text" value="<%=model.module_name%>" <% if (model.menuID !=""
+                                && model.menuID !=null) { %>disabled<% } %>>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="menuName" class="form-label">Menu Name
+                            <span class="error">*</span>
+                        </label>
+                        <input id="menuName" class="form-control txtchange" name="menuName" type="text"
+                            value="<%=model.menuName%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="module_desc" class="form-label">Module Description</label>
+                        <input id="module_desc" class="form-control txtchange" name="module_desc" type="text"
+                            value="<%=model.module_desc%>">
+                    </div>
+                </div>
+            </div>
+            <% if(model.custom_module=="yes" ){%>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="menuLink" class="form-label">Menu Link
+                                <span class="error">*</span>
+                            </label>
+                            <input id="menuLink" class="form-control txtchange" name="menuLink" type="text"
+                                value="<%=model.menuLink%>">
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <!-- MODULE NAME ,MENU NAME ,MODULE DESCRIPTION ,MENU LINK [END] -->
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+        <!-- TABLE NAME ,FORM LABLE ,PLURAL LABLE [START] -->
+        <div class="row">
+            <% if(model.custom_module=="no" ){%>
+                <div class="col-md-4">
+                    <% if(model.menuID=="" || model.menuID==null){%>
+                        <div class="form-group form-float ws-form-option">
+                            <label for="table_name" class="form-label">Table Name<span class="info-icon-tooltip"><span
+                                        class="material-icons" data-toggle="tooltip"
+                                        data-content="It will be auto populated.">info</span></span></label>
+                        </div>
+                    <% }else{ %>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="table_name" class="form-label">Table Name</label>
+                                <input id="table_name"
+                                    class="form-control txtchange <%= (model.menuID != "" && model.menuID != null) ? 'disabledCls' : '' %>"
+                                    name="table_name" type="text" value="<%=model.table_name%>" disabled>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+                <% }else{ %>
+                    <% if(model.menuID=="" || model.menuID==null){%>
+                        <div class="col-md-4">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="table_name" class="form-label">Table Name
+                                        <span class="error">*</span>
+                                    </label>
+                                    <input id="table_name" class="form-control txtchange" name="table_name" type="text"
+                                        value="<%=model.table_name%>">
+                                </div>
+                            </div>
+                        </div>
+                        <% }else{ %>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="table_name" class="form-label">Table Name</label>
+                                        <input id="table_name"
+                                            class="form-control txtchange <%= (model.menuID != "" && model.menuID != null) ? 'disabledCls' : '' %>"
+                                            name="table_name" type="text" value="<%=model.table_name%>" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                                    <div class="col-md-4">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <label for="label" class="form-label">Form Label <span
+                                                        class="info-icon-tooltip"><span class="material-icons"
+                                                            data-toggle="tooltip"
+                                                            data-content="Example: Account">info</span></span> </label>
+                                                <input id="label" class="form-control txtchange" name="label"
+                                                    type="text" value="<%=model.label%>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <label for="plural_label" class="form-label">Plural
+                                                    Label
+                                                    <span class="info-icon-tooltip">
+                                                        <span class="material-icons" data-toggle="tooltip"
+                                                            data-content="Example: Account">info</span>
+                                                    </span>
+                                                </label>
+                                                <input id="plural_label" class="form-control txtchange"
+                                                    name="plural_label" type="text" value="<%=model.plural_label%>">
+                                            </div>
+                                        </div>
+                                    </div>
+        </div>
+        <!-- TABLE NAME ,FORM LABLE ,PLURAL LABLE [END] -->
+        <div class="selectIcon">
+            <span class="iconHeading">Select Icon</span>
+            <div class="search-container">
+                <input type="text" name="search" id="iconSearch" placeholder="Search icon..." class="search-input">
+                <span class="material-icons">search</span>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="defaultMessage d-flex-center no-fields-msg" style="display: none;">
+            <div class="m-20">
+                <h4 class="d-flex-center">No Icons Found</h4>
+                <p>There are no icons that match your current search.</p>
+            </div>
+        </div>
+        <div class="">
+            <% _.each(iconList, function(iconsarray) { %>
+                <div class="iconsectioName" data-valid="iconName">
+                    <%=iconsarray.name %>
+                </div>
+                <div class="setIconList row">
+                    <% _.each(iconsarray.icons, function(icons) { %>
+                        <div class="iconList col-md-3">
+                            <% if(model.iconName==icons.ligature){ %>
+                                <span class="material-icons iconSelection active" data-value="<%= icons.ligature%>">
+                                    <%= icons.ligature%>
+                                </span>
+                                <% }else{ %>
+                                    <span class="material-icons iconSelection" data-value="<%= icons.ligature%>">
+                                        <%= icons.ligature%>
+                                    </span>
+                                    <% } %>
+                                        <div class="iconName" data-value="<%= icons.name%>">
+                                            <%=icons.name%>
+                                        </div>
+                        </div>
+                        <% }); %>
+                </div>
+                <div class="iconClearfix ">&nbsp;</div>
+                <% }); %>
+        </div>
+    </form>
+</div>

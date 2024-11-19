@@ -1,0 +1,437 @@
+<div class="tab-pane in active">
+    <form id="appointmentDetails" name="appointmentDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveAppointmentDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveAppointmentDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="row ws-main-container">
+            <div class="col-md-8 ws-appointment-container">
+                <div class="clearfix">&nbsp;</div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col">
+                                <div class="ws-icon">
+                                    <span class="input-group-addon lg"></span>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="title" type="text" autocomplete="off" class="form-control app-pd txtchange" name="title" value="<%=model.title%>">
+                                        <label for="title" class="form-label app-pd">Title</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">schedule</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group input-group form-float app-mb">
+                                    <div class="form-line">
+                                        <input id="start_date" type="text" class="form-control app-pd" autocomplete="off" name="start_date" value="<%=model.start_date%>" data-provide="datepicker" style="width: 110% !important;">
+                                        <label for="start_date" class="form-label app-pd">Start Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ws-startTime" <%if(model.all_day=="yes" ){%> style="display:none;" <%}else{%>style="display:block;"<%}%>>
+                                <div class="form-group input-group form-float app-mb">
+                                    <div class="form-line">
+                                        <input id="start_time " type="text" class="form-control app-pd" name="start_time" autocomplete="off" value="<%=model.start_time%>">
+                                        <label for="start_time" class="form-label  app-pd">End Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group input-group form-float app-mb">
+                                    <div class="form-line">
+                                        <input id="end_date" type="text" class="form-control app-pd" name="end_date" autocomplete="off" value="<%=model.end_date%>" style="width: 110% !important;">
+                                        <label for="end_date" class="form-label  app-pd">End Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ws-EndTime" <%if(model.all_day=="yes" ){%> style="display:none;" <%}else{%>style="display:block;"<%}%>>
+                                <div class="form-group input-group form-float app-mb">
+                                    <div class="form-line">
+                                        <input id="end_time" type="text" class="form-control  app-pd" autocomplete="off" name="end_time" value="<%=model.end_time%>">
+                                        <label for="end_time" class="form-label  app-pd">End Time</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="input-group input-group-lg allDay">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" class="chk-col-yellow" autocomplete="off" id="ig_checkbox" name="allday_checkbox" <%if (model.all_day=="yes" ){%>checked <%}%> >
+                                        <label for="ig_checkbox">All Day</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="rept-time">
+                                    <div class="appointment-single-temp">
+                                        <label for="does_repeat" class="form-label">Does Repeat :</label>
+                                        <select id="does_repeat" name="does_repeat" class="form-control dropval ws-select show-tick repeatChange app-px dropdown-toggl">
+                                            <option <% if(model.does_repeat=="does_not_repeat" ){%>selected<%}%> value="does_not_repeat"> Does not Repeat</option>
+                                            <option <% if(model.does_repeat=="daily" ){%>selected<%}%> value="daily">Daily</option>
+                                            <option <% if(model.does_repeat=="mon_to_fir" ){%>selected<%}%> value="mon_to_fir">Mon-Fri</option>
+                                            <option <% if(model.does_repeat=="every_first_monday" ){%>selected<%}%> value="every_first_monday">Every First Monday</option>
+                                            <option <% if(model.does_repeat=="custom" ){%>selected<%}%> value="custom">Custom</option>
+                                        </select>
+                                    </div>
+                                    <div class="ws-customModal cust-bg" <%if(model.does_repeat=="custom" ){%> style="display: block;"<%}else{%>style="display: none;"<%}%> >
+                                        <button type="button" class="loadCustom ws-customModalbtn" data-view="customModal" data-appointmentID="<%=model.appointmentID%>" data-toggle="modal" data-target="#defaultModal"><span class="material-icons custadd">add</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">location_on</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="appointment-single-temp">
+                                    <label for="meeting_option" class="form-label">Meeting Option :</label>
+                                    <select name="meeting_option" for="meeting_option" id="meeting_option" class="form-control dropval ws-select show-tick repeatChange app-px dropdown-toggl">
+                                        <option <%if(model.meeting_option=="in_person_meet" ){%>selected<%}%> value="in_person_meet">In Person Meeting</option>
+                                        <option <%if(model.meeting_option=="google_meet" ){%>selected<%}%> value="google_meet">Google Meet</option>
+                                        <option <%if(model.meeting_option=="zoom_meet" ){%>selected<%}%> value="zoom_meet">Zoom Meeting</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="rept-time">
+                                    <div class="col-md-12 ws-google" <%if(model.meeting_option=="google_meet" ) {%> style="display:block"<%}else{%> style="display:none"<%}%>>
+                                        <div class="input-group ws-input-group"> <span class="input-group-addon "> <i class="material-icons googleicon" >videocam</i> </span>
+                                            <div class="form-line">
+                                                <input type="text" id="google" for="google" autocomplete="off" class="form-control txtchange" name="google"  value="<%=model.google%>" placeholder="Enter Google Meet Link">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ws-zoom" <%if(model.meeting_option=="zoom_meet" ){%> style="display:block"<%}else{%> style="display:none"<%}%>>
+                                        <div class="input-group ws-input-group"> <span class="input-group-addon"> <i class="material-icons googleicon">videocam</i> </span>
+                                            <div class="form-line">
+                                                <input type="text" id="zoom" for="zoom" autocomplete="off" class="form-control txtchange" name="zoom" value="<%=model.zoom%>" placeholder="Enter Zoom Link">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ws-address" <%if(model.meeting_option=="in_person_meet" ){%> style="display:block"<%}else{%> style="display:none"<%}%>>
+                                        <div class="input-group ws-input-group lc-mt">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons googleicon">location_on</i>
+                                            </span>
+                                            <div class="form-line app-pd">
+                                                <input type="text" id="address" autocomplete="off" class="form-control app-pd txtchange" name="address" value="<%=model.address%>">
+                                                <label id="address" class="error addressError ds-none" for="address">Please enter a Location</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left" style="margin-top:17px;">
+                        <div class="ws-icon">
+                            <span class="input-group-addon"><i class="material-icons">notifications_active</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-label appointment-single-temp">
+                                    <label for="notif" class="form-label"></label>
+                                    <select id="notif" name="notif" class="form-control dropval ws-select show-tick repeatChange app-px dropdown-toggl">
+                                        <option <%if(model.notif=="notify" ){%>selected<%}%> value="notify">Notification</option>
+                                        <option <%if(model.notif=="email" ){%>selected<%}%> value="email">Email</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="appointment-single-temp">
+                                    <div class="form-group form-float app-count">
+                                        <label for="time" class="form-label"></label>
+                                        <input id="time" type="number" class="form-control txtchange form-line app-px" style="padding-left: 10px;" autocomplete="off" name="time" value="<%=model.time%>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label appointment-single-temp">
+                                    <label for="time_format"></label>
+                                    <select id="time_format" name="time_format" class="form-control dropval ws-select show-tick repeatChange app-px">
+                                        <option <%if(model.time_format=="minutes" ){%>selected<%}%> value="minutes">Minutes</option>
+                                        <option <%if(model.time_format=="hours" ){%>selected<%}%> value="hours">Hours</option>
+                                        <option <%if(model.time_format=="days" ){%>selected<%}%> value="days">Days</option>
+                                        <option <%if(model.time_format=="weeks" ){%>selected<%}%> value="weeks">Weeks</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="addNotif">
+                                    <button type="button" class="moreNotif" data-action="add"><span class="material-icons">add</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row appointNotif">
+                    <div class="icon-left" style="margin-top:22px;">
+                        <div class="ws-icon"></div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row notif1" id="notif1" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <!-- <label for="notif" class="form-label"></label> -->
+                                    <select id="notif" name="notif" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="notify">Notification</option>
+                                        <option value="email">Email</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-float app-count">
+                                    <!-- <label for="time" class="form-label"></label> -->
+                                    <input id="time1" type="number" class="form-control txtchange form-line app-pd" autocomplete="off" name="time" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <!-- <label for="time_format"></label> -->
+                                    <select id="time_format" name="time_format" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeks</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="addNotif" style="top:4px">
+                                    <button type="button" class="moreNotif" data-removeID="notif1" data-action="remove"><span class="material-icons">close</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row notif2" id="notif2" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <!-- <label for="notif" class="form-label"></label> -->
+                                    <select id="notif" name="notif" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="notify">Notification</option>
+                                        <option value="email">Email</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-float" style="top:-3px;position:relative;">
+                                    <!-- <label for="time" class="form-label"></label> -->
+                                    <input id="time2" type="number" class="form-control txtchange form-line app-pd" autocomplete="off" name="time" value="" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <!-- <label for="time_format"></label> -->
+                                    <select id="time_format" name="time_format" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeksx</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="addNotif" style="top:4px">
+                                    <button type="button" class="moreNotif" data-removeID="notif2" data-action="remove"><span class="material-icons">close</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row notif3" id="notif3" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <!-- <label for="notif" class="form-label"></label> -->
+                                    <select id="notif" name="notif" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="notify">Notification</option>
+                                        <option value="email">Email</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-float" style="top:-3px;position:relative;">
+                                    <!-- <label for="time" class="form-label"></label> -->
+                                    <input id="time3" type="number" class="form-control txtchange form-line app-pd" autocomplete="off" name="time" value="" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <!-- <label for="time_format"></label> -->
+                                    <select id="time_format" name="time_format" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeksx</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="addNotif" style="top:4px">
+                                    <button type="button" class="moreNotif" data-removeID="notif3" data-action="remove"><span class="material-icons">close</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row notif4" id="notif4" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <!-- <label for="notif" class="form-label"></label> -->
+                                    <select id="notif" name="notif" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="notify">Notification</option>
+                                        <option value="email">Email</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="top:-3px;position:relative;">
+                                <div class="form-group form-float">
+                                    <!-- <label for="time" class="form-label"></label> -->
+                                    <input id="time4" type="number" class="form-control txtchange form-line app-pd" autocomplete="off" name="time" value="" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <!-- <label for="time_format"></label> -->
+                                    <select id="time_format" name="time_format" class="form-control dropval ws-select show-tick repeatChange app-pd">
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeksx</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="addNotif" style="top:4px">
+                                    <button type="button" class="moreNotif" data-removeID="notif4" data-action="remove"><span class="material-icons">close</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg">
+                                <i class="material-icons" style="margin-top: 0px;">group</i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line " style="margin-top: -5px;">
+                                        <input id="customer" type="text" class="form-control app-pd custChange" autocomplete="off" name="customer" value="<%=model.customerName%>" />
+                                        <label for="customer" class="form-label app-pd">Customer</label>
+                                    </div>
+                                </div>
+                                <div class="customer-input"></div>
+                                <div id="customerDropdown" class="dropdown-content custDrop"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select id="project_id" autocomplete="off" name="project_id" data-live-search="true" class="form-control dropval ws-select" title="">
+                                            <option class="addNew" value=""></option>
+                                            <%if(permission.add=="yes" ) { %>
+                                                <option class="addNew" value="addProject">Add Project</option>
+                                            <%}%>
+                                            <% _.each(projectList, function(model1) { %>
+                                                <option <% if(model.project_id == model1.attributes.project_id ){ %> selected <%}%> value="<%=model1.attributes.project_id%>"><%=model1.attributes.title %></option>
+                                            <%})%>
+                                        </select>
+                                        <label for="project_id" class="form-label taskDate tasktop title=""">Project</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="list-row">
+                    <div class="icon-left" style="margin-top:22px;">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="description"></label>
+                                <div id="description" class="form-control"><%=model.description%></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+            </div>
+
+            <div class="col-md-4 ws-guest-container">
+                <div class="row showGuiest">
+
+                    <div class="form-group form-float">
+                        <div class="form-line forGuest">
+                            <label><i class="material-icons"> add_circle </i></label>
+                            <input id="guest_mail" type="text" autocomplete="off" placeholder="Add Guest" class="form-control txtchange guest_mail ws-guest-input" name="typehead">
+                            <!-- <label for="typehead" class="form-label">Add Guest</label> -->
+                        </div>
+                        <div id="guestDiv" class="dropdown-content guestDiv guestDropdown"></div>
+                    </div>
+
+
+                    <div class="noGuestcontainer" style="display: none;">
+                        <div class="noWatchersPic">
+                            <img src="images/noWatcher.png" alt="" />
+                        </div>
+                        <h4>No Guest Yet</h4>
+                    </div>
+                    <div class="showGuestDetails">
+                        <div class="showGuest">
+                            <h4>Guests List</h4>
+                        </div>
+                        <div class="tm-inputGuest  forGuestList"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,77 @@
+<div class="ws_ColumnConfigure">
+    <div id="customFilterView" class="configureColumnCls">
+        <div class="row ">
+            <div class="col-md-12 ">
+                <div class="column-loader text-center">
+                    <div class="preloader table">
+                        <div class="loderGif table">
+                          <img src="images/webloader.gif" alt="User" />
+                        </div>
+                      </div>
+                </div>
+                <div class="search-container">
+                    <input type="text" name="search" id="fieldSearch" placeholder="Search field..." class="search-input">
+                    <span class="material-icons">search</span>
+                </div>
+
+                <div class="defaultMessage d-flex-center no-fields-msg" style="display: none;">
+                    <div class="m-20">
+                        <h4 class="d-flex-center">No Fields Found</h4>
+                        <p>There are no fields that match your current search.</p>
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class="heading" id="sortable-heading">Displayed Columns</div>
+                    <div class="fieldList" id="sortable-list">
+                        <% _.each(arrangedColumnList, function(model1) { %>
+                            <div class="fieldRows" data-fieldID="<%=model1.fieldID%>" data-fieldLabel="<%=model1.fieldLabel%>" data-fieldType="<%=model1.fieldType%>" data-column_name="<%=model1.column_name%>" data-linkedWith="<%=model1.linkedWith%>" data-fieldOptions="<%=model1.fieldOptions%>" data-dateFormat="<%=model1.dateFormat%>" data-displayFormat="<%=model1.displayFormat%>" data-parentCategory="<%=model1.parentCategory%>">
+                                <div class="fieldsSort"></div>
+                                <div class="hover-text-tooltip">
+                                    <input type="checkbox" id="<%=model1.column_name%>" class="filled-in chk-col-indigo changeConfiguration" data-fieldID="<%=model1.fieldID%>" checked>
+                                    <label for="<%=model1.column_name%>">
+                                        <%=model1.fieldLabel%>
+                                        <!-- <div class="fieldType"><%=model1.fieldType%></div> -->
+                                    </label>
+                                    <span class="tooltip-text"><%=model1.fieldLabel%></span>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="heading" id="allColumns-heading">All Columns</div>
+                    <div class="fieldList" id="allColumnsList">
+                        <% _.each(customColumnList, function(model1) { %>
+                            <div class="fieldRows" data-fieldID="<%=model1.fieldID%>" data-fieldLabel="<%=model1.fieldLabel%>" data-fieldType="<%=model1.fieldType%>" data-column_name="<%=model1.column_name%>" data-linkedWith="<%=model1.linkedWith%>" data-fieldOptions="<%=model1.fieldOptions%>" data-dateFormat="<%=model1.dateFormat%>" data-displayFormat="<%=model1.displayFormat%>" data-parentCategory="<%=model1.parentCategory%>">
+                                <div class="hover-text-tooltip">
+                                    <input type="checkbox" id="<%=model1.column_name%>" class="filled-in chk-col-indigo changeConfiguration" data-fieldID="<%=model1.fieldID%>">
+                                    <label for="<%=model1.column_name%>">
+                                        <%=model1.fieldLabel%>
+                                        <!-- <div class="fieldType"><%=model1.fieldType%></div> -->
+                                    </label>
+                                    <span class="tooltip-text"><%=model1.fieldLabel%></span>
+                                </div>
+                            </div>
+                        <% }); %>
+                        <% _.each(filteredList, function(model1) { %>
+                            <div class="fieldRows" data-fieldLabel="<%=model1.fieldLabel%>" data-fieldType="<%=model1.fieldType%>" data-column_name="<%=model1.column_name%>">
+                                <div class="hover-text-tooltip">
+                                    <input type="checkbox" id="<%=model1.column_name%>" class="filled-in chk-col-indigo changeConfiguration" data-fieldID="<%=model1.fieldID%>">
+                                    <label for="<%=model1.column_name%>">
+                                        <%=model1.fieldLabel%>
+                                        <!-- <div class="fieldType"><%=model1.fieldType%></div> -->
+                                    </label>
+                                    <span class="tooltip-text"><%=model1.fieldLabel%></span>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 text-right column-footer">
+            <input id="colseConfigure" type="button" class="btn btn-raised bg-blue-grey colseConfigure" value="Refresh View">
+        </div>
+    </div>
+</div>

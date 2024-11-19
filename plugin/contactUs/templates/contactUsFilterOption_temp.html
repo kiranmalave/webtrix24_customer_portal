@@ -1,0 +1,71 @@
+<form id="demo-form" action="#">
+  <h6>Filter Search</h6>
+  <hr>
+  <div class="clearfix">&nbsp;</div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <select id="textSearch" class="form-control changeBox" name="textSearch">
+            <option value="first_name">First Name</option>
+            <option value="middle_name">Middle Name</option>
+            <option value="last_name">Last Name</option>
+            <option value="mobile_no">Mobile Number</option>
+            <option value="email">Customer Email</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 textval hidetextval ds-none">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <input id="textval" class="form-control txtchange filterClear" name="textval" type="text">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 contacttxt hidetextval ds-none">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <input id="textval" class="form-control txtchange filterClear" minlength="10" maxlength="10" name="textval"
+            type="text">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <label>Date of Birth</label>
+  <div class="row dateList">
+    <div class="col-5">
+      <input type="text" id="fromDate" class="form-control txtchange filterClear" placeholder="Start Date" readonly>
+    </div>
+    <div class="input-group-addon mt-2">to</div>
+    <div class="col-5">
+      <input type="text" id="toDate" class="form-control txtchange filterClear" placeholder="End Date" readonly>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <label>Customer Type:</label>
+      <ul class="item-container" data-valid="type">
+        <li class="type multiOptionSel" data-single="Y" data-value="customer">Customer</li>
+        <li class="type  multiOptionSel" data-single="Y" data-value="subscriber">Subscriber</li>
+      </ul>
+    </div>
+
+    <div class="col-md-12">
+      <label>Order:</label>
+      <ul class="item-container" data-valid="order">
+        <li class="order multiOptionSel" data-single="Y" data-value="ASC">Ascending</li>
+        <li class="order multiOptionSel" data-single="Y" data-value="DESC">Descending</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-12 text-right">
+    <hr>
+    <input type="button" id="filterSearch" class="filterSearch btn btn-raised bg-green waves-effect"
+      value="Search"></button>
+    <input type="button" id="resetSearch" class="btn btn-raised bg-blue-grey resetval" value="Reset"></button>
+  </div>
+</form>

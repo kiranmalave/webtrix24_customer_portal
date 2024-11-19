@@ -1,0 +1,189 @@
+ <div class="tab-pane in active">
+    <div id="ourTeamSingleView">        
+        <form id="teamDetails" name="teamDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo saveTeamDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo saveTeamDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="ws-main-container">
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Basic Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="name" class="form-label">Name <span class="error">*</span></label>
+                                <input id="name" class="form-control txtchange titleChange" autocomplete="off"
+                                    name="name" maxlength="45" type="text"
+                                    value="<%=model.name%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="position" class="form-label">Member Designation <span class="error"></span>
+                                </label>
+                                <input id="position" class="form-control txtchange" autocomplete="off"
+                                    name="position" type="text" value="<%=model.position%>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row left-space">
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="team_order" class="form-label">Team Member Sequence <span
+                                        class="error"></span>
+                                    <span class="info-icon-tooltip">
+                                        <span class="material-icons" data-toggle="tooltip" data-content="Specify the order of team members
+                                                here. This determines how the team members will be arranged and
+                                                displayed on the website.">info</span>
+                                    </span>
+                                </label>
+                                <input id="team_order" class="form-control txtchange" autocomplete="off"
+                                    name="memberDesignation" type="text" value="<%=model.team_order%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line" style="border: none;">
+                                <label for="category_id" class="form-label">Category<span></span> :</label>
+                                <select id="category_id" name="category_id" data-live-search="true"
+                                    class="form-control multiSelect ws-select show-tick repeatChange "
+                                    title="Select Category" multiple>
+                                    <% if(permission.add=="yes" ) { %>
+                                        <option class="addNew app-pd" value="addCategory">Add Category</option>
+                                        <% } %>
+                                            <% _.each(categoryList, function(modelcat) { %>
+                                                <option <% if(model.category_id &&
+                                                    _.contains(model.category_id.split(","),
+                                                    modelcat.attributes.category_id)) { %>selected <% } %> value="
+                                                        <%= modelcat.attributes.category_id %>"><%=
+                                                                modelcat.attributes.categoryName %>
+                                                </option>
+                                                <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    sort
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Description</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ws-quill right-layout">
+                    <div class="row left-space">
+                        <div class="col-md-12">
+                            <div id="description" class="form-control mb-3">
+                                <%=model.description%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group form-float">
+                            <label for="show_on_website" class="form-label mb-4">Display Social Links on Website
+                                <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content="Enable this option to display the team
+                                        member's social media links on the webpage. This will allow visitors to
+                                        view and access the member's social profiles directly.">info</span>
+                                </span></label>
+                            <ul class="item-container" data-valid="show_on_website">
+                                <li class="show_on_website multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                                <li class="show_on_website multiSel" data-render="yes" data-single="Y" data-value="no">No</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float ws-form-option">
+                            <label for="status" class="form-label">Status<span class="error">*</span> </label>
+                            <ul class="item-container" data-valid="status">
+                              <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                              <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <% if(model.show_on_website == 'yes'){ %>
+                <div class="row left-space">
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="instagram" class="form-label"> Instagram</label>
+                                <input id="instagram" class="form-control txtchange" autocomplete="off" name="instagram"
+                                    type="text" value="<%= model.instagram %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="facebook" class="form-label"> Facebook</label>
+                                <input id="facebook" class="form-control txtchange" autocomplete="off" name="facebook"
+                                    type="text" value="<%= model.facebook %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="linkedin" class="form-label"> LinkedIn</label>
+                                <input id="linkedin" class="form-control txtchange" autocomplete="off" name="linkedin"
+                                    type="text" value="<%= model.linkedin %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="website" class="form-label"> Website</label>
+                                <input id="website" class="form-control txtchange" autocomplete="off" name="website"
+                                    type="text" value="<%= model.website %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="whatsapp" class="form-label"> WhatsApp</label>
+                                <input id="whatsapp" class="form-control txtchange" autocomplete="off" name="whatsapp"
+                                    type="text" value="<%= model.whatsapp %>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+
+        </form>
+    </div>
+</div>

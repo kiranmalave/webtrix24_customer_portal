@@ -1,0 +1,43 @@
+<tr class="even pointer bg-<%=taxInvoiceDetails.attributes.status%>">
+  <td class="a-center">
+    <% if(taxInvoiceDetails.attributes.status == "draft" ) { %>  
+      <div class="listCheckbox">
+          <input id="cAll_<%= taxInvoiceDetails.attributes.invoiceID %>" data-status ="<%=taxInvoiceDetails.attributes.status%>" class="memberlistcheck chk-col-amber" data-id="<%=taxInvoiceDetails.attributes.invoiceID %>" type="checkbox">
+          <label for="cAll_<%= taxInvoiceDetails.attributes.invoiceID %>">&nbsp;</label>
+      </div>
+    <%}%>
+  </td>
+  <td class="loadview" data-toggle="modal" data-target="#myModal" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData" ><a href="javascript:;"><u><%=taxInvoiceDetails.attributes.invoiceNumber%></u></a></td></td>
+  <td class="loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData"><%=taxInvoiceDetails.attributes.customerName%></td>
+  <td class="loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData"><%=taxInvoiceDetails.attributes.invoiceTotal%></td>
+  <td class="loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData"><%=taxInvoiceDetails.attributes.grossAmount%></td>
+  <td class="loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData"><%= formatDate(taxInvoiceDetails.attributes.created_date,'no') %></td>
+  <td class="loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData">
+    <% if(taxInvoiceDetails.attributes.status == "draft") { %>
+      <span style="cursor:pointer;" data-id="<%=taxInvoiceDetails.attributes.invoiceID%>" data-action="approved" class="invoiceStatus badge badge-success">Approve</span>
+      <span style="cursor:pointer;" data-id="<%=taxInvoiceDetails.attributes.invoiceID%>" data-action="cancel" class="invoiceStatus badge badge-danger">Cancel</span>
+    <%}%>
+    <% if(taxInvoiceDetails.attributes.status == "approved") { %>
+      <span class=""><span class="label bg-green"> <i style="position: relative;top: 5px;" class="material-icons">done_all</i> Approved </span></span>
+    <%}%>
+    <% if(taxInvoiceDetails.attributes.status == "cancel") { %>
+      <span class=""><span class="label bg-red"> <i style="position: relative;top: 5px;" class="material-icons">error</i> Canceled </span></span>
+    <%}%>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"data-show="singleTaxInvoiceData">
+        <% if (column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+            <%= taxInvoiceDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+            <%= taxInvoiceDetails.attributes["" + column.column_name] %>
+        <% } %>
+    </td>
+<% }); %>
+  <td>
+    <!-- <button type="button" class="ws-btn-default loadview" data-toggle="tooltip"  data-placement="top" data-content="Returned" data-customerID="<%=taxInvoiceDetails.attributes.customer_id%>" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>" data-view="returnDeliveryData"><span class="material-symbols-outlined">assignment_return</span></button> -->
+    <button type="button" class="ws-btn-default loadview" data-toggle="tooltip"  data-placement="top" data-content="Edit"  data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>" data-view="singletaxInvoiceData"><i class="material-icons">mode_edit</i></button>
+    <a href="<%=APIPATH%>printBill/<%=taxInvoiceDetails.attributes.invoiceID%>" target="_blank" data-toggle="tooltip"  data-placement="top" data-content="Download" style="color: #5f6368;">
+      <span class="material-symbols-outlined ws-btn-default">download</span></a>
+  </td>
+</tr>
+              

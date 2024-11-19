@@ -1,0 +1,328 @@
+<div class="tab-pane in active">
+    <form id="pagesDetails" name="pagesDetails" action="#" style="padding: 0px 10px;">
+      <div class="text-right actionBtns">
+        <button type="button" class="btn bg-indigo saveDetails" data-action="close">Save</button>
+        <button type="button" class="btn bg-indigo saveDetails" data-action="new">Save & new</button>
+      </div>
+      <div class="ws-main-container">
+        <!-- basic info  start-->
+        <div class="row">
+          <div class="list-row icon-list">
+            <div class="icon-left">
+              <div class="ws-icon">
+                <i class="material-icons">list_alt</i>
+              </div>
+            </div>
+            <div class="right-layout">
+              <label> <strong>Basic Information</strong></label>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row left-space">
+          <div class="col-md-4">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <input id="pageTitle" type="text" class="form-control txtchange titleChange app-pd" autocomplete="off" name="pageTitle" value="<%=model.pageTitle%>">
+                <label for="pageTitle" class="form-label">Title<span class="error">*</span> : </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <input id="pageSubTitle" type="text" class="form-control txtchange app-pd" autocomplete="off" name="pageSubTitle" value="<%=model.pageSubTitle%>">
+                <label for="pageSubTitle" class="form-label">Sub-Title<span class="error">*</span> : </label>
+              </div>
+            </div>
+          </div>
+          <% if(menuName=="blogs" ){%>
+            <div class="col-md-4">
+              <div class="form-group input-group form-float taskDropDown">
+                <div class="form-line removeBorder">
+                  <select for="category_id" autocomplete="off" id="category_id" name="category_id"
+                    title="Select Category" class="form-control dropval ws-select show-tick repeatChange backgroundHide"
+                    multiple>
+                    <%if(permission.add=="yes" ) { %>
+                      <option class="addNew app-pd" value="addCategory">Add Category</option>
+                      <%}%>
+                        <% _.each(categoryList, function(modelcat) { %>
+                          <option <% if(model.category_id && _.contains(model.category_id.split(","), modelcat.attributes.category_id)){%>selected <% } %>value="
+                              <%=modelcat.attributes.category_id%>"><%=modelcat.attributes.categoryName%>
+                          </option>
+
+                          <%})%>
+                  </select>
+                  <label for="category" class="form-label">Category</label>
+                  <%if(model.lead_priority !="" && model.lead_priority !=null){%>
+                    <span class="ws_clear material-icons">close</span>
+                    <%}%>
+                </div>
+              </div>
+            </div>
+            <%}else if(menuName=="pages" ){%>
+              <div class="col-md-4">
+                <div class="form-group input-group form-float taskDropDown">
+                  <div class="form-line removeBorder">
+                    <select for="category_id" autocomplete="off" id="category_id" name="category_id"
+                      title="Select Category"
+                      class="form-control dropval ws-select show-tick repeatChange backgroundHide" multiple>
+                      <%if(permission.add=="yes" ) { %>
+                        <option class="addNew" value="addCategory">Add Category</option>
+                        <%}%>
+                          <% _.each(categoryList, function(modelcat) { %>
+                            <option <% if(model.category_id && _.contains(model.category_id.split(","),
+                              modelcat.attributes.category_id)){%>selected <% } %>value="
+                                <%=modelcat.attributes.category_id%>"><%=modelcat.attributes.categoryName%>
+                            </option>
+
+                            <%})%>
+                    </select>
+                    <label for="category" class="form-label">Category</label>
+                    <%if(model.lead_priority !="" && model.lead_priority !=null){%>
+                      <span class="ws_clear material-icons">close</span>
+                      <%}%>
+                  </div>
+                </div>
+              </div>
+              <%}else if(menuName=="services" ){%>
+                <div class="col-md-4">
+                  <div class="form-group input-group form-float taskDropDown">
+                    <div class="form-line removeBorder">
+                      <select for="category_id" autocomplete="off" id="category_id" name="category_id"
+                        title="Select Category"
+                        class="form-control dropval ws-select show-tick repeatChange backgroundHide" multiple>
+                        <%if(permission.add=="yes" ) { %>
+                          <option class="addNew" value="addCategory">Add Category</option>
+                          <%}%>
+                            <% _.each(categoryList, function(modelcat) { %>
+                              <option <% if(model.category_id && _.contains(model.category_id.split(","),
+                                modelcat.attributes.category_id)){%>selected <% } %>value="
+                                  <%=modelcat.attributes.category_id%>"><%=modelcat.attributes.categoryName%>
+                              </option>
+
+                              <%})%>
+                      </select>
+                      <label for="category" class="form-label">Category</label>
+                      <%if(model.lead_priority !="" && model.lead_priority !=null){%>
+                        <span class="ws_clear material-icons">close</span>
+                        <%}%>
+                    </div>
+                  </div>
+                </div>
+                <%}%>
+        </div>
+
+        <div class="row left-space">
+          <div class="col-md-4">
+            <div class="form-group form-float ws-form-option">
+              <label for="is_external_link" class="form-label">Is External Link? <span class="info-icon-tooltip">
+                  <span class="material-icons" data-toggle="tooltip" data-content="This field is auto-populated from the title if the external link toggle is on. You can also enter a custom URL to redirect to a specific external webpage.">info</span>
+                </span></label>
+              <ul class="item-container" data-valid="is_external_link">
+                <li class="is_external_link multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                <li class="is_external_link multiSel" data-render="yes" data-single="Y" data-value="no">No</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <% if(model.is_external_link=="yes" ) { %>
+                  <input id="pageLink" type="text" class="form-control txtchange app-pd" autocomplete="off"
+                    name="pageLink" value="<%=model.pageLink%>">
+                  <label for="pageLink" class="form-label">External Link<span class="error">*</span> : </label>
+                  <% } else { %>
+                    <input id="pageLink" type="text" class="form-control txtchange app-pd" autocomplete="off"
+                      name="pageLink" value="<%=model.pageLink%>">
+                    <label for="pageLink" class="form-label">Link<span class="error">*</span> : </label>
+                    <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row left-space">
+          <div class="col-md-11">
+            <label for="description">Description :</label>
+            <div id="description" class="form-control">
+              <%=model.description%>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="clearfix">&nbsp;</div>
+          </div>
+        </div>
+        <!-- basic info  end-->
+        <!-- SEO Settings  start-->
+        <div class="row">
+          <div class="list-row icon-list">
+            <div class="icon-left">
+              <div class="ws-icon">
+                <i class="material-icons">search</i>
+              </div>
+            </div>
+            <div class="right-layout">
+              <label><strong>SEO Settings</strong></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix">&nbsp;</div>
+        <div class="row left-space">
+          <div class="col-md-4">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <label for="metaDesc" class="form-label">Meta Description<span class="error">*</span> :<span class="info-icon-tooltip">
+                    <span class="material-icons" data-toggle="tooltip" data-content="Enter a brief meta description summarizing your content, up to 160 characters. This helps improve search engine ranking and attract readers.">info</span>
+                  </span> </label>
+                <input id="metaDesc" type="text" class="form-control app-pd txtchange" autocomplete="off" name="metaDesc" value="<%=model.metaDesc%>">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <input id="keywords" type="text" class="form-control txtchange app-pd" autocomplete="off" name="keywords" value="<%=model.keywords%>">
+                <label for="keywords" class="form-label">Keywords<span class="error">*</span> :<span class="info-icon-tooltip">
+                    <span class="material-icons" data-toggle="tooltip" data-content="Enter 3-5 keywords that accurately describe your content, separated by commas. This helps improve search engine ranking and reach the right audience.">info</span>
+                  </span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- SEO Settings end-->
+        <!-- Display Settings start-->
+        <div class="row">
+          <div class="list-row icon-list">
+            <div class="icon-left">
+              <div class="ws-icon">
+                <i class="material-icons">desktop_windows</i>
+              </div>
+            </div>
+            <div class="right-layout">
+              <label> <strong>Display Settings</strong></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix">&nbsp;</div>
+        <div class="row left-space">
+          <div class="col-md-4">
+            <div class="form-group form-float ws-form-option">
+              <label for="status" class="form-label">Page status<span class="error">*</span> <span class="info-icon-tooltip">
+                  <span class="material-icons" data-toggle="tooltip" data-content="Select 'Publish' to make the item visible on the website. Choose
+                    'Unpublish' to hide it from view. Use 'Delete' to remove the item from the system
+                    entirely.">info</span></span></label>
+              <ul class="item-container" data-valid="status">
+                <li class="status multiSel" data-single="Y" data-value="active">Published</li>
+                <li class="status multiSel" data-single="Y" data-value="inactive">Unpublished</li>
+                <li class="status multiSel" data-single="Y" data-value="delete">Delete</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group form-float ws-form-option">
+              <label for="show_banner_image" class="form-label">Show image in header ? <span class="info-icon-tooltip">
+                  <span class="material-icons" data-toggle="tooltip" data-content="Enable this option to display the banner image in the header
+                    section of the webpage. The image must be uploaded in the Theme Options module.">info</span>
+              </label>
+              <ul class="item-container" data-valid="show_banner_image">
+                <li class="show_banner_image multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                <li class="show_banner_image multiSel" data-render="yes" data-single="Y" data-value="no">No</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group form-float ws-form-option">
+              <label for="show_description_on_website" class="form-label">Show Description on Page? <span
+                  class="info-icon-tooltip">
+                  <span class="material-icons" data-toggle="tooltip" data-content="Enable this toggle to display the description in the banner
+                    section of the webpage. Disable it if you do not want the description to appear in the
+                    banner.">info</span>
+                </span></label>
+              <ul class="item-container" data-valid="show_description_on_website">
+                <li class="show_description_on_website multiSel" data-render="yes" data-single="Y" data-value="yes">Yes
+                </li>
+                <li class="show_description_on_website multiSel" data-render="yes" data-single="Y" data-value="no">No
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Display Settings end-->
+        <!-- Custom Code start-->
+        <div class="row">
+          <div class="list-row icon-list">
+            <div class="icon-left">
+              <div class="ws-icon">
+                <i class="material-icons">code</i>
+              </div>
+            </div>
+            <div class="right-layout">
+              <label> <strong>Custom Code</strong></label>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row left-space">
+
+          <div class="col-md-11">
+            <label for="scriptForPage">Custom JavaScript :<span class="error"></span> <span class="info-icon-tooltip">
+                <span class="material-icons" data-toggle="tooltip" data-content="Enter your custom JavaScript code here. This code will be executed
+                  on the webpage. Ensure that your code is properly tested to avoid any issues.">info</span>
+            </label>
+            <textarea id="scriptForPage" rows="4" class="ckeditor form-control txtchange" name="scriptForPage"><%=model.scriptForPage %></textarea>
+            <div class="clearfix">&nbsp;</div>
+            <div class="clearfix">&nbsp;</div>
+          </div>
+          <div class="col-md-11">
+            <label for="cssForPage">Custom Css :<span class="error"></span> <span class="info-icon-tooltip">
+                <span class="material-icons" data-toggle="tooltip" data-content="Enter your custom CSS code here to style the webpage. This code will
+                  be applied to the respective page. Ensure your CSS is correctly written to achieve the desired visual
+                  effects.">info</span></label>
+            <textarea id="cssForPage" rows="4" class="ckeditor form-control txtchange" name="cssForPage"><%=model.cssForPage %></textarea>
+            <div class="clearfix">&nbsp;</div>
+            <div class="clearfix">&nbsp;</div>
+          </div>
+        </div>
+        <!-- Custom Code end-->
+        <div class="row">
+          <div class="list-row icon-list">
+            <div class="icon-left">
+              <div class="ws-icon">
+                <i class="material-icons">image</i>
+              </div>
+            </div>
+            <div class="right-layout">
+              <label><strong>Cover image</strong></label>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row left-space">
+          <div class="col-md-4 p-0 m-0">
+            <div>
+              <div class="clearfix">&nbsp;
+                <input
+                  style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;margin-left: 15px;text-align: center;"
+                  id="typehead" class="btn loadMedia" autocomplete="off" type="button" value="Select Cover image"
+                  name="Media" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+              </div>
+            </div>
+            <div class="" style="width: 65%;">
+              <% if(model.feture_image !="" ) {%>
+                <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.feture_image%>">
+                <%}else{%>
+                  No image uploaded.
+                  <%}%>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+      <div id="dynamicFormFields" class="dynamic-align"></div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="clearfix">&nbsp;</div>
+    </form>
+  </div>
+  

@@ -1,0 +1,29 @@
+<tr class="even pointer bg-<%=accGroupDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="bg__control normal">
+      <label class="check__box">
+        <input class="memberlistcheck" type="checkbox" data-accGroupID="<%= accGroupDetails.attributes.accGroupID %>">
+        <div class="square__box round"></div>
+      </label>
+
+    </div>
+  </td>
+  <td class="">
+    <%=accGroupDetails.attributes.accGroupID%>
+  </td>
+  <td class="loadview" data-accGroupID="<%=accGroupDetails.attributes.accGroupID%>" data-view="singleAccGroupData"><a
+      href="javascript:;"><b><u>
+          <%=accGroupDetails.attributes.accGroupName%>
+        </u></b></a></td>
+  </td>
+  <td class="">
+    <%= formatDate(accGroupDetails.attributes.created_date,'no') %>
+  </td>
+  <td class="">
+    <%=accGroupDetails.attributes.status%>
+  </td>
+  <td>
+    <button type="button" class="btn btn-info btn-xs loadview"
+      data-accGroupID="<%=accGroupDetails.attributes.accGroupID%>" data-view="singleAccGroupData">Edit</button>
+  </td>
+</tr>

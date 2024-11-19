@@ -1,0 +1,381 @@
+<div class="tab-pane in active">
+    <form id="expenseDetails" name="expenseDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveexpensesDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveexpensesDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="ws-main-container">
+            <div class="col-md-12 ws-appointment-container">
+                <div class="clearfix">&nbsp;</div>
+                <!-- EXPENSE TITLE -->
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="expense_title" type="text" class="form-control txtchange"
+                                            autocomplete="off" name="expense_title" value="<%=model.expense_title%>">
+                                        <label for="expense_title" class="form-label">Title <span class="error">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DETAILS [Reference Number, Expense Status, Expense Type] -->
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="material-symbols-outlined">tag</span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" value="<%=model.expenses_id%>"
+                                            autocomplete="off" placeholder="Reference number will autogenerate"
+                                            readonly>
+                                        <label for="reference_number" class="form-label"> Expense Reference
+                                            Number</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line" style="border: none;">
+                                        <label for="status" class="form-label"> Expense Status </label>
+                                        <select id="status" name="status"
+                                            class="form-control dropval ws-select show-tick pl-0" title="Select Status"
+                                            data-live-search="true" data-live-search="true">
+                                            <option class="addNew" value="">Select Expense Type</option>
+                                            <option <% if(model.status=="draft" ){ %>selected<% } %> value="draft">Draft
+                                            </option>
+                                            <option <% if(model.status=="submitted" ){ %>selected<% } %>
+                                                    value="submitted">Submitted</option>
+                                            <option <% if(model.status=="approved" ){ %>selected<% } %>
+                                                    value="approved">Approved</option>
+                                            <option <% if(model.status=="rejected" ){ %>selected<% } %>
+                                                    value="rejected">Rejected</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line" style="border: none;">
+                                        <label for="expense_type" class="form-label"> Expense Type </label>
+                                        <select id="expense_type" name="expense_type"
+                                            class="form-control dropval ws-select show-tick pl-0"
+                                            title="Select Expense Type" data-live-search="true" data-live-search="true">
+                                            <option class="addNew" value="">Select Expense Type</option>
+                                            <% _.each(categoryList, function(modelcat) { %>
+                                                <% if(modelcat.attributes.slug=="expenses_type" )
+                                                    _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(model1.category_id==model.expense_type ){ %>selected<%
+                                                            } %>
+                                                            value="<%=model1.category_id%>"><%=model1.categoryName %>
+                                                    </option>
+                                                    <%})%>
+                                                        <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [Expense Date, Expense By, Expense Type] -->
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">schedule</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="expense_date" type="text" class="form-control" name="expense_date"
+                                            autocomplete="off" value="<%=model.expense_date%>" readonly>
+                                        <label for="expense_date" class="form-label">Expense Date <span class="error">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="expense_by" type="text" class="form-control expenseChange"
+                                            autocomplete="off" name="expense_by" value="<%=model.adminName%>" />
+                                        <label for="expense_by" class="form-label">Expense By <span class="error">*</span></label>
+                                        <div class="expense-input"></div>
+                                        <div id="expenseByDropdown" class="dropdown-content custDrop"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line" style="border: none;">
+                                        <label for="status" class="form-label"> Expense Status </label>
+                                        <select id="category" name="category"
+                                            class="form-control dropval ws-select show-tick pl-0"
+                                            title="Select Category" data-live-search="true" data-live-search="true">
+                                            <option class="addNew" value="">Select Expense Status</option>
+                                            <% _.each(categoryList, function(modelcat) { %>
+                                                <% if(modelcat.attributes.slug=="expenses_category" )
+                                                    _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(model1.category_id==model.category ){ %>selected<% }
+                                                            %>
+                                                            value="<%=model1.category_id%>"><%=model1.categoryName %>
+                                                    </option>
+                                                    <%})%>
+                                                        <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [Merchant,bank_account] -->
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="material-symbols-outlined">point_of_sale</span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row ">
+                            <div class="col-md-8">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="merchant" type="text" class="form-control txtchange"
+                                            autocomplete="off" value="<%=model.merchant%>">
+                                        <label for="merchant" class="form-label">Merchant</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="bank_account" class="form-label">Bank Account <span class="error">*</span> </label>
+                                        <select id="bank_account" name="bank_account"
+                                            class="form-control ws-select dropval" title="Select Bank Account">
+                                            <option class="addNew" value="">Select Bank Account</option>
+                                            <% _.each(accounts, function(account) { %>
+                                                <option <% if(account.attributes.account_id==model.bank_account ){ %>
+                                                    selected <% } %> value="<%=account.attributes.account_id%>">
+                                                            <%=account.attributes.name%>
+                                                </option>
+                                                <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [Amount, Claim Reimbursement, approver_id] -->
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="material-symbols-outlined">payments</span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="amount" type="number" class="form-control txtchange"
+                                            autocomplete="off" placeholder="0.00" name="amount"
+                                            value="<%=model.amount%>" style="text-align: right;" />
+                                        <label for="amount" class="form-label">Amount <span class="error">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group input-group-lg claimReimburs" style="margin-top: -6px;">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" class="chk-col-yellow" id="ig_checkbox"
+                                            <%if(model.claim_reimbursement=="Yes" ){%> checked <%}%>
+                                            name="claim_reimbursement_checkbox">
+                                            <label for="ig_checkbox">Claim Reimbursement</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line" style="border: none;">
+                                        <label for="product_type" class="form-label">Send for Approval To </label>
+                                        <select id="approver_id" name="approver_id"
+                                            class="form-control ws-select dropval" title="Send for Approval To">
+                                            <option class="addNew" value="">Select Approval To Account</option>
+                                            <% _.each(adminList, function(model1) { %>
+                                                <option <% if(model1.attributes.adminID==model.approver_id ){ %>selected
+                                                    <% } %>
+                                                        value="<%=model1.attributes.adminID%>">
+                                                            <%=model1.attributes.name%>
+                                                </option>
+                                                <%}); %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [Paid By, Payee Name] -->
+                <div class="list-row" id="paidMainDiv" <%if (model.claim_reimbursement=="Yes" ){%>style="display: none;"
+                    <%}%> >
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <span class="input-group-addon lg"><i class="material-icons">group</i></span>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <div class="form-group form-float">
+                                        <div class="form-line" style="border: none;">
+                                            <label for="product_type" class="form-label">Paid By </label>
+                                            <select id="paid_by" name="paid_by"
+                                                class="form-control dropval ws-select show-tick pl-0" title="Paid By"
+                                                data-live-search="true" data-live-search="true">
+                                                <option value="" class="addNew">Select Paid By</option>
+                                                <option <% if(model.paid_by=="cash" ){ %>selected<% } %>
+                                                        value="cash">Cash</option>
+                                                <option <% if(model.paid_by=="upi" ){ %>selected<% } %> value="upi">UPI
+                                                </option>
+                                                <option <% if(model.paid_by=="cheque" ){ %>selected<% } %>
+                                                        value="cheque">Cheque</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 chequeNumbDiv" <%if(model.paid_by !="cheque" ){%>
+                                    style="display:none;"<%}%> >
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <input id="transaction_id" type="text" class="form-control txtchange"
+                                                    autocomplete="off" name="transaction_id"
+                                                    value="<%=model.transaction_id%>" />
+                                                <label for="transaction_id" class="form-label">Cheque Number</label>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-4 transacNumbDiv" <%if(model.paid_by !="upi" ){%> style="display:
+                                    none;"<%}%> >
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <input id="transaction_id" type="text" class="form-control txtchange"
+                                                    autocomplete="off" name="transaction_id"
+                                                    value="<%=model.transaction_id%>" />
+                                                <label for="transaction_id" class="form-label">transaction ID</label>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-4 payeeNameDiv" <%if(model.paid_by=="cash" ){%> style="display:none;"
+                                    <%}%> >
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <input id="payee_name" type="text" class="form-control txtchange"
+                                                    autocomplete="off" name="payee_name"
+                                                    value="<%=model.payee_name%>" />
+                                                <label for="payee_name" class="form-label">Payee Name</label>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <!-- [related_to, project_id] -->
+                <div class="list-row" id="paidMainDiv" <%if (model.claim_reimbursement=="Yes" ){%>style="display: none;"
+                    <%}%> >
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <span class="input-group-addon lg"><i class="material-icons">local_library</i></span>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="related_to" class="form-label">Related To </label>
+                                            <select id="related_to" name="related_to"
+                                                class="form-control ws-select dropval" title="Related To">
+                                                <option class="addNew" value="">Select Related To</option>
+                                                <option <% if(model.related_to=='project' ){ %>selected<% } %>
+                                                        value="project">Project</option>
+                                                <option <% if(model.related_to=='opportunity' ){ %>selected<% } %>
+                                                        value="opportunity">Opportunity</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% if(model.related_to=='project' ) {%>
+                                    <div class="col-md-4">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <label for="project_id" class="form-label">Project </label>
+                                                <select name="project_id" id="project_id" title="Select Project"
+                                                    class="ws-select form-control dropval">
+                                                    <option class="addNew" value="addNewProject">Add New Project
+                                                    </option>
+                                                    <% _.each(projectsList, function(project) { %>
+                                                        <option <% if(model.project_id==project.attributes.project_id )
+                                                            {%> selected <% } %> value="<%=project.attributes.project_id%>"><%=project.attributes.title%>
+                                                        </option>
+                                                        <%}) %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="clearfix">&nbsp;</div>
+                <!-- Dynamic fieds -->
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+                <!-- Upload Receipt -->
+
+            </div>
+        </div>
+    </form>
+    <div class="ws-main-container">
+        <div class="col-md-12 ws-appointment-container">
+            <div class="list-row">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                        <span class="material-symbols-outlined"></span>
+                    </div>
+                </div>
+                <div class="right-layout ws-quill">
+                    <div class="row ">
+                        <div class="col-md-12 ws-dragbox taskAttachDragBox">
+                            <div class="col-md-12 ws-assignee-column">
+                                <input type="file" autocomplete="off" multiple class="btn btn-default btn__action"
+                                    id="receiptUpload" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-5 mt-3 row" id="attachedDoc">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

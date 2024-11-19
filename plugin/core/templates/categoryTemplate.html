@@ -1,0 +1,15 @@
+<div class="col-md-12 value-category" > 
+    <div class="form-group form-float">
+      <div class="form-line">
+        <select for="field_value" id="field_value" name="field_value" title="Value"  class="field_value dropval form-control">
+          <option class="addNew" value="">Select Value</option>
+            <% _.each(categoryList, function(modelcat) { %>
+              <% if(modelcat.attributes.slug == slug )
+                _.each(modelcat.attributes.sublist, function(model1) { %>
+                  <option <% if(dVal){ if(dVal.value == model1.category_id){%> selected <% }} %> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                <%})%>
+            <%})%>
+        </select>
+      </div>
+    </div>
+</div>

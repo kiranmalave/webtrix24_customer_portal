@@ -1,0 +1,143 @@
+<div id="field_<%=rowCounter%>" data-field="<%=column.columnName%>" data-mapped_field="<%=column.mappedFieldName%>" class="dropdown filterDropdown ws-filter-items">
+  <% let columnfield = column.columnName.replace(/_/g, " "); let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); %>
+  <div class="dropdown">
+    <button class="btn btn-light dropdownMenuButton" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <% if(column.mappedFieldName != '' && column.mappedFieldName != undefined){ %> <%=column.mappedFieldName%><% }else{ %><%=upl%><% } %>  <% if(column.valueToShow != ''){%> : <%=column.valueToShow%> <%}%> 
+    </button>
+    <span class="material-icons removeField" data-removeField = "<%=rowCounter%>" data-columnName = "<%=column.Field%>">close</span>
+    <div class="dropdown-menu filterCoditionDrop px-3 py-3">
+      <form>
+          <div class="row condition_row">
+            <div class="col-md-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <select id="condition" class="form-control dropval changeBox ws-select"  name="condition">
+                    <option class="addNew" value="">Select Condition</option>
+                    <%_.each(conditionList,function(condition){%>
+                        <option <% if(column.conditionalOp == condition.value ){ %> selected <% } %>  value="<%=condition.value%>"><%=condition.label%></option>
+                    <%});%>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row value_row">
+            <div class="col-md-12 value-text">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input id="field_value" type="text" class="form-control txtchange" autocomplete="off" name="field_value" placeholder="Value" value="<%=column.value%>">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 value-text-range" style="display: none">
+              <% if(column.condition == 'range'){ %>
+                <% var value = column.value; value = value.split('-'); %>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group form-float">
+                      <div class="form-line">
+                        <input type="text" id="from_value" class="field_value form-control txtchange" placeholder="From" value="<%=value[0]%>" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group form-float">
+                      <div class="form-line">
+                        <input type="text" id="to_value" class="field_value form-control txtchange" placeholder="To" value="<%=value[1]%>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+            <div class="col-md-12 value-admin" style="display: none">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <select for="field_value" id="field_value" name="field_value" title="Value" class="field_value form-control dropval" >
+                    <option class="addNew" value="">Select Value</option>
+                    <%_.each(adminList,function(admin){%>
+                      <option <% if(column.value == admin.attributes.adminID ){%> selected <% } %> value="<%=admin.attributes.adminID%>">
+                      <%=admin.attributes.name%>
+                      </option>
+                    <%});%>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 value-company" style="display: none">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <select for="field_value" id="field_value" name="field_value" title="Value" data-live-search="true" title="Value" class="field_value form-control dropval" data-live-search="true" >
+                    <option class="addNew" disabled value="">Select Value</option>
+                    <%_.each(COMPANYLIST,function(company){%>
+                    <option <% if(column.value == company.infoID ){%> selected <% } %> value="<%=company.infoID%>">
+                      <%=company.companyName%>
+                    </option>
+                    <%});%>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 value-enum" style="display: none">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <select for="field_value" id="field_value" class="field_value form-control dropval" name="field_value" title="Value" >
+                    <option class="addNew" disabled value="">Select Value</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 value-date-range" style="display: none">
+              <% var date = column.value; date = date.split('/'); %>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <input type="text" id="from_date" class="field_value form-control txtchange" placeholder="From Date" value="<%=date[0]%>" >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <input type="text" id="to_date" class="field_value form-control txtchange" placeholder="To Date" value="<%=date[1]%>">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 value-date-time" style="display: none">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input id="field_value" type="text" class="field_value form-control txtchange" placeholder="Value" autocomplete="off" name="field_value" value="<%=column.value%>" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 dynamic-field " style="display:none;" ></div>
+          </div>
+        </form>
+        <button id="btn_search_<%=column.columnName%>" data-fieldname="<%=column.columnName%>" class="btn btn-block quick_search">Save</button>
+    </div>
+  </div>
+  <div class="dropdown logicalOp-dd">
+    <button class="btn btn-warning dropdown-toggle logicalDropdownButton m-1 p-1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= column.logicalOp%>
+    </button>
+    <div class="dropdown-menu logical-op-menu">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group form-float">
+            <div class="form-line">
+              <select for="logical_condition" id="logical_condition" name="logical_condition" title="Logical Operator" class="field_logicalOp form-control dropval" >
+                <option <% if(column.logicalOp == 'AND'){%>selected <% } %> value="AND">AND</option>
+                <option <% if(column.logicalOp == 'OR'){%>selected <% } %>  value="OR">OR</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

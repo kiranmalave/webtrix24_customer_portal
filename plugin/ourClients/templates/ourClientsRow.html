@@ -1,0 +1,27 @@
+<tr class="even pointer bg-<%=clientDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= clientDetails.attributes.clients_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-clients_id="<%= clientDetails.attributes.clients_id %>" type="checkbox">
+      <label for="cAll_<%= clientDetails.attributes.clients_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-clients_id="<%=clientDetails.attributes.clients_id%>"  data-view="singleclientData">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= clientDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+          <% if(clientDetails.attributes[""+column.column_name] == "" || clientDetails.attributes[""+column.column_name] == null){%>
+            -
+          <%}else{%>
+            <%=clientDetails.attributes[""+column.column_name]%>
+          <%}%>
+        <% } %>
+      </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-clients_id="<%=clientDetails.attributes.clients_id%>"  data-view="singleclientData"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit">mode_edit</i></button>
+      </td>
+</tr>

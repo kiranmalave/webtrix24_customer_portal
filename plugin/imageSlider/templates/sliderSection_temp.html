@@ -1,0 +1,69 @@
+<div class="tab-pane in active">
+    <form id="sectionDetails" action="#">
+        <% if(sliderSectionList.length > 0) { %>
+        <div class="row">
+            <div class="col-md-8 ws-title mt-3">
+               <div class="form-group form-float d-flex">
+                  <div class="col-md-6">
+                        
+                  </div>
+                    <div> 
+                        <div class="text-right actionBtns slider-btn">
+                            <button type="button" class="btn bg-indigo  loadview" 
+                                data-action="close" data-view="sliderSectionSingleView" data-item="sliderSectionSingleView">Create Slider</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 col-lg-12">
+                <div class="panel-group sortable-sectionlist accordionCourse" id="accordion_10" role="tablist"
+                    aria-multiselectable="true">
+                    <% _.each(sliderSectionList, function(model1) { %>
+                    <div class="panel panel-col-blue-grey" data-section-id="<%=model1.attributes.item_id%>">
+                        <div class="panel-heading loadLessons panel-group panel panel-heading ">
+                            <h4 class="ws_panel-title panel-title test operation section-title">
+                                <%=model1.attributes.title%>
+                                <div class="icon">
+                                    <span type="button" class="justify-content-center loadview" title="edit" data-view="sliderSectionSingleView" data-item_id="<%=model1.attributes.item_id%>"><i
+                                            class="material-icons" >mode_edit</i></span>
+                                    <span type="button" class="justify-content-center changeStatus "
+                                        data-sectionID="<%=model1.attributes.item_id%>" data-action="delete"
+                                        title="Delete"><i class="material-icons">delete</i></span>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="card text-center">
+            <div class="card-body">
+                <h4 class="card-title text-primary">Nothing is Added To slider</h4>
+                <h5 class="card-text text-center">Start adding slider to build your slider. </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 ws-section_name mx-auto">
+                <div class="form-group form-float d-flex">
+                    <div class="form-line">
+                        <input id="title" type="text" class="form-control txtchange" name="title"
+                            value="<%=model.title%>">
+                        <label for="title" class="form-label">Title </label>
+                    </div>
+                </div>
+                <div class="floa-right text-right actionBtns slide-btn justify-content-center">
+                    <button type="button" class="btn bg-indigo saveSectionDetails" id="updatebtn"
+                        data-action="close">Create Slide</button>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </form>
+</div>

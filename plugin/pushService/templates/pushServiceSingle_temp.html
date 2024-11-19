@@ -1,0 +1,309 @@
+<div class="tab-pane in active">
+
+    <form id="pushServiceDetails" name="pushServiceDetails" action="#">
+        
+            <div class="text-right actionBtns" <% if(model.status == "approved" || model.status == "declined"){%> style="display: none;" <%}%> >
+                <button type="button" class="btn bg-indigo savepushServiceDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo savepushServiceDetails" data-action="new">Save & new</button>
+            </div> 
+        
+        
+        <div class="row ws-main-container">
+            <div class="col-md-12 ws-appointment-container">
+                <div class="clearfix">&nbsp;</div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">       
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="pushService_number" class="form-control txtchange ws-disable-cursor" autocomplete="off"  type="text" value="<%=model.pushService_number%>" disabled placeholder="pushService Number Auto Generated">
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top:10px;">
+                                event
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="date_of_donation" type="text" class="form-control txtchange" readonly
+                                        autocomplete="off"  name="date_of_donation" value="<%=model.date_of_donation%>">
+                                        <label for="date_of_donation" class="form-label">Date Of Donation</label>
+                                    </div>
+                                </div>
+                            </div>
+                          
+
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        
+                                        <select id="customer_id" name="customer_id"
+                                            class="form-control dropval ws-select show-tick pl-0" title="Select Donner Name" data-live-search="true" data-live-search="true">
+                                            <%if(permission.add=="yes" ) { %>
+                                                <option class="addNew" value="addCustomer">Select Donner Name</option>
+                                            <%}%>
+                                            <% _.each(customerList, function(model1) { %>
+                                                <option <% if(model1.attributes.customer_id==model.customer_id ){ %>selected <% } %>value="<%=model1.attributes.customer_id%>"><%=model1.attributes.first_name%> <%=model1.attributes.last_name%></option>
+                                            <%}); %>
+                                        </select>
+                                        <label for="customer_id" class="form-label">Donner Name</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top:10px;">
+                                face
+                            </i>
+                            
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                          
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="name" class="form-control txtchange" name="name" autocomplete="off"
+                                        autocomplete="off"  value="<%=model.name%>">
+
+                                        <label for=" Email Id" class="form-label">In The Name Of</label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="contact_number" class="form-control txtchange" name="contact_number"  autocomplete="off"
+                                            value="<%=model.contact_number%>">
+
+                                        <label for="Pan Number" class="form-label">Contact Number</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top:10px;">
+                                email
+                            </i>
+                            
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                           
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="email_id" class="form-control txtchange" name="email_id" autocomplete="off"
+                                            value="<%=model.email_id%>">
+
+                                        <label for=" Email Id" class="form-label">Email Id</label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="pan_number" class="form-control txtchange" name="pan_number" autocomplete="off"
+                                        type="text" maxlength="10" value="<%=model.pan_number%>">
+
+                                        <label for="Pan Number" class="form-label">Pan Number</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top: 10px;">
+                                monetization_on
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        
+                                        <select for="type_of_donation" id="type_of_donation" name="type_of_donation" title="Type Of Donation" class="form-control dropval ws-select show-tick repeatChange pl-0">
+                                            <%if(permission.add=="yes" ) { %>
+                                                <option class="addNew" value="addDonation">Donation</option>
+                                                <%}%>
+                                                    <% _.each(categoryList, function(modelcat) { %>
+                                                        <% if(modelcat.attributes.slug=="donation" )
+                                                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                                <option <% if(model1.category_id == model.type_of_donation ){ %>selected <% } %>value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                                            <%})%>
+                                                    <%})%>
+
+                                        </select>
+                                        <label for="type_of_donation" class="form-label">Type Of Donation</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="donation_amount" class="form-control txtchange" autocomplete="off" name="donation_amount"  maxlength="12"  type="number" value="<%=model.donation_amount%>">
+                                        <label for="Donation Amount" class="form-label">Donation Amount</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top: 10px;">
+                                payments
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+
+                                        <select for="payment_method" id="payment_method" name="payment_method" title="Payment Method" class="form-control dropval ws-select show-tick repeatChange pl-0">
+                                            <%if(permission.add=="yes" ) { %>
+                                                <option class="addNew" value="addPayment">Payment Method</option>
+                                                <%}%>
+                                                    <% _.each(categoryList, function(modelcat) { %>
+                                                        <% if(modelcat.attributes.slug=="payment" )
+                                                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                                <option <% if(model1.category_id == model.payment_method ){ %>selected <% } %>value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                                            <%})%>
+                                                    <%})%>
+
+                                        </select>
+                                        <label for="payment_method" class="form-label">Payment Method</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+
+                            
+
+                            <!-- <div class="col-md-6">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+
+                                        <input id="date_of_donation" type="text" class="form-control txtchange" readonly
+                                            name="date_of_donation" value="<%=model.date_of_donation%>">
+                                        <label for="date_of_donation" class="form-label">Date Of Donation</label>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <div class="input-group ws-input-group"> <span class="input-group-addon ">
+                                    <i class="material-icons" style="margin-top:3px;">location_on</i> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="address" class="form-control txtchange" name="address"
+                                        value="<%=model.address%>">
+                                    <label for="Donor Address" class="form-label">Donor Address</label>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input  id="address" class="form-control txtchange" name="address"
+                                            value="<%=model.address%>">
+                                    </div>
+                                </div> -->
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <!-- <input id="billing_address" class="form-control txtchange" name="billing_address" type="text" value="<%=model.billing_address%>">
+                                        <label for="billing_address" class="form-label">Address</label> -->
+                                        <input id="saveaAddress" class="form-control txtchange" name="address" type="text" value="<%=model.address%>">
+                                        <label for="address" class="form-label">Address</label>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label>Status</label>
+                    <ul class="item-container" data-valid="status">
+                      <li class="status multiOptionSel" data-single="Y" data-value="Pending">Pending</li>
+                      <li class="status multiOptionSel" data-single="Y" data-value="Approved">Approved</li>
+                      <li class="status multiOptionSel" data-single="Y" data-value="Declined">Declined</li>
+                    </ul>
+                  </div>
+
+                  <div class="clearfix">&nbsp;</div>
+            </div>
+
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,226 @@
+<div class="tab-pane in active">
+    <form id="triggerDetails" name="triggerDetails" action="#" style="display: none;">        
+        <div class="row ws-main-container">
+            <div class="icon-left " >
+            </div>
+            <!-- <div class=" addNewTrigger" toggle-val="opn">
+                <a class="ws-btn-default " target=""  data-toggle="tooltip" data-placement="top" data-content="Add Trigger"><i class="material-icons">add</i></a>
+                
+            </div>   -->
+            <div class="col-md-12 ">
+                <div class="clearfix">&nbsp;</div>
+                <div class="list-row">
+                    <div class="right-layout">
+                        <label class="text-muted">Create New Triggers </label>
+                        <div class="clearfix">&nbsp;</div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="trigger_name" type="text" class="form-control txtchange" name="trigger_name" value="">
+                                        <label for="trigger_name" class="form-label">Triger Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="notification_type" id="notification_type" name="notification_type" title="Notification Type" class="form-control dropval  ws-select  show-tick repeatChange">
+                                            <!-- <select for="" id="" name="trigger_type" title="Select Trigger Type" class="form-control dropval   show-tick repeatChange"> -->
+                                                <option class="addNew" value="">Select Notification Type </option>    
+                                                <option class="" value="email">Email</option>
+                                                <option class="" value="sms">SMS</option>
+                                                <option class="" value="both">Both</option>
+                                            </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="trigger_type" id="trigger_type" name="trigger_type" title="Trigger On" class="form-control dropval ws-select  show-tick repeatChange">
+                                    <!-- <select id="trigger_type" name="trigger_type" title="Select Trigger Type" class="form-control dropval"> -->
+                                        <!-- <select for="" id="" name="trigger_type" title="Select Trigger Type" class="form-control dropval   show-tick repeatChange"> -->
+                                            <option class="addNew" value="">Select Trigger Type </option>    
+                                            <option class="" value="on_course">Course</option>
+                                            <option class="" value="on_lesson">Lesson</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row lessons-div" style="display: none;">
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="col-md-5">
+                                <div class="form-float form-group ">
+                                    <div class="form-line">
+                                        <!-- <select id="lesson_list" name="lesson_list" title="Select Lesson" class="form-control dropval"> -->
+                                        <select for="lesson_list" id="lesson_list" name="lesson_list" title="Select Lesson" class="form-control dropval  ws-select show-tick repeatChange">
+                                            <option class="addNew" value="">Select Lesson </option>    
+                                            <% _.each(lessons, function(lesson) { %> 
+                                                <option value="<%=lesson.lesson_id%>"><%=lesson.attributes.lesson_title%></option>
+                                            <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="col-md-3">
+                                <div class="form-float form-group ">
+                                    <div class="form-line">
+                                        <!-- <select id="action" name="action" title="Select Action" class="form-control dropval"> -->
+                                        <select for="action" id="action" name="action" title="Select Action" class="form-control dropval  ws-select show-tick repeatChange">
+                                            <option class="addNew" value=""> Select Action</option>
+                                            <option value="complete"> On Complete</option>
+                                            <option value="update"> On Update</option>
+                                            <option value="expired"> On Expired</option>
+                                            <option value="start_date"> On Start Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+     
+                                
+                                <!-- <select id="send_on" name="send_on" class="form-control  dropval-i   ">
+                                  <option value="">Select Menu</option>
+                                  <option class="addNew" value="">Select Send On</option>
+                                  <option value="before">Before date</option>
+                                  <option value="on_date">Same Date</option>
+                                  <option value="after">After Date</option>
+                                </select> 
+         -->
+
+                                <div class="form-float form-group ">
+                                    <div class="form-line">
+                                        <select for="send_on" id="send_on" name="send_on" title="Send On" class="form-control dropval ws-select show-tick repeatChange">
+                                            <option class="addNew" value="">Select Send On</option>
+                                            <option value="before">Before date</option> 
+                                            <option value="on_date">Same Date</option>
+                                            <option value="after">After Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            
+                        </div>
+                        
+                        <!-- <div class="clearfix">&nbsp;</div> -->
+                        <div class="row interval-t-div" style="display: none;">
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="col-md-2">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="inteval_type" id="inteval_type" name="inteval_type" title="Interval Type" class="form-control dropval  ws-select show-tick repeatChange">
+                                            <option value="addNew">Select Interval Type</option>
+                                            <option value="day"> Days</option>
+                                            <option value="week"> Weeks</option>
+                                            <option value="month"> Months</option>
+                                            <!-- <option value="year">Year</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                      
+                            <div class="col-md-3 month-div" style="display: none;">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <select for="months_week" id="months_week" name="months_week" title="Months Week"  class="form-control dropval ws-select  show-tick repeatChange">
+                                            <option value="first">First </option>
+                                            <option value="second">Second</option>
+                                            <option value="third">Third</option>
+                                            <option value="fourth">Fourth</option>
+                                            <option value="last">Last</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 week-div " style="display: none;">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <select for="week_days" id="week_days" name="week_days" title="Week Days"  class="form-control dropval  ws-select show-tick repeatChange">
+                                            <option value="monday">Monday</option>
+                                            <option value="tuesday">TuesDay</option>
+                                            <option value="wednesday">WednesDay</option>
+                                            <option value="thursday">Thursday</option>
+                                            <option value="friday">Friday</option>
+                                            <option value="saturday">Saturday</option>
+                                            <option value="sunday">Sunday</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 day-div" style="display: none;">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="interval_span" type="text" class="form-control txtchange" name="interval_span" value="">
+                                        <label for="interval_span" class="form-label">Interval Span</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row stop-t-div" style="display: none;">
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="col-md-3">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <!-- <select id="stop_type" name="stop_type" title="Select Stop Type" class="form-control dropval"> -->
+                                        <select for="stop_type" id="stop_type" name="stop_type" title="Stop Type"  class="form-control dropval ws-select  show-tick repeatChange">
+                                            <option class="addNew" value="">Select Stop Type</option>
+                                            <option value="interval">Stop After Interval</option>
+                                            <option value="date">Stop After Date</option>
+                                            <option value="infinite"> No End Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 end-date-div" style="display: none;">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="end_date" type="text" data-provide="datepicker" class="form-control " name="end_date"
+                                            value="">
+                                        <label for="end_date" class="form-label">End Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 total-comp-inte" style="display: none;">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="total_complete_interval" type="text" class="form-control txtchange" name="total_complete_interval" value="">
+                                        <label for="total_complete_interval" class="form-label">Total Complete Interval</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="text-left">
+                            <button type="button" class="btn bg-indigo saveTrigger" data-action="close">Save</button>
+                            <button type="button" class="btn bg-indigo btncancelTriger" style="display: none; margin-left:10px" >Cancel</button>
+                        </div> 
+                        <div class="clearfix">&nbsp;</div>                     
+                    </div>
+
+                </div>
+                <!-- <div class="clearfix">&nbsp;</div>    <div class="clearfix">&nbsp;</div>  <div class="clearfix">&nbsp;</div>  <div class="clearfix">&nbsp;</div>  <div class="clearfix">&nbsp;</div>   -->
+                <div class="ws-schedule-border"></div>
+            </div>
+                  
+        </div>
+     
+       
+      
+       
+    </form>    
+    <div id="triggerslist">
+        <div class="clearfix">&nbsp;</div>
+    </div>
+</div>
+             

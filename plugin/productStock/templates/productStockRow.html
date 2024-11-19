@@ -1,0 +1,28 @@
+<tr class="even pointer bg-<%=productStockDetails.attributes.status%>">
+  <td class="a-center">
+      <div class="listCheckbox">
+          <input id="cAll_<%= productStockDetails.attributes.purchase_id %>" data-status ="<%=productStockDetails.attributes.status%>" class="memberlistcheck chk-col-amber deleteCard" data-purchase_id="<%=productStockDetails.attributes.purchase_id %>" type="checkbox"/>
+          <label for="cAll_<%= productStockDetails.attributes.purchase_id %>">&nbsp;</label>
+      </div>
+  </td>
+  <!-- <td class="loadview" data-toggle="modal" data-target="#myModal" data-stockID="<%=productStockDetails.attributes.purchase_id%>"data-show="singleStockData" ><a href="javascript:;"><u><%=productStockDetails.attributes.purchase_number%></u></a></td></td>
+  <td class=""><%=productStockDetails.attributes.vender_id%></td>
+  <td class=""><%=productStockDetails.attributes.challan_number%></td>
+  <td class=""><%=productStockDetails.attributes.purchase_date%></td>
+  <td class=""><%=productStockDetails.attributes.challan_date%></td>
+  <td class=""><%=productStockDetails.attributes.status%></td> -->
+   <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-purchase_id="<%=productStockDetails.attributes.purchase_id%>" data-view="singleStockData">
+        <% if (column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+            <%= productStockDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+            <%= productStockDetails.attributes["" + column.column_name] %>
+        <% } %>
+    </td>
+<% }); %>
+  <td>
+    <button type="button" class="ws-btn-default loadview" data-toggle="tooltip"  data-placement="top" data-content="Edit"  data-purchase_id="<%=productStockDetails.attributes.purchase_id%>" data-view="singleStockData"><i class="material-icons">mode_edit</i></button>
+    <a href="<%=APIPATH%>printBill/<%=productStockDetails.attributes.purchase_id%>" target="_blank" data-toggle="tooltip"  data-placement="top" data-content="Download" style="color: #5f6368;"><span class="material-symbols-outlined" data-toggle="tooltip" data-placement="top" data-content="Download Data">download</span></a>
+  </td>
+</tr>
+              

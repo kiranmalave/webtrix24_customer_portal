@@ -1,0 +1,63 @@
+
+<tr class="even pointer bg-<%=userRoleDetails.attributes.status%>">
+  <!-- <%if(userRoleDetails.attributes.is_sys_user!="yes" ){%>
+    <td class="a-center">
+      <div class="listCheckbox">
+        <input id="cAll_<%= userRoleDetails.attributes.roleID %>" class="memberlistcheck chk-col-amber"
+          data-roleID="<%= userRoleDetails.attributes.roleID %>" type="checkbox">
+        <label for="cAll_<%= userRoleDetails.attributes.roleID %>">&nbsp;</label>
+      </div>
+    </td>
+    <%}else{%>
+      <td class="a-center">
+        <div class="listCheckbox" style="visibility: hidden;">
+          <input id="cAll_<%= userRoleDetails.attributes.roleID %>" class="memberlistcheck chk-col-amber"
+            data-roleID="<%= userRoleDetails.attributes.roleID %>" type="checkbox">
+          <label for="cAll_<%= userRoleDetails.attributes.roleID %>">&nbsp;</label>
+        </div>
+      </td>
+    <%}%> -->
+    <% _.each(arrangedColumnList, function(column) { %>
+        <td <% if(userRoleDetails.attributes.is_sys_user !="yes" ){%> class="draglinerow truncateWidth loadview" data-roleID="<%= userRoleDetails.attributes.roleID %>" data-view="singleuserRoleData" style="cursor: pointer;" <%}else{%>class="draglinerow truncateWidth"<%}%>>
+          <div class="nametooltip truncateColumns">
+            <% if (column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+              <%= userRoleDetails.attributes[column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+              <%= userRoleDetails.attributes[column.column_name] %>
+            <% } %>
+          </div>
+        </td>
+    <% }); %>
+    
+    <!-- <td>
+      <button <% if(userRoleDetails.attributes.is_sys_user=="yes" ){%> style="display: none;"<%}%> type="button"
+          class="btn-bgColor showAction" data-roleID="<%=userRoleDetails.attributes.roleID%>"
+            data-view="singleuserRoleData" data-toggle="dropdown" data-placement="top" data-content="Edit" aria-haspopup="true" aria-expanded="false"><i
+              class="material-icons">more_vert</i></button>
+        
+    </td> -->
+    <td class="draglinerow actionColumn custActionBtn a-center">
+      <div style="position: relative;pointer-events: auto;">
+        <div class="showMoreMenuBtn dropleft" >
+          <button type="button" class="btn-bgColor showAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="material-symbols-outlined">more_vert</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li>
+              <a href="javascript:void(0);" 
+                class="loadview"
+                title="Edit"
+                data-roleID="<%=userRoleDetails.attributes.roleID%>"
+                data-view="singleuserRoleData">
+                <i class="material-icons">mode_edit</i>Edit</a>
+            </li>
+            <% if(userRoleDetails.attributes.is_sys_user!="yes" ){%>
+              <li>
+                <a href="javascript:void(0);" class="changeStatus" data-id="<%=userRoleDetails.attributes.roleID%>" style="margin: 0;"><i class="material-icons">delete</i>Delete</a>
+              </li>
+            <%}%>
+          </ul>
+        </div>
+      </div>
+    </td>
+</tr>

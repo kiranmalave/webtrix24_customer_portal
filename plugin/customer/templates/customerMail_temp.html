@@ -1,0 +1,94 @@
+
+<div class="mailtemplateDetails">
+	<div class="topHeader">
+		<div class="headingLeft">
+			<span>New Message</span>
+		</div>
+		<div class="iconDetails">
+			<button type="button" class="btn  minimize">
+				<i class="material-icons">minimize</i>
+			</button>
+			<button type="button" class="btn  openFull">
+					<img src="images/open_blank.svg" alt=""/>
+			</button>
+			<button type="button" class="btn  closeFull" style="display: none;">
+				<i class="material-icons">fullscreen</i>
+			</button>
+			<button type="button" class="btn  close">
+				<i class="material-icons">clear</i>
+			</button>
+		</div>
+	</div>	
+	<div class="composeDiv">
+	
+		<!-- <div class="form-group">
+			<label for="from" class="form-label">From:</label>
+			<input id="from" class="form-control txtchange" name="from" value="">
+		</div> -->
+
+		<div class="form-group">
+			<div class="totolaSender">
+				<div class="to form-group">
+					<label for="to" class="form-label">To:</label>
+					<input id="toField" class="form-control txtchange" name="to" value="">
+				</div>
+				<div class="Cc form-group" style="display: none;">
+					<label for="cc" class="form-label">Cc:</label>
+					<input id="cc" class="form-control txtchange" name="cc" value="">
+				</div>
+				<div class="Bcc form-group" style="display: none;">
+					<label for="bcc" class="form-label">Bcc:</label>
+					<input id="bcc" class="form-control txtchange" name="bcc" value="">
+				</div>
+				<div class="buttonDetails">
+					<button type="button" class="btn btn-link ccBtn">Cc</button>
+					<button type="button" class="btn btn-link bccBtn">Bcc</button>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="form-group">
+			<label for="subject" class="form-label">Subject:</label>
+			<input id="subject" class="form-control txtchange" name="subject" value="">
+		</div>
+
+		<div class="mailBottomSec">
+			<div id="mail_description" class="form-control"></div>
+		</div>
+
+		
+		<!-- <div class="clearfix">&nbsp;</div> -->
+		<div class="mailFooterSec">
+			<button type="button" class="btn bg-indigo arrangeColumns" >Send</button>
+			<div class="file-upload">
+				<input type="file" />
+				<!-- <i class="material-icons">
+					attach_file
+				</i> -->
+			</div>
+			<div class="file-delete">
+				<i class="material-icons">
+					delete
+				</i>
+			</div>
+			<div class="selectEmal">
+               <div class="form-group form-float">
+                     <div class="form-line">
+						<select class="form-control getTemplate dropval ws-select show-tick mt-2">
+							<option value="select">Select</option>
+							  <% _.each(emailMasterList, function(column) { %>
+								<option value="<%=column.attributes.readName%>"><%= column.attributes.readName%></option>
+							  <% }); %>
+						  </select>
+						  
+                     </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+
+

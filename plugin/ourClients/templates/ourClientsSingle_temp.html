@@ -1,0 +1,111 @@
+<div class="tab-pane in active">
+    <div id="ourClientsSingleView">
+        <form id="clientDetails" name="clientDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo saveClientsDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo saveClientsDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="ws-main-container">
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Basic Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-8">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="client_name" class="form-label">Client Name <span class="error">*</span></label>
+                                <input id="client_name" class="form-control txtchange titleChange" autocomplete="off" name="client_name" required="" maxlength="45" type="text" value="<%=model.client_name%>">
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="col-md-4">
+                        <div class="form-group form-float ws-form-option">
+                            <label for="status" class="form-label">Status<span class="error">*</span> </label>
+                            <ul class="item-container" data-valid="status">
+                              <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                              <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                            </ul>
+                        </div>
+                    </div>   
+                </div>
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    sort
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Description</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ws-quill right-layout">
+                    <div class="row left-space">
+                        <div class="col-md-12">
+                            <div id="description" class="form-control mb-3">
+                                <%=model.description%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div> 
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    mms
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Media</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="col-md-4">
+                    <div class="customerMediaLoader">
+                        <div class="clearfix">
+                            <input style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;margin-left: 15px;text-align: center;" class="btn loadMedia" type="button" value="Profile/Company Pic" name="Select Picture" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="" style="width: 65%;">
+                        <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.customer_image%>">
+                    </div>
+                </div>     
+                <div class="clearfix">&nbsp;</div>
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    more
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Additional Information</strong></label>
+                        </div>
+                    </div>
+                </div><div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+            </div>
+        </form>
+    </div>
+</div>

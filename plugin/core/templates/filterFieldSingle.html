@@ -1,0 +1,31 @@
+<div id="field_<%=rowCounter%>" data-field="<%=column.Field%>" data-mapped_field="<%=column.mappedFieldName%>" class="dropdown filterDropdown ws-filter-items">
+  <% let columnfield = column.Field.replace(/_/g, " "); let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); %>
+  <div class="dropdown">
+    <button class="btn btn-light dropdownMenuButton" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <% if(column.mappedFieldName && column.mappedFieldName != ''){ %><%=column.mappedFieldName%><% }else{ %><%=upl%><% } %>  
+    </button>
+    <span class="material-icons removeField" data-removeField = "<%=rowCounter%>" data-columnName = "<%=column.Field%>" >close</span> 
+    <div class="dropdown-menu filterCoditionDrop px-3 py-3">
+      <form>
+          <div class="row condition_row">
+            <div class="col-md-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                    <select id="condition" class="form-control dropval"  name="condition">
+                      <option class="addNew" value="">Select Condition</option>
+                      <%_.each(conditionList,function(condition){%>
+                          <option value="<%=condition.value%>"><%=condition.label%></option>
+                      <%});%>
+                    </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row value_row"></div>
+        </form>
+        <button id="btn_search_<%=column.Field%>" data-fieldname="<%=column.Field%>" class="btn btn-block quick_search" disabled >Search</button>
+    </div>
+  </div>
+</div>
+
+

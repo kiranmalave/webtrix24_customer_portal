@@ -1,0 +1,20 @@
+.viewChlid{
+    background: transparent;
+    position: absolute;
+    top: 5px;
+}
+
+#activityRow .fieldsSort{
+    padding: 12px 8px;
+    visibility: visible;
+}
+
+#activityRow .fieldRows{
+    /* background: #f3f4f5; */
+    background: linear-gradient(45deg, #f8f8f8, #d7d6d6);
+    margin-bottom: 5px;
+}
+
+/* #activityRow .fieldRows:hover .fieldsSort::before {
+    background: linear-gradient(45deg, #f0efef, #3c39ed);
+} */

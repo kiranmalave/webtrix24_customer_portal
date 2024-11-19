@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Webtrix CRM</title>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 3 line added by Sanjay to ignore browser cache-->
+  <meta http-equiv='cache-control' content='no-cache'>
+  <meta http-equiv='expires' content='0'>
+  <meta http-equiv='pragma' content='no-cache'>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    rel="stylesheet">
+  <link href="systems/css/Styles.css" rel="stylesheet">
+
+
+  <!-- <link href="systems/css/styles.min.css" rel="stylesheet"> -->
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChLDKynH-rS6uOhX0IvPXzGZA8ZPhnphg&libraries=places"></script>
+  <script type="text/javascript"
+    src='http://maps.google.com/maps/api/js?libraries=places&key=AIzaSyBY4KcKOgZpIuDQPLw7Y6gJ2vr5gWCl9Cw' async
+    defer></script>
+    <script src="assets/fromEditors/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="assets/fromEditors/tinymce/jquery.tinymce.min.js" referrerpolicy="origin"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-funnel"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  <script src="assets/quill-1.3.6/quill.min.js"></script>
+  <script src="assets/quill-1.3.6/quill.mention.min.js"></script>
+  <link href="assets/quill-1.3.6/quill.mention.min.css" rel="stylesheet">
+  <script src="assets/quill-1.3.6/quill-image-resize/image-resize.min.js"></script>
+  
+  <script data-main="systems/js/main" src="systems/libs/require/require.js"></script>
+  <!-- <script src="systems/js/admin.min.js?v=1.0.0"></script> -->
+
+</head>
+
+<body id="master__load" class="footer_fixed theme-orange">
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getMessaging,getToken,onMessage } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-messaging.js";
+    const firebaseConfig = {
+    apiKey: "AIzaSyDeSE9_BsyWx6DzSzDz-OGoaUcas2NLczg",
+    authDomain: "webtrix-report.firebaseapp.com",
+    projectId: "webtrix-report",
+    storageBucket: "webtrix-report.appspot.com",
+    messagingSenderId: "249033172668",
+    appId: "1:249033172668:web:994274bc73b50991e192b9",
+    measurementId: "G-H9RR8N28LY"
+  };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging();
+  
+    onMessage(messaging,(payload) => {
+      console.log('Message received. ', payload);
+      // Update the UI to include the received message.
+      appendMessage(payload);
+    });
+  
+    function resetUI() {
+      // Get registration token. Initially this makes a network call, once retrieved
+      // subsequent calls to getToken will return from cache.
+      getToken(messaging,{vapidKey:'BFsWXKkpN2RWkthg0LcLjNdaG70G95WkFqwSVtfECY9qLUXMQ-io2EZ5pXayn8hODcRGK4fUtWkH3DcH1aBqMBo'}).then((currentToken) => {
+        if (currentToken) {
+          sendTokenToServer(currentToken);
+          
+        } else {
+          // Show permission request.
+          console.log('No registration token available. Request permission to generate one.');
+          // Show permission UI.
+          setTokenSentToServer(false);
+          
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+        showToken('Error retrieving registration token. ', err);
+        setTokenSentToServer(false);
+      });
+    }
+    function showToken(currentToken) {
+      // Show token in console and UI.
+      //const tokenElement = document.querySelector('#token');
+      //tokenElement.textContent = currentToken;
+      console.log("currentToken");
+      console.log(currentToken);
+    }
+  
+    // Send the registration token your application server, so that it can:
+    // - send messages back to this app
+    // - subscribe/unsubscribe the token from topics
+    function sendTokenToServer(currentToken) {
+      if (!isTokenSentToServer()) {
+        console.log('Sending token to server...');
+        // TODO(developer): Send the current token to your server.
+        window.localStorage.setItem('gfcmt',currentToken);
+        setTokenSentToServer(true);
+      } else {
+        console.log('Token already sent to server so won\'t send it again ' +
+            'unless it changes');
+      }
+    }
+  
+    function isTokenSentToServer() {
+      return window.localStorage.getItem('sentToServer') === '1';
+    }
+  
+    function setTokenSentToServer(sent) {
+      window.localStorage.setItem('sentToServer', sent ? '1' : '0');
+    }
+  
+    function requestPermission() {
+      console.log('Requesting permission...');
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+          // TODO(developer): Retrieve a registration token for use with FCM.
+          // In many cases once an app has been granted notification permission,
+          // it should update its UI reflecting this.
+          resetUI();
+        } else {
+          console.log('Unable to get permission to notify.');
+        }
+      });
+    }
+  
+    function deleteToken() {
+      // Delete registration token.
+      getToken(messaging).then((currentToken) => {
+        deleteToken(messaging,currentToken).then(() => {
+          console.log('Token deleted.');
+          setTokenSentToServer(false);
+          // Once token is deleted update update to user.
+          resetUI();
+        }).catch((err) => {
+          console.log('Unable to delete token. ', err);
+        });
+      }).catch((err) => {
+        console.log('Error retrieving registration token. ', err);
+        showToken('Error retrieving registration token. ', err);
+      });
+    }
+  
+    // Add a message to the messages element.
+    function appendMessage(payload) {
+      //const messagesElement = document.querySelector('#messages');
+      //const dataHeaderElement = document.createElement('h5');
+      //const dataElement = document.createElement('pre');
+      //dataElement.style = 'overflow-x:hidden;';
+      //dataHeaderElement.textContent = 'Received message:';
+      //dataElement.textContent = JSON.stringify(payload, null, 2);
+      //messagesElement.appendChild(dataHeaderElement);
+      //messagesElement.appendChild(dataElement);
+      const notificationOption ={
+        body:payload.notification.body,
+        icon:payload.notification.icon,
+      };
+      if(Notification.permission === "granted"){
+        console.log("permission")
+        //alert(payload.notification.title);
+        var notification = new Notification(payload.notification.title,notificationOption);
+  
+      }
+    }
+  
+    navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: "/"})
+      .then(
+      function (reg) {
+          var serviceWorker;
+          if (reg.installing) {
+              serviceWorker = reg.installing;
+              // console.log('Service worker installing');
+          } else if (reg.waiting) {
+              serviceWorker = reg.waiting;
+              // console.log('Service worker installed & waiting');
+          } else if (reg.active) {
+              serviceWorker = reg.active;
+              // console.log('Service worker active');
+          }
+  
+          if (serviceWorker) {
+              console.log("sw current state", serviceWorker.state);
+              if (serviceWorker.state == "activated") {
+                  //If push subscription wasnt done yet have to do here
+                  console.log("sw already activated - Do watever needed here");
+                  //resetUI();
+              }
+              serviceWorker.addEventListener("statechange", function(e) {
+                  console.log("sw statechange : ", e.target.state);
+                  if (e.target.state == "activated") {
+                      // use pushManger for subscribing here.
+                      console.log("Just now activated. now we can subscribe for push notification")
+                      resetUI();
+                  }
+              });
+          }
+      },
+      function (err) {
+          console.error('unsuccessful registration with ', 'firebase-messaging-sw.js', err);
+      }
+  );
+  
+  requestPermission();
+    
+  </script>
+  
+
+
+</body>
+
+</html>

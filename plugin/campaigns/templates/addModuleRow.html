@@ -1,0 +1,15 @@
+<div class="row addModuleRow" id="addMod">
+    <div class="col-md-4">
+        <div class="form-group form-float mb-2">
+            <div class="form-line">
+                <label for="select_module">Select Module </label>
+                <select for="select_module" id="select_module" name="select_module" title="Select Module" class="form-control ws-select  show-tick repeatChange">
+                    <option class="addNew" value="">Select Module</option>
+                    <% _.each(modules, function(module) { %>    
+                        <option value="<%=module.menuLink%>"><%=module.menuName%></option>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

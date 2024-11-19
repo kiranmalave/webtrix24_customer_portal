@@ -1,0 +1,72 @@
+
+<div class="modal-dialog columnArrangement" role="document">
+    <form id="customRepeatDetails" name="customRepeatDetails" action="#">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="customColumnModal"> Arrange the columns </h5>
+        </div>
+        <div class="modal-body">
+            <div class="row fieldRow">
+                <div class="col-md-5 field_col">
+                    <div class="heading">Columns to drag & drop</div>
+                    <div id="cfieldlist" class="heightCntrls">
+                        <ul id="customColumnListData">
+                            <% _.each(customColumnList, function(model1) { %>
+                                <li class="field_list field_drag" data-fieldID="<%=model1.fieldID%>" data-fieldLabel="<%=model1.fieldLabel%>" data-fieldType="<%=model1.fieldType%>" data-column_name="<%=model1.column_name%>" data-linkedWith="<%=model1.linkedWith%>" data-fieldOptions="<%=model1.fieldOptions%>" data-dateFormat="<%=model1.dateFormat%>" data-displayFormat="<%=model1.displayFormat%>" data-parentCategory="<%=model1.parentCategory%>">
+                                    <div class="fieldsDragDrop"></div>
+                                    <div class="hover-text-tooltip">
+                                        <div class="fieldLabel">
+                                            <%=model1.fieldLabel%>
+                                            <div class="fieldType"><%=model1.fieldType%></div>
+                                        </div>
+                                        <span class="tooltip-text"><%=model1.fieldLabel%></span>
+                                    </div>
+                                </li>
+                            <% }); %>
+                            <% _.each(filteredList, function(model1) { %>
+                                <li class="field_list field_drag" data-fieldLabel="<%=model1.fieldLabel%>" data-fieldType="<%=model1.fieldType%>" data-column_name="<%=model1.column_name%>">
+                                    <div class="fieldsDragDrop"></div>
+                                    <div class="hover-text-tooltip">
+                                        <div class="fieldLabel">
+                                            <%=model1.fieldLabel%>
+                                            <!-- <div class="fieldType"><%=model1.fieldType%></div> -->
+                                        </div>
+                                        <span class="tooltip-text"><%=model1.fieldLabel%></span>
+                                    </div>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 columnSwapping">
+                    <span class="material-icons">arrow_forward</span>
+                </div>
+                <div class="col-md-5">
+                    <div class="heading">Displayed Columns</div>
+                    <ul class="fieldsDroppable heightCntrls" id="sortable-list">
+                        <% _.each(arrangedColumnList, function(model1) { %>
+                            <li class="field_list field_drag" data-fieldID="<%=model1.fieldID%>" data-fieldLabel="<%=model1.fieldLabel%>" data-fieldType="<%=model1.fieldType%>" data-column_name="<%=model1.column_name%>" data-linkedWith="<%=model1.linkedWith%>" data-fieldOptions="<%=model1.fieldOptions%>" data-dateFormat="<%=model1.dateFormat%>" data-displayFormat="<%=model1.displayFormat%>" data-parentCategory="<%=model1.parentCategory%>">
+                                <div class="fieldsDragDrop"></div>
+                                <div class="hover-text-tooltip">
+                                    <div class="fieldLabel">
+                                        <%=model1.fieldLabel%>
+                                        <!-- <div class="fieldType"><%=model1.fieldType%></div> -->
+                                    </div>
+                                    <span class="tooltip-text"><%=model1.fieldLabel%></span>
+                                </div>
+                                <span type='button' class='changeStatus deleteAll ws-btn-default fieldActionBtns' data-action='delete' data-column_name="<%=model1.column_name%>">
+                                    <i class='material-icons' style='padding: 2px 5px;'>delete</i>
+                                </span>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modalBtnCls closeModalBtn" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+</div>
+  

@@ -1,0 +1,74 @@
+<% if(typeof(ROLE[menuDetails.attributes.menuLink]) !="undefined" &&
+  ROLE[menuDetails.attributes.menuLink].module_access=="yes" ) { %>
+  <li class="dd-item bg-<%=menuDetails.attributes.status%> " <% if(menuDetails.attributes.isParent=='no' ){ %>
+    data-type='root'<% } %> data-id="<%= menuDetails.attributes.menuID %>">
+        <div class="dd-handle dd3-handle"></div>
+        <div class="dd3-content ws-dd3-content">
+          <span class="loadview" data-menuID="<%=menuDetails.attributes.menuID%>" data-view="singlemenuData">
+            <%=menuDetails.attributes.menuName%>
+          </span>
+          <div class="otherAction">
+            <button type="button" class="ws-btn-default loadview" data-menuID="<%=menuDetails.attributes.menuID%>"
+              data-view="singlemenuData"><i class="material-icons" data-toggle="tooltip" data-placement="top"
+                data-content="Edit">mode_edit</i></button>
+            <%if(menuDetails.attributes.subMenu.length==0) { %>
+              <button type="button" class="ws-btn-default deleteModule"
+                data-menuID="<%=menuDetails.attributes.menuID%>"><i class="material-icons" data-toggle="tooltip"
+                  data-placement="top" data-content="Delete">delete</i></button>
+              <% } %>
+                <%if(menuDetails.attributes.subMenu.length==0 && menuDetails.attributes.is_custom=='n' ) { %>
+                  <%if(menuDetails.attributes.menuLink !='pages' && menuDetails.attributes.menuLink !='blogs' &&
+                    menuDetails.attributes.menuLink !='category' && menuDetails.attributes.menuLink !='pushService' &&
+                    menuDetails.attributes.menuLink !='roleList' && menuDetails.attributes.menuLink !='dynamicForms' &&
+                    menuDetails.attributes.menuLink !='appointment' && menuDetails.attributes.menuLink
+                    !='pagesMenuMaster' && menuDetails.attributes.menuLink !='menuList' &&
+                    menuDetails.attributes.menuLink !='theme-option' && menuDetails.attributes.menuLink
+                    !='access-control' && menuDetails.attributes.menuLink !='subscribers' ) { %>
+                    <a class="ws-btn-default loadview" href="#pageCustomFields/<%=menuDetails.attributes.menuID%>"
+                      data-toggle="tooltip" data-placement="top" data-content="Dynamic Form"><i
+                        class="material-icons">extension</i></a>
+                    <% } %>
+                      <% } %>
+                        <%if(menuDetails.attributes.subMenu.length> 0 ) { %>
+                          <button type="button" class="ws-btn-default row-action material-icons" data-action="minimize"
+                            data-state="maximize" data-toggle="tooltip" data-placement="top" data-content="Minimize"><i
+                              class="material-icons">expand_less</i></button>
+                          <% } %>
+          </div>
+        </div>
+        <ol class="dd-list submenuList hide">
+          <% _.each(menuDetails.attributes.subMenu, function(subMenuD) { %>
+            <% if(typeof(ROLE[subMenuD.menuLink]) !="undefined" && ROLE[subMenuD.menuLink].module_access=="yes" ) { %>
+              <li class="dd-item dd3-item" data-id="<%=subMenuD.menuID%>">
+                <div class="dd-handle dd3-handle"></div>
+                <div class="dd3-content ws-dd3-content">
+                  <span class="loadview" data-menuID="<%=subMenuD.menuID%>" data-view="singlemenuData">
+                    <%=subMenuD.menuName%>
+                  </span>
+                  <div class="otherAction">
+                    <button type="button" class="ws-btn-default loadview" data-menuID="<%=subMenuD.menuID%>"
+                      data-view="singlemenuData"><i class="material-icons" data-toggle="tooltip" data-placement="top"
+                        data-content="Edit">mode_edit</i></button>
+                    <button type="button" class="ws-btn-default deleteModule" data-menuID="<%=subMenuD.menuID%>"><i
+                        class="material-icons" data-toggle="tooltip" data-placement="top"
+                        data-content="Delete">delete</i></button>
+                    <%if(subMenuD.is_custom=='n' ) { %>
+                      <%if(subMenuD.menuLink !='pages' && subMenuD.menuLink !='blogs' && subMenuD.menuLink !='category'
+                        && subMenuD.menuLink !='pushService' && subMenuD.menuLink !='roleList' && subMenuD.menuLink
+                        !='dynamicForms' && subMenuD.menuLink !='appointment' && subMenuD.menuLink !='pagesMenuMaster'
+                        && subMenuD.menuLink !='menuList' && subMenuD.menuLink !='theme-option' && subMenuD.menuLink
+                        !='access-control' && subMenuD.menuLink !='subscribers' ) { %>
+                        <a class="ws-btn-default loadview" href="#pageCustomFields/<%=subMenuD.menuID%>"
+                          data-toggle="tooltip" data-placement="top" data-content="Dynamic Form"><i
+                            class="material-icons">extension</i></a>
+                        <% } %>
+                          <% } %>
+                  </div>
+                </div>
+              </li>
+              <% } %>
+              <%}); %>
+        </ol>
+  </li>
+
+  <% } %>

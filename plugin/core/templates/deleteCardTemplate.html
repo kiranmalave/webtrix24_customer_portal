@@ -1,0 +1,30 @@
+<div class="toolbar">
+    <div class="close">
+      <span class="material-icons">close</span>
+    </div>
+    <div class="selected-item"><%=number%> Item(s) Selected</div>
+    <%if(!editOff){%>
+      <div class="edit editRecord" data-action="edit">
+        <span class="material-icons">edit</span>
+          Edit
+      </div>
+      <%}%>
+    <%if(!activeOff){%>
+    <div class="active editRecord" data-action="active">
+      <span class="material-icons">visibility</span>
+        Active
+    </div>
+    <%}%>
+    <%if(!inactiveOff){%>
+    <div class="inactive editRecord" data-action="inactive">
+      <span class="material-icons">visibility_off</span>
+        Inactive
+    </div>
+    <%}%>
+    <%if(!deleteOff){%>
+    <div class="delete editRecord" data-action="delete">
+      <span class="material-icons">delete</span>
+        Delete
+    </div>
+    <% } %>
+</div>

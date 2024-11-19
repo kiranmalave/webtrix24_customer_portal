@@ -1,0 +1,477 @@
+<div class="tab-pane in active">
+    <form id="customerDetails" name="customerDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveCustomerDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveCustomerDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="ws-main-container">
+            <!-- basic info  start-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Basic Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-8">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="amc_duration" class="form-label">Name <span class="error">*</span></label>
+                                <div class="ws-input-group">
+                                    <div style="flex:0 0 30px">
+                                        <div class="salutation removeBorder">
+                                            <select id="salutation" name="salutation" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                                <option value="mr" <% if(model.salutation=='mr' ){ %> selected <% } %>>Mr </option>
+                                                <option value="mrs" <% if(model.salutation=='mrs' ){ %> selected <% } %>>Mrs </option>
+                                                <option value="miss" <% if(model.salutation=='miss' ){ %> selected <% } %>>Miss </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="dropdown bootstrap-select show-tick form-control dropval ws-select repeatChange">
+                                            <input id="name" class="form-control txtchange txtcolor" autocomplete="off" name="name" value="<%=model.name%>">
+                                   </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="billing_name" class="form-control txtchange txtcolor" autocomplete="off" name="billing_name" value="<%=model.billing_name%>">
+                                        <label for="billing_name" class="form-label">Billing Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="amc_duration" class="form-label">Mobile Number</label>
+                                        <div class="ws-input-group">
+                                            <div style="flex:0 0 30px">
+                                                <div class="salutation removeBorder">
+                                                    <select id="countryCode" name="countryCode" for="countryCode" class="form-control ws-select show-tick repeatChange backgroundHide txtcolor dropval countrySelect" data-live-search="true" title="Ext">
+                                                        <% _.each(countryExtList, function(country) { %>
+                                                            <option <% if(model.countryCode == country.value ){ %> selected <%}%> value="<%=country.value%>"><%=country.label%></option>
+                                                        <%})%>
+                                                    </select>
+                                                </div>
+                                                <div id="displayCountryCode" style="top: 5px;position: absolute;display: none;"><%=model.countryCode%></div>
+                                            </div>
+                                            <div>
+                                                <div class="dropdown bootstrap-select show-tick form-control dropval ws-select repeatChange">
+                                                    <input id="mobile_no" class="form-control txtchange txtcolor" autocomplete="off" name="mobile_no" value="<%=model.mobile_no%>" maxlength="15" type="number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 clientProPick">
+                        <div id="clientProfilePic" class="profile-image" style="width: 150px; height:150px; margin-bottom: -38px;">
+                            <% if(model.customer_image !="" && model.customer_image != null && model.customer_image != undefined) {%>
+                                <img id="profile_pic_view1" style="max-width: 100%;" src="<%=UPLOADS%>/customer/<%=model.customer_id%>/profilePic/<%=model.customer_image%>" />
+                            <%}%>
+                            <input type="file" name="slim[]" />
+                        </div>
+                        <div class="clearfix">&nbsp;</div>
+                        <!-- <div class="customerMediaLoader">
+                            <div class="clearfix">&nbsp;
+                                <input style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;margin-left: 15px;text-align: center;" class="btn loadMedia" type="button" value="Profile/Company Pic" name="Select Picture" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                            </div>
+                        </div>
+                        <div class="" style="width: 65%;">
+                            <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.customer_image%>">
+                        </div> -->
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group ws-form-option">
+                            <label for="record_type" class="form-label">Type<span class="error"></span></label>
+                            <ul class="item-container" data-valid="record_type">
+                                <li class="record_type multiSel" data-single="Y" data-value="individual">Individual</li>
+                                <li class="record_type multiSel" data-single="Y" data-value="company">Company</li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="row left-space">
+                    <div class="col-md-8 p-0 m-0">
+                        
+                        <div class="row p-0 m-0">
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line ws-lookup-select">
+                                        <div class="assignee-container">
+                                            <%if(model.assigneePhoto){%>
+                                                <img id="assignee-photo" src="<%=PROFILEPHOTOUPLOAD%><%=model.assignee%>/profilePic/<%=model.assigneePhoto%>" alt="Profile Photo" style=" width: 30px; height: 30px; border-radius: 50%;margin-right:10px" />
+                                            <%}%>
+                                            <!-- <input id="assignee" type="text" autocomplete="off" class="form-control ddcnt ws-freetxt" name="assignee" value="<%=model.assigneeName%>" /> -->
+                                            <input id="assignee" type="text" data-source="admin" data-check="name" data-list="name,adminID" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="assignee" value="<%=model.assigneeName%>">
+                                            <label for="assignee" class="form-label">Assignee</label>
+                                        </div>
+                                        <div class="dropdown-content1 freeSerachList"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input id="email" class="form-control txtchange txtcolor" autocomplete="off" name="email" value="<%=model.email%>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="birth_date form-line">
+                                <input id="birth_date" type="text" class="form-control txtchange txtcolor" readonly autocomplete="off" name="birth_date" value="<%=model.birth_date%>">
+                                <label for="birth_date " class="form-label">Date of Birth</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="office_land_line" class="form-control txtchange txtcolor" name="office_land_line" autocomplete="off" value="<%=model.office_land_line%>" >
+                                <label for="office_land_line"  class="form-label">Landline Number</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="website" class="form-control txtchange txtcolor" autocomplete="off" name="website" value="<%=model.website%>">
+                                <label for="website" class="form-label">Website</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- basic info  end-->
+                <!-- Lead info  start-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    storefront
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Lead Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float taskDropDown">
+                            <div class="form-line removeBorder">
+                                <% _.each(categoryList, function(modelcat) { %>
+                                <% if(modelcat.attributes.slug=="lead_source" ){%>
+                                    <% var slug_id = modelcat.attributes.category_id; %>
+                                    <select for="lead_source" autocomplete="off" id="lead_source" data-slug ="<%=slug_id%>" name="lead_source" title="Lead Source" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option value="addLeadSource">Add Lead Source</option>
+                                        <%}%>
+                                        <% _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.lead_source ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%})%>  
+                                    </select>    
+                                <%}%>
+                                <%})%>
+                                <label for="lead_source" class="form-label">Lead Source</label>
+                                <%if(model.lead_source != "" && model.lead_source != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                    <%if(menuName == "leads"){%>
+                        <div class="col-md-4">
+                            <div class="form-group input-group form-float taskDropDown">
+                                <div class="form-line removeBorder">
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="lead_stages" ){%>
+                                        <% var slug_id = modelcat.attributes.category_id; %>
+                                        <select for="stages" autocomplete="off" id="stages" data-slug ="<%=slug_id%>" name="stages" title="Lead Stage" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                            <%if(permission.add=="yes" ) { %>
+                                                <option value="addLeadStage">Add Lead Stage</option>
+                                            <%}%>
+                                            <%_.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.stages ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                            <%})%>
+                                        </select>
+                                        <%}%>
+                                    <%})%>
+                                    <label for="stages" class="form-label">Lead Stages</label>
+                                    <%if(model.stages != "" && model.stages != null){%>
+                                        <span class="ws_clear material-icons">close</span>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group input-group form-float taskDropDown">
+                                <div class="form-line removeBorder">
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="lead_priority" ) {%>
+                                            <% var slug_id = modelcat.attributes.category_id; %>   
+                                            <select for="lead_priority" autocomplete="off" id="lead_priority" data-slug ="<%=slug_id%>" name="lead_priority" title="Lead Priority" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                                <%if(permission.add=="yes" ) { %>
+                                                    <option value="addLeadPriority">Add Lead Priority</option>
+                                                <%}%>
+                                                <%_.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(model1.category_id == model.lead_priority ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                                <%})%>
+                                            </select> 
+                                        <%}%>
+                                    <%})%>
+                                    <label for="lead_priority" class="form-label">Lead Priority</label>
+                                    <%if(model.lead_priority != "" && model.lead_priority != null){%>
+                                        <span class="ws_clear material-icons">close</span>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+                <!-- Lead info  end-->
+                 <!-- Identification info  start-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    fingerprint
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Identification Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line">
+                                <input id="adhar_number" type="text" class="form-control txtchange txtcolor" name="adhar_number" autocomplete="off" value="<%=model.adhar_number%>">
+                                <label for="adhar_number" class="form-label">Aadhaar Number</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line">
+                                <input id="pan_number" class="form-control txtchange txtcolor" autocomplete="off" type="text" name="pan_number" value="<%=model.pan_number%>">
+                                <label for="pan_number" class="form-label">PAN Number</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line">
+                                <input id="gst_no" class="form-control txtchange txtcolor" autocomplete="off" name="gst_no" value="<%=model.gst_no%>">
+                                <label for="gst_no" class="form-label">GST No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float">
+                            <div class="form-line removeBorder">
+                                <select id="gst_state" name="gst_state" class="form-control ws-select show-tick repeatChange dropval backgroundHide txtcolor" data-live-search="true" title="Select GST State">
+                                    <% _.each(gstStateList, function(model1) { %>
+                                        <option <% if(model1.attributes.state_id==model.gst_state ){ %> selected <%}%> value="<%=model1.attributes.state_id%>"><%=model1.attributes.state_name%></option>
+                                    <%})%>
+                                </select>
+                                <label for="gst_state" class="form-label">GST State</label>
+                                <%if(model.gst_state != "" && model.gst_state != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Identification info  end-->
+                <!-- address info  start-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    location_on
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Mailing Address</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="mailing_address" class="form-label">Mailing Address</label>
+                                <textarea id="mailing_address" class="dynamicData form-control txtchange" name="mailing_address" placeholder=""><%=model.mailing_address%></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <div class="formemails">
+                                        <label for="billing_address" style="font-size: 12px;" >Billing Address</label>
+                                        <input id="billing_addressCheckbox" class="chk-col-amber" data-tocheck="clist" type="checkbox" disabled <% if(model.billing_addressCheckbox){%>checked<%}%>> 
+                                        <label for="billing_addressCheckbox" style="font-size: 12px;">Copy Mailing Address</label>
+                                        </div>
+                                    </div>
+                                    <textarea id="billing_address" class="dynamicData form-control txtchange " name="billing_address" placeholder=""><%=model.billing_address%></textarea>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="billing_addressCheckbox" class="chk-col-amber" data-tocheck="clist" type="checkbox" disabled <% if(model.billing_addressCheckbox){%>checked<%}%>>
+                                        <label for="billing_addressCheckbox" class="form-label">Copy Mailing Address</label>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                
+                    
+                    <div class="col-md-8 p-0 m-0">
+                        <div class="row p-0 m-0">
+                            <div class="col-md-6">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="address" title="Addresss" class="form-control txtchange txtcolor" autocomplete="off"  name="address" value="<%=model.address%>" placeholder=""><!--style="color: transparent;" -->
+                                        <label for="address" class="form-label">Google Location</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="zipcode" class="form-control txtchange txtcolor" autocomplete="off" name="zipcode" value="<%=model.zipcode%>">
+                                        <label for="zipcode" class="form-label">Zip Code</label>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-0 m-0">
+                            <div class="col-md-12 p-0 m-0">
+                                <div class="row p-0 m-0">
+                                    <div class="col-md-4">
+                                        <div class="form-group form-float">
+                                          <div class="form-line">
+                                            <input id="country" class="form-control txtchange" name="country" type="text" autocomplete="off" value="<%=model.country %>">
+                                            <label for="country" class="form-label">Country</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group form-float">
+                                          <div class="form-line">
+                                            <input id="state" class="form-control txtchange" name="state" type="text" autocomplete="off" value="<%=model.state %>">
+                                            <label for="state" class="form-label">State</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group form-float">
+                                          <div class="form-line">
+                                            <input id="city" class="form-control txtchange" name="city" type="text" autocomplete="off" value="<%=model.city %>">
+                                            <label for="city" class="form-label">City</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- address info  end-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    more
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Additional Information</strong></label>
+                        </div>
+                    </div>
+                </div><div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    attach_file
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Attachments</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-12">
+                        <div class="row attachupdate taskAttach">
+                            <button type="button" class="loadFile ws-taskModalbtn dotborder dotborderCustAtt" data-change="ws-bg-image"><span class="material-icons">add</span></button>
+                            <div id="attachedDoc" class="row taskAttachDoc"></div>
+                        </div>
+                        <div class="list-row upload uploadCustAtt" style="display: none;">
+                            <div class="right-layout ws-quill">
+                                <div class="row">
+                                    <div class="col-md-12 ws-dragbox taskAttachDragBox">
+                                        <div class="ws-assignee-column">
+                                            <input type="file" multiple class="btn btn-default btn__action" id="custUpload"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-right ">
+                                        <button type="button" class="btn bg-indigo hideUpload clacel">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+        </div>
+    </form>
+</div>

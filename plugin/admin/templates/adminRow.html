@@ -1,0 +1,39 @@
+<tr class="even pointer bg-<%=adminDetails.attributes.status%>">
+    <% _.each(arrangedColumnList, function(column) { %>
+      <% if(column.column_name == "roleID"){%>
+        <td  class="draglinerow truncateWidth loadview" data-adminID="<%=adminDetails.attributes.adminID%>" data-view="singleadminData" style="cursor: pointer;">
+          <div class="nametooltip truncateColumns"><%= adminDetails.attributes.roleName%></div>
+        </td>
+      <%}else{%>
+        <td class="draglinerow truncateWidth loadview" data-adminID="<%=adminDetails.attributes.adminID%>" data-view="singleadminData" style="cursor: pointer;">
+          <div class="nametooltip truncateColumns">
+            <% if (column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+                <%= adminDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+                <%= adminDetails.attributes["" + column.column_name] %>
+            <% } %>
+          </div>
+        </td>
+      
+    <% } }); %>
+    <td class="draglinerow">
+      <div style="position: relative;pointer-events: auto;">
+        <div class="showMoreMenuBtn dropleft" >
+          <button type="button" class="btn-bgColor showAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="material-symbols-outlined">more_vert</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li>
+              <a href="javascript:void(0);" class="loadview" title="Edit" data-adminID="<%=adminDetails.attributes.adminID%>" data-view="singleadminData">
+                <i class="material-icons">mode_edit</i>Edit</a>
+            </li>
+            <%if(adminDetails.attributes.is_sys_user!="yes" ){%>
+              <li>
+                <a href="javascript:void(0);" class="deleteForever" data-adminID="<%=adminDetails.attributes.adminID%>" data-name="<%=adminDetails.attributes.name%>" style="margin: 0;"><i class="material-icons">delete</i>Delete</a>
+              </li>
+            <%}%>
+          </ul>
+        </div>
+      </div>
+    </td>
+</tr>

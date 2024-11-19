@@ -1,0 +1,38 @@
+  <tr class="even pointer">
+    <td colspan="2">
+      <div class="row">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input id="" type="text" class="form-control txtchange saveScheduler <%=eventDetails.did%>_srpickV" name="<%=eventDetails.did%>_ickV" value="" />
+            <label for="title" class="form-label">Title</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group form-float col-md-5">
+          <div class="form-line">
+            <input id="" type="text" class="form-control start_time saveScheduler <%=eventDetails.did%>_srpickV" name="<%=eventDetails.did%>_ickV" value="" />
+            <label for="start_time" class="form-label">Start Time</label>
+          </div>
+        </div>
+        <div class="dhash">-</div>
+        <div class="form-group form-float col-md-5">
+          <div class="form-line">
+            <input id="" type="text" class="form-control end_time saveScheduler <%=eventDetails.did%>_srpickV" name="<%=eventDetails.did%>_ickV" value="" />
+            <label for="end_time" class="form-label">End Time</label>
+          </div>
+        </div>
+        <div class="removeExtraSchedule">
+          <span type="button" data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+            <i class="material-icons">delete</i></span>
+        </div>
+      </div>
+      <div class="row">
+        <label for="description" class="form-label">Description</label>
+        <div id="<%=eventDetails.did%><%=eventDetails.i%>_text" type="text" class="form-control txtchange siteEventDesc comment-box <%=eventDetails.did%>_pickV <%=eventDetails.did%><%=eventDetails.i%>_count_text" data-text="<%=eventDetails.i%>_count" name="description <%=eventDetails.did%>_ickV" data-id="<%=eventDetails.did%>"></div>
+        <div class="<%=eventDetails.did%>Editor <%=eventDetails.did%><%=eventDetails.i%>_countEditor" style="margin-bottom: 50px;">
+          <div id="<%=eventDetails.did%><%=eventDetails.i%>_count" class="form-control <%=eventDetails.did%>-editor <%=eventDetails.did%><%=eventDetails.i%>_count-editor" style="display: none;"></div>
+        </div>
+      </div>
+    </td>
+  </tr>

@@ -1,0 +1,40 @@
+<div class="leadopportunity" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>" >    
+    <div class="leadDetails" id="leadCard<%=opportunityDetails.attributes.opportunity_id%>" >
+        <div class="leadDetailsCard">
+            <div class="leadDetailsCardTop"  data-toggle="tooltip" data-placement="top" data-content="Title">
+                <div class="namedetails" style="display: flex;">
+                    <span><%=opportunityDetails.attributes.opportunity_title%></span>
+                </div>
+              </div>
+            <div class="leadDetailsCardBody">
+                <h5 data-toggle="tooltip" data-placement="top" data-content="Amount"><span><i class="material-icons">payments</i></span>
+
+                    <% if(opportunityDetails.attributes.opportunity_amount !=""){%>
+                        <strong><%=opportunityDetails.attributes.opportunity_amount%></strong>
+                        <%} else {%>
+                        <strong>--</strong>
+                    <%}%>
+                </h5>
+                <p data-toggle="tooltip" data-placement="top" data-content="Customer"><span><i class="material-icons">person</i></span>
+                    <% if(opportunityDetails.attributes.customer_id != ""){%>
+                         <strong><%=opportunityDetails.attributes.customer_id%></strong>   
+                    <%} else {%>
+                        <strong>--</strong>
+                    <%}%>
+                </p>
+                <p data-toggle="tooltip" data-placement="top" data-content="Assignee">
+                    <span><i class="material-icons">person</i></span>
+                    <% if(opportunityDetails.attributes.assignee != ""){%>
+                        <strong><%=opportunityDetails.attributes.assignee%></strong>   
+                   <%} else {%>
+                       <strong>--</strong>
+                   <%}%>
+                </p>
+            </div>
+            
+            <div class="opportunityDetailsCardfooter">
+                <button type="button" class="ws-btn-default loadview"  data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>" data-view="singleopportunityData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+            </div>
+        </div>
+    </div>
+ </div>

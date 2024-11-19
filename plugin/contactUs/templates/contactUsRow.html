@@ -1,0 +1,24 @@
+<tr class="even pointer bg-<%=contactUsListDetails.attributes.status%>" >
+  <td class="a-center">
+    <div class="listCheckbox">
+        <input id="cAll_<%= contactUsListDetails.attributes.contactUsID %>" class="memberlistcheck chk-col-amber deleteCard" data-contactUsID="<%= contactUsListDetails.attributes.contactUsID %>" type="checkbox">
+        <label for="cAll_<%= contactUsListDetails.attributes.contactUsID %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview taskAction" data-infoID="<%=contactUsListDetails.attributes.infoID%>" data-view="singleCompanyData">
+      <div class="nametooltip truncateColumns">
+        <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%=contactUsListDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+        <% }else { %>
+          <% if(contactUsListDetails.attributes[""+column.column_name] == "" || contactUsListDetails.attributes[""+column.column_name] == null){%>-<%}else{%><%=contactUsListDetails.attributes[""+column.column_name]%><%}%>
+        <% } %>
+      </div>
+    </td>
+  <% }); %>
+  <td>
+    <button type="button" class="ws-btn-default loadview" data-contact_id="<%=contactUsListDetails.attributes.contactUsID%>" data-view="singlecontactData" data-toggle="tooltip" data-placement="top" data-content="View" >
+      <i class="material-icons">visibility</i>
+    </button>
+  </td>
+</tr>

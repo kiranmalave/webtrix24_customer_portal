@@ -1,0 +1,208 @@
+<div class="tab-pane in active">
+    <div id="projectsSingleView">
+        <form id="projectDetails" name="projectDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo saveProjectsDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo saveProjectsDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="row ws-main-container">
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="row left-space">
+                        <div class="col-md-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="title" class="form-label">Title<span class="error">*</span></label>
+                                    <input id="title" class="form-control txtchange" autocomplete="off" name="title" type="text" value="<%=model.title%>">
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="list-row icon-list">
+                            <div class="icon-left">
+                                <div class="ws-icon">
+                                    <i class="material-icons">sort</i>
+                                </div>
+                            </div>
+                            <div class="right-layout">
+                                <label> <strong>Description</strong></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row left-space">
+                        <div class="col-md-12">
+                            <div class="ws-quill right-layout">
+                                <div id="projectDescription" class="form-control mb-3"><%=model.description%></div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" style="margin-top:21px;">
+                        <div class="col-md-12">
+                            <div class="form-group form-float" >
+                                <div class="form-line taskDate">
+                                    <input id="customer_id" type="text" data-source="customer" data-check="name" data-list="name,customer_id,type" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="customer" value="<%=model.customerName%>">
+                                    <label for="customer_id" class="form-label taskDate">Customer</label>
+                                </div>
+                                <div class="freeSerachList"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                                <div class="form-line taskDate">
+                                    <input id="start_date" type="text" class="form-control taskDate" name="start_date" autocomplete="off" value="<%=model.start_date%>">
+                                    <label for="start_date" class="form-label taskDate">Start Date</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group input-group form-float">
+                                <div class="form-line taskDate">
+                                    <input id="end_date" type="text" class="form-control taskDate" name="end_date" autocomplete="off" value="<%=model.end_date%>" readonly>
+                                    <label for="end_date" class="form-label taskDate">End Date</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <div class="form-group form-float taskDropDown">
+                                <div class="form-line removeBorder">
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="project_priority" ){%>
+                                            <% var slug_id = modelcat.attributes.category_id; %>
+                                            <select for="project_priority" autocomplete="off" id="project_priority" data-slug ="<%=slug_id%>" name="project_priority" title=" " class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                                <%if(permission.add=="yes" ) { %>
+                                                    <option class="addNew" value="addPriority">Add Priority</option>
+                                                <%}%>
+                                                <% _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                        <option <% if(model1.category_id==model.project_priority ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                                <%})%>  
+                                            </select>    
+                                        <%}%>
+                                    <%})%>
+                                    <label for="project_priority" class="form-label">Project Priority</label>
+                                    <%if(model.project_priority != "" && model.project_priority != null){%>
+                                        <span class="ws_clear material-icons">close</span>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row taskSelectOptions">
+                        <div class="col-md-12">
+                            <div class="form-group form-float taskDropDown">
+                                <div class="form-line removeBorder">
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="project_type" ){%>
+                                            <% var slug_id = modelcat.attributes.category_id; %>
+                                            <select for="project_type" autocomplete="off" id="project_type" data-slug ="<%=slug_id%>" name="project_type" title=" " class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                                <%if(permission.add=="yes" ) { %>
+                                                    <option class="addNew" value="addType">Add Type</option>
+                                                <%}%>
+                                                <% _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                        <option <% if(model1.category_id==model.project_type ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                                <%})%>  
+                                            </select>    
+                                        <%}%>
+                                    <%})%>
+                                    <label for="project_type" class="form-label">Project Type</label>
+                                    <%if(model.project_type != "" && model.project_type != null){%>
+                                        <span class="ws_clear material-icons">close</span>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float taskDropDown">
+                                <div class="form-line removeBorder">
+                                    <select for="project_status" autocomplete="off" id="project_status" name="project_status" title=" " class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                        <option <% if(model.project_status == "notstarted" ){ %> selected <% } %> value="notstarted">Not Started</option>
+                                        <option <% if(model.project_status == "inprogress" ){ %> selected <% } %>value="inprogress">In Progress</option>
+                                        <option <% if(model.project_status == "onhold" ){ %> selected <% } %>value="onhold">On hold</option>
+                                        <option <% if(model.project_status == "completed" ){ %> selected <% } %>value="completed">Completed</option>
+                                    </select>
+                                    <label for="project_status" class="form-label">Project Status</label>
+                                    <%if(model.project_status != "" && model.project_status != null){%>
+                                        <span class="ws_clear material-icons">close</span>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-float">
+                                <div class="form-line removeBorder">
+                                    <select for="project_stages" autocomplete="off" id="project_stages" name="project_stages" title=" " class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addStages">Add Stages</option>
+                                        <%}%>
+                                        <% _.each(parentCatList, function(model1) { %>
+                                            <option <% if(model.project_stages == model1.attributes.category_id ){ %> selected <%}%> value="<%=model1.attributes.category_id%>"><%=model1.attributes.categoryName %></option>
+                                        <%})%>  
+                                    </select>
+                                    <label for="project_stages" class="form-label">Project Stage</label>
+                                    <%if(model.project_stages != "" && model.project_stages != null){%>
+                                        <span class="ws_clear material-icons">close</span>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-12" >
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                <label for="expected_revenue" class="form-label">Expected Revenue</label>
+                                <input id="expected_revenue" class="form-control txtchange txtcolor" autocomplete="off" name="expected_revenue" value="<%=model.expected_revenue%>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                <label for="expected_expences" class="form-label">Expected Expences</label>
+                                <input id="expected_expences" class="form-control txtchange txtcolor" autocomplete="off" name="expected_expences" value="<%=model.expected_expences%>">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="list-row icon-list">
+        <div class="icon-left">
+            <div class="ws-icon">
+                <i class="material-icons">
+                    more
+                </i>
+            </div>
+        </div>
+        <div class="right-layout">
+            <label> <strong>Additional Information</strong></label>
+        </div>
+    </div>
+</div>
+<div class="clearfix">&nbsp;</div>
+<div id="dynamicFormFields" class="dynamic-align"></div> -->

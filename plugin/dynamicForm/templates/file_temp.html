@@ -1,0 +1,42 @@
+
+<div class="list-row mb-4"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons mt-0">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <label for="field_<%= elementDetails.fieldID %>" class="form-label"><%= elementDetails.fieldLabel %><span class="error"><%= elementDetails.isRqr %></span></label>
+        <div class="row attachupdate customAttach mt-0">
+            <button type="button" id="<%= elementDetails.fieldID %>" class="loadAttachment ws-customModalbtn dotborder dotborder_<%= elementDetails.fieldID %>" data-change="ws-bg-image">
+                <span class="material-icons">add</span>
+            </button>
+            <div id="attachedDocs" class="row customAttachDoc attachedDocs_<%= elementDetails.fieldID %>"></div>
+        </div>
+    </div>
+</div>
+
+<div class="list-row upload upload_<%= elementDetails.fieldID %>" style="display: none;">
+    <div class="icon-left">
+        <div class="ws-icon">
+            <span class="material-symbols-outlined"></span>
+        </div>
+    </div>
+    <div class="right-layout ws-quill">
+        <div class="row ">
+            <div class="col-md-12 ws-dragbox taskAttachDragBox">
+                <div class="ws-assignee-column">
+                    <input type="file" multiple class="btn btn-default btn__action customUpload" id="fieldID_<%= elementDetails.fieldID %>" data-fileTypes="<%= elementDetails.supportedFileTypes %>" data-noOfFiles="<%= elementDetails.numberOfFileToUpload %>"/>
+                </div>
+            </div>
+            <div class="col-md-12 text-right ">
+                <button type="button" class="btn bg-indigo hideUploadMedia clacel" id="<%= elementDetails.fieldID %>">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    

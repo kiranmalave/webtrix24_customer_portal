@@ -1,0 +1,46 @@
+<tr class="even pointer bg-<%=faqDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= faqDetails.attributes.faq_id%>" class="memberlistcheck chk-col-amber deleteCard"
+        data-faq_id="<%= faqDetails.attributes.faq_id%>" type="checkbox">
+      <label for="cAll_<%= faqDetails.attributes.faq_id%>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <% if(column.column_name=='faq_answer' ){ %>
+      <td class="draglinerow truncateWidth loadview" data-faq_id="<%=faqDetails.attributes.faq_id%>" data-view="singlefaqData">
+        <div class="nametooltip truncateColumns">
+          <%if(faqDetails.attributes.faq_answer !="" ){ %> Y <% } else { %> N <% } %>
+        </div>
+      </td>
+    <% } else if(column.column_name=='asked_by_name' ){ %>
+      <td class="draglinerow truncateWidth loadview" data-faq_id="<%=faqDetails.attributes.faq_id%>" data-view="singlefaqData">
+        <div class="nametooltip truncateColumns">
+          <%if(faqDetails.attributes.asked_by_name !="" ){ %> Y <% } else { %> N <% } %>
+        </div>
+      </td>
+    <% } else if(column.column_name=='is_email_send' ){ %>
+      <td class="draglinerow truncateWidth loadview" data-faq_id="<%=faqDetails.attributes.faq_id%>" data-view="singlefaqData">
+        <div class="nametooltip truncateColumns">
+          <%if(faqDetails.attributes.is_email_send==1){ %> Y <% } else { %> N <% } %>
+        </div>
+      </td>
+    <% } else { %>
+      <td class="draglinerow truncateWidth loadview" data-faq_id="<%=faqDetails.attributes.faq_id%>" data-view="singlefaqData">
+        <div class="nametooltip truncateColumns">
+          <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+            <%=faqDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+              <% }else { %>
+                <%=faqDetails.attributes[""+column.column_name]%>
+                  <% } %>
+        </div>
+      </td>
+      <% } %>
+    <% }); %>
+    <td class="draglinerow truncateWidth loadview" data-faq_id="<%=faqDetails.attributes.faq_id%>" data-view="singlefaqData">
+      <div class="nametooltip truncateColumns">
+        <button type="button" class="ws-btn-default loadview"
+          data-faq_id="<%=faqDetails.attributes.faq_id%>" data-view="singlefaqData" data-toggle="tooltip"
+          data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    </td>
+</tr>

@@ -1,0 +1,21 @@
+<tr class="even pointer bg-<%=formAnsMasterDetails.attributes.status%>" >
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= formAnsMasterDetails.attributes.formID %>" class="memberlistcheck chk-col-amber" data-formID="<%= formAnsMasterDetails.attributes.formID %>" type="checkbox">
+      <label for="cAll_<%= formAnsMasterDetails.attributes.formID %>">&nbsp;</label>
+  </div>
+  </td><!-- 
+  <td class=""><%=formAnsMasterDetails.attributes.formID%></td> -->
+  <td ><a class="" href="#formQuestionAns/<%= formAnsMasterDetails.attributes.formID %>/<%= formAnsMasterDetails.attributes.userID %>"><u><%if(formAnsMasterDetails.attributes.firstName!=null){%><%=formAnsMasterDetails.attributes.firstName%> <%= formAnsMasterDetails.attributes.lastName%><%}else{%><%=formAnsMasterDetails.attributes.userID%><%}%></u></a></td>
+  <td class="loadview" data-qaID="<%=formAnsMasterDetails.attributes.qaID%>" data-userID="<%= formAnsMasterDetails.attributes.userID%>" data-view="singleformAnsMasterData" ><%if(formAnsMasterDetails.attributes.firstName!=null){%><%=formAnsMasterDetails.attributes.email%><%}else{%>--<%}%></td>
+  <td class="loadview" data-qaID="<%=formAnsMasterDetails.attributes.qaID%>" data-userID="<%= formAnsMasterDetails.attributes.userID%>" data-view="singleformAnsMasterData" ><%=formAnsMasterDetails.attributes.formTitle%></td>
+  <td class="loadview" data-qaID="<%=formAnsMasterDetails.attributes.qaID%>" data-userID="<%= formAnsMasterDetails.attributes.userID%>" data-view="singleformAnsMasterData" ><%= formatDate(formAnsMasterDetails.attributes.createdDate,'no') %></td>
+  <td>
+    <button type="button" class="ws-btn-default loadview" data-qaID="<%=formAnsMasterDetails.attributes.qaID%>" data-userID="<%= formAnsMasterDetails.attributes.userID%>" data-view="singleformAnsMasterData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+
+    <!-- <a class="btn ws-btn-default" href="#formQuestionAns/<%= formAnsMasterDetails.attributes.formID %>/<%= formAnsMasterDetails.attributes.userID %>">Show Answers</a> -->
+    <!-- <a type="button" class="ws-btn-default " href="#Addnewpage/<%= formAnsMasterDetails.attributes.formID %>/<%= formAnsMasterDetails.attributes.userID %>"  data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></a> -->
+
+  </td>
+</tr>
+              

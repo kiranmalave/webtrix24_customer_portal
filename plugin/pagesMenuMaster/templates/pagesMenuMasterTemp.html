@@ -1,0 +1,359 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="body">
+          <div class="header">
+            <h2>Navigation Links<small>Create navigation links</small> </h2>
+            <div class="right-content forNav">
+              <!-- <button id="saveuserRoleDetails" style="display: none;" type="button" class="btn bg-indigo btn-sm"
+                style="float: right;">Save</button> -->
+              <button id="deleteMenuList" type="button" style="display: none;"
+                class="btn  btn-raised btn-danger btn-sm waves-effect"
+                style="float: right; margin-left: 14px;">Delete</button>
+            </div>
+            <div class="body" style="padding:20px;">
+              <form id="userRoleDetails" name="userRoleDetails" action="#"> 
+                <div class="row clearfix">
+                  <div class="col-lg-3">
+                    <label for="menuID">Navigation List<span class="error"></span> :</label>
+                    <select id="menuID" name="menuID" class="form-control changeMenu">
+                      <option value="">Select Menu</option>
+                      <%_.each(searchpagesMenuMaster, function(model){%>
+                        <option <% if(selectedMenu.attributes.menuID==model.attributes.menuID ){%> selected <%}%>value="<%=model.attributes.menuID%>"><%=model.attributes.menuName%></option>
+                      <%});%>
+                    </select>
+                  </div>
+                  <div class="ws-create-menu col-lg-3">
+                    <span>or</span>
+                    <button type="button" class="btn  btn-link add-new-menu-action">create a new Menu</button>
+                    <!-- <button class="btn-warning add-new-menu-action" ></button> -->
+                  </div>
+                  <div class="col-lg-5 create-new-nav" style="display: none;">
+                    <div class="totalNav">
+                      <div class="navInputTestDetails">
+                        <label for="menuName">Navigation Name<span class="error">*</span> :</label>
+                        <input id="menuName" class="form-control txtchange" name="menuName" required="" type="text"
+                          value="<%=singleMenuDetails.menuName%>"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 create-new-nav" style="display: none;margin-top: 30px;">
+                    <button id="saveuserRoleDetails" type="button" class="btn bg-indigo btn-sm">Save</button>
+                    <button type="button" class="btn bg-indigo clacel navCancelBtn">Cancel</button>
+                  </div>
+                  <div class="clearfix">&nbsp;</div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <!-- Basic Examples -->
+    <div class="col-lg-4 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="panel-group body navigationList" id="accordionPages" role="tablist" aria-multiselectable="true">
+          <div class="panel ">
+            <div class="panel-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false">
+              <span class="panel-title">Pages</span>
+              <span class="accicon"><i class="material-icons">arrow_drop_down</i></span>
+            </div>
+            <div id="collapseOne" class="collapse" data-parent="#accordionPages">
+              <div class="panel-body">
+                <ul id="sortable">
+                  <%_.each(pagesList,function(model){%>
+                    <%if(model.attributes.page_type=="page" ){%>
+                      <li class="ui-state-default drag-drop-item" data-pageId="<%= model.attributes.pageID %>" data-pageTitle="<%=model.attributes.pageTitle%>" data-pageLink="<%=model.attributes.pageLink%>">
+                        <%=model.attributes.pageTitle%>
+                      </li>
+                      <%}%>
+                        <% })%>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false">
+              <span class="panel-title">Post</span>
+              <span class="accicon"><i class="material-icons">arrow_drop_down</i></span>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordionPages">
+              <div class="panel-body">
+                <ul id="sortable">
+                  <%_.each(pagesList,function(model){%>
+                    <%if(model.attributes.page_type=="blog" ){%>
+                      <li class="ui-state-default drag-drop-item" data-pageId="<%= model.attributes.pageID %>" data-pageTitle="<%=model.attributes.pageTitle%>" data-pageLink="<%=model.attributes.pageLink%>">
+                        <%=model.attributes.pageTitle%>
+                      </li>
+                      <%}%>
+                        <% })%>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false">
+              <span class="panel-title">Services</span>
+              <span class="accicon"><i class="material-icons">arrow_drop_down</i></span>
+            </div>
+            <div id="collapseFour" class="collapse" data-parent="#accordionPages">
+              <div class="panel-body">
+                <ul id="sortable">
+                  <%_.each(pagesList,function(model){%>
+                    <%if(model.attributes.page_type=="service" ){%>
+                      <li class="ui-state-default drag-drop-item" data-pageId="<%= model.attributes.pageID %>"  data-pageTitle="<%=model.attributes.pageTitle%>" data-pageLink="<%=model.attributes.pageLink%>">
+                        <%=model.attributes.pageTitle%>
+                      </li>
+                      <%}%>
+                        <% })%>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel ">
+            <div class="panel-header" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false">
+              <span class="panel-title">Custom Links</span>
+              <span class="accicon"><i class="material-icons">arrow_drop_down</i></span>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordionPages">
+              <div class="panel-body">
+                <form>
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <input type="url" id="c_url" class="form-control" name="url" required="" aria-required="true">
+                      <label class="form-label">Url</label>
+                    </div>
+                  </div>
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                      <input type="text" class="form-control" id="c_title" name="minmaxlength" maxlength="50"
+                        minlength="5" required="" aria-required="true">
+                      <label class="form-label">Text</label>
+                    </div>
+                  </div>
+                  <input id="c_newTab" class="form-control c_newTab memberlistcheck" name="c_newTab" type="checkbox">
+                  <label for="c_newTab">Open in new tab</label>
+                  <div class="clearfix">&nbsp;</div>
+                  <button class="btn btn-raised btn-primary waves-effect addCustomLinks">Add Custom Link</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="body">
+          <div class="row clearfix">
+            <div class="col-lg-12">
+
+              <div class="col-lg-12 current-nav-div" style="display: none;">
+                <div class="row">
+                  <div class="navDetails">
+                    <label for="menuName">Navigation Name<span class="error">*</span> :</label>
+                    <input id="menuName" class="form-control txtchange" name="menuName" required="" type="text"
+                      value="<%=singleMenuDetails.menuName%>">
+                    <div class="clearfix">&nbsp;</div>
+                  </div>
+                  <div class="right-content forNav" style="top:30px;right:1px">
+                    <button id="saveuserRoleDetails" type="button" class="btn bg-indigo btn-sm">Update</button>
+                    <button id="deleteMenuList" type="button" class="btn  btn-raised btn-danger btn-sm waves-effect"
+                      style="margin-left: 14px;">Delete</button>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="dd nestable-with-handle test navSelectedList" id="dd-selected-pages">
+                <ol class="dd-list ws-itempage-section manupageList" id="selected-pages">
+                  <%_.each(menuPagesList,function(model){%>
+                    <li class="dd-item dd3-item " data-id="<%= model.attributes.pageID%>" data-pageTitle="<%= model.attributes.pageTitle%>" data-pageLink="<%= model.attributes.pageLink%>"
+                      data-menuPageId="<%=model.attributes.menuPageID %>" data-pageId="<%= model.attributes.pageID %>">
+                      <div class='dd-handle dd3-handle ws-handle'></div>
+                      <!-- <div class="fieldsSort"></div> -->
+                      <% if(model.attributes.pageTitle != null) { %>
+                        <span class='dd3-content ws-newpage ws-itempage' data-pageId="<%= model.attributes.pageID%>" data-pageTitle="<%= model.attributes.pageTitle%>" data-pageLink="<%= model.attributes.pageLink%>">
+                            <%=model.attributes.pageTitle%> 
+                        </span>
+                      <% }else { %>
+                        <% if (model.attributes.custom_link != null && model.attributes.custom_link != "" && model.attributes.custom_link != "undefined") { %>
+                          <% var clink = JSON.parse(model.attributes.custom_link); %>
+                          <% if (clink != null && clink != "" && clink != "undefined") { %>
+                              <% var url = clink.URL; %>
+                              <% var newTab = clink.newTab; %>
+                              <% var newTitle = clink.title.replace(/\s+/g, '_'); %>
+                              <% var title = clink.Title; %>
+                              <span class='dd3-content ws-newpage ws-itempage' data-pageId="" data-pageTitle="<%= clink.title %>" data-pageLink="<%= clink.url %>">
+                                  <%= clink.title %>
+                              </span>
+                          <% } %>
+                        <% } %>
+                      
+                      <% } %>
+                      <span class='symbols-outline'><a href='javascript:void(0);'
+                          data-menuPageID="<%= model.attributes.menuPageID %>" class='deletePage'>
+                          <span class='material-symbols-outlined'>Delete</span></a></span>
+
+                      <%if(model.attributes.subMenu.length>0){%>
+                        <ol class="dd-list ws-itempage-section manupageList">
+                          <%_.each(model.attributes.subMenu,function(submodel){%>
+                            <li class="dd-item dd3-item" data-id="<%= submodel.pageID %>" data-pageTitle="<%=submodel.pageTitle%>" data-pageLink="<%=submodel.pageLink%>"
+                              data-pageId="<%= submodel.pageID %>" data-menuPageId="<%=submodel.menuPageID %>">
+                              <div class="dd-handle dd3-handle ws-handle"></div>
+                              <% if(submodel.pageTitle != null) { %>
+                                <span class='dd3-content ws-newpage ws-itempage' data-pageId="<%= submodel.pageID%>" data-pageTitle="<%= submodel.pageTitle%>" data-pageLink="<%= submodel.pageLink%>">
+                                    <%=submodel.pageTitle%> 
+                                </span>
+                              <% }else { %>
+                                <% if (submodel.custom_link !== null && submodel.custom_link !== "" && submodel.custom_link !== "undefined") { %>
+                                  <% var clink = JSON.parse(submodel.custom_link); %>
+                                  <% if (clink !== null && clink !== "" && clink !== "undefined") { %>
+                                      <% var url = clink.URL; %>
+                                      <% var newTab = clink.newTab; %>
+                                      <% var newTitle = clink.title.replace(/\s+/g, '_'); %>
+                                      <% var title = clink.Title; %>
+                                      <span class='dd3-content ws-newpage ws-itempage' data-pageId="" data-pageTitle="<%= clink.title %>" data-pageLink="<%= clink.url %>">
+                                          <%= clink.title %>
+                                      </span>
+                                  <% } %>
+                                <% } %>
+                              
+                              <% } %>
+          
+                              <span class='symbols-outline'><a href='javascript:void(0);'
+                                  data-menuPageID="<%= submodel.menuPageID %>" data-pageID="<%= submodel.pageID %>"
+                                  class='deletePage'>
+                                  <span class="material-symbols-outlined">Delete</span></a>
+                              </span>
+                              <% if(submodel.pageTitle != null) { %>
+                                <div class="menu-item-setting menuIdCls_<%=submodel.pageID%>" id="menu-item-setting-5">
+                              <% } else { %>
+                                <div class="menu-item-setting menuIdCls_<%=newTitle%>" id="menu-item-setting-5">
+                              <% } %>
+                          
+                                <div class="clearfix">
+                                    <div class="form-group-sm form-float mb-3">
+                                      <div class="form-line">
+                                        <p><b>URL</b></p>
+                                        <% if(submodel.pageTitle != null) { %>
+                                          <input type="url" class="form-control" name="url" required="" aria-required="true" value="<%=submodel.pageLink%>" disabled style="cursor:not-allowed;">
+                                        <% } else { %>
+                                            <input type="url" class="form-control updatePageDetails" data-position="<%=submodel.position%>" data-id="c_url" data-customLink='<%=submodel.custom_link%>' data-menuPageID='<%=submodel.menuPageID%>' name="url" required="" aria-required="true" value="<%= clink ? clink.url : '' %>">
+                                        <% } %>
+                                          
+                                      </div>
+                                    </div>
+                                    <div class="form-group-sm form-float mb-3">
+                                      <div class="form-line">
+                                        <p><b>Navigation Lable</b></p>
+                                        <% if(submodel.pageTitle != null) { %>
+                                          <input type="text" class="form-control updatePageDetails" data-pageID="<%=submodel.pageID%>" data-id="pageTitle" name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true" value="<%=submodel.pageTitle%>"> 
+                                        <% } else { %>
+                                          <input type="text" class="form-control updatePageDetails" data-position="<%=submodel.position%>" data-id="c_title" data-customLink='<%=submodel.custom_link%>' data-menuPageID='<%=submodel.menuPageID%>' name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true" value="<%= clink ? clink.title : '' %>">
+                                        <% } %>
+                                       
+                                      </div>
+                                    </div>
+                                    <% if(submodel.pageTitle == null) { %>
+                                      <input id="c_newTab_<%=newTitle%>" class="form-control updatePageDetails" data-position="<%=submodel.position%>" data-id="c_newTab" data-customLink='<%=submodel.custom_link%>' data-menuPageID='<%=submodel.menuPageID%>' type="checkbox" <% if (clink && clink.newTab === true) { %>checked<% } %>>
+                                      <label for="c_newTab_<%=newTitle%>">Open in new tab</label>
+                                    <% } %>
+                                    <div class="clearfix">&nbsp;</div>
+                                    <!-- <div class="form-group-sm form-float mb-3">                    
+                                        <div class="form-line">
+                                          <p><b>Title Attribute</b></p>
+                                            <input type="text" class="form-control" name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true">
+                                        </div>
+                                    </div> -->
+                                    <div class="menu-item-actions description-wide submitbox">
+                                        <!-- <a class="item-delete submitdelete deletion text-danger" id="delete-5" href="#">Remove</a>	 -->
+                                        <!-- <span class="meta-sep hide-if-no-js"> | </span> -->
+                                        <span class="item-cancel clacel submitcancel hide-if-no-js" data-pageID="<%=submodel.pageID%>" data-pageTitle="<%= submodel.pageTitle%>">Cancel</span>
+                                    </div>
+                                </div>
+                              </div>
+                            </li>
+                            <% })%>
+                        </ol>
+                        <% }%>
+                        <% if(model.attributes.pageTitle != null) { %>
+                          <div class="menu-item-setting menuIdCls_<%=model.attributes.pageID%>" id="menu-item-setting-5">
+                        <% } else { %>
+                          <div class="menu-item-setting menuIdCls_<%=newTitle%>" id="menu-item-setting-5">
+                        <% } %>
+                        
+                          <div class="clearfix">
+                              <div class="form-group-sm form-float mb-3">
+                                <div class="form-line">
+                                  <p><b>URL</b></p>
+                                  <% if(model.attributes.pageTitle != null) { %>
+                                    <input type="url" class="form-control" name="url" required="" aria-required="true" value="<%=model.attributes.pageLink%>" disabled style="cursor:not-allowed;">
+                                  <% } else { %>
+                                    <input type="url" class="form-control updatePageDetails" data-position="<%=model.attributes.position%>" data-id="c_url" data-customLink='<%=model.attributes.custom_link%>' data-menuPageID='<%=model.attributes.menuPageID%>' name="url" required="" aria-required="true" value="<%= clink ? clink.url : '' %>">
+                                  <% } %>
+                                </div>
+                              </div>
+                              <div class="form-group-sm form-float mb-3">
+                              <div class="form-line">
+                                <p><b>Navigation Lable</b></p>
+                                <% if(model.attributes.pageTitle != null) { %>
+                                  <input type="text" class="form-control updatePageDetails" data-pageID="<%=model.attributes.pageID%>" data-id="pageTitle" name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true" value="<%=model.attributes.pageTitle%>"> 
+                                <% } else { %>
+                                  <input type="text" class="form-control updatePageDetails" data-position="<%=model.attributes.position%>" data-id="c_title" data-customLink='<%=model.attributes.custom_link%>' data-menuPageID='<%=model.attributes.menuPageID%>' name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true" value="<%= clink ? clink.title : '' %>">
+                                <% } %>
+                              </div>
+                              </div>
+                              <% if(model.attributes.pageTitle == null) { %>
+                                <input id="c_newTab_<%=newTitle%>" class="form-control updatePageDetails" data-position="<%= model.attributes.position %>" data-id="c_newTab" data-customLink='<%= model.attributes.custom_link %>' data-menuPageID='<%= model.attributes.menuPageID %>' type="checkbox" <% if (clink && clink.newTab === true) { %>checked<% } %>>
+                                <label for="c_newTab_<%=newTitle%>">Open in new tab</label>
+                              <% } %>
+                              <!-- <div class="form-group-sm form-float mb-3">                    
+                                  <div class="form-line">
+                                    <p><b>Title Attribute</b></p>
+                                      <input type="text" class="form-control" name="minmaxlength" maxlength="50" minlength="5" required="" aria-required="true">
+                                  </div>
+                              </div> -->
+                              <div class="menu-item-actions description-wide submitbox">
+                                  <!-- <a class="item-delete submitdelete deletion text-danger" id="delete-5" href="#">Remove</a>	 -->
+                                  <!-- <span class="meta-sep hide-if-no-js"> | </span> -->
+                                  <span class="item-cancel clacel submitcancel hide-if-no-js" data-pageID="<%=model.attributes.pageID%>" data-pageTitle="<%=model.attributes.pageTitle%>">Cancel</span>
+                                </div>
+                          </div>
+                        </div>
+                    </li>
+                    <% })%>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix">
+            <div class="col-4">
+              <div class="clearfix">&nbsp;</div>
+              <input id="isPrimary" class="form-control isPrimary memberlistcheck" name="isPrimary" type="checkbox"
+                <%if(singleMenuDetails.isPrimary == 1) { %>checked<% } %>>
+                <label for="isPrimary">isPrimary</label>
+            </div>
+            <div class="col-4">
+              <div class="clearfix">&nbsp;</div>
+              <input id="isSecondary" class="form-control isSecondary memberlistcheck" name="isSecondary"
+                type="checkbox" <%if(singleMenuDetails.isSecondary ==1 ){ %>checked<%} %>>
+                <label for="isSecondary">is Secondary</label>
+            </div>
+            <div class="col-4">
+              <div class="clearfix">&nbsp;</div>
+              <input id="isFooter" class="form-control isFooter memberlistcheck" name="isFooter" type="checkbox"
+                <%if(singleMenuDetails.isFooter == 1){ %>checked<%} %>>
+                <label for="isFooter">is Footer</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

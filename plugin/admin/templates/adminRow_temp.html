@@ -1,0 +1,27 @@
+<tr class="even pointer ">
+  <td class="a-center">
+    <div class="bg__control normal">
+      <label class="check__box">
+        <input class="adlistcheck" type="checkbox" data-adminID="<%= adminDetails.attributes.adminID %>">
+          <div class="square__box round"></div>
+      </label>
+    </div>
+  </td>
+  <!-- <td class=""><%=adminDetails.attributes.adminID%></td> -->
+  <td class="loadview" data-adminID="<%=adminDetails.attributes.adminID%>" data-view="adminDetails" ><a href="javascript:;"><b><u><%=adminDetails.attributes.name%></u></b></a></td></td>
+  <td class=""><%=adminDetails.attributes.userName%></td>
+  <td>
+    <%=adminDetails.attributes.email%></a>
+  </td>
+  <td class=""><%=adminDetails.attributes.password%></td>
+  <td class=""><%=adminDetails.attributes.roleName%></td> 
+  <td class=""><%=adminDetails.attributes.userRole%></td>
+  <td class=""><%= formatDate(adminDetails.attributes.created_date,"yes") %></td>
+  <td class=""><%= formatDate(adminDetails.attributes.lastLogin,"yes") %></td>
+  <td class=""><%= adminDetails.attributes.status %></td>
+  <td class="last">
+    <button type="button" class="btn btn-info btn-xs loadview"  data-adminID="<%=adminDetails.attributes.adminID%>" data-view="adminDetails">Edit</button>
+  </td>
+  
+</tr>
+             

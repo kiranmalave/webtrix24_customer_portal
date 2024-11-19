@@ -1,0 +1,158 @@
+<tr class="even pointer customerRow bg-<%=customerDetails.attributes.status2%>" data-customerID="<%= customerDetails.attributes.customer_id %>" >
+  <td class="a-center taskAction">
+    <div class="listCheckbox">
+      <input id="cAll_<%= customerDetails.attributes.customer_id %>" class="memberlistcheck chk-col-amber deleteCard" data-customer_id="<%= customerDetails.attributes.customer_id %>" type="checkbox">
+      <label for="cAll_<%= customerDetails.attributes.customer_id %>">&nbsp;</label>
+    </div>
+  </td>
+
+    <% _.each(arrangedColumnList, function(column) { %>
+        <% if(column.column_name == "name" ) { %>
+          <td class="draglinerow truncateWidth taskAction">
+              <a class="custName" target="_blank" href="#customerDashboard/<%= customerDetails.attributes.customer_id %>/<%=menuID%>">
+                <%if (customerDetails.attributes.customer_image == "" || customerDetails.attributes.customer_image == null || customerDetails.attributes.customer_image == "-"){%>
+                  <!-- <span class="initial" style="background-color : <%=customerDetails.attributes.initialBgColor%>; color:<%=customerDetails.attributes.initialColor%>" ><%=customerDetails.attributes.initial%> </span> -->
+                  <span class="initial" style="background-color: '<%=customerDetails.attributes.initialBgColor%>'; color: '<%=customerDetails.attributes.initialColor%>'" ><%=customerDetails.attributes.initial%> </span>
+                <%}else{%>
+                    <img src="<%=UPLOADS%>/customer/<%=customerDetails.attributes.customer_id%>/profilePic/<%=customerDetails.attributes.customer_image%>" style=" width: 25px; height: 25px; border-radius: 50%;display:flex;flex-shrink:0"/>
+                <%}%><span class="salutationCls"><%=customerDetails.attributes.salutation%>.</span><span class="nametooltip truncateColumns"> <%=customerDetails.attributes.name%> </span> 
+                <% if ((customerDetails.attributes.email == '-') || (customerDetails.attributes.mobile_no == '-')) { %>
+                  <% if ((customerDetails.attributes.email == '-') && (customerDetails.attributes.mobile_no == '-')) { %>
+                    <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Email Address & Mobile No. Not Found"/>
+                    <!-- <span class="alertIcon material-icons" data-toggle="tooltip" data-placement="top" data-content="Email Address & Mobile no. Not Found">warning</span> -->
+                  <% } else if ((customerDetails.attributes.email == '-')) { %>
+                    <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Email Address Not Found"/>
+                    <!-- <span class="alertIcon material-icons" data-toggle="tooltip" data-placement="top" data-content="Email Address Not Found">warning</span> -->
+                  <% } else { %>
+                    <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Mobile no. Not Found"/>
+                    <!-- <span class="alertIcon material-icons" data-toggle="tooltip" data-placement="top" data-content="Mobile no. Not Found">warning</span> -->
+                  <% } %>
+                <% } %>
+              </a>
+          </td>
+          <% } else if(column.column_name == "email" ) { %>
+            <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+                <p class="loadview nametooltip truncateColumns" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-custMail="<%=customerDetails.attributes.email%>" data-view="mail" style="cursor: pointer;"><%=customerDetails.attributes.email%></p>
+            </td>
+        <% } else if(column.column_name == "stages" ) { %>
+          <% if(menuName=="leads" ) { %>
+            <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+                <span class="nametooltip badge ws-badge truncateColumns" <%if(customerDetails.attributes.stage_color != "" && customerDetails.attributes.stage_color != null){%>style="border:1px solid <%=customerDetails.attributes.stage_color%>; color:<%=customerDetails.attributes.stage_color%>;  padding:4px 10px; border-radius:5px "<%} else {%>style="color:#00000"<%}%>><%=customerDetails.attributes.stages%></span>
+            </td>
+          <% } %>
+        <%} else if(column.column_name == "lead_source" ) { %>
+          <% if(menuName=="leads" ) { %>
+            <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+                <span class="nametooltip badge ws-badge truncateColumns" <%if(customerDetails.attributes.source_color != "" && customerDetails.attributes.source_color != null){%>style="border:1px solid <%=customerDetails.attributes.source_color%>; color:<%=customerDetails.attributes.source_color%>;  padding:4px 10px; border-radius:5px "<%} else {%>style="color:#00000"<%}%>><%=customerDetails.attributes.lead_source%></span>
+            </td>
+          <% } %>
+          <% } else if(column.column_name == 'assignee') { %>
+            <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+              <%if (customerDetails.attributes.assignee != "-" && customerDetails.attributes.assignee != null && customerDetails.attributes.assignee != undefined){ %>
+                <span class="d-flex-left">
+                  <%if (customerDetails.attributes.assigneePhoto == "" || customerDetails.attributes.assigneePhoto == null){%>
+                    <span class="initial" style="background-color : '<%=customerDetails.attributes.assigneeInitialBgColor%>'; color:'<%=customerDetails.attributes.assigneeInitialColor%>'" ><%=customerDetails.attributes.assigneeInitial%> </span>
+                  <%}else{%>
+                      <img src="<%=PROFILEPHOTOUPLOAD%><%=customerDetails.attributes.assigneeID%>/profilePic/<%=customerDetails.attributes.assigneePhoto%>" style=" width: 25px; height: 25px; border-radius: 50%;display:flex;flex-shrink:0"/>
+                  <%}%>
+                  <p class="nametooltip truncateColumns"> <%=customerDetails.attributes.assignee%> </p>
+                </span>
+              <% }else{ %>
+                <p class="nametooltip truncateColumns"> <%=customerDetails.attributes.assignee%> </p>
+              <% } %>
+            </td>
+        <% } else if(column.column_name == 'lead_priority') { %>
+          <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+            <% if(customerDetails.attributes.leadPriorityName){%>
+              <span class="nametooltip badge ws-badge truncateColumns" <%if(customerDetails.attributes.priorityColor != ""){%>style="border:1px solid <%=customerDetails.attributes.priorityColor%>; color:<%=customerDetails.attributes.priorityColor%>;  padding:4px 10px; border-radius:5px "<%}%> >
+                <%=customerDetails.attributes.leadPriorityName%>
+              </span>  
+            <%}else{%>
+              <div class="nametooltip truncateColumns">
+                -
+              </div>
+            <%}%>
+          </td>
+        <%}else if(column.column_name == 'gst_state') { %>
+          <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+            <% if(customerDetails.attributes.state_name){%>
+              <div class="nametooltip truncateColumns">
+                <%=customerDetails.attributes.state_name%>
+              </div>  
+            <%}else{%>
+              <div class="nametooltip truncateColumns">-</div>
+            <%}%>
+          </td>
+        <%}else{ %>
+          <td class="draglinerow truncateWidth loadview taskAction" data-customer_id="<%=customerDetails.attributes.customer_id%>"  data-view="singleCustomerData">
+            <div class="nametooltip truncateColumns">
+              <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+                <%=customerDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+              <% }else { %>
+                <%=customerDetails.attributes[""+column.column_name]%>
+              <% } %>
+            </div>
+          </td>
+          <% } %>
+        <% }); %>
+          <td class="draglinerow actionColumn custActionBtn taskAction">
+            <div style="position: relative;pointer-events: auto;">
+              <div class="showMoreMenuBtn dropleft" >
+                <button type="button" class="btn-bgColor showAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" style="z-index: 9;">
+                  <li>
+                    <a href="javascript:void(0);" 
+                      class="loadview"
+                      title="Edit"
+                      data-customer_id="<%=customerDetails.attributes.customer_id%>"
+                      data-view="singleCustomerData">
+                      <i class="material-icons">mode_edit</i>Edit</a>
+                  </li>
+                  <%if(customerDetails.attributes.type == "lead" ){%>
+                    <li>
+                      <a href="javascript:void(0);" 
+                        class="markAsCust"
+                        data-id="<%=customerDetails.attributes.customer_id%>" style="margin: 0;">
+                        <i class="material-icons">check_circle</i>Mark As Customer</a>
+                    </li>
+                  <%}%>
+                </ul>
+              </div>
+            </div>
+          </td>
+          <td style="width: 0px;">
+            <div class="CustomerHoverButton" >
+              <button type="button" class="ws-btn-default loadview"
+                data-content="Edit"
+                data-customer_id="<%=customerDetails.attributes.customer_id%>" data-toggle="tooltip" data-view="singleCustomerData"
+                data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+              <button type="button" class="ws-btn-default loadview"
+                data-first_name="<%=customerDetails.attributes.name%>"
+                data-customer_id="<%=customerDetails.attributes.customer_id%>"
+                data-custNote="<%=customerDetails.attributes.note%>" data-view="notes" data-toggle="tooltip"
+                data-placement="top" data-content="Note"><i class="material-icons">assignment</i><%if(customerDetails.attributes.noteCount !=0 ){%><span><%=customerDetails.attributes.noteCount%></span><%}%></button>
+              <button type="button" class="ws-btn-default loadview"
+                data-first_name="<%=customerDetails.attributes.name%>"
+                data-customer_id="<%=customerDetails.attributes.customer_id%>"
+                data-custMail="<%=customerDetails.attributes.email%>" data-view="mail" data-toggle="tooltip"
+                data-placement="top" data-content="Mail"><i class="material-icons">mail</i></button>
+              <button type="button" class="ws-btn-default loadview"
+                data-first_name="<%=customerDetails.attributes.name%>"
+                data-customer_id="<%=customerDetails.attributes.customer_id%>" data-view="history"
+                data-toggle="tooltip" data-placement="top" data-content="History"><i class="material-icons">history</i><%if(customerDetails.attributes.upcomingCount != 0){%><span><%=customerDetails.attributes.upcomingCount%></span><%}%></button>
+              <button type="button" class="ws-btn-default loadview"
+                data-customer_id="<%=customerDetails.attributes.customer_id%>"
+                data-first_name="<%=customerDetails.attributes.name%>" data-view="task" data-toggle="tooltip"
+                data-placement="top" data-content="Task"><i class="material-icons">business_center</i></button>
+              <button type="button" class="ws-btn-default loadview"
+                data-customer_id="<%=customerDetails.attributes.customer_id%>"
+                data-email="<%=customerDetails.attributes.email%>"
+                data-first_name="<%=customerDetails.attributes.name%>" data-view="appointment"
+                data-toggle="tooltip" data-placement="top" data-content="Appointment"><i class="material-icons">date_range</i></button>
+            </div>
+          </td>
+</tr>
+
+ 

@@ -1,0 +1,33 @@
+<tr class="even pointer bg-<%=formDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= formDetails.attributes.form_id %>" class="memberlistcheck chk-col-amber"
+        data-form_id="<%= formDetails.attributes.form_id %>" type="checkbox">
+      <label for="cAll_<%= formDetails.attributes.form_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <!-- <td class="loadview" data-view="singleformData" data-toggle="modal" data-target="#myModal" style="padding-left: 22px !important; padding-top: 6px !important;"
+    data-form_id="<%=formDetails.attributes.form_id%>"><a href="javascript:;"><u>
+        <%=formDetails.attributes.form_name%>
+      </u></a>
+  </td>
+  <td class="" style="padding-left: 22px !important; padding-top: 6px !important;">
+    <%= formatDate(formDetails.attributes.created_date,'no') %>
+  </td> -->
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= formDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+          <%= formDetails.attributes["" + column.column_name] %>
+        <% } %>
+      </div>
+    </td>
+  <% }); %>
+  <td class="" style="padding-left: 22px !important; padding-top: 6px !important;">
+    <button type="button" class="ws-btn-default loadview" data-form_id="<%=formDetails.attributes.form_id%>"
+      data-view="singleformData"><i class="material-icons" data-toggle="tooltip" data-placement="top"
+        title="Edit">mode_edit</i></button>
+  </td>
+</tr>

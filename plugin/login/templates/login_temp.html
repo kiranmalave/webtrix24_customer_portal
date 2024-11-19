@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-5 col-12 logo-login-bg">
+    <div class="AppDetails">
+      <div id="owl-carousel" class="owl-carousel owl-theme">
+        <% _.each(slideList, function(model) { %>
+          <div class="item">
+            <div class="ItemDetails">
+              <img src="<%=model.attributes.image %>" alt="" />
+            </div>
+            <div class="ItemText">
+              <h4><%=model.attributes.title %></h4>
+              <p><%=model.attributes.description %> </p>
+            </div>
+          </div>
+          <%});%>
+      </div>
+    </div>
+    <!-- <div class="ws-logo-login"><img class="img-fluid" src="<%=APPPATH%>images/site/login-image.png"></div> -->
+  </div>
+  <div class="col-md-7 col-12">
+    <div class="login_wrapper">
+      <div class="row login_row">
+        <div class="col-md-12 col-12">
+          <section class="login_content ws-login-form">
+            <form id="loginForm" action="#">
+              <h2>Welcome back..!</h2> <!--Welcome Back..!-->
+              <p class="mb-4">Log in to your Account.</p>
+              <div class="ws-input-group mb-4">
+                <!-- <label>UserName/Phone No./Email</label> -->
+                <input id="txt_username" type="text" class="ws-form-control" name="txt_username" placeholder="Username/Email/Mobile No." 
+                  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+              <div class="ws-input-group mb-4">
+                <!-- <label>Password</label> -->
+                <input id="txt_password" type="password" class="ws-form-control" name="txt_password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                <a href="javascript:void(0)" class="showHidePassword">
+                  <span id="eyeIcon" class="material-symbols-outlined">visibility_off</span>
+                </a>
+              </div>
+              <div class="ws-input-group mb-3">
+                <a class="ws-forgot-link" href="#resetpasswordrequest">Forgot Password?</a>
+                <!-- <a class="reset_pass loadSubView ws-forgot-link" data-target="#myModal" data-toggle="modal"
+                  data-show="forgotPassword" href="#resetpasswordrequest">Forgot password?</a> -->
+              </div>
+              <div class="ws-input-group mb-3 d-flex loginRegBtn">
+                <button id="user-login" class="btn btn-block submit ws-btn-primary"><span>Sign In</span></button>
+                <a  href="#register" class="btn btn-block submit ws-btn-primary mt-0 register-btn"><span>Register</span></a>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

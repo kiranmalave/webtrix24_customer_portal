@@ -1,0 +1,11 @@
+
+<div class="form-group form-float">
+    <div class="form-line">
+        <input id="<%= elementDetails.fieldID %>" data-plugIn="<%= elementDetails.linkedWith %>" data-fieldID="<%= elementDetails.fieldID %>"  type="text" class="form-control valChange" name="<%= elementDetails.column_name %>" data-selection="<%=elementDetails.allowMultiSelect%>"
+            <% if (elementDetails.linkedWith != "") { %>
+                value="<%= elementData[elementDetails.fieldOptions] %>"
+            <% } %>/>
+        <label for="<%= elementDetails.column_name %>" class="form-label"><%= elementDetails.column_name %></label>
+    </div>
+</div>
+<div id="field_<%= elementDetails.fieldID %>" class="dropdown-content fieldDrop"></div>

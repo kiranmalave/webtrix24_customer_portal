@@ -1,0 +1,32 @@
+<tr id="item-<%=row_number%>" class="item-list-box">
+    <!-- SERIAL NO -->
+    <td class="sno"><%=row_number%></td>
+    <!-- PRODUCT/DESC -->
+    <td class="custom-dropdown">
+        <div class="col-md-12 productDropdown nopadding">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <input autocomplete="off" id="narr_<%=row_number%>" type="text" class="form-control pdChange ddcnt taskDate" name="narr_<%=row_number%>" value="" placeholder="Type here to search" />
+                    <div class="product-input"></div>
+                    <div id="productDropdown_<%=row_number%>" class="dropdown-content custDrop" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </td>
+    <!-- QTY & UNIT -->
+    <td>
+        <div class="">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <input type="text" name="itemQuantity_<%=row_number%>" id="itemQuantity_<%=row_number%>" class="form-control amtChange" placeholder="0">
+                </div>
+            </div>
+        </div>
+    </td>
+    <!-- DELETE -->
+    <td class="text-right">
+        <div class="del-btn" style="display: none;">
+        <button id="itemdel_<%=row_number%>" class="del-row btn btn-small btn-default"><img class="invoiceDeleteImg" src="images/deleteImg.png" /></button>
+        </div>
+    </td>
+</tr>

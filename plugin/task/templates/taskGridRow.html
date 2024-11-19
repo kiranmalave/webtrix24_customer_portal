@@ -1,0 +1,43 @@
+<div class="leadCustomer loadview" data-view="singletaskData" data-task_id="<%=taskDetails.attributes.task_id%>">    
+    <div class="leadDetails" id="leadCard<%=taskDetails.attributes.task_id%>" >
+        <div class="leadDetailsCard taskCard">
+            <%if(taskDetails.attributes.overDeu =="inactive"){%>
+                <span class="ws-overdue">Overdue</span>
+            <%}%>
+            <div class="leadDetailsCardTop">
+                <div class="namedetails">
+                    <div data-task_id="<%= taskDetails.attributes.task_id %>" data-task_statusID="<%= taskDetails.attributes.task_statusID %> setTaskStatus" class="image">
+                        <div class="">
+                            <input id="taskCom_<%= taskDetails.attributes.task_id %>" type="checkbox"  class="filled-in chk-col-light-blue" <%if(taskDetails.attributes.task_status == "Completed"){%>checked<%}%> />
+                            <label for="taskCom_<%= taskDetails.attributes.task_id %>">&nbsp;</label>
+                        </div>
+                    </div>
+                    <span class="taskSubject" data-task_id="<%=taskDetails.attributes.task_id%>"><%=taskDetails.attributes.subject%></span>
+                </div>
+            </div>
+            <div class="leadDetailsCardBody">
+                <p>
+                    <span><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Due date">calendar_today</i></span>
+                    <%if(taskDetails.attributes.start_date == ""){%>
+                        <span class="ws-default">No Start</span>   
+                    <%} else {%>
+                        <span><%=taskDetails.attributes.start_date%></span>
+                    <%}%>
+                    -
+                    <%if(taskDetails.attributes.due_date == ""){%>
+                        <span class="ws-default">No Due</span>   
+                    <%} else {%>
+                        <span><%=taskDetails.attributes.due_date%></span>
+                    <%}%>                    
+                </p>
+            </div>
+            <span class="badge ws-badge" <%if(taskDetails.attributes.priorityColor != ""){%>style="border: 1px solid <%=taskDetails.attributes.priorityColor%>; color:<%=taskDetails.attributes.priorityColor%>;  padding:4px 10px; border-radius:5px "<%}%>><%=taskDetails.attributes.task_priority%></span>
+            <span class="badge ws-badge" <%if(taskDetails.attributes.typeColor != ""){%>style="border: 1px solid <%=taskDetails.attributes.typeColor%>; color:<%=taskDetails.attributes.typeColor%>;  padding:4px 10px; border-radius:5px; margin-left:5px;"<%}%>><%=taskDetails.attributes.task_type%></span>
+            <% if(taskDetails.attributes.assigneePhoto) { %>
+                <span class="assigneeInitial task_propic initial"><img class="logoImgCls assigneePhoto" src="<%=PROFILEPHOTOUPLOAD%><%=taskDetails.attributes.assigneeID%>/profilePic/<%=taskDetails.attributes.assigneePhoto%>" alt="<%=assigneeInitial%>" data-toggle="tooltip" data-placement="top" data-content="<%=taskDetails.attributes.assignee%>"></span>
+            <% } else if(taskDetails.attributes.assignee !="" && taskDetails.attributes.assignee !=null) { %>
+                <span class="logoImgCls assigneeInitial task_propic initial" data-toggle="tooltip" data-placement="top" data-content="<%=taskDetails.attributes.assignee%>"><%=assigneeInitial%></span>
+            <% } %>
+        </div>
+    </div>
+ </div>

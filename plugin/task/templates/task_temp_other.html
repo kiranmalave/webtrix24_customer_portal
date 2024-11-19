@@ -1,0 +1,33 @@
+<div id="task" class="card taskcard" >
+    <div class="header dashbordTask">
+        <h2>Task</h2> <!--Total Tasks: <%=taskCount%>-->
+        <ul>
+            <li class="loadview nav-item addHover" data-view="singletaskData" data-item="taskSingleView" data-toggle="tooltip" data-placement="top" data-content="Add">
+                <span class="material-icons">add</span>
+            </li>
+            <li id="taskFilterOption" class="nav-item dropdown addHover" data-item="<%=closeItem%>" data-toggle="tooltip" data-placement="top" data-content="Filter">
+                <span class="material-symbols-outlined">filter_alt</span>
+            </li>
+        </ul>
+    </div>
+    <div class="body">
+        <ul id="taskListOther" class="row list-unstyled c_review"></ul> 
+    </div>
+    <!-- paggination -->
+    <div class="footer row">
+        <div class="col-sm-5">
+          <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+              class="page-info"></span></div>
+        </div>
+        <div class="col-sm-7">
+          <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+            <ul class="pagination">
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- paggination -->
+</div>
+<div class="ws_filterOptions">
+  
+</div>

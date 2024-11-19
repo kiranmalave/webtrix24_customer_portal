@@ -1,0 +1,242 @@
+<div class="tab-pane in active">
+    <form id="opportunityDetails" name="opportunityDetails" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveopportunityDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveopportunityDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="ws-main-container">
+            <!-- basic info  start-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Basic Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="amc_duration" class="form-label">Opportunity Title <span class="error">*</span></label>
+                                <div class="ws-input-group">
+                                    <div>
+                                        <div class="dropdown bootstrap-select show-tick form-control dropval ws-select repeatChange">
+                                            <input id="opportunity_title" class="form-control txtchange txtcolor" autocomplete="off" name="opportunity_title" value="<%=model.opportunity_title%>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="opportunity_amount" class="form-label">Opportunity Amount</label>
+                                <input id="opportunity_amount" class="form-control txtchange txtcolor" autocomplete="off" name="opportunity_amount" value="<%=model.opportunity_amount%>">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group form-float" >
+                            <div class="form-line taskDate">
+                                <input id="customer_id" type="text" autocomplete="off" class="form-control custChange ddcnt taskDate" name="customer" value="<%=model.customerName%>" />
+                                <label for="customer_id" class="form-label taskDate">Customer</label>
+                            </div>
+                        </div>
+                        <div class="customer-input"></div>
+                        <div id="customerDropdown" class="dropdown-content custDrop" style="display: none;">
+                        </div>
+                    </div> -->
+                    <div class="col-md-4" >
+                        <div class="form-group form-float" >
+                            <div class="form-line taskDate">
+                                <input id="customer_id" type="text" data-source="customer" data-check="name" data-list="name,customer_id,type" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="customer" value="<%=model.customerName%>">
+                                <label for="customer_id" class="form-label taskDate">Customer</label>
+                            </div>
+                            <div class="freeSerachList"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                            <div class="form-line taskDate">
+                                <input id="opportunity_end" type="text" class="form-control taskDate" name="opportunity_end" autocomplete="off" value="<%=model.opportunity_end%>">
+                                <label for="opportunity_end" class="form-label taskDate">Opportunity End</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                            <div class="form-line taskDate">
+                                <input id="opportunity_start_date" type="text" class="form-control taskDate" name="opportunity_start_date" autocomplete="off" value="<%=model.opportunity_start_date%>">
+                                <label for="opportunity_start_date" class="form-label taskDate">Opportunity Start</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line ws-lookup-select">
+                                <input id="assignee" type="text" autocomplete="off" class="form-control ddcnt assignChange" name="assignee" value="<%=model.assigneeName%>" />
+                                <label for="assignee" class="form-label">Assignee</label>
+                            </div>
+                        </div>
+                    </div> -->
+                        <div class="col-md-4">
+                            <div class="form-group form-float taskDropDown">
+                                <div class="form-line taskDate">
+                                    <input id="assignee" type="text" data-source="admin" data-check="name" data-list="name,adminID" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="assignee" value="<%=model.assigneeName%>">
+                                    <label for="assignee" class="form-label taskDate">Assignee</label>
+                                </div>
+                                <div class="dropdown-content1 freeSerachList"></div>
+                            </div>
+                        </div>
+                </div>
+                <!-- basic info  end-->
+                <!-- Lead info  start-->
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    storefront
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Opportunity Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float taskDropDown">
+                            <div class="form-line removeBorder">
+                                <select for="source" autocomplete="off" id="source" name="source" title="Opportunity Source" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="addLeadSource">Add Source</option>
+                                    <%}%>
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="opportunity_source" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+                                            <option <% if(model1.category_id==model.source ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%})%>
+                                    <%})%>
+                                </select>
+                                <label for="source" class="form-label">Opportunity Source</label>
+                                <%if(model.source != "" && model.source != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float taskDropDown">
+                            <div class="form-line removeBorder">
+                                <select for="stage" autocomplete="off" id="stage" name="stage" title="Opportunity Stage" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="addLeadSource">Add Stage</option>
+                                    <%}%>
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="opportunity_stages" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+                                            <option <% if(model1.category_id==model.stage ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%})%>
+                                    <%})%>
+                                </select>
+                                <label for="stage" class="form-label">Opportunity Stages</label>
+                                <%if(model.stage != "" && model.stage != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group input-group form-float taskDropDown">
+                            <div class="form-line removeBorder">
+                                <select for="opportunity_type" autocomplete="off" id="opportunity_type" name="opportunity_type" title="Opportunity Type" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                    <%if(permission.add=="yes" ) { %>
+                                        <option class="addNew" value="addOpportunityType">Add Opportunity Type</option>
+                                    <%}%>
+                                    <% _.each(categoryList, function(modelcat) { %>
+                                        <% if(modelcat.attributes.slug=="opportunity_type" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+                                            <option <% if(model1.category_id==model.opportunity_type ){ %> selected <% } %>value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+                                        <%})%>
+                                    <%})%>
+                                </select>
+                                <label for="opportunity_type" class="form-label">Opportunity Type</label>
+                                <%if(model.opportunity_type != "" && model.opportunity_type != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    attach_file
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Attachments</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-12">
+                        <div class="row attachupdate taskAttach">
+                            <button type="button" class="loadFile ws-taskModalbtn dotborder dotborderCustAtt" data-change="ws-bg-image"><span class="material-icons">add</span></button>
+                            <div id="attachedDoc" class="row taskAttachDoc"></div>
+                        </div>
+                        <div class="list-row upload uploadCustAtt" style="display: none;">
+                            <div class="right-layout ws-quill">
+                                <div class="row">
+                                    <div class="col-md-12 ws-dragbox taskAttachDragBox">
+                                        <div class="ws-assignee-column">
+                                            <input type="file" multiple class="btn btn-default btn__action" id="opportunityUpload"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-right ">
+                                        <button type="button" class="btn bg-indigo hideUpload clacel">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    more
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Additional Information</strong></label>
+                        </div>
+                    </div>
+                </div><div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class="dynamic-align"></div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+        </div>
+    </form>
+</div>

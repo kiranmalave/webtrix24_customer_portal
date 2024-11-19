@@ -1,0 +1,33 @@
+<div>
+    <form id="eventScheduleDetail" name="eventScheduleDetail" action="#">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveSchedulerDetails" data-action="close">
+                Save
+            </button>
+            <button type="button" class="btn bg-indigo saveSchedulerDetails" data-action="new">
+                Save & new
+            </button>
+        </div>
+       <div class="clearfix">&nbsp;</div>
+        <div class="row " >
+            <div class="col-md-4">
+                <div class="form-group input-group form-float">
+                    <div class="form-line">
+                        <input id="start_date" type="text" class="form-control txtchange" name="start_date"
+                            value="<%=model.start_date%>">
+                        <label for="start_date" class="form-label">Start Date</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group input-group form-float">
+                    <div class="form-line">
+                        <input id="end_date" type="text" class="form-control txtchange" name="end_date"
+                            value="<%=model.end_date%>">
+                        <label for="end_date" class="form-label">End Date</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,43 @@
+<tr class="even pointer deleteicon bg-<%=projectDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= projectDetails.attributes.project_id %>" class="memberlistcheck chk-col-amber deleteCard" data-project_id="<%= projectDetails.attributes.project_id %>" type="checkbox">
+      <label for="cAll_<%= projectDetails.attributes.project_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-project_id="<%=projectDetails.attributes.project_id%>"  data-view="projectDashboard">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith != null && column.linkedWith != "undefined" ) { %>
+          <%= projectDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+          <% if(projectDetails.attributes[""+column.column_name] == "" || projectDetails.attributes[""+column.column_name] == null){%>
+            -
+          <%}else{%>
+            <%=projectDetails.attributes[""+column.column_name]%>
+          <%}%>
+        <% } %>
+      </div>
+    </td>
+    <% }); %>
+    <!-- <td class="draglinerow">
+      <button type="button" class="ws-btn-default loadview" data-project_id="<%=projectDetails.attributes.project_id%>"  data-view="singleprojectData"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Project Dashboard">mode_edit</i></button>
+    </td> -->
+
+    <td>
+      <div class="showMoreMenuBtn dropleft" >
+        <button type="button" class="btn-bgColor showAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li>
+            <a href="javascript:void(0);" class="loadview" title="Edit" data-project_id="<%=projectDetails.attributes.project_id%>"  data-view="projectDashboard">
+              <i class="material-icons">mode_edit</i>Edit</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" class="hardDelete" data-project_id="<%=projectDetails.attributes.project_id%>" style="margin: 0;"><i class="material-icons">delete</i>Delete</a>
+          </li>
+        </ul>
+      </div>
+    </td>
+</tr>

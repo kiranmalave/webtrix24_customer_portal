@@ -1,0 +1,99 @@
+<div class="make-inline filter-fields">
+  <div class="filter-search">
+    <div class="form-group form-float" style="margin-bottom:0px;">
+      <div class="form-line">
+        <input style="min-width:50px;" id="freeTextSearch" type="text" class="form-control freeTextSearch" autocomplete="off" name="title" placeholder="Search" value=""/>
+      </div>
+    </div>
+  </div>
+  <div style="min-width:20px;" class="ws-filter ws-filter-items" >
+      <button type="button" class="btn btn-sm" data-action="" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" data-content="Filter View">
+        <span class="material-symbols-outlined" data-toggle="tooltip" data-placement="top" data-content="Select Filter"> filter_alt </span>
+      </button>
+      <div class="dropdown-menu arrageCol">
+        <% if(totalRecCount > 0){ %>
+        <div class="column-field-search" style="position: sticky">
+         <div style="width: 100%;">
+            <input
+              id="filter-name-search"
+              type="text"
+              class="form-control feildSearch"
+              autocomplete="off"
+              name="title"
+              placeholder="Search Filter"
+              value=""
+            />
+            <span class="search_clear material-icons">close</span>
+          </div>
+        </div>
+        <% }else{ %>
+        <div class="column-field no-filters create-new-filter text-center">
+          No Filters Available
+        </div>
+        <% } %>
+        <div class="column-field no-filters create-new-filter text-center" style="display: none;">
+          No Filters Available
+        </div>
+        <div class="filter-list">
+          <%_.each(filterList,function(filter){%>
+            <div class="existing-filter">
+              <div class="existing-filter-icon">
+                <% if(filter.attributes.visibility == 'private') {%>
+                  <span class="material-icons" style="color: transparent;">check_box_outline_blank</span>
+                <% }else{%>
+                  <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="public filter">public</span>
+                <% } %>
+              </div> 
+              <div class="existing-filter-text" data-filter_id="<%=filter.attributes.filter_id%>"><%=filter.attributes.filter_name%> </div>
+              <div class="existing-filter-delete" id="<%=filter.attributes.filter_id%>" data-placement="top" title="Delete" data-action="delete"> <span data-toggle="tooltip" ><i class="material-icons">delete</i></span></div>
+            </div>
+          <%});%>
+        </div>
+      </div>
+      <div class="selected-filter"  data-filter_id="">
+        <div class="selected-filter_text">
+            Filter Name
+        </div>
+        <div class="selected-filter-clear" title="">
+            <span>
+                <i class="material-icons md-14 margin-left-5">clear</i>
+            </span>
+        </div>
+      </div>
+  </div>
+  <div style="order:1" class="ws-more-filters ws-filter-items">
+    <button type="button" class="addNewfield btn btn-light btn-sm" data-action="" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Add Filter">add</span>
+    </button>
+    <div class="dropdown-menu fieldListDetails"></div>
+  </div>
+  <div style="order:2" class="filter-save ws-filter-items" >
+      <button type="button" id="filter-save-dropdown" 
+        class="btn btn-light btn-sm" 
+        data-action="" 
+        data-toggle="dropdown" 
+        data-bs-auto-close="false"
+        aria-haspopup="true" aria-expanded="false"
+        data-toggle="tooltip" data-placement="top" data-content="Save Filter"
+        >
+        Save
+      </button>
+      <div class="dropdown-menu fil-save px-3 py-3">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input id="filter_name" type="text" class="form-control updateDetails" autocomplete="off" name="filter_name" placeholder="Filter Name" value=""/>
+          </div>
+        </div>  
+        <div class="form-group form-float">
+            <input type="radio" id="public" class="is_public multiSel" name="visibility" value="Public">
+            <label for="public">Public</label>
+            <input type="radio" id="private" class="is_public multiSel" name="visibility" value="Private">
+            <label for="private">Private</label>
+        </div>  
+        <button class="btn btn-block filter-save-btn" data-action="save_filter">Save Filter</button>
+      </div> 
+  </div>
+
+</div>

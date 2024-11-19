@@ -1,0 +1,41 @@
+<div class="tab-pane in active">
+    <!-- <h2 class="overlay-title">Menu</h2>
+    <div class="overlayActions">
+        <span class="action-item overlay-close app-btn" data-to-close="menuSingleView">
+            <span class="material-icons">close</span>
+        </span>
+    </div> -->
+
+    <div>
+        <form id="userRoleDetails" name="userRoleDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo saveuserRoleDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo saveuserRoleDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <input id="roleName" type="text" class="form-control txtchange" name="roleName" autocomplete="off"
+                                value="<%= model.roleName%>">
+                            <label for="roleName" class="form-label">User Role Name<span class="error">*</span></label>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="form-group form-float ws-form-option">
+                        <label for="status" class="form-label">Status<span class="error">*</span> </label>
+                        <ul class="item-container" data-valid="status">
+                          <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                          <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="clearfix">&nbsp;</div>
+
+        </form>
+    </div>
+</div>

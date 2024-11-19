@@ -1,0 +1,24 @@
+<tr class="even pointer bg-<%=currencyDetails.attributes.status%>" data-currency_id="<%=currencyDetails.attributes.currency_id%>" data-view="singlecurrencyData">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= currencyDetails.attributes.currency_id%>" class="memberlistcheck chk-col-amber deleteCard"
+        data-currency_id="<%= currencyDetails.attributes.currency_id %>" type="checkbox">
+      <label for="cAll_<%= currencyDetails.attributes.currency_id%>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow loadview" data-currency_id="<%=currencyDetails.attributes.currency_id%>" data-view="singlecurrencyData">
+      <div class="nametooltip truncateColumns">
+        <span class="td-highlight"><% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= currencyDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+              <%= currencyDetails.attributes["" + column.column_name] %>
+                <% } %>
+        </span>
+      </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow">
+        <button type="button" class="ws-btn-default loadview" data-currency_id="<%=currencyDetails.attributes.currency_id%>" data-view="singlecurrencyData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+      </td>
+</tr>

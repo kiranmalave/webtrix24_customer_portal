@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="container-fluid dashboard-main-container mt-3">
+        <!--  NAV BAR -->
+        <div id="navsDiv">
+          <ul id="" class="nav nav-tabs justify-content-center">
+            <% _.each(dashboardList, function(dashboard) { %>
+            <li class="nav-item navModuleLoad" data-action="basic" data-item="basic">
+              <a class="nav-link <% if(dashboard.attributes.status == 'active' ){ %> active<% }%> changeDashboard " data-toggle="tab" href="#dash_<%=dashboard.attributes.dashboard_id%>" data-dash_id="<%=dashboard.attributes.dashboard_id%>"><%=dashboard.attributes.name%></a>
+              <div class="tab-edit-bar">
+                <button class="btn tab_bar_action" style="border-radius: 10px 0px 0px 10px;" data-dash_id="<%=dashboard.attributes.dashboard_id%>" data-action="edit">
+                  <span class="material-icons" style="font-size: 10px;  color: white" translate="no">edit</span>
+                </button>
+                <button class="btn tab_bar_action" style="border-radius: 0px 10px 10px 0px;" data-dash_id="<%=dashboard.attributes.dashboard_id%>" data-action="delete">
+                  <span class="material-icons" style="font-size: 10px; color: white;" translate="no">close</span>
+                </button>
+              </div>
+            </li>
+            <% }); %>
+            <% if(dashboardList.length < 5){ %>
+            <div class="create-dash">
+              <input type="text" id="dashboard_title" class="dashboard_title">
+              <a class="create-dash-btn" style="cursor: pointer">
+                <span class="material-icons" style="font-size: 24px;" translate="no">add</span>
+              </a>
+            </div>
+            <% } %>
+            <button class="btn add_dash_elements" data-toggle="modal" data-target=".bd-example-modal-lg" data-id="<%=model.dashboard_id%>">Add</button>
+          </ul>
+        </div>
+        <!-- NAV TABS -->
+        <div class="tab-content container-fluid">
+          <% _.each(dashboardList, function(dashboard) { %>
+          <div class="tab-pane fade show <% if(dashboard.attributes.status == 'active'){ %> active<% }%> " id="dash_<%=dashboard.attributes.dashboard_id%>" role="tabpanel" aria-labelledby="home-tab">
+            <div class="dash_temp sortable-list_<%=dashboard.attributes.dashboard_id%>" id="dash_temp_<%=dashboard.attributes.dashboard_id%>"></div>
+            <div class="empty_temp text-center mt-5" id="empty_temp_<%=dashboard.attributes.dashboard_id%>" style="display: none;"><h3 class="text-secondary text-sm fs-4">Oops... It's empty for now</h1></div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="dash_ele"></div>

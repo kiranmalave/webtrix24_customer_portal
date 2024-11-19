@@ -1,0 +1,25 @@
+<tr class="even pointer">
+  <td>
+    <div class="row evtTime">
+      <div class="form-group form-float  col-md-4">
+        <div class="form-line">
+          <input id="start_time_<%=eventDetails.did%>" name="<%=eventDetails.did%>_ickV" type="text"
+            class="form-control start_time <%=eventDetails.did%>_pickV" value="">
+          <label for="start_time_<%=eventDetails.did%>" class="form-label">Start Time</label>
+        </div>
+      </div>
+      <div class="dhash">-</div>
+      <div class="form-group form-float col-md-4">
+        <div class="form-line">
+          <input id="end_time_<%=eventDetails.did%>" name="<%=eventDetails.did%>_ickV" type="text"
+            class="form-control end_time <%=eventDetails.did%>_pickV" name="end_time[]" value="">
+          <label for="end_time_<%=eventDetails.did%>" class="form-label">End Time</label>
+        </div>
+      </div>
+      <div class="removeExtraSchedule">
+        <span data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+          <i class="material-icons">delete</i></span>
+      </div>
+    </div>
+  </td>
+</tr>

@@ -1,0 +1,24 @@
+
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" data-plugIn="<%= elementDetails.linkedWith %>" data-fieldID="<%= elementDetails.fieldID %>" data-fieldOpt="<%= elementDetails.fieldOptions %>"  type="text" class="form-control valChange" name="<%= elementDetails.column_name %>" data-selection="<%=elementDetails.allowMultiSelect%>"
+                <% if (elementDetails.linkedWith != "" && elementDetails.linkedWith != 'undefined' && elementDetails.linkedWith != null) { %>
+                        value="<%= elementData[""+elementDetails.linkedWith+"_"+elementDetails.column_name] %>"
+                    <% } %>/>
+                <label for="<%= elementDetails.column_name %>" class="form-label"><%= elementDetails.fieldLabel %></label>
+            </div>
+        </div>
+        <div id="field_<%= elementDetails.fieldID %>" class="dropdown-content fieldDrop"></div>
+    </div>
+</div>
+
+

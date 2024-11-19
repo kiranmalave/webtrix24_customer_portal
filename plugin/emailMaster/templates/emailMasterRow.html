@@ -1,0 +1,22 @@
+<tr class="even pointer bg-<%=emailMasterDetails.attributes.status%>" >
+  <td class="a-center">
+    <div class="listCheckbox 123">
+        <input id="cAll_<%= emailMasterDetails.attributes.tempID %>" class="memberlistcheck chk-col-amber deleteCard" data-tempID="<%= emailMasterDetails.attributes.tempID %>" type="checkbox">
+        <label for="cAll_<%= emailMasterDetails.attributes.tempID %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview"  data-tempID="<%=emailMasterDetails.attributes.tempID%>" data-view="singleemailMasterData">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+            <%= emailMasterDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+            <%= emailMasterDetails.attributes["" + column.column_name] %>
+        <% } %>
+        </div>
+    </td>
+<% }); %>
+  <td class="draglinerow">
+    <button type="button" class="ws-btn-default loadview"  data-tempID="<%=emailMasterDetails.attributes.tempID%>" data-view="singleemailMasterData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+  </td>
+</tr>

@@ -1,0 +1,1063 @@
+<div class="tab-pane in active">
+    <form id="taxInvoiceDetails" name="taxInvoiceDetails" action="#">
+        <div class="text-right actionBtns">
+            <% 
+                var status = false;
+                if(model.status === 'approved'){
+                    if (model.record_type === 'quotation') {
+                        if((Number(model.grossAmount) == Number(model.pending_amount))){
+                            status = true;
+                        }
+                    }
+                }else if(model.status === 'draft'){
+                    status = true;
+                }  
+            %>
+            <% if(status) { %>
+                <button type="button" class="btn bg-indigo saveTaxInvoiceDetails waves-effect hover-tooltip"
+                    data-action="close">Save<span class="tooltip-text">Tooltip</span></button>
+                <button type="button" class="btn bg-indigo saveTaxInvoiceDetails" data-action="new">Save & new</button>
+            <% }else{%>
+                &nbsp;
+            <% } %>
+        </div>
+        <div class="row">
+            <div class="cust-comp-container col-md-6">
+                <div class="col-md-12 companyDetails-card">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10 pl-1">
+                            <div class="row">
+                                <div class="compEdit col-md-12">
+                                    <p>Bill From</p>
+                                    <div class="comp-edit-btn">
+                                        <button type="button" class="editCompanyDetails btn"
+                                            data-view="companyMasterSingleView" data-comapanyID="<%= DEFAULTCOMPANY %>"
+                                            data-toggle="tooltip" data-placement="top" data-content="Edit Company">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row companyDetails">
+                        <div class="col-md-2 companyLogoDiv">
+                            <% if(companyDetails && companyDetails.invoice_logo) { %>
+                                <img id="companyLogo" style="max-width: 100%;"
+                                    src="<%=UPLOADS%>/<%=companyDetails.invoice_logo%>">
+                                <% } else { %>
+                                    <img id="companyLogo" style="max-width: 100%;" src="<%=UPLOADS%>/Default_cmp.png">
+                                    <% } %>
+                        </div>
+                        <div class="col-md-10 pl-1">
+                            <h6 class="companyName">
+                                <%=companyDetails.companyName%>
+                            </h6>
+                            <p class="companyAddress">
+                                <%=companyDetails.company_address%>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" customerDetailsDrop">
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="cust-lookup">
+                        <div class="form-group form-float">
+                            <div class="form-line taskDate">
+                                <input id="customer_id" type="text" autocomplete="off"
+                                    class="form-control custChange ddcnt taskDate" name="customer"
+                                    data-customerID="<%=model.customer_id%>" value="<%=model.customer_name%>" />
+                                <label for="customer_id" class="form-label">Bill To <span class="error">*</span></label>
+                                <div id="customerDropdown" class="dropdown-content custDrop" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group form-float" >
+                            <div class="form-line taskDate">
+                                <input id="customer_id" type="text" data-source="customer" data-check="name" data-list="name,customer_id,type,address" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="customer" value="<%=model.customerName%>">
+                                <label for="customer_id" class="form-label taskDate">Bill To <span class="error">*</span></label>
+                            </div>
+                            <div class="freeSerachList setheight"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-12 customerDetails-card" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10 pl-1">
+                            <div class="row">
+                                <div class="custEdit col-md-12">
+                                    <p>Bill To</p>
+                                    <div class="comp-edit-btn">
+                                        <button type="button" class="editCustomerDetails btn"
+                                            data-view="customers" data-comapanyID="<%= DEFAULTCOMPANY %>"
+                                            data-toggle="tooltip" data-placement="top" data-content="Edit Customer">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row customerDetails">
+                        <div class="col-md-2 custProfileDiv">
+                            <img id="custProfile" style="max-width: 100%; display: none;" src="<%=IMAGES%>/Default_cust.png" >
+                            <div class="cust-initials" style="display: none;"></div>
+                        </div>
+                        <div class="col-md-10 pl-1">
+                            <h6 class="custName"></h6>
+                            <p class="custAddress"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 addshippingDetails-card" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-12 " style="top: 20px;left: 30px;">
+                            <div class="form-group form-float ws-form-option">
+                                <label for="is_shipping" class="form-label">Do you want to add Shipping Address?</label>
+                                <ul class="item-container" data-valid="is_shipping">
+                                    <li class="is_shipping multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                                    <li class="is_shipping multiSel" data-render="yes" data-single="Y" data-value="no">No</li>
+                                </ul>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 shippingDetails-card" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10 pl-1">
+                            <div class="row">
+                                <div class="shipEdit col-md-12">
+                                    <p>Ship To <input type="checkbox" name="ship_to" id="ship_to" disabled
+                                            class="shipTocheck" <% if(model.ship_to=="yes" ){ %> checked <% } %> style="
+                                            position: relative;
+                                            left: 0px;
+                                            margin-left: 10px;
+                                            opacity: 1 !important;
+                                            top: 2px;" />
+                                            <span class="ship_to_chk">Same as bill to</span>
+                                            <img style="display: none;" src="images/alertIcon.png"
+                                                class="alertIcon addressBeware" data-toggle="tooltip"
+                                                data-placement="top" data-content="Customer's Address Not Exists"> </p>
+
+
+                                    <div class="comp-edit-btn">
+                                        <button type="button" class="editShippingDetails btn" data-toggle="tooltip"
+                                            data-placement="top" data-content="Change Shipping Address">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row customerShippingDetails">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10 pl-1">
+                            <h6 class="custName"></h6>
+                            <p class="custAddress"></p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="invoice-details-container col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="invoiceNumber" style="cursor: not-allowed;" class="form-label">
+                                    <% if(model.invoiceNumber !=null ){%>
+                                        <% if(menuName=="quotation" ){%>Quotation <%}else if(menuName=="proforma" ){ %>
+                                                Proforma <%}else if(menuName=="invoice" ){ %>Invoice<%}else
+                                                        if(menuName=="delivery" ){%>Delivery<%}else
+                                                            if(menuName=="receipt" ){%>Receipt<%}%> Number:<% }else{%>
+                                                                    <% if(menuName=="quotation" ){%>Quotation <%}
+                                                                            if(menuName=="proforma" ){ %>Proforma
+                                                                            <%}else if(menuName=="invoice" ){ %>Invoice
+                                                                                <%}else if(menuName=="delivery" ){%>
+                                                                                    Delivery<%}else
+                                                                                        if(menuName=="receipt" ){%>
+                                                                                        Receipt<%} %> Number Will Auto
+                                                                                            Generate<%}%>
+                                </label>
+                                <input autocomplete="off" type="text" name="invoiceNumber" id="invoiceNumber"
+                                    class="form-control" disabled value="<%=model.invoiceNumber%>" />
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="valid_until_date" class="form-label">Valid Until (7 days)</label>
+                                <input autocomplete="off" type="text" name="valid_until_date" id="valid_until_date"
+                                    class="form-control" value="<%=model.valid_until_date%>" />
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="project_id" class="form-label">Select Project:</label>
+                                <select name="project_id" id="project_id" title="Select Project" class="ws-select form-control dropval">
+                                    <option class="addNew" value="addNewProject">Add New Project</option>
+                                    <% _.each(projectsList, function(project) { %>
+                                        <option <% if(model.project_id == project.attributes.project_id ) {%> selected <% } %> value="<%=project.attributes.project_id%>"><%=project.attributes.title%></option>
+                                    <%}) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="invoiceDate" class="form-label">
+                                    <% if(menuName=="quotation" ){%>Quotation <%}else if(menuName=="proforma" ){ %>
+                                            Proforma<%}else if(menuName=="invoice" ){ %>Invoice<%}else
+                                                    if(menuName=="delivery" ){%>Delivery<%}else{%>Receipt<%}%> Date:
+                                </label>
+                                <input autocomplete="off" type="text" name="invoiceDate" id="invoiceDate"
+                                    class="form-control" value="<%=model.invoiceDate%>" />
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="related_to" class="form-label">Related To:</label>
+                                <select name="related_to" id="related_to" title="Related To" class="ws-select  form-control dropval">
+                                    <option <% if(model.related_to == "project") {%> selected <% } %> value="project">Project</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div id="dynamicFormFields" class="dynamic-align"></div>
+
+        <div class="col-xs-12">
+            <table id="invoice_table" class="table table-striped">
+                
+                <tbody class="items-holder">
+                    <!-- HEADER -->
+                    <tr id="item-header" class="text-center">
+                        <th style="width: 5%;padding-left: 5px;padding-right: 0px;">Sr. No.</th>
+                        <th style="width: 20%;">Items</th>
+                        <% if(model.isGstBilling =='yes'){ %><th style="width: 9%;">HSN & UQC</th><% } %>
+                        <th style="width: 10%;">Qty. & Unit</th>
+                        <th style="width: 10%;">Price</th>
+                        <th style="width: 10%;">Discount</th>
+                        <th style="width: 10%;">Total</th>
+                        <% if(model.isGstBilling =='yes'){ %><th style="width: 10%; ">GST %</th><% } %>
+                        <th style="width: 16%;">Amount</th>
+                    </tr>
+                    <% if(model.invoiceID !='' && model.invoiceID !=null){ _.each(model.invoiceLine, function(modelLine){ %>
+                        <tr id="item-<%=modelLine.srNo%>" data-with_gst="<%=modelLine.is_gst%>" class="item-list-box">
+                            <!-- SR NO -->
+                            <div>
+                                <td class="sno">
+                                    <%=modelLine.srNo%>
+                                </td>
+                                <!-- PRODUCT/DESC -->
+                                <td class="custom-dropdown">
+                                    <div class="col-md-12 productDropdown nopadding">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <% if(model.narrList){ %>
+                                                    <% var prod=model.narrList.find((item)=> {return item.product_id ==
+                                                        modelLine.invoiceLineChrgID; }); } %>
+                                                        <% if(prod==undefined) {%>
+                                                            <input autocomplete="off" id="narr_<%=modelLine.srNo%>"
+                                                                type="text" product_id="<%=modelLine.invoiceLineChrgID%>"
+                                                                class="form-control pdChange ddcnt taskDate"
+                                                                name="narr_<%=modelLine.srNo%>"
+                                                                value="<%= modelLine.invoiceLineChrgID%>"
+                                                                placeholder="Type here to search" />
+                                                            <% } else {%>
+                                                                <input autocomplete="off" id="narr_<%=modelLine.srNo%>"
+                                                                    type="text"
+                                                                    product_id="<%=modelLine.invoiceLineChrgID%>"
+                                                                    class="form-control pdChange ddcnt taskDate"
+                                                                    name="narr_<%=modelLine.srNo%>"
+                                                                    value="<%=prod.product_name%>"
+                                                                    placeholder="Type here to search" />
+                                                                <% } %>
+                                                                    <div class="product-input"></div>
+                                                                    <div id="productDropdown_<%=modelLine.srNo%>"
+                                                                        class="dropdown-content custDrop"
+                                                                        style="display: none;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <textarea id="desc_<%=modelLine.srNo%>" rows="3"
+                                                    class="form-control amtChange" name="desc_<%=modelLine.srNo%>"
+                                                    placeholder="Description"><%=modelLine.invoiceLineNarr%></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- HSN & UQC -->
+                                <td <% if(model.isGstBilling =='no'){ %> style="display:none;"<% } %> >
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="itemHSN_<%=modelLine.srNo%>" id="itemHSN_<%=modelLine.srNo%>"
+                                                name="itemHSN_<%=modelLine.srNo%>" title="Type"
+                                                class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                                <option value="hsn_1">hsn_1</option>
+                                                <option selected value="hsn_2">hsn_2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="itemUQC_<%=modelLine.srNo%>" id="itemUQC_<%=modelLine.srNo%>"
+                                                name="itemUQC_<%=modelLine.srNo%>" title="Type"
+                                                class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                                <option value="uqc_1">uqc_1</option>
+                                                <option selected value="uqc_1">uqc_2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- QTY & UNIT -->
+                                <td>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="itemQuantity_<%=modelLine.srNo%>"
+                                                id="itemQuantity_<%=modelLine.srNo%>"
+                                                class="form-control amtChange digits input-p unitClass"
+                                                value="<%=modelLine.invoiceLineQty%>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="itemUnit_<%=modelLine.srNo%>" id="itemUnit_<%=modelLine.srNo%>"
+                                                name="itemUnit_<%=modelLine.srNo%>" title="Unit"
+                                                class="form-control ws-select show-tick amtChange repeatChange nopadding">
+                                                <% _.each(categoryList, function(modelcat) { %>
+                                                    <% if(modelcat.attributes.slug=="unit" )
+                                                        _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                        <option <% if(modelLine.invoiceLineUnit==model1.category_id ){ %>
+                                                            selected <% } %> value="<%=model1.category_id%>">
+                                                                    <%=model1.categoryName%>
+                                                        </option>
+                                                        <%})%>
+                                                            <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- PRICE -->
+                                <td class="text-right">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="itemRate_<%=modelLine.srNo%>"
+                                                id="itemRate_<%=modelLine.srNo%>"
+                                                class="itemRate form-control amtChange digits input-p"
+                                                value="<%=modelLine.invoiceLineRate%>">
+                                            <% if(model.isGstBilling =='yes'){ %> 
+                                                <img <% if(modelLine.is_gst=='no' ) {%>style="display: none;" <% }%>
+                                                src="images/info.png" class="alertIcon withGstIcon_<%=modelLine.srNo%>"
+                                                    data-toggle="tooltip" data-placement="top" data-content="with Gst">
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- DISCOUNT -->
+                                <td>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="itemDiscount_<%=modelLine.srNo%>"
+                                                id="itemDiscount_<%=modelLine.srNo%>"
+                                                class="itemDiscount form-control amtChange input-p"
+                                                value="<%=numberFormat(modelLine.discount,2)%>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="itemDiscountType_<%=modelLine.srNo%>"
+                                                id="itemDiscountType_<%=modelLine.srNo%>"
+                                                name="itemDiscountType_<%=modelLine.srNo%>" title="Type"
+                                                class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                                <option <% if(modelLine.discount_type=='amt' ){%> selected <% } %>
+                                                        value="amt">Amt</option>
+                                                <option <% if(modelLine.discount_type=='per' ){%> selected <% } %>
+                                                        value="per"> %</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- PRICE TOTAL -->
+                                <td class="text-center">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="itemPricetotal_<%=modelLine.srNo%>"
+                                                id="itemPricetotal_<%=modelLine.srNo%>" disabled
+                                                class="form-control amtChange input-p" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- GST % -->
+                                <td <% if(model.isGstBilling =='no'){ %>style="display:none;" <% } %> >
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="itemGST_<%=modelLine.srNo%>"
+                                                id="itemGST_<%=modelLine.srNo%>"
+                                                class="itemGST form-control amtChange input-p"
+                                                value="<%=numberFormat(modelLine.igst,2)%>" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float IGST igst_td_<%=modelLine.srNo%>"
+                                        style="display: none;">
+                                        <div class="form-line">
+                                            <input type="text" name="igst_td_<%=modelLine.srNo%>"
+                                                id="igst_td_<%=modelLine.srNo%>" disabled
+                                                class="igst_td_<%=modelLine.srNo%> form-control amtChange input-p"
+                                                placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float SGST sgst_td_<%=modelLine.srNo%>"
+                                        style="display: none;">
+                                        <div class="form-line">
+                                            <input type="text" name="sgst_td_<%=modelLine.srNo%>"
+                                                id="sgst_td_<%=modelLine.srNo%>" disabled
+                                                class="sgst_td_<%=modelLine.srNo%> form-control amtChange input-p"
+                                                placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float CGST cgst_td_<%=modelLine.srNo%>"
+                                        style="display: none;">
+                                        <div class="form-line">
+                                            <input type="text" name="cgst_td_<%=modelLine.srNo%>"
+                                                id="cgst_td_<%=modelLine.srNo%>" disabled
+                                                class="cgst_td_<%=modelLine.srNo%> form-control amtChange input-p"
+                                                placeholder="0.00">
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- TOTAL -->
+                                <td class="text-center total-td">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="itemtotal_<%=modelLine.srNo%>"
+                                                id="itemtotal_<%=modelLine.srNo%>" disabled
+                                                class="form-control amtChange input-p" disabled placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="del-btn" style="display: none;">
+                                        <button id="itemdel_<%=modelLine.srNo%>"
+                                            class="del-row btn btn-small btn-default"><img class="invoiceDeleteImg"
+                                                src="images/deleteImg.png" /></button>
+                                    </div>
+                                </td>
+                            </div>
+                        </tr>
+                        <% });%> 
+                    <% }else if(rows.length !=0){ _.each(rows, function(modelLine) {%>
+                        <tr id="item-<%=modelLine.srno%>" data-with_gst="<%=modelLine.is_gst%>" class="item-list-box">
+                            <div>
+                                   <!-- SR NO -->
+                            <td class="sno">
+                                <%=modelLine.srno%>
+                            </td>
+                            <!-- PRODUCT/DESC -->
+                            <td class="custom-dropdown">
+                                <div class="col-md-12 productDropdown nopadding">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <% if(model.narrList){ %>
+                                                <% var prod=model.narrList.find((item)=> {return item.product_id ==
+                                                    modelLine.invoiceLineChrgID; }); } %>
+                                                    <% if(prod==undefined) {%>
+                                                        <input autocomplete="off" id="narr_<%=modelLine.srno%>"
+                                                            type="text"
+                                                            product_id="<%=modelLine.invoiceLineChrgID%>"
+                                                            class="form-control pdChange ddcnt taskDate"
+                                                            name="narr_<%=modelLine.srno%>"
+                                                            value="<%= modelLine.product_name%>"
+                                                            placeholder="Type here to search" />
+                                                        <% } else {%>
+                                                            <input autocomplete="off" id="narr_<%=modelLine.srno%>"
+                                                                type="text"
+                                                                product_id="<%=modelLine.invoiceLineChrgID%>"
+                                                                class="form-control pdChange ddcnt taskDate"
+                                                                name="narr_<%=modelLine.srno%>"
+                                                                value="<%= prod.product_name%>"
+                                                                placeholder="Type here to search" />
+                                                            <% } %>
+                                                                <div class="product-input"></div>
+                                                                <div id="productDropdown_<%=modelLine.srno%>"
+                                                                    class="dropdown-content custDrop"
+                                                                    style="display: none;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <textarea id="desc_<%=modelLine.srno%>" rows="3"
+                                                class="form-control amtChange" name="desc_<%=modelLine.srno%>"
+                                                placeholder="Description"><%=modelLine.invoiceLineNarr%></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- HSN & UQC -->
+                            <td <% if(model.isGstBilling =='no'){ %>style="display:none;" <% } %> >
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="itemHSN_<%=modelLine.srno%>" id="itemHSN_<%=modelLine.srno%>"
+                                            name="itemHSN_<%=modelLine.srno%>" title="Type"
+                                            class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                            <option value="hsn_1">hsn_1</option>
+                                            <option selected value="hsn_2">hsn_2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="itemUQC_<%=modelLine.srno%>" id="itemUQC_<%=modelLine.srno%>"
+                                            name="itemUQC_<%=modelLine.srno%>" title="Type"
+                                            class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                            <option value="uqc_1">uqc_1</option>
+                                            <option selected value="uqc_1">uqc_2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- QTY & UNIT -->
+                            <td>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="itemQuantity_<%=modelLine.srno%>"
+                                            id="itemQuantity_<%=modelLine.srno%>"
+                                            class="form-control amtChange digits input-p unitClass"
+                                            value="<%=modelLine.quantity%>">
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="itemUnit_<%=modelLine.srno%>" id="itemUnit_<%=modelLine.srno%>"
+                                            name="itemUnit_<%=modelLine.srno%>" title="Unit"
+                                            class="form-control ws-select show-tick amtChange repeatChange nopadding">
+                                            <% console.log('modelLine.unit : ',modelLine.unit); %>
+                                            <% _.each(categoryList, function(modelcat) { %>
+                                                <% if(modelcat.attributes.slug=="unit" )
+                                                    _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                    <option <% if(modelLine.unit==model1.category_id ){ %>
+                                                        selected <% } %> value="<%=model1.category_id%>">
+                                                                <%=model1.categoryName%>
+                                                    </option>
+                                                    <%})%>
+                                                        <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- PRICE -->
+                            <td class="text-right">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="itemRate_<%=modelLine.srno%>"
+                                            id="itemRate_<%=modelLine.srno%>"
+                                            class="itemRate form-control amtChange digits input-p"
+                                            value="<%=modelLine.rate%>">
+                                        <% if(modelLine.is_gst_billing == 'yes'){ %>
+                                            <img <% if(modelLine.is_gst=='no' ) {%>style="display: none;" <% }%> src="images/info.png" class="alertIcon withGstIcon_<%=modelLine.srno%>" data-toggle="tooltip" data-placement="top" data-content="with Gst">
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- DISCOUNT -->
+                            <td>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="itemDiscount_<%=modelLine.srno%>"
+                                            id="itemDiscount_<%=modelLine.srno%>"
+                                            class="itemDiscount form-control amtChange input-p"
+                                            value="<%=numberFormat(modelLine.itemDiscount,2)%>">
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="itemDiscountType_<%=modelLine.srno%>"
+                                            id="itemDiscountType_<%=modelLine.srno%>"
+                                            name="itemDiscountType_<%=modelLine.srno%>" title="Type"
+                                            class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                            <option <% if(modelLine.itemDiscountType=='amt' ){%> selected <% } %>
+                                                    value="amt">Amt</option>
+                                            <option <% if(modelLine.itemDiscountType=='per' ){%> selected <% } %>
+                                                    value="per"> %</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- PRICE TOTAL -->
+                            <td class="text-center">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="itemPricetotal_<%=modelLine.srno%>"
+                                            id="itemPricetotal_<%=modelLine.srno%>" disabled
+                                            class="form-control amtChange input-p" placeholder="0.00">
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- GST % -->
+                            <td <% if(model.isGstBilling =='no'){ %>style="display:none;" <% } %> >
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="itemGST_<%=modelLine.srno%>"
+                                            id="itemGST_<%=modelLine.srno%>"
+                                            class="itemGST form-control amtChange input-p"
+                                            value="<%=numberFormat(modelLine.interGstPercent,2)%>"
+                                            placeholder="0.00">
+                                    </div>
+                                </div>
+                                <div class="form-group form-float IGST igst_td_<%=modelLine.srno%>"
+                                    style="display: none;">
+                                    <div class="form-line">
+                                        <input type="text" name="igst_td_<%=modelLine.srno%>"
+                                            id="igst_td_<%=modelLine.srno%>" disabled
+                                            class="igst_td_<%=modelLine.srno%> form-control amtChange input-p"
+                                            placeholder="0.00">
+                                    </div>
+                                </div>
+                                <div class="form-group form-float SGST sgst_td_<%=modelLine.srno%>"
+                                    style="display: none;">
+                                    <div class="form-line">
+                                        <input type="text" name="sgst_td_<%=modelLine.srno%>"
+                                            id="sgst_td_<%=modelLine.srno%>" disabled
+                                            class="sgst_td_<%=modelLine.srno%> form-control amtChange input-p"
+                                            placeholder="0.00">
+                                    </div>
+                                </div>
+                                <div class="form-group form-float CGST cgst_td_<%=modelLine.srno%>"
+                                    style="display: none;">
+                                    <div class="form-line">
+                                        <input type="text" name="cgst_td_<%=modelLine.srno%>"
+                                            id="cgst_td_<%=modelLine.srno%>" disabled
+                                            class="cgst_td_<%=modelLine.srno%> form-control amtChange input-p"
+                                            placeholder="0.00">
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- TOTAL -->
+                            <td class="text-center total-td">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="itemtotal_<%=modelLine.srno%>"
+                                            id="itemtotal_<%=modelLine.srno%>" disabled
+                                            class="form-control amtChange input-p" placeholder="0.00">
+                                    </div>
+                                </div>
+                                <div class="del-btn" style="display: none;">
+                                    <button id="itemdel_<%=modelLine.srno%>"
+                                        class="del-row btn btn-small btn-default"><img class="invoiceDeleteImg"
+                                            src="images/deleteImg.png" /></button>
+                                </div>
+                            </td>
+                            </div>
+                         
+                        </tr>
+                            <% }); %>
+
+                                <%}else{ %>
+                                    <tr id="item-1" class="item-list-box">
+                                        <!-- SERIAL NO -->
+                                        <td class="sno">1</td>
+                                        <!-- PRODUCT/DESC -->
+                                        <td class="custom-dropdown">
+                                            <div class="col-md-12 productDropdown nopadding">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <input autocomplete="off" id="narr_1" type="text"
+                                                            class="form-control pdChange ddcnt taskDate" name="narr_1"
+                                                            value="" placeholder="Type here to search" />
+                                                        <div class="product-input"></div>
+                                                        <div id="productDropdown_1" class="dropdown-content custDrop"
+                                                            style="display: none;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <textarea id="desc_1" rows="3" class="form-control amtChange"
+                                                            name="desc_1" placeholder="Description"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- HSN & UQC -->
+                                        <td <% if(model.isGstBilling =='no'){ %>style="display:none;" <% } %>>
+                                            <div class="">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select for="itemHSN_1" id="itemHSN_1" name="itemHSN_1"
+                                                            title="HSN"
+                                                            class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                                            <option value="hsn_1">hsn_1</option>
+                                                            <option selected value="hsn_2">hsn_2</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select for="itemUQC_1" id="itemUQC_1" name="itemUQC_1"
+                                                            title="UQC"
+                                                            class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                                            <option value="uqc_1">uqc_1</option>
+                                                            <option selected value="uqc_1">uqc_2</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- QTY & UNIT -->
+                                        <td>
+                                            <div class="">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <input type="text" name="itemQuantity_1" id="itemQuantity_1"
+                                                            class="form-control amtChange input-p unitClass"
+                                                            placeholder="0">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <% var slug_id='' ; %>
+                                                            <% _.each(categoryList, function(modelcat) { %>
+                                                                <% if(modelcat.attributes.slug=='unit' ){
+                                                                    slug_id=modelcat.attributes.category_id; }})%>
+                                                                    <select for="itemUnit_1" id="itemUnit_1"
+                                                                        name="itemUnit_1" title="Unit"
+                                                                        class="form-control catVal ws-select show-tick amtChange repeatChange nopadding"
+                                                                        data-slug="<%=slug_id%>">
+                                                                        <%if(permission.add=="yes" ) { %>
+                                                                            <option class="" value="">Select Units
+                                                                            </option>
+                                                                            <option class="addNew" data-view = "category" data-slug="<%=unitSlug%>" value="addCategory">
+                                                                                Add Units Type</option>
+                                                                            <%}%>
+                                                                                <% _.each(categoryList,function(modelcat)
+                                                                                    { %>
+                                                                                    <% if(modelcat.attributes.slug=="unit"
+                                                                                        ){
+                                                                                        _.each(modelcat.attributes.sublist,function(model1)
+                                                                                        { %>
+                                                                                        <option <%
+                                                                                            if(model1.category_id==model.category_id)
+                                                                                            { %>selected <% } %> value="
+                                                                                                <%=model1.category_id%>
+                                                                                                    ">
+                                                                                                    <%=model1.categoryName%>
+                                                                                        </option>
+                                                                                        <% });%>
+                                                                                            <%}})%>
+                                                                    </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- PRICE -->
+                                        <td class="text-right">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" name="itemRate_1" id="itemRate_1" class="itemRate form-control amtChange input-p" placeholder="0.00">
+                                                    <img style="display: none;" src="images/info.png" class="alertIcon withGstIcon_1" data-toggle="tooltip" data-placement="top" data-content="With Gst">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- DISCOUNT -->
+                                        <td>
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" name="itemDiscount_1" id="itemDiscount_1"
+                                                        class="itemDiscount form-control amtChange input-p" value=""
+                                                        placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <select for="itemDiscountType_1" id="itemDiscountType_1"
+                                                        name="itemDiscountType_1" title="Type"
+                                                        class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                                                        <option selected value="per"> % </option>
+                                                        <option value="amt">Amt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- PRICE TOTAL -->
+                                        <td class="text-center">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" name="itemPricetotal_1" id="itemPricetotal_1"
+                                                        class="form-control amtChange input-p" placeholder="0.00">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- GST % -->
+                                        <td <% if(model.isGstBilling =='no'){ %>style="display:none;" <% } %> >
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" name="itemGST_1" id="itemGST_1"
+                                                        class="itemGST form-control amtChange input-p"
+                                                        placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-float IGST igst_td_1" style="display: none;">
+                                                <div class="form-line">
+                                                    <input type="text" name="igst_td_1" id="igst_td_1"
+                                                        class="igst_td_1 form-control amtChange input-p"
+                                                        placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-float SGST sgst_td_1" style="display: none;">
+                                                <div class="form-line">
+                                                    <input type="text" name="sgst_td_1" id="sgst_td_1"
+                                                        class="sgst_td_1 form-control amtChange input-p"
+                                                        placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="form-group form-float CGST cgst_td_1" style="display: none;">
+                                                <div class="form-line">
+                                                    <input type="text" name="cgst_td_1" id="cgst_td_1"
+                                                        class="cgst_td_1 form-control amtChange input-p"
+                                                        placeholder="0.00">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center total-td">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" name="itemtotal_1" id="itemtotal_1"
+                                                        class="form-control amtChange input-p" disabled placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="del-btn" style="display: none;">
+                                                <button id="itemdel_1" class="del-row btn btn-small btn-default"><img
+                                                        class="invoiceDeleteImg" src="images/deleteImg.png" /></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+            <div class="col-xs-12">
+                <div class="addRowClass">
+                    <span>Click on</span>
+                    <button id="addRow" class="btn btn-default" data-toggle="tooltip" data-placement="top"
+                        data-content="Add Rows"><img src="images/addRow.png" /></button>
+                    <span>to add more item</span>
+                </div>
+            </div>
+            <div class="col-xs-12 summaryDiv">
+                <table id="summaryInv">
+                    <tbody class="text-center totalAmtClass">
+                        <tr>
+                            <th colspan="3" width="34%"></th>
+                            <th style="width: 10%;" class="qtyTotal">0.00</th>
+                            <th style="width: 10%;" class="priceTotal">0.00</th>
+                            <th style="width: 10%;" class="discTotal">0.00</th>
+                            <th style="width: 10%;" class="priceTotal">0.00</th>
+                            <th style="width: 10%; <% if(model.isGstBilling =='no'){ %>display:none;<% } %>" class="gstTotal">0.00</th>
+                            <th style="width: 20%;" class="subTotal">0.00</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- ADDITIONAL DETAILS -->
+        <div class="row amtAdditionalCls equal-height">
+            <!-- BANK DETAILS -->
+            <div class="col-md-6">
+                <div class="bankInfo additionalDetails">
+                    <div class="row amt-wds">
+                        <div class="col-md-12">
+                            <h6>Amount in words : </h6>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="amtInWords"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Bank Details </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>Bank Name:</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group form-float">
+                                <input id="bank_details" class="form-control companyDetailsChange" name="bank_details"
+                                    value="<%=companyDetails.bank_details%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>A/C No.:</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group form-float">
+                                <input id="bank_acc_no" class="form-control companyDetailsChange" name="bank_acc_no"
+                                    value="<%=companyDetails.bank_acc_no%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>IFSC Code:</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group form-float">
+                                <input id="ifsc_code" class="form-control companyDetailsChange" name="ifsc_code"
+                                    value="<%=companyDetails.ifsc_code%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>SWIFT Code:</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group form-float">
+                                <input id="mcir_code" class="form-control companyDetailsChange" name="mcir_code"
+                                    value="<%=companyDetails.mcir_code%>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ADDITIONAL DETAILS -->
+            <div class="col-md-6">
+                <div class="additionalCharges additionalDetails">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row bottom-border mt-2">
+                                <div class="col-md-7">
+                                    <div>
+                                        <h6 class="igst-lb IGST" style="display: none;">IGST</h6>
+                                        <h6 class="cgst-lb CGST" style="display: none;">CGST</h6>
+                                        <h6 class="sgst-lb SGST" style="display: none;">SGST</h6>
+                                        <h6>Sub Total</h6>
+                                        <div class="round-off">
+                                            <input type="checkbox" name="roundOff" id="roundOff"
+                                                class="filled-in chk-col-light-blue updateAmt roundOffcheck" <% if(model.roundOff != '0.00'){ %> checked <% }%> />
+                                            <h4>Round Off</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div>
+                                        <h6 class="igst IGST text-right" style="display: none;"></h6>
+                                        <h6 class="sgst SGST text-right" style="display: none;"></h6>
+                                        <h6 class="cgst CGST text-right" style="display: none;"></h6>
+                                        <h6 class="subTotal text-right"></h6>
+                                        <h6 class="roundOff text-right"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bottom-border mt-3 pb-2" style="position: relative;">
+                        <div class="col-md-12 addAdditionalFields"></div>
+                        <div class="col-md-12 ">
+                            <button type="button" class="addCharges btn" data-toggle="tooltip" data-placement="top"
+                                data-content="Add Additional Charge">
+                                <span class="">+ Additional Charges</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row amountCls mt-2">
+                        <div class="col-md-12">
+                            <div style="display: none;" class="LogsPayment row bottom-border mt-2 mb-2">
+                                <div class="col-md-7">
+                                    <div>
+
+                                        <input type="checkbox" name="advanceReceipts" id="advanceReceipts" <%
+                                            if(model.show_on_pdf=='yes' ) { %> checked <% } %>class="filled-in updateAmt
+                                            chk-col-light-blue advanceReceiptsCheck"/>
+                                            <label for="advanceReceipts">Show Advance Receipts on PDF <span
+                                                    class="receiptStr"></span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div>
+                                        <h6 class="logsAmt"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row mt-2">
+                                <div class="col-md-7">
+                                    <div>
+                                        <h6>Total Amount</h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div>
+                                        <h6 class="grossAmount text-right"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="termsConditions">
+                    <div class="editableDetails">
+                        <h6>
+                            <span style="text-transform: capitalize;font-size: 1rem;font-weight: 700;">
+                                <%=menuName%>
+                            </span>
+                            Terms and conditions
+                        </h6>
+                    </div>
+                    <% if(menuName==="quotation" ) { %>
+                        <div class="ws-quill">
+                            <div class="row ">
+                                <div class="col-md-12 m-b-Cls">
+                                    <div id="quotation_terms_conditions" class="form-control mb-3">
+                                        <%=companyDetails.quotation_terms_conditions%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else if(menuName==="invoice" ) { %>
+                            <div class="ws-quill">
+                                <div class="row ">
+                                    <div class="col-md-12 m-b-Cls">
+                                        <div id="invoice_terms_condotions" class="form-control mb-3">
+                                            <%=companyDetails.invoice_terms_condotions%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } else if(menuName==="receipt" ) { %>
+                                <div class="ws-quill">
+                                    <div class="row ">
+                                        <div class="col-md-12 m-b-Cls">
+                                            <div id="receipt_terms_condotions" class="form-control mb-3">
+                                                <%=companyDetails.receipt_terms_condotions%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+    </form>
+</div>

@@ -1,0 +1,56 @@
+<div class="tab-pane in active">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body historyHeading">
+                <h6 class="card-title">Latest History</h6>
+            </div>
+            <% _.each(historyList, function(model1) { %>
+                <div class="comment-widgets">
+                    <div class="d-flex flex-row comment-row">
+                        <div class="comment-text w-100">
+                            <div class="alert alert-secondary m-b-5 m-t-10 historyBg" role="alert">
+                                <div class="historyHeading">
+                                    <p>
+                                        <strong><%=model1.attributes.name%></strong> 
+                                        <%=model1.attributes.description%>  <%=model1.attributes.col%>
+                                    </p>
+                                    <span class="historyspan">
+                                        <%=model1.attributes.activity_date%>
+                                    </span>
+                                </div>
+                                    
+                                     
+                                    <span class="description">
+
+                                        <%if(model1.attributes.description !="Created" ){%>
+                                            <% if(model1.attributes.col=="description" ){%>
+                                                from "<%=model1.attributes.old_desc%>" to "<%=model1.attributes.new_desc%>"
+                                            <%}else if(model1.attributes.col=="Start Date"){%>
+                                                from "<%=model1.attributes.old_date%>" to "<%=model1.attributes.new_date%>"
+                                            <%}else if(model1.attributes.col=="Due Date"){%>
+                                                from "<%=model1.attributes.old_date%>" to "<%=model1.attributes.new_date%>"
+                                            <%}else if(model1.attributes.col=="Comment"){%>
+                                                
+                                            <%}else{%>
+                                                from "<%=model1.attributes.old_val%>" to "<%=model1.attributes.new_val%>"
+                                            <%}%>
+                                        <%}%>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}); %>
+                <div id="historyRow"></div>
+                <% if(loadstate){ %>
+                <div class="row mt-3">
+                    <div class="col-md-12 text-right">
+                        <button name="read_more" id="historyNext" type="button" class="btn bg-indigo readMoreHistory">View Old History</button>
+                    </div>
+                </div>
+                <%}%>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div><div class="clearfix">&nbsp;</div>
+        </div>
+    </div>
+</div>

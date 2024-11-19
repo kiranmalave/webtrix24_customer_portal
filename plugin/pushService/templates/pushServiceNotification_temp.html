@@ -1,0 +1,286 @@
+<div class="tab-pane in active">
+
+    <form id="pushServiceDetails" name="pushServiceDetails" action="#">
+        
+            <div class="text-right actionBtns" <% if(model.status == "approved" || model.status == "declined"){%> style="display: none;" <%}%> >
+                <button type="button" class="btn bg-indigo savepushServiceDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo savepushServiceDetails" data-action="new">Save & new</button>
+            </div> 
+        
+        
+            
+        <div class="row ws-main-container">
+            <div class="col-md-12 ws-appointment-container">
+                <div class="clearfix">&nbsp;</div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="material-symbols-outlined" style="margin-top:10px;">flag</span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="push_service_name" type="text" class="form-control txtchange" name="push_service_name" value="<%=model.push_service_name%>">
+                                        <label for="push_service_name" class="form-label">Push Service Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top:10px;">
+                                person
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select id="to_email" name="to_email" class="form-control dropval ws-select show-tick pl-0" title="Select Doner Name" data-live-search="true" data-live-search="true">
+                                            <option <% if(model.to_email == "all_donor"){ %>selected<% } %> value="all_donor">All Donor</option>
+                                            <option <% if(model.to_email == "on_birthday"){ %>selected<% } %> value="on_birthday">On Birthday</option>
+                                        </select>
+                                        <label for="to_email" class="form-label">Donner Name</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select id="emailTemp" name="emailTemp" class="form-control dropval ws-select show-tick pl-0 getTemplate" title="Select Email Template" data-live-search="true" data-live-search="true">
+                                            <% _.each(emails, function(model1) { %>
+                                                <option value="<%=model1.attributes.tempID%>"><%=model1.attributes.tempName%></option>
+                                            <%}); %>
+                                        </select>
+                                        <label for="emailTemp" class="form-label">Email Template</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="material-symbols-outlined" style="margin-top:10px;">whatshot</span>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select id="trigger_type" name="trigger_type" title="Select Trigger Type" class="form-control dropval ws-select show-tick pl-0">
+                                            <option <%if(model.trigger_type == "interval"){%>selected<%}%> value="interval">Interval</option>
+                                            <option <%if(model.trigger_type == "date"){%>selected<%}%> value="date">Date</option>
+                                        </select>
+                                        <label for="trigger_type" class="form-label">Trigger Type</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="intervalType" class="col-md-6" <%if(model.trigger_type == "interval"){%>style="display: block;"<%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select id="interval_type" name="interval_type" title="Select Interval Type" class="form-control dropval ws-select show-tick pl-0">
+                                            <option <%if(model.interval_type == "day"){%>selected<%}%> value="day">Day</option>
+                                            <option <%if(model.interval_type == "week"){%>selected<%}%> value="week">Week</option>
+                                            <option <%if(model.interval_type == "month"){%>selected<%}%> value="month">Month</option>
+                                            <option <%if(model.interval_type == "year"){%>selected<%}%> value="year">Year</option>
+                                        </select>
+                                        <label for="interval_type" class="form-label">Interval Type</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="triggerDate" class="col-md-6" <%if(model.trigger_type == "date"){%>style="display: block;"<%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="trigger_date" type="text" class="form-control" name="trigger_date" value="<%=model.trigger_date%>" readonly>
+                                        <label for="customer_id" class="form-label">Trigger Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="intervalSelect" class="list-row" <%if(model.trigger_type == "interval"){%> <%}else{%>style="display: none;"<%}%>>
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top:10px;">
+                                schedule
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-3 month-div" <%if(model.interval_type == "month" ){%> <%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <select for="interval_month" id="interval_month" name="interval_month" title="Months Week"  class="form-control dropval ws-select show-tick repeatChange">
+                                            <option <%if(model.interval_month == "first"){%>selected<%}%> value="first">First </option>
+                                            <option <%if(model.interval_month == "second"){%>selected<%}%> value="second">Second</option>
+                                            <option <%if(model.interval_month == "third"){%>selected<%}%> value="third">Third</option>
+                                            <option <%if(model.interval_month == "fourth"){%>selected<%}%> value="fourth">Fourth</option>
+                                            <option <%if(model.interval_month == "last"){%>selected<%}%> value="last">Last</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 week-div" <%if(model.interval_type == "month" ||model.interval_type == "week"){%> <%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <select for="interval_week" id="interval_week" name="interval_week" title="Week Days"  class="form-control dropval  ws-select show-tick repeatChange">
+                                            <option <%if(model.interval_week == "monday"){%>selected<%}%> value="monday">Monday</option>
+                                            <option <%if(model.interval_week == "tuesday"){%>selected<%}%> value="tuesday">Tuesday</option>
+                                            <option <%if(model.interval_week == "wednesday"){%>selected<%}%> value="wednesday">Wednesday</option>
+                                            <option <%if(model.interval_week == "thursday"){%>selected<%}%> value="thursday">Thursday</option>
+                                            <option <%if(model.interval_week == "friday"){%>selected<%}%> value="friday">Friday</option>
+                                            <option <%if(model.interval_week == "saturday"){%>selected<%}%> value="saturday">Saturday</option>
+                                            <option <%if(model.interval_week == "sunday"){%>selected<%}%> value="sunday">Sunday</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 day-div" <%if(model.interval_type == "month" || model.interval_type == "week" || model.interval_type == "day"){%> <%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="interval_span" type="text" class="form-control txtchange" name="interval_span" value="<%=model.interval_span%>">
+                                        <label for="interval_span" class="form-label">Interval Span</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               <div id="stopInterval" class="list-row" <%if(model.trigger_type == "interval"){%> <%}else{%>style="display: none;"<%}%>>
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons" style="margin-top:10px;">
+                                block
+                            </i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select for="stop_type" id="stop_type" name="stop_type" title="Stop Type"  class="form-control dropval ws-select  show-tick repeatChange">
+                                            <option <%if(model.stop_type == "interval"){%>selected<%}%> value="interval">Stop After Interval</option>
+                                            <option <%if(model.stop_type == "date"){%>selected<%}%> value="date">Stop After Date</option>
+                                            <option <%if(model.stop_type == "infinite"){%>selected<%}%> value="infinite">No End Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 end-date-div" <%if(model.stop_type == "date"){%>style="display: block;"<%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="stop_date" type="text" data-provide="datepicker" class="form-control " name="stop_date" value="<%=model.stop_date%>">
+                                        <label for="stop_date" class="form-label">End Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 total-comp-inte" <%if(model.stop_type == "interval"){%>style="display: block;"<%}else{%>style="display: none;"<%}%>>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="stop_value" type="text" class="form-control txtchange" name="stop_value" value="<%=model.stop_value%>">
+                                        <label for="stop_value" class="form-label">Stop After Interval</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row" style="margin-bottom: 100px;">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <label for="message_body">Message Body</label>
+                                <div id="message_body" class="form-control">
+                                    <%=model.message_body%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-row" style="margin-bottom: 100px;">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <label for="sms_body">Sms Body</label>
+                                <div id="sms_body" class="form-control">
+                                    <%=model.sms_body%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-row" style="margin-bottom: 100px;">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <label for="whats_app_body">Whatsapp Body</label>
+                                <div id="whats_app_body" class="form-control">
+                                    <%=model.whats_app_body%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row left-space">
+                    <div class="col-md-12">
+                        <div class="form-group ws-form-option">
+                            <label for="status" class="form-label" >Status</label>
+                            <ul class="item-container" data-valid="status">
+                              <li class="status multiOptionSel" data-single="Y" data-value="delivered">Delivered</li>
+                              <li class="status multiOptionSel" data-single="Y" data-value="not_delivered">Not Delivered</li>
+                              <li class="status multiOptionSel" data-single="Y" data-value="pending">Pending</li>
+                            </ul>
+                          </div>
+                        </div>
+                      <div class="clearfix">&nbsp;</div>
+                </div>
+                 <div id="dynamicFormFields" class=""></div>
+            </div>
+
+
+        </div>
+    </form>
+</div>

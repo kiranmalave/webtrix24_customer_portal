@@ -1,0 +1,112 @@
+<div class="tab-pane in active">
+    <div id="templateSingleView">
+        <form id="templateDetails" name="templateDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo saveTempDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo saveTempDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="row ws-main-container border-bottom">
+                <div class="col-md-8 mt-3">
+                    <div class="list-row">
+                        <div class="icon-left">
+                            <div class="ws-icon"><i class="material-icons">list_alt</i></div>
+                        </div>
+                        <div class="right-layout">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="temp_name" class="form-label">Template Name<span class="error">*</span> :</label>
+                                            <input id="temp_name" class="form-control txtchange" name="temp_name" autocomplete="off" type="text" value="<%=model.temp_name%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="module_name" class="form-label">Module Name<span class="error">*</span> :</label>
+                                            <select for="module_name" autocomplete="off" id="module_name" name="module_name" title="Select Module" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                                                <option value="">Select Module</option>
+                                                <% _.each(menuList, function(menu) { %>
+                                                    <option <% if(menu.menuID == model.module_name ){ %> selected <% } %>value="<%=menu.menuID%>"> <%=menu.menuName%> </option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-float ws-form-option">
+                                        <label for="clickable_template" class="form-label">Do want to make template clickable to single page?</label>
+                                        <ul class="item-container" data-valid="clickable_template">
+                                            <li class="clickable_template multiSel" data-single="Y" data-value="y">Yes</li>
+                                            <li class="clickable_template multiSel" data-single="Y" data-value="n">No</li>
+                                        </ul>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-row">
+                        <div class="icon-left">
+                            <div class="ws-icon"><i class="material-icons">list_alt</i></div>
+                        </div>
+                        <div class="right-layout">
+                          <div class="row mb-1">
+                            <div class="col-md-11">
+                              <label for="css_for_temp">Css<span class="error"></span> :</label>
+                              <textarea id="css_for_temp" rows="4" class="ckeditor form-control txtchange"
+                                name="css_for_temp"><%=model.css_for_temp %></textarea>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">&nbsp;</div>
+                </div>
+                <div class="col-md-4 border-left">
+                    <div class="row">
+                        <div class="col-md-12 ws-assignee-column">
+                            <label for="assignee" class="form-label" style="margin-left: 7px;">Template image</label>
+                            <div class="clearfix d-flex-center pt-1">
+                                <input id="typehead" class="btn loadMedia" autocomplete="off" type="button" value="Select Template image" name="Media" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                            </div>
+                        </div>
+                        <div class="col-md-12 pt-3 pb-3 d-flex-center">
+                            <% if(model.temp_image) {%>
+                                <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.temp_image%>">
+                            <%}else{%>
+                                No image uploaded.
+                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row ws-main-container">
+                <div class="col-md-3 mt-3">    
+                    <label for="columnlist" class="form-label">Column List:</label>
+                    <div class="column-fields" >
+                        <div class="panel-body">
+                            <div id="sortable">
+                            <%_.each(columnlist,function(column){%>
+                                <div class="drag-drop-item">
+                                    <div class="fieldsDragDrop"></div>
+                                    <div class="fieldName"><%=column.Field%></div>
+                                </div>
+                            <% })%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 field_col">
+                    <div class="addSecClass">
+                        <div class="playgrounddiv ws-playground" id="metadataContainer"><%=temp_code %></div>
+                        <button type="button" class="addRow ws_last_row"  data-toggle="tooltip" data-placement="top" data-content="Add Section"><i class="material-icons">add</i><p>Add Section</p></button>
+                    </div>
+                    <div class="playgroundelements"></div>
+                    <div class="templateDummy" style="display: none;"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

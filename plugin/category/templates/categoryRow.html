@@ -1,0 +1,34 @@
+  <tr class="even pointer bg-<%=categoryDetails.attributes.status%> deleteicon " data-category_id="<%=categoryDetails.attributes.category_id%>" data-view="singleCategoryData">
+  <td class="a-center bg-<%=categoryDetails.attributes.status%>">
+    <div class="listCheckbox ">
+      <input id="cAll_<%= categoryDetails.attributes.category_id %>" class="memberlistcheck chk-col-amber deleteCard" data-category_id="<%= categoryDetails.attributes.category_id %>" type="checkbox">
+      <label for="cAll_<%= categoryDetails.attributes.category_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <% if(column.column_name == "parent_id" ) { %>
+      <td class="draglinerow truncateWidth loadview" data-view="singleCategoryData" data-category_id="<%=categoryDetails.attributes.category_id%>">
+        <div class="nametooltip truncateColumns">
+          <%=categoryDetails.attributes.parentCatName %>
+        </div>
+      </td>
+    <%}else{%>
+    <td class="draglinerow truncateWidth loadview" data-view="singleCategoryData" data-category_id="<%=categoryDetails.attributes.category_id%>">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= categoryDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+        <% } else { %>
+          <%= categoryDetails.attributes["" + column.column_name] %>
+        <% } %>
+      </div>
+    </td>
+  <% }}); %>
+  <td class="draglinerow truncateWidth">
+    <div class="nametooltip truncateColumns">
+    <button class="ws-btn-default loadview btn" data-category_id="<%=categoryDetails.attributes.category_id%>" data-view="singleCategoryData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    <% if(categoryDetails.attributes.is_parent == "yes"){%>
+      <button class="viewChlid loadview btn" data-view="subCategoryData" data-category_id="<%=categoryDetails.attributes.category_id%>" data-catName="<%=categoryDetails.attributes.categoryName%>" data-catSlug="<%=categoryDetails.attributes.slug%>" data-toggle="tooltip" data-placement="top" data-content="Arrange Sub Categories"><span class="material-symbols-outlined">list </span></button>
+    <%}%>
+    </div>
+  </td>
+</tr>

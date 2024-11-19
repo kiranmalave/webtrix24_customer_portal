@@ -1,0 +1,89 @@
+<form id="demo-form" action="#">
+  <h6>Advance Filter Search</h6>
+  <hr>
+  <div class="clearfix">&nbsp;</div>
+  <div class="row">
+    <div class="col-md-6">
+      <select id="textSearch" class="form-control txtchange changeBox" name="textSearch">
+        <option value="ticket_id">Reference Number</option>
+      </select>
+    </div>
+    <div class="col-md-6 textvalBox hidetextval">
+      <input id="textval" class="form-control txtchange filterClear" name="textval" type="text">
+    </div>
+  </div>
+
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <div class="col-md-6 assigneeList">
+      <select for="expense_by" id="expense_by" name="expense_by" data-live-search="true" title="Expense By"
+        class="form-control ws-select show-tick dropval" multiple>
+        <% _.each(adminList, function(model1) { %>
+          <option value="<%=model1.attributes.adminID%>"><%=model1.attributes.name%></option>
+        <%}); %>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <select id="category" name="category" class="form-control ws-select dropval" title="ticket Category" multiple>
+        <% _.each(categoryList, function(modelcat) { %>
+          <% if(modelcat.attributes.slug=="ticket_category" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+            <option value="<%=model1.category_id%>"><%=model1.categoryName %></option>
+          <%})%>
+        <%})%>
+      </select>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <div class="col-md-6 assigneeList">
+      <select id="status" name="status" class="form-control dropval ws-select show-tick pl-0" title="Select Status" multiple>
+        <option value="draft">Draft</option>
+        <option value="submitted">Submitted</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="clearfix">&nbsp;</div>
+  <label>ticket Date</label>
+  <div class="row dateList">
+    <div class="col-5">
+      <input type="text" id="fromDate" class="form-control txtchange filterClear" placeholder="Start Date" readonly>
+    </div>
+    <div class="input-group-addon mt-2">to</div>
+    <div class="col-5">
+      <input type="text" id="toDate" class="form-control txtchange filterClear" placeholder="End Date" readonly>
+    </div>
+  </div>
+
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row pt-2">
+    <!-- <div class="col-md-12">
+      <label>Order By:</label>
+      <ul class="item-container" data-valid="orderBy">
+        <li class="orderBy multiOptionSel" data-single="Y" data-value="subject">Task Name</li>
+        <li class="orderBy multiOptionSel" data-single="Y" data-value="created_date">Created Date</li>
+      </ul>
+    </div> -->
+
+    <div class="col-md-12">
+      <label>Order:</label>
+      <ul class="item-container" data-valid="order">
+        <li class="order multiOptionSel" data-single="Y" data-value="ASC">Ascending</li>
+        <li class="order multiOptionSel" data-single="Y" data-value="DESC">Descending</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-12 text-right">
+    <hr>
+    <input type="button" id="filterSearch" class="filterSearch btn btn-raised bg-green waves-effect"
+      value="Search"></button>
+    <input type="button" id="resetSearch" class="btn btn-raised bg-blue-grey resetval" value="Reset"></button>
+    <input id="filterOption" type="button" class="btn btn-raised bg-blue-grey colseFil" value="Close"></button>
+  </div>
+</form>

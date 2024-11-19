@@ -1,0 +1,33 @@
+<tr class="even pointer bg-<%=courseDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= courseDetails.attributes.course_id %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-course_id="<%= courseDetails.attributes.course_id %>" type="checkbox">
+      <label for="cAll_<%= courseDetails.attributes.course_id %>">&nbsp;</label>
+    </div>
+  </td>
+  <% _.each(arrangedColumnList, function(column) { %>
+    <td class="draglinerow truncateWidth loadview" data-course_id="<%=courseDetails.attributes.course_id%>" data-view="singleCourseData">
+      <div class="nametooltip truncateColumns">
+        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+          <%= courseDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+            <% } else { %>
+              <%= courseDetails.attributes["" + column.column_name] %>
+                <% } %>
+      </div>
+    </td>
+    <% }); %>
+      <td class="draglinerow" style="display: flex;">
+        <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Edit"
+          data-course_id="<%=courseDetails.attributes.course_id%>" data-view="singleCourseData"><i
+            class="material-icons">mode_edit</i></button>
+
+        <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top" data-content="Design"
+          data-course_id="<%=courseDetails.attributes.course_id%>" data-view="singleSectionData"><i
+            class="material-icons">aspect_ratio</i></button>
+
+        <button type="button" class="ws-btn-default loadview" data-toggle="tooltip" data-placement="top"
+          title="Triggers" data-course_id="<%=courseDetails.attributes.course_id%>" data-view="courseTrigger"><i
+            class="material-icons">notifications</i></button>
+      </td>
+</tr>

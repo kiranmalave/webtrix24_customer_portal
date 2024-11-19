@@ -1,0 +1,326 @@
+    <div class="clearfix">&nbsp;</div>
+    <div class="actionBtns">
+        <button type="button" id="btnNotifications" class="btn bg-indigo btnTrigger">Create Escalation</button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group form-float taskDropDown defaultAssignee">
+                <div class="form-line taskDate">
+                    <input id="assignee_id" type="text" autocomplete="off" class="form-control ddcnt assignChange" name="assignee_id" value="<%=model.assignee_id%>" />
+                    <label for="assignee_id" class="form-label taskDate">Default Assignee</label>
+                </div>
+            </div>
+            <div class="assignee-input"></div>
+            <div id="assigneeDropdown" class="dropdown-content custDrop" style="display: none;"></div>
+        </div>
+    </div>
+
+    <table id="clist" class="table bulk_action tableList table-hover escalationTable">
+        <thead id="thead">
+        <tr class="headings">
+            <th class="column-title">Name</th>
+            <th class="column-title">Assign To..</th>
+            <th class="column-title">Escalation Timer</th>
+            <th class="column-title">Action</th>
+        </tr>
+        </thead>
+        <tbody id="notificationList"  style="position: relative; top: 35px;">
+        <%_.each(notificationList , function(notification){%>
+            <tr class="even pointer bg-<%=notification.attributes.status%>">
+                <td class=""><%=notification.attributes.name%></td>
+                <td><%=notification.attributes.assigneeName%></td>
+                <td><%=notification.attributes.escalation_time%></td>
+                <td class="">
+                    <button type="button" class="ws-btn-default editNotification" data-notificationID="<%=notification.attributes.notification_id%>" ><i class="material-icons">mode_edit</i></button>
+                    <button type="button" data-notificationID = "<%=notification.attributes.notification_id%>" class="ws-btn-default deleteNotification "  data-action="close"><i class="material-icons">delete</i></button>
+                </td>
+            </tr>
+        <%});%>
+        </tbody>
+    </table>
+
+<form id="escalationDetails" name="escalationDetails" action="#" style="display: none;">        
+    <div class="row ws-main-container">
+        <div class="col-md-12 ">
+                <div class="list-row">
+                    <div class="right-layout">
+
+                        <div id="tab1" class="tab-contents active-tab">
+                            
+                            <div class="row">
+                                <div class="clearfix">&nbsp;</div> 
+                                <div class="col-md-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input id="name" type="text" class="form-control txtchange" name="name" value="<%=model.name%>">
+                                            <label for="name" class="form-label">Escalation Name</label> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                     <div class="form-group form-float taskDropDown">
+                                         <div class="form-line taskDate">
+                                             <input id="escalate_to" type="text" autocomplete="off" class="form-control ddcnt escAssignChange taskDate" name="escalate_to" value="<%=model.escalateToName%>" />
+                                             <label for="escalate_to" class="form-label taskDate">Escalate To?</label>
+                                         </div>
+                                     </div>
+                                     <div class="assignee-input"></div>
+                                     <div id="escAssigneeDropdown" class="dropdown-content custDrop" style="display: none;">
+                                     </div>
+                                </div>
+                             </div>
+                             <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group input-group form-float">
+                                        <div class="form-line">
+                                            <input id="esc_time_days" type="number" class="form-control txtchange txtcolor" autocomplete="off"  name="esc_time_days" value="<%=model.esc_time_days%>">
+                                            <label for="esc_time_days" class="form-label">Days</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="esc_time_hrs" id="esc_time_hrs" name="esc_time_hrs" title="Hours" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                <% for(var i = 0; i <= 24; i++) {%>
+                                                    <option <%if(model.esc_time_hrs == i){%>selected<%}%> value="<%=i%>"><%=i%></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="esc_time_mins" id="esc_time_mins" name="esc_time_mins" title="Minutes" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                <option <%if(model.esc_time_mins == "0"){%>selected<%}%> value="0">0</option>
+                                                <option <%if(model.esc_time_mins == "30"){%>selected<%}%> value="30">30</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div id="tab2" class="tab-contents">
+                            <div class="row">
+                                <div class="col-md-12 notificationCheck">
+                                    <span class="heading">How you want to notify</span>
+                                    
+                                        <div class="row" style=" margin-top: 12px;">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="checkbox" class="notification_type" id="checkbox" value = "Email" name="checkbox" <%if(model.notification_type== 'email' || model.notification_type== 'both' ){%> checked  <%}%>>
+                                                    <label for="checkbox">Emails</label>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="row">
+                                                     <input type="checkbox" class="notification_type" id="checkbox1" name="checkbox1" value = "SMS" <%if(model.notification_type== 'sms' || model.notification_type== 'both' ){%> checked  <%}%> >
+                                                    <label for="checkbox1">SMS</label>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="row">
+                                                    <input type="checkbox" class="notification_type" id="checkbox2" name="checkbox2" value = "Both" <%if(model.notification_type== 'both' ){%> checked  <%}%> >
+                                                    <label for="checkbox2">Both</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-12 Templatedetails">
+                                    <span class="heading">Select Template</span>
+                                    <div class="row">
+                                       
+                                        <div class="col-md-4">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <select for="template_id" id="template_id" name="template_id" data-live-search="true" title="Email Template" class="form-control ws-select show-tick dropval getTemplate repeatChange">
+                                                        <option class="" value="">Select Email Tamplate</option>    
+                                                        <option class="addNew" value="addEmailTemp">Add Email Tamplate</option>   
+                                                        <%_.each(emailTemps,function(temp){%>
+                                                            <option <%if(model.template_id == temp.attributes.tempID){%>selected<%}%>  value="<%=temp.attributes.tempID%>"><%=temp.attributes.tempName%></option>
+                                                        <%});%>
+                                                    </select>
+                                                </div>
+                                                <div class="clearfix">&nbsp;</div> 
+
+                                                <div class="column-field-div" >
+                                                    <div class="panel-body">
+                                                      <ul id="sortable">
+                                                        <li class="ui-state-default drag-drop-item column-field-val">system_user_name</li>
+                                                        <%_.each(columnlist,function(column){%>
+                                                          <li class="ui-state-default drag-drop-item column-field-val"><%=column.Field%></li>
+                                                        <% })%>
+                                                      </ul>
+
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-12">
+                                                    <label for="emailContentN"> Preview Email :</label>
+                                                    <div class="clearfix">&nbsp;</div>
+                                                    <div class="form-group input-group form-float">
+                                                        <div class="form-line taskDate emailSubject">
+                                                            <input id="emailSubject" type="text" class="form-control txtchange" autocomplete="off"  name="subjectOfEmail" value="">
+                                                            <label for="emailSubject" class="form-label taskDate">Email Subject</label>
+                                                        </div>
+                                                    </div>
+                                                    <div id="emailContentN" name="emailContentN" class="form-control" value=""></div>
+                                                </div>
+                                                <div class="clearfix">&nbsp;</div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-12">
+                                                    <span class="prvEmail"> Preview SMS</span>
+                                                    <div id="PreviewSMS" class="form-control showNotification"></div>
+                                                </div>
+                                            </div>
+                                  
+                                        </div>
+                                       
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <div id="tab3" class="tab-contents">
+                            <div class="row"> </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <span class="heading">Do you want to change Assignee?</span>
+                                    <div class="form-group">
+                                        <input type="radio" name="action" id="yes" class="with-gap notifyDetails" value="yes" <% if (model.is_assignee_change && model.is_assignee_change == 'yes') { %>checked<% } %>>
+                                        <label for="yes">Yes</label>
+                                        <input type="radio" name="action" id="no" class="with-gap notifyDetails" value="no" <% if (model.is_assignee_change && model.is_assignee_change == 'no') { %>checked<% } %>>
+                                        <label for="no" class="m-l-20">No</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 assigneeDiv" <%if (model.is_assignee_change == "no"){%> style="display: none;" <%}%>>
+                                    <div class="form-group form-float taskDropDown">
+                                        <div class="form-line taskDate">
+                                            <input id="assignee_id" type="text" autocomplete="off" class="form-control ddcnt assignChange" name="assignee_id" value="<%=model.assignee_id%>" />
+                                            <label for="assignee_id" class="form-label taskDate">Assignee</label>
+                                        </div>
+                                    </div>
+                                    <div class="assignee-input"></div>
+                                    <div id="assigneeDropdown" class="dropdown-content custDrop" style="display: none;"></div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="row assigneeEmailTemp" <%if (model.is_assignee_change == "no"){%> style="display: none;" <%}%>>
+                                <div class="col-md-12 notificationCheck">
+                                    <span class="heading">How you want to notify</span>
+                                    <div class="row" style=" margin-top: 12px;">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="checkbox" class="notification_type" id="checkbox" value = "Email" name="checkbox" <%if(model.notification_type== 'email' || model.notification_type== 'both' ){%> checked  <%}%>>
+                                                <label for="checkbox">Emails</label>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row">
+                                                    <input type="checkbox" class="notification_type" id="checkbox1" name="checkbox1" value = "SMS" <%if(model.notification_type== 'sms' || model.notification_type== 'both' ){%> checked  <%}%> >
+                                                <label for="checkbox1">SMS</label>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row">
+                                                <input type="checkbox" class="notification_type" id="checkbox2" name="checkbox2" value = "Both" <%if(model.notification_type== 'both' ){%> checked  <%}%> >
+                                                <label for="checkbox2">Both</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 Templatedetails">
+                                    <span class="heading">Select Template</span>
+                                    <div class="row">
+                                       
+                                        <div class="col-md-4">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <select for="template_id" id="template_id" name="template_id" data-live-search="true" title="Email Template" class="form-control ws-select show-tick dropval getTemplate repeatChange">
+                                                        <option class="" value="">Select Email Tamplate</option>    
+                                                        <option class="addNew" value="addEmailTemp">Add Email Tamplate</option>   
+                                                        <%_.each(emailTemps,function(temp){%>
+                                                            <option <%if(model.template_id == temp.attributes.tempID){%>selected<%}%>  value="<%=temp.attributes.tempID%>"><%=temp.attributes.tempName%></option>
+                                                        <%});%>
+                                                    </select>
+                                                </div>
+                                                <div class="clearfix">&nbsp;</div> 
+
+                                                <div class="column-field-div" >
+                                                    <div class="panel-body">
+                                                      <ul id="sortable">
+                                                        <li class="ui-state-default drag-drop-item column-field-val">system_user_name</li>
+                                                        <%_.each(columnlist,function(column){%>
+                                                          <li class="ui-state-default drag-drop-item column-field-val"><%=column.Field%></li>
+                                                        <% })%>
+                                                      </ul>
+
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-12">
+                                                    <label for="assigneeEmailContentN"> Preview Email :</label>
+                                                    <div class="clearfix">&nbsp;</div>
+                                                    <div class="form-group input-group form-float">
+                                                        <div class="form-line taskDate emailSubject">
+                                                            <input id="emailSubject" type="text" class="form-control txtchange" autocomplete="off"  name="subjectOfEmail" value="">
+                                                            <label for="emailSubject" class="form-label taskDate">Email Subject</label>
+                                                        </div>
+                                                    </div>
+                                                    <div id="assigneeEmailContentN" name="assigneeEmailContentN" class="form-control" value=""></div>
+                                                </div>
+                                                <div class="clearfix">&nbsp;</div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-12">
+                                                    <span class="prvEmail"> Preview SMS</span>
+                                                    <div id="assigneePreviewSMS" class="form-control showNotification"></div>
+                                                </div>
+                                            </div>
+                                  
+                                        </div>
+                                       
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="textCenter">
+                            <button type="button" class="btn bg-indigo previous" disabled>Previous</button>
+                            <button type="button" class="btn bg-indigo btnNext">Next</button>
+                            <button type="button" class="btn bg-indigo saveNotification" data-action="close">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ws-schedule-border"></div>
+            </div>
+    </div>
+</form>

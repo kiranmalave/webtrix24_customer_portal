@@ -1,0 +1,19 @@
+<tr class="even pointer bg-<%=formMasterDetails.attributes.Status%>" >
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%=formMasterDetails.attributes.formID%>" class="memberlistcheck chk-col-amber" data-formID="<%=formMasterDetails.attributes.formID%>" type="checkbox">
+      <label for="cAll_<%=formMasterDetails.attributes.formID%>">&nbsp;</label>
+  </div>
+  </td><!-- 
+  <td class=""><%=formMasterDetails.attributes.formID%></td> -->
+  <td class="loadview" data-toggle="modal" data-target="#myModal" data-formID="<%=formMasterDetails.attributes.formID%>"data-show="formQuestionData" ><a href="javascript:;"><u><%=formMasterDetails.attributes.formTitle%></u></a></td>
+  <td class="loadview"  data-formID="<%=formMasterDetails.attributes.formID%>" data-view="singleformMasterData"><%=formMasterDetails.attributes.description%></td>
+  <td class="loadview"  data-formID="<%=formMasterDetails.attributes.formID%>" data-view="singleformMasterData"><%= formatDate(formMasterDetails.attributes.createdDate,'no') %></td>
+  <td>
+    <button type="button" class="ws-btn-default  loadview"  data-formID="<%=formMasterDetails.attributes.formID%>" data-view="singleformMasterData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    
+    <!-- <button type="button" class="ws-btn-default  loadview"  data-formID="<%=formMasterDetails.attributes.formID%>" data-view="formQuestionData" data-toggle="tooltip" data-placement="top" data-content="Add Questions"><i class="material-icons">view_compact</i></button>  -->
+    <a class="ws-btn-default" target="_blank" href="#formQuestions/<%= formMasterDetails.attributes.formID %>" data-toggle="tooltip" data-placement="top" data-content="Add Questions"><i class="material-icons">view_compact</i></a>
+  </td>
+</tr>
+              

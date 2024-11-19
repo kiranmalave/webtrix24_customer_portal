@@ -1,0 +1,110 @@
+<% const currentDate=new Date(); const currentYear=currentDate.getFullYear(); const currentMonth=('0' +
+  (currentDate.getMonth() + 1)).slice(-2); const currentDay=('0' + currentDate.getDate()).slice(-2); const
+  formattedDate=`${currentDay}-${currentMonth}-${currentYear}`; const dueDate=new Date(taskDetails.attributes.newDate);
+  let cssClass="" ; if (taskDetails.attributes.status_slug !=="Completed" ) {
+  if(dueDate.toDateString()===currentDate.toDateString()) { cssClass="#f7d000" ; } else if (dueDate < currentDate) {
+  cssClass="#ff5858" ; } else if (dueDate==currentDate){ cssClass="#fff8e2" ; } }else{ cssClass="#7acf54" ; } %>
+
+  <tr class="even pointer deleteicon bg-<%=taskDetails.attributes.status%>" data-view="singletaskData">
+    <td class="a-center">
+      <div class="listCheckbox">
+        <input id="cAll_<%= taskDetails.attributes.task_id %>" class="memberlistcheck chk-col-amber deleteCard" data-task_id="<%= taskDetails.attributes.task_id %>" type="checkbox" />
+        <label for="cAll_<%= taskDetails.attributes.task_id %>">&nbsp;</label>
+      </div>
+    </td>
+
+    <% _.each(arrangedColumnList, function(column) { %>
+      <% if(column.column_name=='subject' ) { %> column_name : <%=column.column_name%>
+          <td class="draglinerow truncateWidth loadview" data-task_id="<%=taskDetails.attributes.task_id%>"
+            data-view="singletaskData">
+            <a href="javascript:;">
+              <p class="nametooltip truncateColumns subject">
+                <%=taskDetails.attributes.subject%>
+              </p>
+            </a>
+          </td>
+          <% } else if(column.column_name=='task_priority' ) { %>
+            <td class="draglinerow truncateWidth loadview" data-task_id="<%=taskDetails.attributes.task_id%>" data-view="singletaskData">
+              <% if(taskDetails.attributes.task_priority == null) { %>
+                -
+              <% }else{ %>  
+              <span class="nametooltip badge ws-badge truncateColumns" <%if(taskDetails.attributes.priorityColor !="" ){%>style="border:1px solid <%=taskDetails.attributes.priorityColor%>; color: <%=taskDetails.attributes.priorityColor%>;"<%}%>><%=taskDetails.attributes.task_priority%></span>
+              <% } %>
+            </td>
+            <% } else if(column.column_name=='task_status' ) { %>
+              <td class="draglinerow truncateWidth loadview" data-task_id="<%=taskDetails.attributes.task_id%>"
+                data-view="singletaskData">
+                <% if(taskDetails.attributes.task_status == null) { %>
+                  -
+                <% }else{ %>  
+                <span class="nametooltip badge ws-badge truncateColumns" <%if(taskDetails.attributes.status_color !=""){%>style="border:1px solid <%=taskDetails.attributes.status_color%>; color:<%=taskDetails.attributes.status_color%>;"<%}%>>
+                      <%=taskDetails.attributes.task_status%>
+                </span>
+                <% } %>
+              </td>
+              <% } else if(column.column_name=='task_progress' ) { %>
+                <td class="draglinerow truncateWidth loadview" data-task_id="<%=taskDetails.attributes.task_id%>" data-view="singletaskData">
+                  <span class="taskPriorityColor nametooltip badge truncateColumns" style="background: <%=cssClass%>"></span>
+                </td>
+                <% } else if(column.column_name=='assignee' ) { %>
+                  <td class="draglinerow truncateWidth loadview" data-task_id="<%=taskDetails.attributes.task_id%>"
+                    data-view="singletaskData">
+                    <%if (taskDetails.attributes.assignee !="-" && taskDetails.attributes.assignee !=null &&
+                      taskDetails.attributes.assignee !=undefined){ %>
+                      <span class="d-flex-left ws-row-profile-pic">
+                        <%if (taskDetails.attributes.assigneePhoto=="" || taskDetails.attributes.assigneePhoto==null){%>
+                          <span class="initial" style="background-color: <%=taskDetails.attributes.initialBgColor%>;color: <%=taskDetails.attributes.initialColor%>;">
+                            <%=taskDetails.attributes.initial%>
+                          </span>
+                          <%}else{%>
+                            <img src="<%=PROFILEPHOTOUPLOAD%><%=taskDetails.attributes.assigneeID%>/profilePic/<%=taskDetails.attributes.assigneePhoto%>" alt="<%=taskDetails.attributes.initial%>"/>
+                            <%}%>
+                              <p class="nametooltip truncateColumns">
+                                <%=taskDetails.attributes.assignee%>
+                              </p>
+                      </span>
+                      <% }else{ %>
+                        <p class="nametooltip truncateColumns">
+                          <%=taskDetails.attributes.assignee%>
+                        </p>
+                        <% } %>
+                  </td>
+                  <% } else { %>
+                    <td class="draglinerow truncateWidth">
+                      <div class="description nametooltip truncateColumns loadview"
+                        data-task_id="<%=taskDetails.attributes.task_id%>" data-view="singletaskData">
+                        <% if (column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) {
+                          %>
+                          <%= taskDetails.attributes["" + column.linkedWith + "_" + column.column_name] %>
+                            <% } else { %>
+                              <% if(taskDetails.attributes[""+column.column_name]=="" ||
+                                taskDetails.attributes[""+column.column_name]==null){%>-<%}else{%>
+                                  <%=taskDetails.attributes[""+column.column_name]%>
+                                    <%}%>
+                                      <% } %>
+                      </div>
+                    </td>
+                    <% } %>
+                      <% }); %>
+
+                        <td>
+                          <div class="showMoreMenuBtn dropleft">
+                            <button type="button" class="btn-bgColor showAction" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <span class="material-symbols-outlined">more_vert</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                              <li>
+                                <a href="javascript:void(0);" class="loadview" title="Edit"
+                                  data-task_id="<%=taskDetails.attributes.task_id%>" data-view="singletaskData">
+                                  <i class="material-icons">mode_edit</i>Edit</a>
+                              </li>
+                              <li>
+                                <a href="javascript:void(0);" class="hardDelete"
+                                  data-task_id="<%=taskDetails.attributes.task_id%>" style="margin: 0"><i
+                                    class="material-icons">delete</i>Delete</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+  </tr>

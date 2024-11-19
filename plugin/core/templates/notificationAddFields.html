@@ -1,0 +1,193 @@
+<div class="row fieldsSelection" id="row<%=rowCounter%>">
+    <div class="col-md-3 on_update">
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_name" id="field_name" data-live-search="true" name="field_name" title="Select Field Name" data-live-search="true" class="form-control dropval  ws-select show-tick repeatChange">
+                    <option class="addNew" value=""> Select Module Fields</option>
+                    <%_.each(columnlist,function(column){%>
+                        <option value="<%=column.Field%>" data-type="<%=column.Type%>"><% let columnfield = column.Field.replace(/_/g, " "); let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); %><%=upl%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-condition" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="form-line">
+                <select for="condition_value" id="condition_value" name="condition_value" title="Condition Operator" data-live-search="true" class="condition_value form-control dropval show-tick repeatChange">
+                    <%_.each(conditionList,function(column){%>
+                        <option value="<%=column.value%>"><%=column.label%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-enum" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-admin" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval ws-select show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <%_.each(adminList,function(admin){%>
+                        <option  value="<%=admin.attributes.adminID%>"><%=admin.attributes.name%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 dynamic-field " style="display:none;" ></div>
+    <div class="col-md-3 field-task-priority" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval ws-select show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <% _.each(categoryList, function(modelcat) { %>
+                        <% if(modelcat.attributes.slug=="task_priority" )
+                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                              <option  value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                            <%})%>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-task-status" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval ws-select show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <% _.each(categoryList, function(modelcat) { %>
+                        <% if(modelcat.attributes.slug=="task_status" )
+                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                              <option  value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                            <%})%>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-task-type" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval ws-select show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <% _.each(categoryList, function(modelcat) { %>
+                        <% if(modelcat.attributes.slug=="task_type" )
+                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                              <option value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                            <%})%>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-date-time" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="form-line">
+                <input id="field_value" type="date" class="field_value form-control txtchange" name="field_value" value="">
+                <label for="field_value" class="form-label">Field Value</label>
+            </div>
+        </div>
+    </div>
+    <!-- LEAD  -->
+
+    <div class="col-md-3 field-lead-stages" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval ws-select show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <% _.each(categoryList, function(modelcat) { %>
+                        <% if(modelcat.attributes.slug=="lead_stages" )
+                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                              <option  value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                            <%})%>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-lead-source" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control dropval ws-select show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <% _.each(categoryList, function(modelcat) { %>
+                        <% if(modelcat.attributes.slug=="lead_source" )
+                            _.each(modelcat.attributes.sublist, function(model1) { %>
+                              <option  value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                            <%})%>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-countryList" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control ws-select dropval show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <%_.each(countryList,function(country){%>
+                        <option  value="<%=country.attributes.country_id%>"><%=country.attributes.country_name%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-stateList" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control ws-select dropval show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <%_.each(stateList,function(state){%>
+                        <option  value="<%=state.attributes.state_id%>"><%=state.attributes.state_name%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 field-cityList" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="field_value" id="field_value" name="field_value" title="Field Value" data-live-search="true" class="field_value form-control ws-select dropval show-tick repeatChange">
+                    <option class="addNew" value="">Select Field Value</option>
+                    <%_.each(cityList,function(city){%>
+                        <option  value="<%=city.attributes.city_id%>"><%=city.attributes.city_name%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 field-text"  style="display: none;">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input id="field_value" type="text" class="form-control field_value txtchange" name="field_value" value="">
+                <label for="field_value" class="form-label">Field Value</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 field-condition field-logical-condition" style="display:none;" > 
+        <div class="form-float form-group ">
+            <div class="">
+                <select for="logical_value" id="logical_value" name="logical_value" title="Logical Operator" data-live-search="true" class="logical_value form-control dropval ws-select show-tick repeatChange">
+                    <%_.each(logicalList,function(column){%>
+                        <option value="<%=column.value%>"><%=column.label%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 on_update">
+        <span data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+            <i class="material-icons removeFields">delete</i>
+        </span>
+    </div>
+</div>

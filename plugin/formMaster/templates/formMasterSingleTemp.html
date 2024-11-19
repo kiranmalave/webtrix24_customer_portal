@@ -1,0 +1,26 @@
+
+<div class="tab-pane in active">
+    <form  id="formDetails" name="formDetails">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveformDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveformDetails" data-action="new">Save & new</button>
+        </div>
+    
+        <div class="col-md-12">
+            <label for="formTitle">Form Title<span class="error">*</span> :</label>
+            <input id="formTitle" class="form-control txtchange" autocomplete="off" name="formTitle" type="text" value="<%=model.formTitle%>">
+        </div>
+        <div class="col-md-12">
+            <label for="description">Description<span class="error">*</span> :</label>
+            <div id="description" class="form-control"><%=model.description%></div>
+        </div>
+        <div class="col-md-12">
+            <label for="status">Status<span class="error">*</span> :</label>
+            <select id="status" name="status" class="form-control txtchange dropval">
+                <option value="">Select Status</option>
+                <option <% if(status == "active"){ %> selected <% } %> value="active">active</option>
+                <option <% if(status == "inactive"){ %> selected <% } %> value="inactive">inactive</option>
+            </select> 
+        </div>
+    </form>
+</div>

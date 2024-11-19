@@ -1,0 +1,478 @@
+
+<div class="text-right actionBtns">
+    <button type="button" class="btn bg-indigo" id="savedynamicFormDetails" data-action="close">Save</button>
+    <button type="button" class="btn bg-indigo" id="savedynamicFormDetails" data-action="new">Save &amp; new</button>
+</div>
+<div class="container-fluid" id="dynamicFormSingleView">
+    <form id="dynamicFormDetails" name="dynamicFormDetails" action="#">
+        <div class="clearfix">&nbsp;</div>
+        <div class="row clearfix">
+            <div class="col-md-8">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="fieldLabel" class="form-label">Name<span class="error">*</span></label>
+                        <input type="text" class="form-control txtchange" placeholder="Field Label" autocomplete="off"
+                            id="fieldLabel" name="fieldLabel" value="<%=model.fieldLabel%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <select id="fieldType" name="fieldType" autocomplete="off" class="form-control dropval ws-select show-tick repeatChange backgroundHide">
+                            <option value="">Select Field Type</option>
+                            <option value="Text" <% if(model.fieldType=="Text" ){%> selected <% }%>>Text</option>
+                            <option value="Textarea" <% if(model.fieldType=="Textarea" ){%> selected <%} %>>Long Text</option>
+                            <option value="Datepicker" <% if(model.fieldType=="Datepicker" ){%> selected<% } %>>Date Picker</option>
+                            <option value="Numeric" <% if(model.fieldType=="Numeric" ){%> selected <% }%>>Numeric Number</option>
+                            <option value="File" <% if(model.fieldType=="File" ){%> selected <% } %>>File</option>
+                            <option value="Dropdown" <% if(model.fieldType=="Dropdown" ){%> selected <% } %>>Drop Down List</option>
+                            <option value="Radiobutton" <% if(model.fieldType=="Radiobutton" ){%>selected <% } %>>Radio Button List</option>
+                            <option value="Checkbox" <% if(model.fieldType=="Checkbox" ){%> selected <%} %>>Checkbox List</option>
+                            <!-- <option value="Password" <% if(model.fieldType=="Password" ){%> selected <%} %>>Password</option> -->
+                            <option value="Timepicker" <% if(model.fieldType=="Timepicker" ){%> selected<% } %>>Time Picker</option>
+                            <option value="Range" <% if(model.fieldType=="Range" ){%> selected <% } %>>Number Range Slider</option>
+                            <option value="Email" <% if(model.fieldType=="Email" ){%> selected <% } %>>Email</option>
+                            <option value="Website" <% if(model.fieldType=="Website" ){%> selected <% } %>>Web Link</option>
+                            <option value="Mobileno" <% if(model.fieldType=="Mobileno" ){%> selected <% } %>>Mobile No</option>
+                        </select>
+                        <label for="fieldType" class="form-label">Type<span class="error">*</span></label>
+                        <%if(model.fieldType != "" && model.fieldType != null){%>
+                            <span class="ws_clear material-icons">close</span>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- not required placeholder now.
+            <% if((model.fieldType != "Checkbox") && (model.fieldType != "Radiobutton") && (model.fieldType != "Dropdown")){%>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="placeholder">Placeholder</label>
+                        <div class="form-line">
+                            <input type="text" class="form-control txtchange" placeholder="Placeholder" autocomplete="off"
+                                id="placeholder" name="placeholder" value="<%=model.placeholder%>">
+                            <label id="" class="placeholderError error" for="placeholder">Only 250 characters allowed</label>
+                        </div>
+                    </div>
+                </div>
+            <% } %> -->
+            <!-- <div class="col-md-4">
+                <div class="form-group">
+                    <label for="tooltip">Tooltip</label>
+                    <div class="form-line">
+                        <input type="text" class="form-control txtchange" placeholder="Tooltip"
+                            id="tooltip" name="tooltip" value="<%=model.tooltip%>">
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="isRequired" class="form-label">Make it Required?</label>
+                    <ul class="item-container" data-valid="isRequired">
+                        <li class="isRequired multiSel" data-single="Y" data-value="no">No</li>
+                        <li class="isRequired multiSel" data-single="Y" data-value="yes">Yes</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <select id="valDefault" class="form-control dropval ws-select show-tick backgroundHide drop-fieldTypeDef" name="valDefault">
+                            <option value="NULL" <% if(model.valDefault == "NULL" ){%> selected <% }%>>None</option>
+                            <option value="USER_DEFINED" <% if(model.valDefault == "USER_DEFINED" ){%> selected <% }%>>As defined:</option>
+                            <% if(model.fieldType=="Datepicker" ){ %>
+                            <option value="CURRENT_TIMESTAMP" <% if(model.valDefault == "CURRENT_TIMESTAMP" ){%> selected <% }%>>CURRENT_TIMESTAMP</option>
+                            <% } %>
+                        </select>
+                        <label for="fieldType" class="form-label">Default Value</label>
+                        <%if(model.fieldType != "" && model.fieldType != null){%>
+                            <span class="ws_clear material-icons">close</span>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fields-type-Def hidden">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="defaultValue" class="form-label">Default Value<span class="error">*</span></label>
+                        <input type="text" class="form-control txtchange" placeholder="Default Value" autocomplete="off" id="defaultValue" name="defaultValue" value="<%=model.defaultValue%>">
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="isNull"  class="form-label">Is Null</label>
+                    <ul class="item-container" data-valid="isNull">
+                        <li class="isNull multiSel" data-single="Y" data-value="TRUE">No</li>
+                        <li class="isNull multiSel" data-single="Y" data-value="FALSE">Yes</li>
+                    </ul>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-4">
+                <label for="status">Status<span class="error"></span></label>
+                <ul class="item-container" data-valid="status">
+                    <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                    <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                </ul>
+            </div> -->
+            <!-- <div class="col-md-4 other-fields fields-type-Checkbox fields-type-Dropdown">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label for="defaultValue">Default Value</label>
+                        <input type="text" class="form-control txtchange" placeholder="Default Value"
+                            id="defaultValue" name="defaultValue" value="<%=model.defaultValue%>">
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-4 other-fields fields-type-Checkbox fields-type-Radiobutton">
+                <div class="form-group form-float ws-form-option">
+                    <label for="itemAlign" class="form-label">Display Options</label>
+                    <ul class="item-container" data-valid="itemAlign">
+                        <li class="itemAlign multiSel" data-single="Y" data-value="horizontal">Horizontal</li>
+                        <li class="itemAlign multiSel" data-single="Y" data-value="vertical">Vertical</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix other-fields fields-type-Textarea">
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="textareaType" class="form-label">Long Text Type</label>
+                    <ul class="item-container" data-valid="textareaType">
+                        <li class="textareaType multiSel" data-single="Y" data-value="simpleTextarea">Simple Text</li>
+                        <li class="textareaType multiSel" data-single="Y" data-value="richTextarea">Rich Text Editor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix other-fields fields-type-Datepicker">
+            <div class="col-md-4">
+                <div class="form-group form-float ws-form-option">
+                    <label for="textareaType" class="form-label">Allow Dates</label>
+                    <ul class="item-container" data-valid="date_selection_criteria">
+                        <li class="date_selection_criteria multiSel" data-single="Y" data-value="past">Past Date</li>
+                        <li class="date_selection_criteria multiSel" data-single="Y" data-value="future">Future Date</li>
+                        <li class="date_selection_criteria multiSel" data-single="Y" data-value="both">Both</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <select id="dateFormat" name="dateFormat" class="form-control dropval ws-select show-tick backgroundHidel drop-dateFormat">
+                            <option value="">Select Field Type</option>
+                            <option value="DD:MM:YYYY" <% if(model.dateFormat=="DD:MM:YYYY" ){%>selected <% } %>> DD:MM:YYYY</option>
+                            <option value="YYYY:MM:DD" <% if(model.dateFormat=="YYYY:MM:DD" ){%>selected <% } %>> YYYY:MM:DD</option>
+                            <option value="YY:MM:DD" <% if(model.dateFormat=="YY:MM:DD" ){%> selected <%} %>> YY:MM:DD</option>
+                            <option value="Do MMMM YYYY" <% if(model.dateFormat=="Do MMMM YYYY"){%> selected <% } %>> 8th April 2020</option>
+                            <option value="MMMM Do YYYY" <% if(model.dateFormat=="MMMM Do YYYY"){%> selected <% } %>> April 8th 2020</option>
+                            <option value="DD:MM:YY" <% if(model.dateFormat=="DD:MM:YY" ){%> selected <%} %>> DD:MM:YY</option>
+                        </select>
+                        <label for="fieldType" class="form-label">Date Format</label>
+                        <%if(model.fieldType != "" && model.fieldType != null){%>
+                            <span class="ws_clear material-icons">close</span>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix other-fields fields-type-text fields-type-Numeric fields-type-Mobileno">
+            <div class="col-md-4">
+                <div class="form-group form-float  fields-type-Numeric">
+                    <div class="form-line removeBorder">
+                        <select class="form-control dropval ws-select show-tick backgroundHidel drop-fieldType" name="numType" id="numType">
+                            <option value="TINYINT" <% if(model.numType == "TINYINT" ){%> selected <% }%>>TINYINT</option>
+                            <option value="SMALLINT" <% if(model.numType == "SMALLINT" ){%> selected <% }%>>SMALLINT</option>
+                            <option value="MEDIUMINT" <% if(model.numType == "MEDIUMINT" ){%> selected <% }%>>MEDIUMINT</option>
+                            <option value="INT" <% if(model.numType == "INT" ){%> selected <% }%>>INT</option>
+                            <option value="BIGINT" <% if(model.numType == "BIGINT" ){%> selected <% }%>>BIGINT</option>
+                            <option value="DECIMAL" <% if(model.numType == "DECIMAL" ){%> selected <% }%>>DECIMAL</option>
+                            <option value="FLOAT" <% if(model.numType == "FLOAT" ){%> selected <% }%>>FLOAT</option>
+                            <option value="DOUBLE" <% if(model.numType == "DOUBLE" ){%> selected <% }%>>DOUBLE</option>
+                            <option value="REAL" <% if(model.numType == "REAL" ){%> selected <% }%>>REAL</option>
+                            <option value="BIT" <% if(model.numType == "BIT" ){%> selected <% }%>>BIT</option>
+                            <option value="BOOLEAN" <% if(model.numType == "BOOLEAN" ){%> selected <% }%>>BOOLEAN</option>
+                            <option value="SERIAL" <% if(model.numType == "SERIAL" ){%> selected <% }%>>SERIAL</option>
+                            <option disabled="disabled">-</option>
+                        </select>
+                        <label for="numType" class="form-label">Type</label>
+                        <%if(model.numType != "" && model.numType != null){%>
+                            <span class="ws_clear material-icons">close</span>
+                        <%}%>
+                    </div>
+                    <span class="numberDesc"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="minLength" class="form-label">Min Length</label>
+                        <input type="text" class="form-control txtchange" autocomplete="off" id="minLength" name="minLength" value="<%=model.minLength%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                   
+                    <div class="form-line">
+                        <label for="maxLength" class="form-label">Max Length</label>
+                        <input type="text" class="form-control txtchange" autocomplete="off"
+                            id="maxLength" name="maxLength" value="<%=model.maxLength%>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix other-fields fields-type-File">
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="supportedFileTypes" class="form-label">Supported File Types<span class="error">*</span></label>
+                        <select id="supportedFileTypes" name="supportedFileTypes" multiple class="form-control dropval ws-select show-tick backgroundHidel drop-dateFormat">
+                            <option value="">Select Type</option>
+                            <option value="jpg">JPG</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="png">PNG</option>
+                            <option value="gif">GIF</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="numberOfFileToUpload" class="form-label">Number of File To Upload<span class="error">*</span></label>
+                        <input type="text" class="form-control txtchange" autocomplete="off" id="numberOfFileToUpload" name="numberOfFileToUpload" value="<%=model.numberOfFileToUpload%>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix other-fields fields-type-Timepicker">
+            <!-- <div class="col-md-4">
+                <div class="form-group">
+                    <label for="startTime">Start Time</label>
+                    <div class="form-line">
+                        <input type="text" class="form-control txtchange timepicker"
+                            placeholder="Start Time" id="startTime" name="startTime"
+                            value="<%=model.startTime%>">
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endTime">End Time</label>
+                    <div class="form-line">
+                        <input type="text" class="form-control txtchange timepicker"
+                            placeholder="End Time" id="endTime" name="endTime"
+                            value="<%=model.endTime%>">
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-4">
+                <div class="form-group">
+                    <label for="displayFormat">Display Format</label>
+                    <div class="form-line">
+                        <input type="text" class="form-control txtchange" placeholder="Display Format"
+                            id="displayFormat" name="displayFormat"
+                            value="<%=model.displayFormat%>">
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="displayFormat" class="form-label">Time Format<span class="error">*</span></label>
+                        <select id="displayFormat" name="displayFormat" class="form-control dropval ws-select show-tick backgroundHidel drop-timeFormat">
+                            <option value="">Select Time Format</option>
+                            <option value="12-hours" <% if(model.displayFormat=="12-hours" ){%>
+                                selected <% } %>>12 hrs</option>
+                            <option value="24-hours" <% if(model.displayFormat=="24-hours" ){%>
+                                selected <% } %>>24 hrs</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix other-fields fields-type-Password">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="validationRules">Validation Rules</label>
+                    <div class="form-line">
+                        <input type="text" class="form-control txtchange" placeholder="Validation Rules" autocomplete="off"
+                            id="validationRules" name="validationRules"
+                            value="<%=model.validationRules%>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix other-fields fields-type-Checkbox fields-type-Dropdown fields-type-Radiobutton">
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <select id="linkedWith" name="linkedWith" class="form-control dropval ws-select show-tick backgroundHidel">
+                            <option value="">Select Link</option>
+                            <% _.each(formList, function(menuData) { %>
+                                <option value="<%= menuData.attributes.menuID %>" <% if (model.linkedWith == menuData.attributes.menuID) { %>selected<% } %>>
+                                    <%= menuData.attributes.menuName %></option>
+                            <% }); %>
+                        </select>
+                        <label for="linkedWith" class="form-label">Linked with Other Module</label>
+                        <%if(model.linkedWith != "" && model.linkedWith != null){%>
+                            <span class="ws_clear material-icons">close</span>
+                        <%}%>
+                    </div>
+                    <small>(Linked to any master)</small>
+                </div>
+            </div>
+
+            <% if (model.linkedWith && model.linkedWith != null && model.linkedWith != "") { %>
+                <% if(linkedMenuName != 'Category'){ %>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line removeBorder">
+                                <select id="fieldOptions" name="fieldOptions" class="form-control dropval ws-select show-tick backgroundHidel multiSelect">
+                                    <option value="">Select field</option>
+                                    <% _.each(fieldList, function(fieldLabel) { %>
+                                        <option value="<%= fieldLabel %>" <% if (model.fieldOptions === fieldLabel) { %>selected<% } %>>
+                                            <%= fieldLabel %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <label for="fieldOptions" class="form-label">Which field you want to display as input?</label>
+                                <%if(model.fieldOptions != "" && model.fieldOptions != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                <% if (parentCategory) { %>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line removeBorder">
+                                <select id="parentCategory" name="parentCategory" class="form-control dropval ws-select show-tick backgroundHidel">
+                                    <option value="">Select Category</option>
+                                    <% _.each(categoryList, function(category) { %>
+                                        <option value="<%= category.attributes.category_id %>" <% if (model.parentCategory === category.attributes.category_id) { %>selected<% } %>>
+                                            <%= category.attributes.categoryName %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <label for="parentCategory" class="form-label">Select the category you would like to display</label>
+                                <%if(model.parentCategory != "" && model.parentCategory != null){%>
+                                    <span class="ws_clear material-icons">close</span>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% }else{ %>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line removeBorder">
+                            <label class="form-label" for="fieldOptions">Field Options<span class="error">*</span></label>
+                            <input type="text" class="form-control txtchange" placeholder="Field Options" autocomplete="off" id="fieldOptions" name="fieldOptions" value="<%=model.fieldOptions%>">
+                        </div>
+                        <small>( Custom values separated by comma )</small>
+                    </div>
+                </div>
+            <% } %>
+            <% if(model.linkedWith =='') { %>
+            <div class="col-md-4 other-fields fields-type-Checkbox fields-type-Dropdown">
+                <div class="form-group form-float ws-form-option">
+                    <label for="allowMultiSelect" class="form-label">Allow Multi Select</label>
+                    <ul class="item-container" data-valid="allowMultiSelect">
+                        <li class="allowMultiSelect multiSel" data-single="Y" data-value="no">No</li>
+                        <li class="allowMultiSelect multiSel" data-single="Y" data-value="yes">Yes</li>
+                    </ul>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <div class="row clearfix other-fields fields-type-Range">
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <label  class="form-label" for="minRangeValue">Min Value<span class="error">*</span></label>
+                        <input type="text" class="form-control txtchange" placeholder="Min Value" id="minRangeValue" name="minRangeValue" autocomplete="off" value="<%=model.minRangeValue%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <label class="form-label" for="maxRangeValue">Max Value<span class="error">*</span></label>
+                        <input type="text" class="form-control txtchange" placeholder="Max Value" autocomplete="off" id="maxRangeValue" name="maxRangeValue" autocomplete="off" value="<%=model.maxRangeValue%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-float">
+                    <div class="form-line removeBorder">
+                        <label class="form-label" for="stepSize">Step Size<span class="error">*</span></label>
+                        <input type="text" class="form-control txtchange" placeholder="Step Size" autocomplete="off" id="stepSize" name="stepSize" value="<%=model.stepSize%>">
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row clearfix">
+            <div class="col-md-3">
+                <button id="savedynamicFormDetails" type="button"
+                    class="btn btn-raised btn-primary m-t-15 waves-effect">Save</button>
+                <button id="canceldynamicFormDetails" type="button"
+                    class="btn btn-raised btn-secondary m-t-15 waves-effect">Cancel</button>
+            </div>
+        </div> -->
+        <div class="clearfix">&nbsp;</div>
+        <div class="selectIcon">
+            <span class="iconHeading">Select Icon</span>
+            <div class="search-container">
+                <input type="text" name="search" id="iconSearch" placeholder="Search icon..." class="search-input">
+                <span class="material-icons">search</span>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="defaultMessage d-flex-center no-fields-msg" style="display: none;">
+            <div class="m-20">
+                <h4 class="d-flex-center">No Icons Found</h4>
+                <p>There are no icons that match your current search.</p>
+            </div>
+        </div>
+        <div class="">
+            <% _.each(iconList, function(iconsarray) { %>
+                <div class="iconsectioName" data-valid="iconName">
+                    <%=iconsarray.name %>
+                </div>
+                <div class="setIconList row">
+                    <% _.each(iconsarray.icons, function(icons) { %> 
+                        <div class="iconList col-md-3">
+                            <% if(model.icon_name == icons.ligature){ %>
+                                <span class="material-icons iconSelection active"
+                                    data-value="<%= icons.ligature%>">
+                                    <%= icons.ligature%>
+                                </span>
+                            <% }else{ %>
+                                <span class="material-icons iconSelection"
+                                    data-value="<%= icons.ligature%>">
+                                    <%= icons.ligature%>
+                                </span>
+                            <% } %>
+                                <div class="iconName" data-value="<%= icons.name%>">
+                                    <%=icons.name%>
+                                </div>
+                        </div>
+                    <% }); %>   
+                </div>  
+                <div class="iconClearfix clearfix">&nbsp;</div>             
+            <% }); %>
+        </div>
+                    
+    </form>
+</div>
+
+
+
+

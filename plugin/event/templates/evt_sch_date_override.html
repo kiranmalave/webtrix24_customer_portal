@@ -1,0 +1,60 @@
+
+  <div class="modal-dialog dateOverRide" id="myModal" role="document">
+    <form id="customRepeatDetails" name="customRepeatDetails" action="#">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="customTimeModal">Select the date(s) you want to assign specific hours</h5>
+        </div>
+        <div class="modal-body">
+            <div class="calendar-container"></div>
+            <div class="row addDateOverTime">
+              <div class="timeOverDetails col-md-10" id="new_div">
+                <div class="hrsAvability"><h6>What hours are you available?</h6></div>
+               
+                <table class="weeklyScheduleView" id="">
+                  <tr class="even pointer" id="row_0">
+                    <td>
+                        <div class="row evtTime">
+                            <div class="form-group form-float  col-md-4">
+                                <div class="form-line">
+                                    <input id="start_time_0" name="_start_time" type="text" class="form-control start_Time">
+                                    <label for="start_time_0" class="form-label">Start Time</label>
+                                </div>
+                            </div>
+                            <div class="dhash">-</div>
+                            <div class="form-group form-float col-md-4">
+                                <div class="form-line">
+                                    <input id="end_time_0" name="_end_time" type="text" class="form-control end_Time">
+                                    <label for="end_time_0" class="form-label">End Time</label>
+                                </div>
+                            </div>
+                            <div class="removeExtraSchedule removeHrsAvability">
+                                <span data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+                                    <i class="material-icons">delete</i>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+                </table>
+              
+              </div>
+              <div class="col-md-2">
+                <div class="addExtraSchedule addHrsAvability">
+                  <span type="button" data-toggle="tooltip" data-placement="top" data-content="add" data-action="add">
+                    <i class="material-icons">add</i></span>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modalBtnCls closeModalBtn" data-dismiss="modal">Close</button>
+            <button type="button" class="loadview app-date-btn modalBtnCls" id="applyDate" data-view="evtDateOverrideData" data-item="evtDateOverSingleView" data-toggle="tooltip" data-placement="top" data-content="">
+                Apply
+            </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,57 @@
+/* CAMPAIGNS CSS */
+.campaignsSingleView .addNewModuleRow {
+  height: 90px;
+  border: 2px dashed #A0A2C5;
+  justify-content: center;
+  padding: 28px;
+  margin-top: 22px;
+}
+.campaignsSingleView .addNewModuleRow .material-icons {
+  font-size: large;
+} 
+.campaignsSingleView div.addModuleRow {
+  width: 981px;
+  height: auto;
+  min-height: 100px;
+  gap: 0px;
+  width: 100%;
+  border-radius: 8px;
+  background: #E9EBF485;
+  margin: 10px 0px;
+  padding: 10px 0px;
+}
+/* .campaignsSingleView div.addModuleRow {
+  width: 981px;
+  height: 188px;
+  gap: 0px;
+  width: 100%;
+  border-radius: 8px;
+  background: #E9EBF485;
+  margin: 10px 0px;
+  padding: 42px 0px;
+} */
+.campaignsSingleView div.addModuleRowDef {
+  padding: 10px 15px;
+  height: auto;
+  min-height: 100px;
+}
+.campaignsSingleView div.addModuleRowDef .defModuleName {
+  margin: 0px;
+  text-transform: capitalize;
+}
+.campaignsSingleView .addNewModuleRow {
+  padding: 31px 15px;
+  height: auto;
+  min-height: 100px;
+  width: 100%;
+  text-align: center
+}
+.campaignsSingleView div.addModuleRowDef .removeModule {
+  position: absolute;
+  right: 5px;
+  border-radius: 8px;
+  top: 3px;
+  padding: 2px 2px;
+}
+
+/* /CAMPAIGNS CSS */

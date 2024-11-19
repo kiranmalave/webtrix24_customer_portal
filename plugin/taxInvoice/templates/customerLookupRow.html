@@ -1,0 +1,16 @@
+<div class="row cust-item selectCustomer" data-customerID="<%=cust.customer_id%>" data-name="<%=cust.name%>" data-cust = '<%=cust.objectJson%>'>
+    <div class="cust-initials">
+        <%=cust.initials%>
+    </div>
+    <div class="col-md-10">
+        <div class="row customerDetails">
+            <div class="col-md-12">
+                <h6 class="custName"><%=cust.name%></h6>
+                <p class="custAddress"><% if(cust.address == '' || cust.address == null ){%> - <% } %><%=cust.address%></p>
+                <% if(cust.address == '' || cust.address == null ){ %>
+                    <img src="images/alertIcon.png" class="alertIcon addressBeware" data-toggle="tooltip" data-placement="top" data-content="Address not present" data-original-title="" title="">
+                <%}%>
+            </div> 
+        </div>
+    </div>
+</div>

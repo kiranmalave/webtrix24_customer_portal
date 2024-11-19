@@ -1,0 +1,44 @@
+<div class="column-field-search" style="position: sticky">
+  <div style="width: 100%;">
+    <div>
+      <input  
+        id="feildSearch"
+        type="text"
+        class="form-control feildSearch"
+        autocomplete="off"
+        name="title"
+        placeholder="Search"
+        value=""
+      />
+      <span class="search_clear material-icons">close</span>  
+    </div>
+  </div>
+</div>
+<% if(skipCount >= 0) { %>
+<div class="column-fields-list">
+  <%_.each(fieldList,function(field){
+    if (!skipFields.includes(field.Field)) { %>
+      <div class="column-field" data-field="<%=field.Field%>">
+        <div class="column-field-icon"></div>
+        <%
+          var mappedCol = columnMappings.find((columnMap)=>{
+            return  (columnMap.hasOwnProperty(field.Field.toLowerCase())) ? columnMap : null;
+          });
+          let columnfield = field.Field.replace(/_/g, " "); 
+          let upl = columnfield.split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+              .join(' ');
+          <!-- let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1);  -->
+          if(mappedCol){
+            columnfield = mappedCol[field.Field.toLowerCase()].replace(/_/g, " "); 
+            upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); 
+          }
+        %>
+        <%=upl%>
+      </div>
+      <% } });%>
+    </div>
+<% } %>
+<div class="column-field no-fields create-new-filter text-center" <% if(skipCount >= 0) {%> style="display:none" <%}%> >
+  No Fields Available
+</div>

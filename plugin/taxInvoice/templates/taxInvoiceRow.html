@@ -1,0 +1,110 @@
+<tr class="even pointer invoiceRow  bg-<%=taxInvoiceDetails.attributes.status%>">
+    <td class="a-center">
+        <% if(taxInvoiceDetails.attributes.status=="draft" ) { %>
+        <div class="listCheckbox">
+            <input id="cAll_<%= taxInvoiceDetails.attributes.invoiceID %>" data-status="<%=taxInvoiceDetails.attributes.status%>" class="memberlistcheck chk-col-amber deleteCard" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID %>" type="checkbox">
+            <label for="cAll_<%= taxInvoiceDetails.attributes.invoiceID %>">&nbsp;</label>
+        </div>
+        <%}%>    
+    </td>
+    <% _.each(arrangedColumnList, function(column) { %>
+        <% if(column.column_name == 'status') { %>
+        <td class="draglinerow truncateWidth">
+            <div class="nametooltip truncateColumns">
+            <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+                <%=taxInvoiceDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+            <% }else { %>
+                <% if(taxInvoiceDetails.attributes.status == "draft") { %>
+                    <span style="cursor:pointer;" data-id="<%=taxInvoiceDetails.attributes.invoiceID%>" data-action="approved" class="invoiceStatus badge badge-success">Approve</span>
+                    <span style="cursor:pointer;" data-id="<%=taxInvoiceDetails.attributes.invoiceID%>" data-action="cancel" class="invoiceStatus badge badge-danger">Cancel</span>
+                <%}%>
+                <% if(taxInvoiceDetails.attributes.status == "approved") { %>
+                    <span class=""><span class="label bg-green"> <i style="position: relative;top: 5px;" class="material-icons">done_all</i> Approved </span></span>
+                <%}%>
+                <% if(taxInvoiceDetails.attributes.status == "cancel") { %>
+                    <span class=""><span class="label bg-red"> <i style="position: relative;top: 5px;" class="material-icons">error</i> Canceled </span></span>
+                <%}%>
+            <% } %>
+            </div>
+        </td>
+        <% } else if(column.column_name == 'payment_status') { %>
+        <td class="draglinerow truncateWidth">
+        <div class="nametooltip truncateColumns">
+          <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+                <%=taxInvoiceDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+            <% }else { %>
+                <% if(taxInvoiceDetails.attributes.payment_status =="partially" ){ %> 
+                    <span style="cursor:pointer;" data-id="<%=taxInvoiceDetails.attributes.invoiceID%>" data-action="partially_paid" data-target="#exampleModal_%=taxInvoiceDetails.attributes.invoiceID%>" class="paymentStatus badge badge-danger">Partial Payment</span>
+                <% }else{%>
+                    <span class=""><span class="label bg-green"> <i style="position: relative;top: 5px;" class="material-icons">done_all</i> Paid </span></span>
+                <% } %> 
+            <% } %>
+            </div>
+        </td>
+        <% } else { %>
+        <td class="draglinerow truncateWidth loadview" data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>" data-view="previewInvoice">
+            <div class="nametooltip truncateColumns">
+                <span class="td-highlight">
+                <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+                    <%=taxInvoiceDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+                <% }else { %>
+                    <%=taxInvoiceDetails.attributes[""+column.column_name]%>
+                <% } %>
+                </span>
+            </div>
+        </td>
+        <% } %>
+    <% }); %>
+    <td style="width: 0px;">
+        <div class="InvoiceHoverButton" style="display: none;">
+            <button type="button" class="ws-btn-default loadview"
+                data-toggle="tooltip"
+                data-placement="top" 
+                data-content="Edit"
+                data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>" 
+                data-view="singletaxInvoiceData" 
+                data-type="pdf">
+                <i class="material-icons">mode_edit</i>
+            </button>
+            <button type="button" class="ws-btn-default loadview"
+                data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"
+                data-first_name=""
+                data-customer_id="<%=taxInvoiceDetails.attributes.customer_id%>"
+                data-custMail="" 
+                data-view="mail" 
+                data-toggle="tooltip"
+                data-placement="top" 
+                data-content="Mail">
+                <i class="material-icons">share</i>
+            </button>
+            <button type="button" class="ws-btn-default copy"
+                data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>"
+                data-toggle="tooltip"
+                data-placement="top" 
+                data-content="Copy">
+                <span class="material-symbols-outlined">dynamic_feed</span>
+            </button>
+            <% if(menuName=="quotation" ){ %>
+                <button type="button" class="ws-btn-default loadview"
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    data-content="Convert To Invoice"
+                    data-invoiceID="<%=taxInvoiceDetails.attributes.invoiceID%>" 
+                    data-view="convertInvoice"
+                    data-type="excel">
+                    <i class="material-icons">sync</i>
+                </button>
+                <% } %>
+            
+            <a href="<%=APIPATH%>printBill/<%=taxInvoiceDetails.attributes.invoiceID%>" 
+                target="_blank"
+                data-toggle="tooltip" 
+                data-placement="top" 
+                class="btn btn-download"
+                data-content="Download" 
+                style="color: #5f6368;">
+                <i class="material-symbols-outlined">download</i>
+            </a>
+        </div>
+    </td>
+</tr>

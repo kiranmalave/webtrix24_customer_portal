@@ -1,0 +1,52 @@
+<div class="tab-pane in active">
+     <form id="settingsDetails" name="settingsDetails" action="#">
+          <div class="row ws-main-container">
+               <div class="col-md-12 ws-appointment-container">
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="list-row">
+                         <div class="right-layout">
+                              <div class="row">
+                                   <div class="col-md-12">
+                                        <div class="form-group form-float">
+                                             <div class="form-line">
+                                                  <label for="name" class="form-label">Name : </span></label>
+                                                  <input id="name" type="text" class="form-control txtchange" name="name" autocomplete="off" value="<%=model.name%>">
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group form-float">
+                                             <div class="form-line">
+                                                  <label for="view_type" class="form-label">View Type :</label>
+                                                  <select for="view_type" id="view_type" name="view_type" title="View Type" class="form-control dropval ws-select show-tick repeatChange">
+                                                       <option <% if(model.view_type == 'graph') {%>selected <%}%> value="graph">Graph</option>
+                                                       <option <% if(model.view_type == 'table') {%>selected <%}%> value="table">Table</option>
+                                                  </select>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 chart_type_div">
+                                        <div class="form-group form-float">
+                                             <div class="form-line">
+                                                  <label for="chart_type" class="form-label">Layout Type :</label>
+                                                  <select for="chart_type" id="chart_type" name="chart_type" title="Layout Type" class="form-control dropval ws-select show-tick repeatChange">
+                                                       <option <% if(model.chart_type == 'bar') {%>selected <%}%> value="bar">Bar</option>
+                                                       <option <% if(model.chart_type == 'line') {%>selected <%}%> value="line">Line</option>
+                                                       <option <% if(model.chart_type == 'pie') {%>selected <%}%> value="pie">Pie</option>
+                                                       <option <% if(model.chart_type == 'doughnut') {%>selected <%}%> value="doughnut">Doughnut</option>
+                                                       <option <% if(model.chart_type == 'funnel') {%>selected <%}%> value="funnel">Funnel</option>
+                                                  </select>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <!-- <div class="col-md-12 interval_div"></div> -->
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <div class="text-right actionBtns">
+                    <button type="button" class="btn bg-indigo settingsDetails" data-action="close">Save</button>
+               </div>
+          </div>
+     </form>
+</div>

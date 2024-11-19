@@ -1,0 +1,314 @@
+<form id="demo-form" action="#">
+  <h6 class="headerStiky">Filter Search</h6>
+  <div class="clearfix">&nbsp;</div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <label for="" class="form-label">Select  :</label>
+          <select id="textSearch" class="form-control changeBox" name="textSearch">
+            <option value="select">Select</option>
+            <option <% if(filterOptions.textSearch=='name' ){ %> selected <% } %> value="name">Name</option>
+            <option <% if(filterOptions.textSearch=='mobile_no' ){ %> selected <% } %> value="mobile_no">Mobile Number</option>
+            <option <% if(filterOptions.textSearch=='email' ){ %> selected <% } %> value="email">opportunity Email</option>
+            <option <% if(filterOptions.textSearch=='adhar_number' ){ %> selected <% } %> value="adhar_number">Aadhar Card</option>
+            <option <% if(filterOptions.textSearch=='pan_number' ){ %> selected <% } %> value="pan_number">PAN Number</option>
+              <% _.each(filteredFields, function(column) { %>
+                <% if(column.fieldType == "Text" || column.fieldType == "Password"){%> 
+                  <option <% if(filterOptions.textSearch == column.column_name ){ %> selected <% } %> value="<%=column.column_name%>"><%= column.fieldLabel%></option>
+                <% } %>
+              <% }); %>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 textval hidetextval">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <input id="textval" class="form-control txtchange filterClear" name="textval" type="text" value="<%=filterOptions.textVal%>">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 contacttxt hidetextval" style="display: none;">
+      <div class="form-group form-float">
+        <div class="form-line">
+          <input id="textval" class="form-control txtchange filterClear" minlength="10" maxlength="10" name="textval" type="text" value="<%=filterOptions.textVal%>">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%if(menuName == "leads"){%>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="lead_source" class="form-label">Lead Source  :</label>
+        <select for="lead_source" id="lead_source" name="lead_source" data-live-search="true" title="Lead Source" class="form-control ws-select show-tick dropval repeatChange" multiple>
+          <% _.each(categoryList, function(modelcat) { %>
+            <% if(modelcat.attributes.slug=="lead_source" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+              <option <% if(filterOptions.lead_source == model1.category_id ){ %> selected <% } %> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+            <%})%>
+          <%})%>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="stages" class="form-label">Lead Stages :</label>
+        <select for="stages" id="stages" name="stages" title="Lead Stages" data-live-search="true" class="form-control ws-select show-tick dropval repeatChange" multiple>
+          <% _.each(categoryList, function(modelcat) { %>
+            <% if(modelcat.attributes.slug=="lead_stages" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+              <option <% if(filterOptions.stages == model1.category_id ){ %> selected <% } %> value="<%=model1.category_id%>"> <%=model1.categoryName%> </option>
+            <%})%>
+          <%})%>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+  <%}%>
+  <div class="row">
+
+    <div class="col-md-6 assigneeList">
+      <label for="assignee" class="form-label">Assignee  :</label>
+      <select for="assignee" id="assignee" name="assignee" data-live-search="true" title="Assignee" class="form-control ws-select show-tick dropval" multiple>
+        <% _.each(adminList, function(model1) { %>
+          <option <% if(filterOptions.assignee == model1.attributes.adminID ){ %> selected <% } %> value="<%=model1.attributes.adminID%>"><%=model1.attributes.name%></option>
+        <%}); %>
+      </select>
+    </div>
+
+    <div class="col-md-6 assigneeList">
+      <label for="created_by" class="form-label">Created By  :</label>
+      <select for="created_by" id="created_by" name="created_by" data-live-search="true" title="Created By" class="form-control ws-select show-tick dropval" multiple>
+        <% _.each(adminList, function(model1) { %>
+          <option <% if(filterOptions.created_by == model1.attributes.adminID ){ %> selected <% } %> value="<%=model1.attributes.adminID%>"><%=model1.attributes.name%></option>
+          <%}); %>
+      </select>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <div class="col-md-6 assigneeList">
+      <label for="branch_id" class="form-label">Branch:</label>
+      <select for="branch_id" id="branch_id" name="branch_id" data-live-search="true" title="Company/Branch " class="form-control ws-select show-tick dropval" multiple>
+        <% _.each(COMPANYLIST, function(model1) { %>
+          <option <% if(filterOptions.branch_id == model1.infoID ){ %> selected <% } %> value="<%=model1.infoID%>"><%=model1.companyName%></option>
+          <%}); %>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label for="country_id" class="form-label">Country :</label>
+      <select for="country_id" id="country_id" name="country_id" data-live-search="true" title="Country" class="form-control ws-select show-tick countryChange">
+        <% _.each(countryList, function(model1) { %>
+          <option <% if(filterOptions.country_id==model1.attributes.country_id ){%>selected<%}%> value="<%=model1.attributes.country_id%>"><%=model1.attributes.country_name%></option>
+        <%})%>
+      </select>
+    </div>
+  </div>
+
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <label for="state_id" class="form-label">Select State :</label>
+      <select id="state_id" name="state_id" class="form-control stateChange ws-select show-tick repeatChange backgroundHide selectState" data-live-search="true" title="Select State" disabled>
+        <% _.each(stateList, function(model1) { %>
+            <option <% if(filterOptions.state_id==model1.attributes.state_id ){%>selected<%}%> value="<%=model1.attributes.state_id%>"><%=model1.attributes.state_name%></option>
+        <%})%>
+    </select>
+    </div>
+
+    <div class="col-md-6">
+      <label for="city_id" class="form-label">Select City :</label>
+      <select id="city_id" name="city_id" class="form-control cityChange ws-select show-tick repeatChange backgroundHide" data-live-search="true" title="Select City" disabled>
+        <% _.each(cityList, function(model1) { %>
+            <option <% if(filterOptions.city_id==model1.attributes.city_id ){%>selected<%}%> value="<%=model1.attributes.city_id%>"><%=model1.attributes.city_name%></option>
+        <%})%>
+      </select>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <label for="last_activity" class="form-label">Last Activity Type :</label>
+      <select id="last_activity" name="last_activity" class="form-control ws-select show-tick repeatChange" data-live-search="true" title="Last Activity Type">
+        <option value="sms">SMS</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+ 
+
+  <div class="row">
+    <% _.each(filteredFields, function(column) { %>
+      <% if((column.fieldType == "Checkbox" || column.fieldType == "Radiobutton" || column.fieldType == "Dropdown") && (column.linkedWith == 'undefined' || column.linkedWith == null || column.linkedWith == "")) { %>
+        <div class="col-md-6 pb-3">
+          <select for="<%=column.column_name%>" id="<%=column.column_name %>" name="<%=column.column_name%>"
+            title="<%=column.fieldLabel%>"
+            class="form-control dropval ws-select show-tick repeatChange" multiple>
+            <% column.fieldOptions.split(',').forEach(function(option) { %>
+              <option value="<%= option.trim() %>" <% if ([column.column_name] && [column.column_name].includes(option.trim())) { %>selected<% } %>><%= option.trim() %></option>
+            <% }); %>    
+          </select>
+        </div>
+      <% } %>
+    <% }); %>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <% _.each(filteredFields, function(column) { %>
+      <% if((column.fieldType == "Checkbox" || column.fieldType == "Radiobutton") && (column.linkedWith != 'undefined' && column.linkedWith != null && column.linkedWith != "")) { %>
+        <div class="col-md-6 pb-3">
+          <select for="<%=column.column_name%>" id="<%=column.column_name %>" name="<%=column.column_name%>"
+            title="<%=column.fieldLabel%>"
+            class="form-control dropval ws-select show-tick repeatChange" multiple>
+            <% if (Array.isArray(column.fieldOptions)) { %>
+              <% column.fieldOptions.forEach(function(option) { %>
+                <option value="<%= option[0]%>" <% if ([column.column_name] && [column.column_name].includes(option[1])) { %>selected<% } %>><%= option[1] %></option>
+              <% }); %>    
+            <% } %>     
+          </select>
+        </div>
+      <% } %>
+    <% }); %>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="row">
+    <% _.each(filteredFields, function(column) { %>
+      <% if(column.fieldType == "Dropdown" && column.linkedWith != null && column.linkedWith != "" && column.linkedWith != 'undefined'){%> 
+        <div class="col-md-12 pb-3">
+          <div class="dropLinked_<%=column.fieldID%>"></div>
+        </div>
+      <% } %>
+    <% }); %>
+  </div>
+
+  <label>Date of Birth</label>
+  <div class="row dateList">
+    <div class="col-5">
+      <input type="text" id="birthDateStart" class="form-control txtchange filterClear" placeholder="Start Date" readonly>
+    </div>
+    <div class="input-group-addon mt-2">to</div>
+    <div class="col-5">
+      <input type="text" id="birthDateEnd" class="form-control txtchange filterClear" placeholder="End Date" readonly>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <label>Created Date</label>
+  <div class="row dateList">
+    <div class="col-5">
+      <input type="text" id="createdDateStart" class="form-control txtchange filterClear" placeholder="Start Date" readonly>
+    </div>
+    <div class="input-group-addon mt-2">to</div>
+    <div class="col-5">
+      <input type="text" id="createdDateEnd" class="form-control txtchange filterClear" placeholder="End Date" readonly>
+    </div>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+  
+  <%if(menuName == "leads"){%>
+    <label>Last Activity Date</label>
+    <div class="row dateList">
+      <div class="col-5">
+        <input type="text" id="last_activityStart" class="form-control txtchange filterClear" placeholder="Start Date" readonly>
+      </div>
+      <div class="input-group-addon mt-2">to</div>
+      <div class="col-5">
+        <input type="text" id="last_activityEnd" class="form-control txtchange filterClear" placeholder="End Date" readonly>
+      </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+  <%}%>
+  
+  <% _.each(filteredFields, function(column) { %>
+    <% if(column.fieldType == "Datepicker"){%> 
+      <label><%= column.fieldLabel%></label>
+      <div class="row dateList">
+        <div class="col-5">
+          <input type="text" id="<%=column.column_name%>-startDate" class="form-control filterClear datepickerBT" placeholder="Start Date" readonly>
+        </div>
+        <div class="input-group-addon mt-2">to</div>
+        <div class="col-5">
+          <input type="text" id="<%=column.column_name%>-endDate" class="form-control filterClear datepickerBT" placeholder="End Date" readonly>
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+    <% } %>
+  <% }); %>
+
+  <% _.each(filteredFields, function(column) { %>
+    <% if(column.fieldType == "Numeric"){%> 
+      <label><%= column.fieldLabel%></label>
+      <div class="row">
+        <div class="col-5">
+          <input type="number" id="<%=column.column_name%>-startNo" class="form-control txtchange filterClear" placeholder="Start Number">
+        </div>
+        <div class="input-group-addon mt-2">to</div>
+        <div class="col-5">
+          <input type="number" id="<%=column.column_name%>-endNo" class="form-control txtchange filterClear" placeholder="End Number">
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+    <% } %>
+  <% }); %>
+
+  <% _.each(filteredFields, function(column) { %>
+    <% if(column.fieldType == "Range"){%> 
+      <label><%= column.fieldLabel%></label>
+      <div class="row">
+        <div class="col-5">
+          <input type="number" id="<%=column.column_name%>-startRange" class="form-control txtchange filterClear" placeholder="Start Range">
+        </div>
+        <div class="input-group-addon mt-2">to</div>
+        <div class="col-5">
+          <input type="number" id="<%=column.column_name%>-endRange" class="form-control txtchange filterClear" placeholder="End Range">
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+    <% } %>
+  <% }); %>
+
+  <% _.each(filteredFields, function(column) { %>
+    <% if(column.fieldType == "Timepicker" || column.fieldType == "TIME"){%> 
+      <label><%= column.fieldLabel%></label>
+      <div class="row">
+        <div class="col-5">
+          <input type="text" id="<%=column.column_name%>-startTime" class="form-control timepicker filterClear" placeholder="Start Time" readonly>
+        </div>
+        <div class="input-group-addon mt-2">to</div>
+        <div class="col-5">
+          <input type="text" id="<%=column.column_name%>-endTime" class="form-control timepicker filterClear" placeholder="End Time" readonly>
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+    <% } %>
+  <% }); %>
+  <%if(menuName == "leads"){%>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group form-float ws-form-option">
+          <label class="form-label">Record Type:</label>
+          <ul class="item-container" data-valid="record_type">
+            <li class="record_type multiOptionSel" data-single="Y" data-value="individual">Individual</li>
+            <li class="record_type multiOptionSel" data-single="Y" data-value="company">Company</li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <%}%>
+  </div>
+  <div class="col-xs-12 text-center filter-footer">
+    <hr>
+    <div class="filter-right">
+    <input type="button" id="filterSearch" class="filterSearch btn btn-raised bg-green waves-effect" value="Search"></button>
+    <input type="button" id="resetSearch" class="btn btn-raised bg-blue-grey resetval" value="Reset"></button>
+    <input id="filterOption" type="button" class="btn btn-raised bg-blue-grey colseFil" value="Close"></button>
+    </div>
+  </div>
+</form>

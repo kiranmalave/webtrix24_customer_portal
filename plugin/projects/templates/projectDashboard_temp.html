@@ -1,0 +1,220 @@
+<div class="tab-pane in active">
+  <div id="projectDashboard" class="projectDashboard">
+    <div class="projectDashHeader">
+      <div class="row pt-2 align-items-center align-content-center">
+        <div class="col-md-9 d-flex">
+          <p class="editField" data-action="title" contenteditable="true"><%=model.title%></p><!--<button type="button" class="ws-btn-default loadmodule" data-project_id="<%=model.project_id%>" data-action="singleprojectview" data-toggle="tooltip" data-placement="top" data-content="Edit" style="position: absolute; top:9px; right:10px"><i class="material-icons">mode_edit</i></button>-->
+          <div class="projectDescription" data-action="description"><%=model.description%></div>
+          <div class="clearfix">&nbsp;</div>
+        </div>
+        <div class="col-md-3">
+          <div class="projectHeaderBtn header_items">
+            <%if(model.status !="completed" ){%>
+              <div class="">
+                <button type="button" class="btn completeProject" data-project="<%=model.project_id%>" style="background-color:#66CD16;">Complete</button>
+              </div>
+              <%}%>
+              <div class="">
+                <div class="dropdown">
+                  <button type="button" class="btn showAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create</button>
+                  <div class="dropdown-menu createRecordDropdown" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item loadmodule" href="javascript:void(0);" data-action="task">Task</a>
+                    <a class="dropdown-item loadmodule" href="javascript:void(0);" data-action="invoice">Invoice</a>
+                    <a class="dropdown-item loadmodule" href="javascript:void(0);" data-action="expenses">Expenses</a>
+                    <a class="dropdown-item loadmodule" href="javascript:void(0);" data-action="qutation">Quotation</a>
+                    <a class="dropdown-item loadmodule" href="javascript:void(0);" data-action="notes">Notes</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12" style="padding: 0px;">
+        <ul id="subNavs" class="nav nav-tabs">
+          <li class="nav-item navModuleLoad" data-action="basic" data-item="basic">
+            <a class="nav-link active" data-toggle="tab" href="#Basic">Basic</a>
+          </li>
+          <li class="nav-item navModuleLoad" data-action="task" data-item="task">
+            <a class="nav-link" data-toggle="tab" href="#Task">Task</a>
+          </li>
+          <li class="nav-item navModuleLoad" data-action="finance" data-item="finance">
+            <a class="nav-link" data-toggle="tab" href="#Finance">Finance</a>
+          </li>
+          <li class="nav-item navModuleLoad" data-action="events" data-item="events">
+            <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
+          </li>
+          <li class="nav-item navModuleLoad" data-action="notes" data-item="notes">
+            <a class="nav-link" data-toggle="tab" href="#Notes">Notes</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane in active" id="Basic">
+          <div class="row project-top-details">
+            <div class="col" style="color: #A0A2C5;">
+              <div class="revenureTitle">Expected Income</div> <%=model.invoiceAmount%>/ <span class="editField" data-action="expected_revenue" contenteditable="true"> <%=model.expected_revenue%> </span>
+                <div class="progress-bar">
+                  <div class="progress-bar-inner" id="incomeProgressBar"></div>
+                </div>
+              <div class="received">Received <span id="incomePercentage" style="float: right; margin-top: 5px; font-size: 12px; "></span></div>
+            </div>
+            <div class="col" style="color: #A0A2C5;">
+              <div class="expensesTitle">Expected Expenses</div><%=model.expenseAmount%>/ <span class="editField" data-action="expected_expences" contenteditable="true"><%=model.expected_expences%></span>
+              <div class="progress-bar">
+                <div class="progress-bar-inner" id="expenseProgressBar"></div>
+              </div>
+              <div class="received">Over run <span id="expensePercentage" style="float: right; margin-top: 5px; font-size: 12px; color: #999;"></span></div>
+            </div>
+            <div class="col" style="color: #A0A2C5;">
+              <div>Task Completed</div>
+              <span>
+                <%=model.taskCompleteCount%>/<%=model.taskCount%>
+              </span>
+              <div class="progress-bar">
+                <div class="progress-bar-inner" id="taskProggressBar"></div>
+              </div>
+              <div class="received"><span id="taskPercentage" style="float: right; margin-top: 5px; font-size: 12px; color: #999;"></span></div>
+            </div>
+            <div class="col" style="color: #A0A2C5;">
+              <div class="dateTitle">Date</div>
+              <div class="editDate" data-action="date" style="width: 119%;">
+                <span>
+                  <%=model.start_date%>
+                </span> - <span>
+                  <%=model.end_date%>
+                </span>
+              </div>
+              <div class="progress-bar dateProgressBar">
+                <div class="progress-bar-inner" id="dateProggressBar"></div>
+              </div>
+              <div class="received"><span id="datePercentage" style="float: right; margin-top: 5px; font-size: 12px; color: #999;"></span></div>
+
+              <div class="row dateList" style="display: none;">
+                <div class="col-6">
+                  <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                    <div class="form-line taskDate">
+                      <input id="project_start_date" type="text" class="form-control taskDate" name="project_start_date" autocomplete="off" value="<%=model.start_date%>">
+                      <label for="project_start_date" class="form-label taskDate">Start Date</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group input-group form-float" style="margin-bottom:20px;">
+                    <div class="form-line taskDate">
+                      <input id="project_end_date" type="text" class="form-control taskDate" name="project_end_date" autocomplete="off" value="<%=model.end_date%>">
+                      <label for="project_end_date" class="form-label taskDate">End Date</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <!-- Profile Card -->
+              <div class="customer-profile-card leadDetailsCard card">
+                <div class="profile-img d-flex">
+                  <div class="image">
+                    <% if(model.customer_image=="" ) {%>
+                    <span class="initial lead_name">KD</span>
+                    <%}else{%>
+                      <img class="logoImgCls assigneePhoto" alt="KD" src="<%=APPPATH%>images/site/defaultImage.jpg" />
+                    <%}%>
+                  </div>
+                  <div class="profileDetails">
+                    <h4 class="name ws-wrap-text">
+                      <% if(model.customerName !=null){ %>
+                        <%=model.customerName%>
+                      <%}else { %>
+                        <span>No Customer</span>
+                      <%} %>
+                    </h4>
+                    <p class="location">
+                      <% if(model.country !=null && model.state !=null && model.city !=null) { %>
+                        <%=model.country%>,<%=model.state%>,<%=model.city%>
+                      <% }else if(model.state !=null && model.city !=null) { %>
+                        <%=model.state%>,<%=model.city%>
+                      <%}else if(model.city !=null) { %>
+                        <%=model.city%>
+                      <% }else{ %>
+                        -
+                      <% } %>
+                    </p>
+                    <p class="website-priority" style="margin-top: -6px;">
+                      <%  if(model.leadSource !=null) { %>
+                        <%=model.leadSourcey%>
+                      <% }else{ %>
+                        -
+                      <% } %>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- <div class="profile_info">
+                  <div class="imgc">
+                    <div id="clientProjectProfilePic" class="client-profile-image">
+                      <% if(model.customer_image=="" ) {%>
+                        <img src="<%=APPPATH%>images/site/defaultImage.jpg" />
+                      <%}else{%>
+                        <img id="profile_pic_view1" style="max-width: 100%;" src="<%=UPLOADS%>/customer/<%=model.customer_id%>/profilePic/<%=model.customer_image%>" />
+                      <%}%>
+                        <input type="file" name="slim[]" />
+                    </div>
+                  </div>
+                  <div class="profile-details">
+                    <h4 class="name">
+                      <%=model.customerName%>
+                    </h4>
+                    <p class="location">
+                      <%=model.country%>, <%=model.state%>, <%=model.city%>
+                    </p>
+                    <p class="website-priority" style="margin-top: -6px;">
+                      <%=model.leadSource%>
+                    </p>
+                  </div>
+                  <button type="button" class="ws-btn-default loadmodule headerbtn" data-customer_id="<%=model.customer_id%>" data-action="singlecustomerview" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+                </div> -->
+              </div>
+            </div>
+
+            <div class="col-md-9" style="border-left:2px solid #f4f6f9">
+              <!-- Comments & History -->
+              <div class="projCmtHis">
+                <div class="clearfix">&nbsp;</div>
+                <ul id="taskCom" class="nav nav-tabs task-nav-tab taskComment"> 
+                  <li class="nav-item"><a id="navScrollComment" class="nav-link comment loadmodule" data-action="singleCommentData" data-toggle="tab" style="padding-left:0;padding-right:0;">Comments</a></li><span style="position: absolute; left: 92px; top: 27px; color:#BDBEDC">|</span>
+                  <li class="nav-item" style="margin-left:20px;"><a id="navScrollHistory" class="nav-link comment loadmodule" data-action="singleHistoryData" data-toggle="tab" style="padding-left:0;padding-right:0;">History</a></li>
+                </ul>
+                <div class="showHistory">
+                </div>
+                <div class="showComment ws-main-container">
+                  <div id="projectComments" class="showPages"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="Task">
+          <div id="projectTask"></div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="Finance">
+          <div id="projectFinance" style="margin-top : 85px;"></div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="Events">
+          <div id="projectAppointment" style="margin-top : 85px;"></div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="Notes">
+          <div id="projectsNotes"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

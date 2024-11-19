@@ -1,0 +1,216 @@
+<div class="tab-pane in active">
+    <form id="expenseDetails" name="expenseDetails" action="#">
+    <div class="text-right actionBtns">
+        <button type="button" class="btn bg-indigo saveticketDetails" data-action="close">Save</button>
+        <button type="button" class="btn bg-indigo saveticketDetails" data-action="new">Save & new</button>
+    </div>
+    <div class="row ws-main-container">
+        <div class="col-md-12">
+            <div class="clearfix">&nbsp;</div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="subject" type="text" class="form-control txtchange" name="subject" value="<%=model.subject%>">
+                                        <label for="subject" class="form-label">Subject</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <label for="description">Description</label>
+                                <div id="description" class="form-control mb-3"><%=model.description%></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">person</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="email" type="text" class="form-control txtchange" name="email" value="<%=model.email%>">
+                                        <label for="email" class="form-label">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="phone" type="text" class="form-control txtchange" name="phone" value="<%=model.phone%>">
+                                        <label for="phone" class="form-label">Phone</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input id="customer_id" type="text" class="form-control custChange ddcnt" name="customer" value="<%=model.customerName%>" />
+                                        <label for="customer_id" class="form-label">Customer</label>
+                                    </div>
+                                </div>
+                                <div class="customer-input"></div>
+                                <div id="customerDropdown" class="dropdown-content custDrop"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">schedule</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <div class="form-group input-group form-float">
+                                    <div class="form-line">
+                                        <input id="due_date" type="text" class="form-control" name="due_date" value="<%=model.due_date%>" readonly>
+                                        <label for="due_date" class="form-label">Due Date</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <select id="priority_id" name="priority_id" class="form-control dropval ws-select" title="Priority">
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addType">Add Type</option>
+                                        <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                            <% if(modelcat.attributes.slug=="ticket_priority" )
+                                                _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.priority_id ){ %> selected <% } %> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                            <%})%>
+                                        <%})%>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <select id="ticket_type" name="ticket_type" class="form-control dropval ws-select" title="Ticket Type">
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addType">Add Type</option>
+                                        <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                            <% if(modelcat.attributes.slug=="ticket_type" )
+                                                _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.ticket_type ){ %> selected <% } %> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                            <%})%>
+                                        <%})%>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="material-symbols-outlined" style="margin-top:8px;">priority</span>
+                        </div>
+                    </div>
+                    <div class="right-layout ws-quill">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-float">
+                                    <select id="ticket_category" name="ticket_category" class="form-control dropval ws-select" title="Ticket Category">
+                                        <%if(permission.add=="yes" ) { %>
+                                            <option class="addNew" value="addType">Add Type</option>
+                                        <%}%>
+                                        <% _.each(categoryList, function(modelcat) { %>
+                                            <% if(modelcat.attributes.slug=="ticket_category" )
+                                                _.each(modelcat.attributes.sublist, function(model1) { %>
+                                                <option <% if(model1.category_id==model.ticket_category ){ %> selected <% } %> value="<%=model1.category_id%>"><%=model1.categoryName%></option>
+                                            <%})%>
+                                        <%})%>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="status">Status<span class="error"></span></label>
+                                <ul class="item-container" data-valid="status">
+                                    <li class="status multiSel" data-single="Y" data-value="open">Open</li>
+                                    <li class="status multiSel" data-single="Y" data-value="close">Close</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="list-row mb-3">
+                    <div class="icon-left">
+                        <div class="ws-icon "><span class="input-group-addon lg" style="margin-top:8px;">
+                                <i class="material-icons">attach_file</i>
+                            </span></div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="mt-2">Attachments</p>
+                            </div>
+                        </div>
+                        <div class="row attachupdate">
+                            <button type="button" class="loadMedia ws-taskModalbtn dotborder" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal"><span class="material-icons">add</span></button>
+                            <div id="attachedDoc" class="row"></div>
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+        </form>
+
+        <div class="list-row">
+            <div class="icon-left">
+                <div class="ws-icon">
+                    <span class="material-symbols-outlined"></span>
+                </div>
+            </div>
+            <div class="right-layout ws-quill">
+                <div class="row ">
+                    <div class="col-md-12 ws-dragbox">
+                        <div class="col-md-12 ws-assignee-column">
+                            <input type="file" multiple class="btn btn-default btn__action" id="receiptUpload" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-5 row"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

@@ -1,0 +1,137 @@
+
+<div class="tab-pane in active">
+    <form id="notificationDetails" name="notificationDetails" action="#" style="display: none;">        
+        <div class="row ws-main-container">
+            <div class="col-md-12 ">
+                <div class="list-row">
+                    <div class="right-layout">
+                        <div id="tab1" class="tab-contents active-tab">
+                            <div class="row">
+                                <div class="clearfix">&nbsp;</div> 
+                                <div class="col-md-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input id="name" type="text" class="form-control txtchange" name="name" value="<%=model.name%>">
+                                            <label for="name" class="form-label">Notification Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select for="user_type" id="user_type" name="user_type" title="Which user you want to notify" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                <option class="addNew" value="">Select User Type </option>    
+                                                <option class="" <%if(model.user_type=='system_user'){%>selected<%}%> value="system_user">System User</option>
+                                                <option class="" <%if(model.user_type=='customer'){%>selected<%}%>  value="customer">Customer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 sys-user-div " <%if(model.user_type!='system_user'){%>style="display: none;"<%}%> >
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select multiple ="sys_user_id" id="sys_user_id" name="sys_user_id" title="Which system user you want to notify" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                <option class="addNew" value="">Select System User Type123 </option>  
+                                                <option class=""  <%if(model.sys_user_id== 'all'){%> selected <%}%> value="all">All System User </option>  
+                                                <%_.each(adminList,function(admin){%>
+                                                    <option  <%if( _.contains(model.sys_user_id,admin.attributes.adminID)){%> selected <%}%> value="<%=admin.attributes.adminID%>"><%=admin.attributes.name%></option>
+                                                <%});%>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab2" class="tab-contents">
+                            <div class="row">
+                                <div class="col-md-12 notificationCheck">
+                                    <span class="heading">How you want to notify</span>
+                                    <div class="row" style=" margin-top: 12px;">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="checkbox" class="notification_type" id="checkbox" value = "Email" name="checkbox" <%if(model.notification_type== 'email' || model.notification_type== 'both' ){%> checked  <%}%>>
+                                                <label for="checkbox">Emails</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row">
+                                                    <input type="checkbox" class="notification_type" id="checkbox1" name="checkbox1" value = "SMS" <%if(model.notification_type== 'sms' || model.notification_type== 'both' ){%> checked  <%}%> >
+                                                <label for="checkbox1">SMS</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row">
+                                                <input type="checkbox" class="notification_type" id="checkbox2" name="checkbox2" value = "Both" <%if(model.notification_type== 'both' ){%> checked  <%}%> >
+                                                <label for="checkbox2">Both</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div id="tab3" class="tab-contents">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mt-3 notify on_update">
+                                            <div class="addRecords">Click here
+                                                <div class="buttonAdd">
+                                                    <button type="button" class="ws-btn-default addFieldsToTrigger" data-toggle="tooltip" data-placement="top" data-content="Add Fields">
+                                                        <i class="material-icons">add</i>
+                                                    </button>
+                                                </div>
+                                                to add the Fields.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <div class="row">
+                                                        <div class="col-md-6 on_addFields" style="display:none;" >
+                                                            <span class="heading fieldNotify">On Which Field you want to notify</span>
+                                                        </div>
+                                                        <div class="col-md-6 on_FieldSelect" style="display:none;" > 
+                                                            <span class="heading">On Which value you want to update</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="notifyBtn buttonAdd" style="display:none;">
+                                                        <span data-toggle="tooltip" data-placement="top" data-content="Add Fields" data-action="add" class="addFieldsToTrigger">
+                                                            <i class="material-icons addFields">add</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 selectFields"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row"></div>
+                        </div>
+                        <div class="textCenter">
+                            <button type="button" class="btn bg-indigo previous" disabled>Previous</button>
+                            <button type="button" class="btn bg-indigo btnNext">Next</button>
+                            <button type="button" class="btn bg-indigo saveNotification" data-action="close">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ws-schedule-border"></div>
+            </div>
+        </div>
+    </form>
+    <div id="notification_div"></div>
+    <div class="emptyAppointmentImg emptyNotificationImg" <% if(notificationList.length != 0){%> style="display: none;" <%}%> >
+        <img id="emptyAppointment" style="max-width: 100%;" src="https://cms.webtrixsolutions.in/images/imgpsh_fullsize_anim.jpg">
+        <span>There Is No Notification.</span>
+        <div class="actionBtns">
+            <button type="button" id="btnNotifications" class="btn bg-indigo btnTrigger">Create Notifications</button>
+        </div>
+    </div>
+</div>
+
+             

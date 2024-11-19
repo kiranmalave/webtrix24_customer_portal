@@ -1,0 +1,123 @@
+<!-- Left Sidebar -->
+<div id="leftsidebarSection">
+<aside id="leftsidebar" class="sidebar">
+  <!-- User Info -->
+  <!-- <div class="user-info">
+    <div class="image">
+      <%if (PROFILEIMG=="" ){%>
+        <img src="images/avatar-default.png" width="48" height="48" alt="User" />
+        <%}else{%>
+          <img src="<%=PROFILEPHOTOUPLOAD%><%=ADMINID%>/profilePic/<%=PROFILEIMG%>" width="48" height="48" alt="User" />
+          <%}%>
+    </div>
+    <div class="info-container">
+      <div class="name" data-toggle="dropdown">
+        <%=ADMINNAME%>
+      </div>
+      <div class="btn-group user-helper-dropdown" style="position: absolute; right: -25px">
+        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button">
+          keyboard_arrow_down </i>
+        <ul class="dropdown-menu slideUp">
+          <li><a href="#userProfile"><i class="material-icons">person</i>Profile</a></li>
+          <li class="divider"></li>
+         
+          <li><a href="#logout"><i class="material-icons">input</i>Sign Out</a></li>
+        </ul>
+      </div>
+     
+    </div>
+  </div> -->
+  <!-- #User Info -->
+  <!-- Menu -->
+  <div class="menu">
+    <ul class="list">
+      <li id="dashboard">
+        <a href="#dashboard"><i class="zmdi fa-home"></i>Dashboard</a>
+      </li>
+      <% _.each(menuDetails, function(model) { if(model.isParent=="yes" ) { %>
+        <% if(typeof(ROLE[model.menuLink]) !="undefined" && ROLE[model.menuLink].view=="yes" ) { %>
+          <% if(model.custom_module == 'no' && model.is_custom == 'n') { %>
+            <li data-link="app/<%=model.menuID%>" class="parentItem" id="<%=model.menuLink%>">
+          <% } else { %>
+            <li data-link="<%=model.menuLink%>" class="parentItem" id="<%=model.menuLink%>">
+          <% } %>
+            <% if(model.subMenu.length > 0) { %>
+              <a href="javascript:void(0);" data-link="<%=model.menuLink%>" class="menu-toggle <%=model.menuLink%>"><i
+                  class="material-icons <%=model.iconName%>">
+                  <%=model.iconName%>
+                </i><span>
+                  <%=model.menuName%>
+                </span></a>
+            <% } else { %> 
+                <a data-link="<%=model.menuLink%>" class="listMenuItem" 
+                  <% if(model.isClick=="yes" ) { %> 
+                    <% if(model.is_custom == 'y' && model.menu_custom_link != null && model.menu_custom_link != undefined && model.menu_custom_link != ""){%>
+                      href="<%=model.menu_custom_link%>" 
+                    <% }else if(model.custom_module == 'no' && model.is_custom == 'n'){ %>
+                      href="#app/<%=model.menuID%>" 
+                    <% } else { %>
+                      href="#<%=model.menuLink%>" 
+                    <% } %>    
+                  <% } %>
+                  ><i class="material-icons <%=model.iconName%>"><%=model.iconName%></i>
+                    <%=model.menuName%>
+                  </a>
+            <% } %>
+            <% if(model.subMenu.length > 0) { %>
+                <ul data-link="<%=model.menuLink%>" id="<%=model.menuLink%>1" class="ml-menu liclick">
+                  <% _.each(model.subMenu, function(model2) { %>
+                    <% if(typeof(ROLE[model2.menuLink]) !="undefined" && ROLE[model2.menuLink].view=="yes" ) { %>
+                      <% if(model2.custom_module == 'no' && model2.is_custom == 'n') { %>
+                        <li data-link="app/<%=model2.menuID%>" id="<%=model2.menuLink%>2">
+                      <% } else { %>
+                        <li data-link="<%=model2.menuLink%>" id="<%=model2.menuLink%>2">
+                      <% } %>
+                        <a data-link="<%=model2.menuLink%>"
+                          <% if(model2.is_custom == 'y' && model2.menu_custom_link != null && model2.menu_custom_link != undefined && model2.menu_custom_link != ""){%>
+                            href="<%=model2.menu_custom_link%>" 
+                          <% }else if(model2.custom_module == 'no' && model2.is_custom == 'n'){ %>
+                            href="#app/<%=model2.menuID%>" 
+                          <% } else { %>
+                            href="#<%=model2.menuLink%>" 
+                          <% } %>  
+
+                          class="listMenuItem <%=model2.menuLink%>">
+                          <i class="material-icons <%=model2.iconName%>">
+                            <%=model2.iconName%>
+                          </i>
+                          <%=model2.menuName%>
+                        </a>
+                      </li>
+                    <% } }); %>
+                </ul>
+            <% } %>
+          </li>
+        <% } 
+      } }); %>
+            <!-- <li><a href="changelogs.html"><i class="zmdi zmdi-time-restore"></i><span>Changelogs</span> </a></li>
+        <li class="header">LABELS</li>
+        <li><a href="javascript:void(0);"><i class="zmdi zmdi-chart-donut col-red"></i><span>Important</span> </a></li>
+        <li><a href="javascript:void(0);"><i class="zmdi zmdi-chart-donut col-amber"></i><span>Warning</span> </a></li>
+        <li><a href="javascript:void(0);"><i class="zmdi zmdi-chart-donut col-blue"></i><span>Information</span> </a></li> -->
+    </ul>
+  </div>
+  <!-- #Menu -->
+</aside>
+<div class="overlay-main-container">
+  <!-- Nav tabs -->
+  <span class="closeTabRight"><span class="material-icons">cancel</span></span>
+  <ul id="subNavs" class="nav nav-tabs">
+
+  </ul>
+  <!-- Tab panes -->
+  <div class="ws-tab tab-content">
+  </div>
+</div>
+<!-- Right Sidebar -->
+<!-- <aside id="rightsidebar" class="right-sidebar">
+  <ul class="nav nav-tabs">
+      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#skins">Skins</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#chat">Chat</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#settings">Setting</a></li>
+  </ul> -->
+</div>

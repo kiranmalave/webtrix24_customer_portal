@@ -1,0 +1,38 @@
+<div class="appointmentDetails loadview"  data-appointmentID="<%=appointmentDetails.attributes.appointmentID%>" data-view="singleappointmentData">
+    <div class="event-name b-primary row  d-flex" data-toggle="tooltip" data-placement="top" data-content="<%=appointmentDetails.attributes.title%>">
+        <div class="text-center appointment-date">
+            <h4>
+                <%=appointmentDetails.attributes.appointmentDay%><span>
+                        <%=appointmentDetails.attributes.appointmentMonth%>
+                    </span><span>
+                        <%=appointmentDetails.attributes.appointmentYear%>
+                    </span>
+            </h4>
+        </div>
+     
+    </div>
+    <div class="appointment-info">
+        <div class="appointment-infoHeader">
+            <h6>
+                <%=appointmentDetails.attributes.title%>
+            </h6>
+            
+        </div>
+        <div class="appointment-infoBody">
+            <%=appointmentDetails.attributes.description%>
+        </div>
+        
+
+        <span><% if(appointmentDetails.attributes.meeting_option == "in_person_meet"){%><i class="zmdi zmdi-pin"></i><%}else{%><i class="zmdi zmdi-link"></i><%}%>
+            <% if(appointmentDetails.attributes.meeting_option == "in_person_meet"){%>
+                <%=appointmentDetails.attributes.address%>
+            <%}else if (appointmentDetails.attributes.meeting_option == "google_meet"){%>
+                <%=appointmentDetails.attributes.google%>
+            <%}else if(appointmentDetails.attributes.meeting_option == "zoom_meet"){%>
+                <%=appointmentDetails.attributes.zoom%>
+            <%}%>
+        </span>
+    </div>
+    <button type="button" class="right appointmentDelete " data-appointmentID="<%=appointmentDetails.attributes.appointmentID%>" data-g-eventid="<%=appointmentDetails.attributes.other_details%>" data-toggle="tooltip" data-placement="top"title="Delete"><i class="material-icons">delete</i></button>
+
+</div>

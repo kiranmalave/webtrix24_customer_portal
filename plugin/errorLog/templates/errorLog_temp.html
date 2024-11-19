@@ -1,0 +1,181 @@
+<div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-lg-12">
+        <div class="card customModule">
+          <div class="body">
+            <div class="header moduleSec">
+              <div>
+                <h2>
+                  <%=pluralLable%>
+                </h2>
+                <div class="moduleDesc">
+                  <%=moduleDesc%>
+                </div>
+              </div>
+              <div class="leadRight text-right actionBtns topBtnDetails">
+                <div class="addColumns">
+                  <button type="button" class="btn-bgColor softRefresh">
+                    <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Refresh">autorenew</span>
+                  </button>
+                </div>
+                <div class="ws-more-actions">
+                  <button type="button" class="arrangeColumns dropdown-toggle btn-bgColor" data-action="arrangeColumns" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" data-offset="-310,0">
+                    <span class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Arrange Column">view_column</span>
+                  </button>
+                  <div class="dropdown-menu arrageCol">
+                    <div class="customColumnConfigure" id="customColumnConfigure">
+                  </div>
+                  </div>
+                </div>
+                  
+                  <form class="reports" method="POST" action="#" style="display:none;">
+                    <div class="ws-more-actions">
+                      <button type="button" class="dropdown-toggle btn-bgColor" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="material-symbols-outlined" data-toggle="tooltip" data-placement="top" data-content="Download Data">download</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" class="downloadReport" data-type="pdf">PDF</a></li>
+                        <li><a href="javascript:void(0);" class="downloadReport" data-type="excel">Excel</a></li>
+                      </ul>
+                    </div>
+                  </form>
+              </div>
+            </div>
+            <div class="filter" id="errorLogFilterView"></div>
+            <div class="profile-loader text-center table" style="position: absolute; top: 50%; left:0; right:0; margin:0 auto;">
+              <div class="preloader table">
+                <div class="loderGif table">
+                  <img src="images/webloader.gif" alt="User" />
+                </div>
+              </div>
+            </div>
+  
+            <% if(totalRec == 0 ){ %>
+              <div class="noCustRec noCustAdded">
+                <div class="noCustRecDetails">
+                  <div class="noCustRecPic">
+                    <img src="images/noRecrds.png" alt="">
+                  </div>
+                  <div class="noCustRecText">
+                    <h1>You haven’t added any <span><%=pluralLable%></span> here</h1>
+                      <div class="addRecords">Click here
+                        <div class="buttonAdd">
+                            <button type="button" class="ws-btn-default loadview"
+                                data-view="singleCustomerData" data-item="customerSingleView"
+                                data-toggle="tooltip" data-placement="top" data-content="Add <%=pluralLable%>">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                        to add the <%=pluralLable%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+              <div id="listView">
+                <div class="actionList">
+                    <span type="button" class="changeStatus deleteAll ds-none" data-action="delete" data-toggle="tooltip" data-placement="top" data-content="Delete">
+                      <i class="material-icons dlt-btn" data-toggle="tooltip" data-placement="top" data-content="Delete">delete</i>
+                    </span>
+                </div>
+                <% if(arrangedColumnList.length> 0){ %>
+                  <div class="customTableClass">
+                    <table id="clist" class="tableList table-hover table-bordered resizable">
+                      <thead id="thead">
+                        <tr class="headings">
+                          <!-- <th class="check-gap column-title" data-column="check-gap">
+                            <div class="listCheckbox">
+                              <input id="cAll" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                              <label for="cAll">&nbsp;</label>
+                            </div>
+                          </th> -->
+                          <% _.each(arrangedColumnList, function(column) { %>
+                            <th class="column-title drag-line" data-column="<%= column.column_name %>">
+                              <div class="d-flex d-flex-space">
+                                <div class="d-flex gap-5 truncateColumnName">
+                                  <span class="sortColumns truncateColumnName" data-field="t.<%= column.column_name %>"><%= column.fieldLabel %></span>
+                                  <span class="sortingArrow">
+                                    <span class="material-symbols-outlined sortarrow up" data-value="ASC" data-field="t.<%= column.column_name %>">north</span>
+                                    <span class="material-symbols-outlined sortarrow down" data-value="DESC" data-field="t.<%= column.column_name %>">south</span>
+                                  </span>
+                                </div>
+                                <span class="sortingBtn">
+                                  <button type="button" class="listSortColumns btn-bgColor columntop" data-action="sortColumns">
+                                    <span class="material-icons">expand_more</span>
+                                  </button>
+                                  <div class="showSortOptions">
+                                    <div>
+                                      <button class="btn ws-btn-default sortColumns listSortColumnUp" data-value="ASC" data-field="t.<%= column.column_name %>" value=""><span class="material-icons">arrow_upward</span>Sort A to Z</button>
+                                    </div>
+                                    <div>
+                                      <button class="btn ws-btn-default sortColumns listSortColumnDown" data-value="DESC" data-field="t.<%= column.column_name %>" value=""><span class="material-icons">arrow_downward</span>Sort Z to A</button>
+                                    </div>
+                                    <div>
+                                      <button class="btn ws-btn-default sortColumns clearSorting" data-value="CLEAR" data-field="t.<%= column.column_name %>" value=""><span class="material-icons">minimize</span>Clear Sorting</button>
+                                    </div>
+                                  </div>
+                                </span>
+                              </div>
+                            </th>
+                          <% }); %>
+                          <th class="column-title actionColumn" data-column="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="errorLogList"></tbody>
+                    </table>
+                    <div class="noCustRec noDataFound" style="display: none;">
+                      <div class="noCustRecDetails">
+                        <div class="noCustRecPic">
+                          <img src="images/noSearchData.jpeg" alt="">
+                        </div>
+                        <div class="noCustRecText">
+                          <h1>No Records Found Matching Your Search</h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div id="loadMember" data-index="1" data-currPage="1"></div>
+                  <!-- paggination -->
+                  <div class="footer row">
+                    <div class="col-sm-4" style="padding: 0px 25px;">
+                      <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+                          class="page-info f_txt"></span></div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="profile-loader-msg text-center"></div>
+                    </div>
+                    <div class="col-sm-4" style="padding: 0;">
+                      <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination"></ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- paggination -->
+                </div>
+                <% } else if(arrangedColumnList.length==0){ %>
+                  <div class="m-20">
+                    <h4 class="d-flex-center no-fields-msg">No Fields Arranged To Display</h4>
+                    <div class="addFields d-flex-center">
+                      <span class="">Click on <strong>"Configure Columns"</strong> to arrange and display the fields</span>
+                    </div>
+                  </div>
+                <% } %>
+          </div>
+        </div>
+      </div>
+  </div>
+    <div class="ws_filterOptions"></div>
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div id="mediaLoad" class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="customColumnModal" tabindex="-1" role="dialog"></div>

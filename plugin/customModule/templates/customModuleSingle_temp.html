@@ -1,0 +1,31 @@
+<div class="tab-pane in active">
+    <div id="customModuleSingleView">
+        <!-- <div class="form-loader text-center">
+            <div class="preloader">
+                <div class="spinner-layer pl-indigo">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <form id="customModuleDetails" name="customModuleDetails" action="#">
+            <%if (Object.keys(dynamicFieldRenderobj.metadata).length == 0) { %>
+                <div class="m-20">
+                    <h4 class="d-flex-center no-fields-msg">No fields available</h4>
+                </div>
+            <% }else {%>
+                <div class="text-right actionBtns">
+                    <button type="button" class="btn bg-indigo saveCustomModuleDetails waves-effect hover-tooltip" data-action="close">Save<span
+                            class="tooltip-text">Tooltip</span></button>
+                    <button type="button" class="btn bg-indigo saveCustomModuleDetails" data-action="new">Save & new</button>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div id="dynamicFormFields" class=""></div>
+            <% } %>
+        </form>
+    </div>
+</div>

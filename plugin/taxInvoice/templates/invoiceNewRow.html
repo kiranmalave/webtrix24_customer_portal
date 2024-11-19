@@ -1,0 +1,142 @@
+<tr id="item-<%=row_number%>" class="item-list-box">
+    <!-- SERIAL NO -->
+    <td class="sno"><%=row_number%></td>
+    <!-- PRODUCT/DESC -->
+    <td class="custom-dropdown">
+        <div class="col-md-12 productDropdown nopadding">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <input autocomplete="off" id="narr_<%=row_number%>" type="text" class="form-control pdChange ddcnt taskDate" name="narr_<%=row_number%>" value="" placeholder="Type here to search" />
+                    <div class="product-input"></div>
+                    <div id="productDropdown_<%=row_number%>" class="dropdown-content custDrop" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <textarea id="desc_<%=row_number%>" rows="3" class="form-control amtChange" name="desc_<%=row_number%>" placeholder="Description"></textarea>
+                </div>
+            </div>
+        </div>
+    </td>
+    <!-- HSN & UQC -->
+    <% console.log(model.isGstBilling); %>
+    <td <% if(model.isGstBilling =='no'){ %>style='display:none;'<%}%> >
+        <div class="">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <select for="itemHSN_<%=row_number%>" id="itemHSN_<%=row_number%>" name="itemHSN_<%=row_number%>" title="HSN" class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                        <option value="hsn_1">hsn_1</option>
+                        <option selected value="hsn_2">hsn_2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <select for="itemUQC_<%=row_number%>" id="itemUQC_<%=row_number%>" name="itemUQC_<%=row_number%>" title="UQC"
+                        class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                        <option value="uqc_1">uqc_1</option>
+                        <option selected value="uqc_1">uqc_2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </td>
+    <!-- QTY & UNIT -->
+    <td>
+        <div class="">
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <input type="text" name="itemQuantity_<%=row_number%>" id="itemQuantity_<%=row_number%>" class="form-control amtChange input-p unitClass" placeholder="0">
+                </div>
+            </div>
+            <div class="form-group form-float">
+                <div class="form-line">
+                    <select for="itemUnit_<%=row_number%>" id="itemUnit_<%=row_number%>" name="itemUnit_<%=row_number%>" title="Unit" class="form-control ws-select catVal amtChange show-tick repeatChange nopadding" data-slug="<%=slug_id%>"> 
+                    <%if(permission.add=="yes" ) { %>
+                        <option class="" value="">Select Units</option>
+                        <option class="addNew" data-view="category" data-slug="<%=slug_id%>" value="addCategory" >Add Units Type</option>
+                    <%}%>   
+                    <% $.each(categoryList.models, function (key, val) {
+                        if(val.attributes.slug == 'unit') {       
+                            $.each(val.attributes.sublist, function (key, modcat) {  %>        
+                                    <option value="<%= modcat.category_id%>"><%= modcat.categoryName%></option>';
+                                <% });
+                            }
+                    }); %>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </td>
+    <!-- PRICE -->
+    <td class="text-right">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input type="text" name="itemRate_<%=row_number%>" id="itemRate_<%=row_number%>" class="itemRate form-control amtChange input-p" placeholder="0.00">
+                <% if(model.isGstBilling =='yes'){ %> 
+                    <img style="display: none;" src="images/info.png" class="alertIcon withGstIcon_<%=row_number%>" data-toggle="tooltip" data-placement="top" data-content="With Gst">
+                <% } %>
+            </div>
+        </div>
+    </td>
+    <!-- DISCOUNT -->
+    <td>
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input type="text" name="itemDiscount_<%=row_number%>" id="itemDiscount_<%=row_number%>" class="itemDiscount form-control amtChange input-p" value="" placeholder="0.00">
+            </div>
+        </div>
+        <div class="form-group form-float">
+            <div class="form-line">
+                <select for="itemDiscountType_<%=row_number%>" id="itemDiscountType_<%=row_number%>"
+                    name="itemDiscountType_<%=row_number%>" title="Type"
+                    class="form-control ws-select amtChange show-tick repeatChange nopadding">
+                    <option selected value="per"> % </option>
+                    <option value="amt"> Amt </option>
+                </select>
+            </div>
+        </div>
+    </td>
+    <!-- PRICE TOTAL -->
+    <td class="text-center">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input type="text" name="itemPricetotal_<%=row_number%>" id="itemPricetotal_<%=row_number%>" disabled class="form-control amtChange input-p" placeholder="0.00">
+            </div>
+        </div>
+    </td>
+    <!-- GST % -->
+    <td <% if(model.isGstBilling =='no'){ %>style='display:none;'<%}%> >
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input type="text" name="itemGST_<%=row_number%>" id="itemGST_<%=row_number%>" class="itemGST form-control amtChange input-p" placeholder="0.00">
+            </div>
+        </div>
+        <div class="form-group form-float IGST igst_td_<%=row_number%>" style="display: none;">
+            <div class="form-line">
+                <input type="text" name="igst_td_<%=row_number%>" id="igst_td_<%=row_number%>" disabled class="igst_td_<%=row_number%> form-control amtChange input-p" placeholder="0.00">
+            </div>
+        </div>
+        <div class="form-group form-float SGST sgst_td_<%=row_number%>" style="display: none;">
+            <div class="form-line">
+                <input type="text" name="sgst_td_<%=row_number%>" id="sgst_td_<%=row_number%>" disabled class="sgst_td_<%=row_number%> form-control amtChange input-p" placeholder="0.00">
+            </div>
+        </div>
+        <div class="form-group form-float CGST cgst_td_<%=row_number%>" style="display: none;">
+            <div class="form-line">
+                <input type="text" name="cgst_td_<%=row_number%>" id="cgst_td_<%=row_number%>" disabled class="cgst_td_<%=row_number%> form-control amtChange input-p" placeholder="0.00">
+            </div>
+        </div>
+    </td>
+    <!-- TOTAL -->
+    <td class="text-center total-td">
+        <div class="form-group form-float">
+            <div class="form-line">
+                <input type="text" name="itemtotal_<%=row_number%>" id="itemtotal_<%=row_number%>" disabled class="form-control amtChange input-p" placeholder="0.00">
+            </div>
+        </div>
+        <div class="del-btn" style="display: none;">
+            <button id="itemdel_<%=row_number%>" class="del-row btn btn-small btn-default"><img class="invoiceDeleteImg" src="images/deleteImg.png" /></button>
+        </div>
+    </td>
+</tr>

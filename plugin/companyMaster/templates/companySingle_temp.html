@@ -1,0 +1,744 @@
+<div class="tab-pane in active">
+    <div id="companySingleView">
+        <form id="companyDetails" name="companyDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo saveCompanyDetails waves-effect hover-tooltip">Save<span class="tooltip-text">Tooltip</span></button>
+                <button type="button" class="btn bg-indigo saveCompanyDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="ws-main-container">
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">store</i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong> Company Details</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+
+                <div class="row left-space">
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="companyName" class="form-label">Company/Branch Name <span class="error">*</span></label>
+                                <input id="companyName" class="form-control txtchange" name="companyName" required="" autocomplete="off" maxlength="45" type="text" value="<%=model.companyName%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="fromName" class="form-label">Sender Name<span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content="Enter the name that will appear as the sender in outgoing emails. This name will be visible to recipients in the email header.">info</span>
+                                </span></label>
+                                <input type="text" name="fromName" id="fromName" class="form-control txtchange" value="<%=model.fromName %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="fromEmail" class="form-label">Sender Email<span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content="Enter the email address that will be used as the 'From' address for all outgoing emails triggered from this system. Ensure it is valid and monitored.">info</span>
+                                </span></label>
+                                <input id="fromEmail" class="form-control txtchange" name="fromEmail" type="email" value="<%=model.fromEmail%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="ccEmail" class="form-label">CC Email<span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content="Enter the email addresses to be automatically copied (CC) on all outgoing emails from the CRM system. Separate multiple addresses with commas.">info</span>
+                                </span></label>
+                                <input id="ccEmail" class="form-control txtchange" name="ccEmail" type="email" value="<%=model.ccEmail%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="amc_duration" class="form-label">Mobile Number</label>
+                                <div class="ws-input-group">
+                                    <div style="flex:0 0 30px">
+                                        <div class="salutation removeBorder">
+                                            <select id="countryCodeNumber" name="countryCode" for="countryCode" class="form-control ws-select show-tick repeatChange backgroundHide txtcolor dropval countrySelect" data-live-search="true" title="Ext">
+                                                <option>Ext</option>
+                                                <% _.each(countryExtList, function(country) { %>
+                                                    <option <% if(model.countryCode == country.value ){ %> selected <%}%> value="<%=country.value%>"><%=country.label%> </option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="dropdown bootstrap-select show-tick form-control dropval ws-select repeatChange">
+                                            <input id="mobile_number" class="form-control txtchange txtcolor" autocomplete="off" name="mobile_number" value="<%=model.mobile_number%>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix">&nbsp;</div>
+                
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">home</i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Company Address</strong></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space">
+                <div class="col-md-12">
+                    <div class="form-group input-group form-float">
+                        <div class="form-line focused">
+                            <label for="company_address" class="form-label">Company Address</label>
+                            <input id="company_address" title="Company Address" class="form-control txtchange taskDate txtcolor" autocomplete="off" name="company_address" value="<%=model.company_address%>" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line removeBorder">
+                            <label for="state" class="form-label"> Select State </label>
+                            <select id="state" name="state" class="form-control stateChange ws-select show-tick repeatChange backgroundHide txtcolor" data-live-search="true" title="Select State">
+                                <% _.each(stateList, function(model1) { %>
+                                    <option <% if(model1.attributes.state_id==model.state ){ %>selected <% } %>value="<%=model1.attributes.state_id%>"><%=model1.attributes.state_name%></option>
+                                <%})%>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="zip" class="form-label">Zip Code</label>
+                            <input id="zip" class="form-control txtchange" name="zip" value="<%=model.zip%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+                
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">settings</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong>Application Settings</strong></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line removeBorder">
+                            <label for="date_format" class="form-label">Global Date Format</label>
+                            <select id="date_format" name="date_format" class="form-control ws-select dropval show-tick txtcolor" title="Date Format">
+                                <option value="DD-MM-YYYY" <% if(model.date_format=="DD-MM-YYYY" ){%> selected <% } %>>DD-MM-YYYY</option>
+                                <option value="YYYY:MM:DD" <% if(model.date_format=="YYYY:MM:DD" ){%> selected <% } %>>YYYY:MM:DD</option>
+                                <option value="YY:MM:DD" <% if(model.date_format=="YY:MM:DD" ){%> selected <% } %>>YY:MM:DD</option>
+                                <option value="Do MMMM YYYY" <% if(model.date_format=="Do MMMM YYYY" ){%> selected <% }%>>8th April 2020</option>
+                                <option value="MMMM Do YYYY" <% if(model.date_format=="MMMM Do YYYY" ){%> selected <% } %>>April 8th 2020</option>
+                                <option value="DD:MM:YY" <% if(model.date_format=="DD:MM:YY" ){%> selected <% } %>>DD:MM:YY</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="record_per_page" class="form-label">Records Per Page</label>
+                            <input id="record_per_page" class="form-control txtchange" name="record_per_page" value="<%=model.record_per_page%>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line removeBorder">
+                            <label for="date_format" class="form-label">Email Provider</label>
+                            <select id="email_provider" name="email_provider" class="form-control ws-select dropval changeEmailSettings show-tick txtcolor" title="Email Settings">
+                                <option value="smtp" <% if(model.email_provider=="smtp" ){%> selected <% } %>>SMTP</option>
+                                <option value="sendgrid" <% if(model.email_provider=="sendgrid" ){%> selected <% } %>>Send Grid</option>
+                                <option value="brevo" <% if(model.email_provider=="brevo" ){%> selected <% } %>>Brevo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row left-space smtpDiv" <% if(model.email_provider=="smtp" ){%> style="display: flex;" <% }else{%> style="display: none;"<%} %>>
+                <div class="col-md-3">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="smtp_host" class="form-label">SMTP Host<span class="error">*</span></label>
+                            <input id="smtp_host" class="form-control txtchange" name="smtp_host" type="text" value="<%=model.smtp_host%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="smtp_user" class="form-label">SMTP User<span class="error">*</span></label>
+                            <input id="smtp_user" class="form-control txtchange" name="smtp_user" value="<%=model.smtp_user%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="smtp_pass" class="form-label">SMTP Password<span class="error">*</span></label>
+                            <input id="smtp_pass" class="form-control txtchange" name="smtp_pass" value="<%=model.smtp_pass%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="smtp_post" class="form-label">SMTP Port<span class="error">*</span></label>
+                            <input id="smtp_post" class="form-control txtchange" name="smtp_post" value="<%=model.smtp_post%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row left-space">
+                <div class="col-md-4 sendGrid" <% if(model.email_provider=="sendgrid" ){%> style="display: block;" <% }else{ %>style="display: none;"<%} %>>
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="sendgrid_API" class="form-label">Sendgrid Key<span class="error">*</span></label>
+                            <input id="sendgrid_API" class="form-control txtchange" name="sendgrid_API" type="text" value="<%=model.sendgrid_API%>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 brevo" <% if(model.email_provider=="brevo" ){%> style="display: block;" <% }else{%> style="display: none;"<%} %>>
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="brevo_API" class="form-label">Brevo Key<span class="error">*</span></label>
+                            <input id="brevo_API" class="form-control txtchange" name="brevo_API" type="text" value="<%=model.brevo_API%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">chat</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong>WhatApp</strong></label>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="wa_from" class="form-label">From Number</label>
+                            <input id="wa_from" class="form-control txtchange" name="wa_from" value="<%=model.wa_from%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="wa_token" class="form-label">WhatsApp Token</label>
+                            <input id="wa_token" class="form-control txtchange" name="wa_token" value="<%=model.wa_token%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="wa_ids" class="form-label">WhatApp ID</label>
+                            <input id="wa_ids" class="form-control txtchange" name="wa_ids" value="<%=model.wa_ids%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="clearfix">&nbsp;</div>
+                
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">vpn_key</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong>GST Details</strong></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <div class="form-group form-float ws-form-option">
+                        <label for="is_gst_billing" class="form-label">Enable GST Billing ?<span class="info-icon-tooltip">
+                            <span class="material-icons" data-toggle="tooltip" data-content="Select 'Yes' to enable GST billing for your company, ensuring that GST is applied automatically wherever required in your transactions and invoices.">info</span></span>
+                        </label>
+                        <ul class="item-container" data-valid="is_gst_billing">
+                            <li class="is_gst_billing multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                            <li class="is_gst_billing multiSel" data-="yes" data-single="Y" data-value="no">No</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group form-float ws-form-option">
+                        <label for="is_display_payment" class="form-label">Do You Need To Display The Partial Payment History ?<span class="info-icon-tooltip">
+                            <span class="material-icons" data-toggle="tooltip" data-content="Select 'Yes' if you wish to include a detailed record of partial payments on the invoice, providing transparency in the payment history for your customers.">info</span></span></label></label>
+                        <ul class="item-container" data-valid="is_display_payment">
+                            <li class="is_display_payment multiSel" data-render="yes" data-single="Y" data-value="yes">Yes</li>
+                            <li class="is_display_payment multiSel" data-render="yes" data-single="Y" data-value="no">No</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="pan" class="form-label">PAN</label>
+                            <input id="pan" class="form-control txtchange" name="pan" value="<%=model.pan%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="msme_no" class="form-label">MSME No</label>
+                            <input id="msme_no" class="form-control txtchange" name="msme_no" value="<%=model.msme_no%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="lut_no" class="form-label">LUT No</label>
+                            <input id="lut_no" class="form-control txtchange" name="lut_no" value="<%=model.lut_no%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row left-space isGst" <%if(model.is_gst_billing=="no" ){%>style="display: none;"<%}%>>
+                <div class="col-md-3">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="gst_no" class="form-label">GST No</label>
+                            <input id="gst_no" class="form-control txtchange" name="gst_no" value="<%=model.gst_no%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+                
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">account_balance</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong>Bank Account Details</strong></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="bank_details" class="form-label">Bank Name </label>
+                            <input id="bank_details" class="form-control txtchange" name="bank_details" value="<%=model.bank_details%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="bank_acc_no" class="form-label">Bank Account Number</label>
+                            <input id="bank_acc_no" class="form-control txtchange" name="bank_acc_no" value="<%=model.bank_acc_no%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="ifsc_code" class="form-label">IFSC Code</label>
+                            <input id="ifsc_code" class="form-control txtchange" name="ifsc_code" value="<%=model.ifsc_code%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="mcir_code" class="form-label">MCIR Code</label>
+                            <input id="mcir_code" class="form-control txtchange" name="mcir_code" value="<%=model.mcir_code%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+                        
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">description</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong>Doc Prefixes</strong></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space docPrefixDiv" data-suffix="in">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_prefix_in" class="form-label">Invoice Number Prefix </label>
+                            <input id="doc_prefix_in" class="form-control txtchange" name="doc_prefix_in" value="<%=model.doc_prefix_in%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_year_in" class="form-label">Invoice Fiscal Year</label>
+                            <input id="doc_year_in" class="form-control txtchange" name="doc_year_in" value="<%=model.doc_year_in%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_curr_no_in" class="form-label">Invoice Current Number <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content=" If Changed then Invoice number will change.">info</span>
+                                </span></label>
+                            <input id="doc_curr_no_in" class="form-control txtchange" name="doc_curr_no_in" value="<%=model.doc_curr_no_in%>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row left-space docPrefixDiv" data-suffix="rec">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_prefix_rec" class="form-label">Receipts Doc Prefix </label>
+                            <input id="doc_prefix_rec" class="form-control txtchange" name="doc_prefix_rec" value="<%=model.doc_prefix_rec%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_year_rec" class="form-label">Receipts Doc Year</label>
+                            <input id="doc_year_rec" class="form-control txtchange" name="doc_year_rec" value="<%=model.doc_year_rec%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_curr_no_rec" class="form-label">Receipts Current Number <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content=" If Changed then Receipts number will change.">info</span>
+                                </span></label>
+                            <input id="doc_curr_no_rec" class="form-control txtchange" name="doc_curr_no_rec" value="<%=model.doc_curr_no_rec%>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row left-space docPrefixDiv" data-suffix="quo">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_prefix_quo" class="form-label">Quotation Doc Prefix</label>
+                            <input id="doc_prefix_quo" class="form-control txtchange" name="doc_prefix_quo" value="<%=model.doc_prefix_quo%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_year_quo" class="form-label">Quotation Doc Year</label>
+                            <input id="doc_year_quo" class="form-control txtchange" name="doc_year_quo" value="<%=model.doc_year_quo%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_curr_no_quo" class="form-label">Quotation Current Number <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content=" If Changed then Quotation number will change.">info</span>
+                                </span></label>
+                            <input id="doc_curr_no_quo" class="form-control txtchange" name="doc_curr_no_quo" value="<%=model.doc_curr_no_quo%>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row left-space docPrefixDiv" data-suffix="dc">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_prefix_dc" class="form-label">Delivery Challan Doc Prefix</label>
+                            <input id="doc_prefix_dc" class="form-control txtchange" name="doc_prefix_dc" value="<%=model.doc_prefix_dc%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_year_dc" class="form-label">Delivery Challan Doc Year</label>
+                            <input id="doc_year_dc" class="form-control txtchange" name="doc_year_dc" value="<%=model.doc_year_dc%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_curr_no_dc" class="form-label">Delivery Current Number <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content=" If Changed then Delivery number will change.">info</span>
+                                </span></label>
+                            <input id="doc_curr_no_dc" class="form-control txtchange" name="doc_curr_no_dc" value="<%=model.doc_curr_no_dc%>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row left-space docPrefixDiv" data-suffix="pur">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_prefix_pur" class="form-label">Purchase Doc Prefix</label>
+                            <input id="doc_prefix_pur" class="form-control txtchange" name="doc_prefix_pur" value="<%=model.doc_prefix_pur%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_year_pur" class="form-label">Purchase Doc Year</label>
+                            <input id="doc_year_pur" class="form-control txtchange" name="doc_year_pur" value="<%=model.doc_year_pur%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_curr_no_pur" class="form-label">Purchase Current Number <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content=" If Changed then Purchase number will change.">info</span>
+                                </span></label>
+                            <input id="doc_curr_no_pur" class="form-control txtchange" name="doc_curr_no_pur" value="<%=model.doc_curr_no_pur%>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row left-space docPrefixDiv" data-suffix="pro">
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_prefix_pro" class="form-label">Proforma Doc Prefix</label>
+                            <input id="doc_prefix_pro" class="form-control txtchange" name="doc_prefix_pro" value="<%=model.doc_prefix_pro%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_year_pro" class="form-label">Proforma Doc Year</label>
+                            <input id="doc_year_pro" class="form-control txtchange" name="doc_year_pro" value="<%=model.doc_year_pro%>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <label for="doc_curr_no_pro" class="form-label">Proforma Current Number <span class="info-icon-tooltip">
+                                <span class="material-icons" data-toggle="tooltip" data-content=" If Changed then Proforma number will change.">info</span></span>
+                            </label>
+                            <input id="doc_curr_no_pro" class="form-control txtchange" name="doc_curr_no_pro" value="<%=model.doc_curr_no_pro%>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="ws-quill">
+                <div class="row left-space">
+                    <div class="col-md-12 m-b-Cls">
+                        <label for="quotation_terms_conditions" class=""><strong>Quotation Terms and Conditions</strong></label>
+                        <div id="quotation_terms_conditions_quill" class="form-control mb-3">
+                            <%=model.quotation_terms_conditions%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="ws-quill">
+                <div class="row left-space">
+                    <div class="col-md-12 m-b-Cls">
+                        <label for="invoice_terms_condotions" class=""><strong>Invoice Terms and Conditions</strong></label>
+                        <div id="invoice_terms_condotions_quill" class="form-control mb-3">
+                            <%=model.invoice_terms_condotions%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="ws-quill">
+                <div class="row left-space">
+                    <div class="col-md-12 m-b-Cls">
+                        <label for="receipt_terms_condotions" class=""><strong>Receipt Terms and Conditions</strong></label>
+                        <div id="receipt_terms_condotions_quill" class="form-control mb-3">
+                            <%=model.receipt_terms_condotions%>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+                        
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">description</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label><strong>Logo</strong></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <label class="form-label">Invoice Logo</label>
+                    <div class="customerMediaLoader">
+                        <div class="clearfix">
+                            <input id="invoice_logo" style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;text-align: center;" data-type="invoiceLogo" class="btn loadMedia invoiceLogoHide" type="button" value="Select Logo" name="Select Picture" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="invoiceLogoShow removeAttach" style="width: 65%;<% if(model.invoice_logo == "" || model.invoice_logo == undefined || model.invoice_logo == null) { %> display:none;<%}%>">
+                        <img id="invoiceLogo" style="max-width: 50%;" data-type="invoiceLogo" src="<%=UPLOADS%>/<%=model.invoice_logo%>">
+                        <div class="buttonShow companyAttach">
+                            <span class=" deleteAttach deleteAttachment" data-fileType="invoice">
+                                <span class="material-icons">delete</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Email Logo</label>
+                    <div class="customerMediaLoader">
+                        <div class="clearfix">
+                            <input style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;text-align: center;" data-type="emailLogo" class="btn loadMedia emailLogoHide" type="button" value="Select Logo" name="Select Picture" data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="emailLogoShow removeAttach" style="width: 65%;<% if(model.email_logo == "" || model.email_logo == undefined || model.email_logo == null) { %> display:none;<%}%>">
+                        <img id="emailLogo" style="max-width: 100%;" data-type="emailLogo" src="<%=UPLOADS%>/<%=model.email_logo%>">
+                        <div class="buttonShow companyAttach">
+                            <span class=" deleteAttach deleteAttachment" data-fileType="email">
+                                <span class="material-icons">delete</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+
+            <div class="row left-space">
+                <div class="col-md-4">
+                    <div class="form-group form-float ws-form-option">
+                    <label for="status" class="form-label">Status<span class="error">*</span> <span class="info-icon-tooltip">
+                        <span class="material-icons" data-toggle="tooltip" data-content="Select 'Active' to enable the record for use. Choose 'Inactive' to disable the record, making it unavailable for use.">info</span></label>
+                    <ul class="item-container" data-valid="status">
+                        <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                        <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="clearfix">&nbsp;</div>
+  
+            <div class="row">
+                <div class="list-row icon-list">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <i class="material-icons">more</i>
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <label> <strong>Additional Information</strong></label>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div id="dynamicFormFields" class="dynamic-align"></div>
+            <div class="clearfix">&nbsp;</div>
+    </form>
+</div>
+</div>

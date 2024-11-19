@@ -1,0 +1,74 @@
+<div id="approvedData" class="modelbox">
+    <form id="approvedDetails" name="approvedDetails" action="#">
+        <div class="col-xs-12">
+            <div class="member-profile-img">
+                <img src="">
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-sm-6">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="app_event_date" class="form-label">Approved Event Date</label>
+                        <input id="app_event_date" autocomplete="off" class="form-control txtchange" name="app_event_date" type="text" value="<%=model.app_event_date%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="app_event_time" class="form-label">Event Time</label>
+                        <input type="time" id="app_event_time" class="form-control txtchange" name="app_event_time" value="<%=model.app_event_time%>">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="cci_name" class="form-label">CCI Name</label>
+                        <input id="cci_name" autocomplete="off" class="form-control txtchange" name="cci_name" type="text" value="<%=model.cci_name%>">
+                    </div>
+                </div>
+            </div> 
+            <div class="col-sm-6">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="cci_contact_no" class="form-label">CCI Contact No</label>
+                        <input id="cci_contact_no" autocomplete="off" class="form-control txtchange" name="cci_contact_no" type="text" value="<%=model.cci_contact_no%>">
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="col-sm-12">
+                <label for="event_address">Event Address<span class="error">*</span> :</label>
+                <textarea id="event_address" class="form-control txtchange" rows=5 name="event_address"><%=model.event_address%></textarea>
+            </div>
+
+
+            <div class="clearfix">&nbsp;</div>
+            <div class="col-sm-6">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="ankur_contact_no" class="form-label">Ankur Official No.</label>
+                        <input id="ankur_contact_no" autocomplete="off" class="form-control txtchange" name="ankur_contact_no" type="text" value="<%=model.ankur_contact_no%>">
+                    </div>
+                </div>
+            </div> 
+            <div class="col-sm-6">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <label for="no_of_children" class="form-label">Number Of Children<span class="error">*</span></label>
+                        <input id="no_of_children" autocomplete="off" class="form-control txtchange" name="no_of_children" type="text" value="<%=model.no_of_children%>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clearfix">&nbsp;</div>
+        
+        <div class="text-center">
+            <div class="clearfix">&nbsp;</div>
+            <button id="saveApprovedDetails" type="button" class="btn bg-indigo" data-action="close">Save</button>
+        </div>
+    </form>
+</div>

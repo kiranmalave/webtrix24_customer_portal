@@ -1,0 +1,31 @@
+<ul class="inbox-widget list-unstyled clearfix showList">
+    <li class="inbox-inner">
+        <div class="inbox-item totalItems">
+            <div class="inbox-img profilePic">
+                <%if(commentList.photo!= ""){%>
+                    <img src="<%=PROFILEPHOTOUPLOAD%><%=commentList.adminID%>/profilePic/<%=commentList.photo%>" alt="User" />
+                <%}else { %>
+                    <span><%=commentList.initial%></span>
+                <%}%>
+            </div>
+            <div class="commentTextSec">
+                <div class="inbox-item-infoHeader">
+                    <p class="author"><%=commentList.name%></p>
+                    <p class="inbox-date"><%=commentList.created_date%></p>
+                    <% if(commentList.modified_date !='' && commentList.modified_date !=null) { %>
+                    <p class="edit-date" data-toggle="tooltip" data-placement="top" data-content="<%=commentList.modified_date%>" title="<%=commentList.modified_date%>">Edited</p>
+                    <% } %>
+                    
+                </div>
+                <div id="editCmt_<%=commentList.comment_id%>" class="inbox-message m-b-5 m-t-10 editComment" data-commentID="<%=commentList.comment_id%>"><%=commentList.comment_text%></div>
+            </div>
+            <div class="col-md-12 text-right editCmtBtn_<%=commentList.comment_id%>" style="display: none;">
+                <button name="post" id="post" type="button" class="btn bg-indigo saveComment" data-commentID="<%=commentList.comment_id%>" data-action="cpost">Save</button>
+                <button type="button" class="btn bg-indigo cancelEditedComment clacel">Cancel</button>
+            </div>   
+            <button type="button" data-commentID="<%=commentList.comment_id%>" class="ws-btn-default editBtn showEdit" data-toggle="tooltip" data-placement="top" data-content="Edit" <%if(ADMINID !=commentList.adminID ){%> style="display: none;" <%}%> ><i class="material-icons">mode_edit</i></button>
+            <button type="button" data-commentID="<%=commentList.comment_id%>" class="ws-btn-default deleteBtn showDelete" data-toggle="tooltip" data-placement="top" data-content="Delete" <%if(ADMINID !=commentList.adminID ){%> style="display: none;" <%}%> ><i class="material-icons">delete</i></button>
+            </div>
+        </div>
+    </li>
+</ul>

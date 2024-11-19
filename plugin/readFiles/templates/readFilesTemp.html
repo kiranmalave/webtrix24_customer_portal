@@ -1,0 +1,148 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="body">
+          <div class="header">
+            <h2>Media <%
+              if(fName != undefined){ fName.toUpperCase() } %><small>Create links and assign modules to it</small> </h2>
+          </div>
+          <% if(pagemodel.folderName.trim()=="" ){ %>
+            <div class="row">
+              <div class="col-xs-4 col-md-4 col-lg-4">
+                <label for="folderName">Folder Name <span class="error">*</span> :</label>
+                <input id="folderName" class="form-control txtchange" name="folderName" type="text" maxlength="40"
+                  value="">
+              </div>
+              <div class="col-xs-4 col-md-4 col-lg-4">
+                <label for="folderName">&nbsp;</label><br />
+                <button id="createFolder" type="button" class="btn bg-indigo waves-effect">Create</button>
+              </div>
+            </div>
+            <% } %><br />
+            <div class="col-md-12 ws-dragbox taskAttachDragBox">
+              <div class="ws-assignee-column">
+                 <input type="file" multiple class="btn btn-default btn__action" id="fileupload" />
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="body">
+          <div class="col-xs-12">
+            <a href="javascript:void(0);" class="backOneFolder">
+              <i class="fa fa-arrow-circle-o-left fa-2x" style="padding: 10px;" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="row">
+            <% if(pagemodel.folderName.trim() !="" ){ %>
+              <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 m-b-20 text-center readFolder" data-readfolder=""
+                data-folderName="">
+                <div class="demo-google-material-icon">
+                  <i class="material-icons">keyboard_backspace</i>
+                  <span class="icon-name">Back</span>
+                </div>
+              </div>
+              <% } %>
+                <% _.each(searchreadFiles,function(model){%>
+                  <%if(model.attributes.is_folder !="y" ){ if(loadFrom=="" ){%>
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 m-b-20 loadview mediaFiles readFiles"
+                      data-show="singleFile" data-url="<%=pagemodel.fPath%>/<%=model.attributes.media_key%>"
+                      data-id="<%=model.attributes.media_id %>" data-fname="<%=model.attributes.media_key%>"
+                      data-fldname="<%=pagemodel.folderName%>">
+                      <% }else{ %>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 m-b-20 loadview mediaFiles returnFile"
+                          data-url="<%=pagemodel.fPath%>/<%=model.attributes.media_key%>"
+                          data-id="<%=model.attributes.media_id %>" data-fname="<%=model.attributes.media_key%>"
+                          data-fldname="<%=pagemodel.folderName%>">
+                          <% } %>
+                            <div class="thumbnail">
+                              <div class="centered">
+                                <% let ff=model.attributes.media_key; let fName=ff.split("."); if (-1<$.inArray(
+                                  fName[1], [ 'mp4' ,'mov','avi','3gp','pdf' ] )){ %>
+                                    <%=fName[1]%>
+                                    <%}else { 
+                                    if(fName[1] =="svg") { 
+                                    %>
+                                    <img class="img-fluid fileImage img-thumbnail unsetborder"
+                                    src="<%=pagemodel.fPath%>/<%=pagemodel.folderName %>/<%=fName[0]%>.<%=fName[1]%>"
+                                    alt="">
+                                    <% } else { %>
+                                      <img class="img-fluid fileImage img-thumbnail unsetborder"
+                                    src="<%=pagemodel.fPath%>/<%=pagemodel.folderName %>/<%=fName[0]%>_150x150.<%=fName[1]%>"
+                                    alt="">
+                                      <%} } %>
+                              </div>
+                            </div>
+                        </div>
+                        <% }else{ %>
+                          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 m-b-20 text-center readFolder"
+                            data-folderName="<%=model.attributes.media_key%>"
+                            data-readfolder="<%=model.attributes.media_id%>">
+                            <div class="demo-google-material-icon">
+                              <i class="material-icons">folder</i>
+                              <span class="icon-name">
+                                <%=model.attributes.media_key%>
+                              </span>
+                            </div>
+                          </div>
+                          <%}%>
+                            <%})%>
+                    </div>
+                    <!-- paggination -->
+                    <div id="loadMember" data-index="1" data-currPage="1"></div>
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+                            class="page-info"></span></div>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+                          <ul class="pagination">
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- paggination -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-right">
+    <ul class="nav side-menu"></ul>
+    <ul class="nav side-menu bottom">
+      <li class="loadview nav-item" data-show="mail" data-custMail="-">
+          <span class="material-icons">email</span>
+          <span style="font-size: 12px;">Email</span>
+      </li>
+    </ul>
+  </div>
+  <div class="ws_filterOptions"></div>
+
+  <div id="customMail" class="customMail" style="display: none;"></div>
+  
+  <div class="customMailMinimize" style="display: none;">
+    <div class="titleSec">
+      <span>New Message</span>
+    </div>
+    <div class="iconSec">
+      <button type="button" class="btn  minimize showMax">
+        <i class="material-icons">
+          maximize
+        </i>
+      </button>
+
+      <button type="button" class="btn  openFull">
+        <img src="images/open_blank.svg" alt="" />
+      </button>
+
+      <button type="button" class="btn  close">
+        <i class="material-icons">
+          clear
+        </i>
+      </button>
+
+    </div>
+  </div>

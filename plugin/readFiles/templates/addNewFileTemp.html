@@ -1,0 +1,40 @@
+<div class="tab-pane in active">
+    <div id="menuSingleView">
+        <form id="menuDetails" name="menuDetails" action="#">
+            <div class="text-right actionBtns">
+                <button id="delImage" type="button" class="btn bg-indigo waves-effect"
+                    data-action="close">Delete</button>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="fileName">File URL:</label>
+                    <input id="fileName" class="form-control txtchange" name="fileName" required="" type="text"
+                        value="<%=model.fileURL%>" data-value="<%=model.media_id%>">
+                </div>
+                <div class="col-sm-6">
+                    <label for="fileName">&nbsp;</label><br />
+                    <button id="copyToClipboard" type="button" class="btn btn-raised bg-blue waves-effect">Copy to
+                        Clipboard</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 mt-4 text-center">
+                    <% let ff=model.fname; let fName=ff.split("."); if (-1<$.inArray( fName[2], [ 'mp4'
+                        ,'mov','avi','3gp' ] )) { %>
+                        <video width="400" controls>
+                            <source src="<%=model.fileURL%>" type="video/mp4">
+                            <source src="<%=model.fileURL%>" type="video/avi">
+                            Your browser does not support HTML video.
+                        </video>
+                        <% } else { %>
+                            <img style="max-width: 100%;" src="<%=model.fileURL%>">
+                            <% } %>
+                </div>
+            </div>
+
+            <div class="clearfix">&nbsp;</div>
+            <div id="dynamicFormFields" class="row"></div>
+            <div class="clearfix">&nbsp;</div>
+        </form>
+    </div>
+</div>

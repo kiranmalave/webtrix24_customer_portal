@@ -1,0 +1,76 @@
+
+<div class="tab-pane in active">
+    <form id="formDetails" name="formDetails">
+        <div class="text-right actionBtns">
+            <button type="button" class="btn bg-indigo saveformDetails" data-action="close">Save</button>
+            <button type="button" class="btn bg-indigo saveformDetails" data-action="new">Save & new</button>
+        </div>
+        <div class="clearfix">&nbsp;</div>      
+        <div class="row ws-form-main-container">
+            <div class="col-md-10">
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                        </div>
+                    </div>
+                    <div class="right-layout">
+                        <div class="row">
+                            <div class="col">       
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="form_name" class="form-label">Form Title</label>
+                                        <input id="form_name" class="form-control txtchange" name="form_name" autocomplete="off" type="text" value="<%=model.form_name%>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-row">
+                    <div class="icon-left">
+                        <div class="ws-icon">
+                            <span class="input-group-addon lg"><i class="material-icons">sort</i></span>
+                        </div>
+                    </div>
+                    <div class="right-layout mb-5 ws-quill">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="from_description">Description</label>
+                                <div id="from_description" class="form-control"><%=model.from_description%></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <!-- <div class="fieldsDroppable"> -->
+                    <div class="questionView"></div>
+                    <!-- <div class="questionView" id="ws-evens"></div> -->
+                    <div class="ws-duplicates" id="duplicates"></div>
+                    <div class="titleView" id="ws-textfiled"></div>
+                    <div class="titleView" id="ws-remove-field btn-remove-customer col-1 mt-3"></div>
+                    <div class="titleView" id="ws-addtitle"></div>
+                    <div class="videoView" id="ws-addvideo"></div>
+                <!-- </div> -->
+                <!-- <div class="titleView" id="ws-addtitle"></div> -->
+
+                <!-- <table id="clist" class="table bulk_action tableList">
+                    <tbody>
+                        <tr class="questionView col-12"></tr>
+                    </tbody>
+                </table> -->
+            </div>
+            <div class="col-md-1">
+                <div class="right-layout card-body shadow ws-btn-sidebar">
+                    <button type="button" class="ws-btn-default add-questions" id="optionsList" data-toggle="tooltip" data-placement="top" data-content="Add question"><i class="material-icons">add</i></button>
+                    <!-- <button type="button" class="ws-btn-default" data-toggle="tooltip" data-placement="top" data-content="Import question"><i class="material-icons">input</i></button> -->
+                    <button type="button" class="ws-btn-default add-title" data-toggle="tooltip" data-placement="top" data-content="Add title and description"><i class="material-icons">text_fields</i></button>
+                    <button type="button" class="ws-btn-default loadMedia" id="question-media" data-change="ws-bg-image" data-toggle="modal" data-target="#defaultModal" data-toggle="tooltip" data-placement="top" data-content="Add image"><span class="material-icons">photo_size_select_actual</span></button>  
+                    <button type="button" class="ws-btn-default add-video" data-toggle="tooltip" data-placement="top" data-content="Add video"><i class="material-icons">live_tv</i></button>
+                    <!-- <button type="button" class="ws-btn-default add-section" data-toggle="tooltip" data-placement="top" data-content="Add section"><i class="material-icons">view_stream</i></button> -->
+                </div> 
+            </div> 
+        </div>
+    </form>
+</div>
+
+
+

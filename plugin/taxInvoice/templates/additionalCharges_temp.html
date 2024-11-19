@@ -1,0 +1,25 @@
+<div class="row fieldsSelection mb-2" id="row_<%=rowCounter%>">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 field-text form-group form-float pr-2">
+      <input id="field_title_<%=rowCounter%>" type="text" class="form-control txtchange pAll-5 updateAmt" placeholder="Title" name="field_title" >  
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 field-text form-group form-float pLeftRight-5">
+      <input id="field_rate_<%=rowCounter%>" type="text" class="form-control txtchange pAll-5 updateAmt" placeholder="Rate" name="field_rate" >
+    </div>
+    <% if(isGstBilling =='yes') {%>
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 field-text form-group form-float pLeftRight-5">
+        <input id="field_gst_<%=rowCounter%>" type="text" class="form-control txtchange pAll-5 updateAmt" disabled placeholder="Gst" name="field_gst" value="<%=largest%>" >
+      </div>
+    <% }else{%>
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 field-text form-group form-float pLeftRight-5">
+        &nbsp;
+      </div>
+    <% } %>
+    <div class="col-xs-1 col-sm-1 col-md-1  form-group form-float col-lg-1">
+        <span data-toggle="tooltip" data-placement="top" data-content="Delete" data-action="delete">
+          <img class="invoiceDeleteImg removeFields" src="images/deleteImg.png"/>
+        </span>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 form-group form-float">
+      <div id="addChargesTotal_<%=rowCounter%>" class="addChargesTotal" style="text-align: right">0.00</div>
+  </div>
+</div>

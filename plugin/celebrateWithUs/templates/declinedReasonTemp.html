@@ -1,0 +1,24 @@
+<div id="declinedData" class="modelbox">
+    <div class="clearfix">&nbsp;</div>
+
+    <form id="declinedDetails" name="declinedDetails" action="#">
+        <div class="col-xs-12">
+            <div class="member-profile-img">
+                <img src="">
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-sm-12">
+                <label for="reason">Reason for Declining<span class="error">*</span> :</label>
+                <textarea id="reason" class="form-control txtchange" name="reason" type="text" rows="5" required=""><%=model.reason%></textarea>
+            </div> 
+        </div>
+        
+        <div class="clearfix">&nbsp;</div>
+            
+            <div class="text-center">
+            <div class="clearfix">&nbsp;</div>
+            <button id="saveDeclinedDetails" type="button" class="btn bg-indigo" data-action="close">Save</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,110 @@
+<tr class="even pointer bg-<%=pagesMasterDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= pagesMasterDetails.attributes.pageID %>" class="memberlistcheck chk-col-amber deleteCard"
+        data-pageID="<%= pagesMasterDetails.attributes.pageID %>" type="checkbox">
+      <label for="cAll_<%= pagesMasterDetails.attributes.pageID %>">&nbsp;</label>
+    </div>
+  </td>
+  <!-- <td class=""><%=pagesMasterDetails.attributes.pageID%></td> -->
+  <!-- <td class="draglinerow truncateWidth">
+    <div class="nametooltip truncateColumns">
+      <a target="_blank" href="<%= APPPFRONTATH %><%= pagesMasterDetails.attributes.pageLink %>">
+        <u class="" title="<%= pagesMasterDetails.attributes.pageTitle %>">
+          <%= pagesMasterDetails.attributes.pageTitle %>
+        </u>
+      </a>
+      <% if (pagesMasterDetails.attributes.isHome=='yes' ) { %>
+        <span class="badge badge-info">Home Page</span>
+        <% } else if (pagesMasterDetails.attributes.status=='inactive' ) { %>
+          <span class="badge badge-info bg-grey">Un Published</span>
+          <% } else if (pagesMasterDetails.attributes.status=='active' ) { %>
+            <span class="badge badge-info bg-light-green">Published</span>
+            <% } %>
+    </div>
+  </td> -->
+  <!-- <td class="draglinerow truncateWidth">
+    <div class="nametooltip truncateColumns">
+      <span class="" title="<%=pagesMasterDetails.attributes.pageLink%>">
+        <%=pagesMasterDetails.attributes.pageLink%>
+      </span>
+    </div>
+  </td>
+
+  <td class="draglinerow truncateWidth">
+    <div class="nametooltip truncateColumns">
+      <%=pagesMasterDetails.attributes.categoryName%>
+    </div>
+  </td>
+
+  <td class="draglinerow truncateWidth">
+    <div class="nametooltip truncateColumns">
+      <%= formatDate(pagesMasterDetails.attributes.created_date,'no') %>
+    </div>
+  </td>
+
+  <td class="draglinerow truncateWidth">
+    <div class="nametooltip truncateColumns">
+      <%=pagesMasterDetails.attributes.name%>
+    </div>
+  </td> -->
+  <% _.each(arrangedColumnList, function(column) { %>
+    <% if(column.column_name == 'pageTitle') { %>
+      <td class="draglinerow truncateWidth loadview" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-view="singlepagesMasterData">
+        <div class="nametooltip truncateColumns">
+          <a target="_blank" href="<%= APPPFRONTATH %><%= pagesMasterDetails.attributes.pageLink %>">
+            <u class="" title="<%= pagesMasterDetails.attributes.pageTitle %>">
+              <%= pagesMasterDetails.attributes.pageTitle %>
+            </u>
+          </a>
+          <% if (pagesMasterDetails.attributes.isHome=='yes' ) { %>
+            <span class="badge badge-info">Home Page</span>
+            <% } else if (pagesMasterDetails.attributes.status=='inactive' ) { %>
+              <span class="badge badge-info bg-grey">Un Published</span>
+              <% } else if (pagesMasterDetails.attributes.status=='active' ) { %>
+                <span class="badge badge-info bg-light-green">Published</span>
+                <% } %>
+        </div>
+      </td>
+    <% } else if(column.column_name == 'category_id') { %>
+      <td class="draglinerow truncateWidth loadview" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-view="singlepagesMasterData">
+        <span class="nametooltip truncateColumns">
+          <%=pagesMasterDetails.attributes.categoryName%>
+        </span>
+      </td>
+    <%}else if(column.column_name == 'created_date'){%>
+      <td class="draglinerow truncateWidth loadview" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-view="singlepagesMasterData">
+        <span class="nametooltip truncateColumns">
+          <%=pagesMasterDetails.attributes.formatted_created_date%>
+        </span>
+      </td>
+    <%}else if(column.column_name == 'modified_date'){%>
+      <td class="draglinerow truncateWidth loadview" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-view="singlepagesMasterData">
+        <span class="nametooltip truncateColumns">
+          <%=pagesMasterDetails.attributes.formatted_modified_date%>
+        </span>
+      </td>
+    <% } else { %>
+      <td class="draglinerow truncateWidth loadview" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-view="singlepagesMasterData">
+        <div class="nametooltip truncateColumns">
+          <% if (column.linkedWith != "" && column.linkedWith != null && column.linkedWith != "undefined") { %>
+            <%= pagesMasterDetails.attributes[column.linkedWith + "_" + column.column_name] %>
+          <% } else { %>
+            <% if(pagesMasterDetails.attributes[""+column.column_name] == "" || pagesMasterDetails.attributes[""+column.column_name] == null){%>
+              -
+            <%}else{%>
+              <%=pagesMasterDetails.attributes[""+column.column_name]%>
+            <%}%>
+          <% } %>
+        </div>
+      </td>
+    <% } %>
+  <% }); %>
+  
+  <td class="draglinerow" style="display: flex;">
+    <button class="ws-btn-default loadview" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-view="singlepagesMasterData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    <a class="ws-btn-default" target="_blank" href="#addnewpage/<%= pagesMasterDetails.attributes.pageID %>" data-toggle="tooltip" data-placement="top" data-content="Design"><i class="material-icons">brush</i></a>
+    <button class="ws-btn-default copyContent" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-toggle="tooltip" data-placement="top" data-content="Copy"><i class="material-icons">content_copy</i></button>
+    <button class="ws-btn-default hardDelete" data-pageID="<%=pagesMasterDetails.attributes.pageID%>" data-toggle="tooltip" data-placement="top" data-content="Delete"><i class="material-icons">delete</i></button>
+  </td>
+</tr>

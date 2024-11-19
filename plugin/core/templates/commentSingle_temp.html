@@ -1,0 +1,98 @@
+<div class="">
+    <div>
+        <div class="showHistory"></div>
+        <div class="showComment">
+            <div class="list-row mt-2">
+                <div class="icon-left">
+                    <div class="ws-icon">
+                        <span class="input-group-addon lg">
+                            <i class="material-icons">rate_review</i>
+                        </span>
+                    </div>
+                </div>
+                <div class="right-layout ws-quill">
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="outerCommentdiv">
+                                <div class="form-control comment-box" data-new="true">Enter Comment</div>
+                            </div>
+                            <div class="commentEditor">
+                                <div id="comment" class="form-control comment-editor" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right buttonHide">
+                            <button name="post" id="post" type="button" class="btn bg-indigo saveComment" data-action="cput">Save</button>
+                            <button type="button" data-cal="" class="btn bg-indigo cancelPost cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-row mt-2">
+                <div class="right-layout">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="taskComments" class="showPages"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="body Comments">
+            <div class="card-body" style="padding: 0 0 0 0;">
+                <%if(total != 0){%>
+                    <h6 id="totalComments" class="card-title" style="margin-bottom:0;">All Comments (<%=total%>)</h6>
+                <%}%>
+            </div>
+            <span class="commentsSortingBtn">
+                <button type="button" class="listSortColumns btn-bgColor columntop taskCommentsSortingDownwards" data-action="ASC" data-toggle="tooltip" data-placement="top" data-content="Sort Comments" <%if(commentsSorting != "ASC"){%>style="display: none;"<%}%>>Newest First <span class="material-icons">arrow_downward</span></button>
+                <button type="button" class="listSortColumns btn-bgColor columntop taskCommentsSortingUpwards " data-action="DESC" data-toggle="tooltip" data-placement="top" data-content="Sort Comments" <%if(commentsSorting != "DESC"){%>style="display: none;"<%}%>>Oldest First <span class="material-icons" style="width: 28px; padding-left: 7px;">arrow_upwards</span></button>
+            </span>
+            <% var counter = 0; %>
+            <% _.each(commentList, function(model1) { %>
+                    <div id="commentRow_<%=model1.attributes.comment_id%>" class="newComments">
+                        <ul class="inbox-widget list-unstyled clearfix">
+                            <li class="inbox-inner">
+                                <div class="inbox-item totalItems">
+                                    <div class="inbox-img profilePic">
+                                        <%if(model1.attributes.photo!= ""){%>
+                                           <img src="<%=PROFILEPHOTOUPLOAD%><%=model1.attributes.adminID%>/profilePic/<%=model1.attributes.photo%>" alt="User" />
+                                        <%}else { %>
+                                            <span><%=model1.attributes.initial%></span>
+                                        <%}%>
+                                    </div>
+                                    <div class="commentTextSec">
+                                        <div class="inbox-item-infoHeader">
+                                            <p class="author"><%=model1.attributes.name%></p>
+                                            <p class="inbox-date"><%=model1.attributes.created_date%></p>
+                                            <% if(model1.attributes.modified_date !='' && model1.attributes.modified_date !=null && model1.attributes.modified_date !="null") { %>
+                                                <p class="edit-date"  data-toggle="tooltip" data-placement="top" data-content="<%=model1.attributes.modified_date%>" title="<%=model1.attributes.modified_date%>">Edited</p>
+                                            <% } %>
+                                        </div>
+                                        <div id="editCmt_<%=model1.attributes.comment_id%>" class="inbox-message editComment" data-commentID="<%=model1.attributes.comment_id%>">
+                                            <%=model1.attributes.comment_text%>
+                                        </div>
+                                        <div class="col-md-12 text-right editCmtBtn_<%=model1.attributes.comment_id%>" style="display: none;margin-top:10px;">
+                                            <button name="post" id="post" type="button" data-commentID="<%=model1.attributes.comment_id%>" class="btn bg-indigo saveComment" data-action="cpost">Save</button>
+                                            <button type="button" class="btn bg-indigo cancelEditedComment cancel">Cancel</button>
+                                        </div>
+                                        <button type="button" data-commentID="<%=model1.attributes.comment_id%>" class="ws-btn-default editBtn showEdit" data-toggle="tooltip" data-placement="top" data-content="Edit" <%if(ADMINID != model1.attributes.adminID ){%> style="display: none;" <%}%> ><i class="material-icons">mode_edit</i></button>
+                                        <button type="button" data-commentID="<%=model1.attributes.comment_id%>" class="ws-btn-default deleteBtn showDelete" data-toggle="tooltip" data-placement="top" data-content="Delete" <%if(ADMINID != model1.attributes.adminID ){%> style="display: none;" <%}%>> <i class="material-icons">delete</i></button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+            <%}); %>
+                <div id="commentRow" class="newComments"></div>
+                
+                <% if(loadstate){ %>
+                <div class="row mt-3">
+                    <div class="col-md-12 text-right">
+                            <button id="readMoreBtn" type="button" class="btn readmorecomment btn-primary">Read more</button>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="container-fluid">
+  <div class="row clearfix">
+      <div class="col-lg-12">
+          <div class="card">
+               <div class="header">
+                 <h2>Application Navigation<small>Create links and assign modules to it</small> </h2>
+             </div>
+               <div class="body">
+                 <div class="actionList">
+                   <!-- <div class="action-icons-div ml-1"> -->
+                   <%if(permission.delete=="yes" ) { %>
+                     <span type="button" style="display: none;" class="changeStatus deleteAll" data-action="delete" data-toggle="tooltip" data-placement="top" data-content="Delete"><i
+                         class="material-icons"
+                         style="background-color: #F5BF00; border-radius: 50%; padding: 2px 5px; margin-bottom: 10px;">delete</i></span>
+                     <% } %>
+                 </div>
+                  <table id="clist" class="table bulk_action tableList table-hover">
+                   <thead id="thead">
+                     <tr class="headings">
+                       <th>
+                         <div class="listCheckbox">
+                             <input id="cAll" class="checkall chk-col-amber" data-tocheck="clist" type="checkbox">
+                             <label for="cAll">&nbsp;</label>
+                         </div>
+                       </th>
+                       <th class="column-title">Menu ID</th>
+                       <th class="column-title">Menu Name</th>
+                       <th class="column-title">Menu Link</th>
+                       <th class="column-title">Created Date</th>
+                       <th class="column-title">Action</th>
+                     </tr>
+                   </thead>
+                   <tbody id="menuList">
+                   </tbody>
+                 </table>
+                 <div class="profile-loader-msg text-center"></div>
+                 <div class="profile-loader text-center">
+                  <div class="preloader table">
+                    <div class="loderGif table">
+                      <img src="images/webloader.gif" alt="User" />
+                    </div>
+                  </div>
+                 </div>
+                 <div id="loadMember" data-index="1" data-currPage="1"></div>
+               </div>
+               <!-- paggination -->
+               <div class="footer row">
+                 <div class="col-sm-5">
+                   <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite"><span
+                       class="page-info"></span></div>
+                 </div>
+                 <div class="col-sm-7">
+                   <div class="showPageDetails dataTables_paginate paging_simple_numbers">
+                     <ul class="pagination">
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+               <!-- paggination -->
+              </div>
+          
+
+
+          <div class="card">
+            <div class="header">
+                <h2> DEFAULT EXAMPLE <small>Drag & drop hierarchical list with mouse and touch compatibility</small> </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more-vert"></i> </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);">Action</a></li>
+                            <li><a href="javascript:void(0);">Another action</a></li>
+                            <li><a href="javascript:void(0);">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div class="clearfix m-b-20">
+                    <div id="nestableMenu" class="dd">
+                        <ol id="dd-list" class="dd-list">
+                            
+                        </ol>
+                    </div>
+                </div>
+                <b>Output JSON</b>
+                <textarea cols="30" rows="3" class="form-control no-resize" readonly>[{"id":1},{"id":2,"children":[{"id":3},{"id":4},{"id":5,"children":[{"id":6},{"id":7},{"id":8}]},{"id":9},{"id":10}]},{"id":11},{"id":12}]</textarea>
+            </div>
+        </div>
+      </div>
+
+      </div>
+  </div>
+</div>   
+<div class="sidebar-right">
+  <ul class="nav side-menu">
+    <li id="filterOption" class="nav-item" data-item="<%=closeItem%>" data-toggle="tooltip" data-placement="top" data-content="Filter">
+      <!-- <span class="material-icons">filter</span> -->
+      <span class="material-symbols-outlined">
+        filter_alt
+        </span>
+      <!-- <button type="button" class="btn btn-info loadview" data-target="#myModal" data-menuID="" data-show="singlemenuData"data-toggle="modal">Add Menu Details</button> -->
+    </li>
+  <%if(permission.add=="yes" ) { %>
+  <li class="loadview nav-item" data-view="singlemenuData" data-item="menuSingleView" data-toggle="tooltip" data-placement="top" data-content="Add">
+    <span class="material-icons">add</span>
+    <!-- <button type="button" class="btn btn-info loadview" data-target="#myModal" data-menuID="" data-show="singlemenuData"data-toggle="modal">Add Menu Details</button> -->
+  </li>
+  <% } %>
+
+  </ul>
+</div>
+<div class="ws_filterOptions">
+
+</div>

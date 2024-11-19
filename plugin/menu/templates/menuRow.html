@@ -1,0 +1,17 @@
+<tr class="even pointer bg-<%=menuDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+        <input id="cAll_<%= menuDetails.attributes.menuID %>" class="memberlistcheck chk-col-amber" data-menuID="<%= menuDetails.attributes.menuID %>" type="checkbox">
+        <label for="cAll_<%= menuDetails.attributes.menuID %>">&nbsp;</label>
+    </div>
+  </td>
+  <td class=""><%=menuDetails.attributes.menuID%></td>
+  <td class="loadview" data-menuID="<%=menuDetails.attributes.menuID%>" data-view="singlemenuData" ><a href="javascript:;"><u><%=menuDetails.attributes.menuName%></u></a></td></td>
+  <td class=""><%=menuDetails.attributes.menuLink%></td>
+  <td class=""><%= formatDate(menuDetails.attributes.created_date,'no') %></td>
+  <td>
+    <button type="button" class="ws-btn-default loadview"  data-menuID="<%=menuDetails.attributes.menuID%>" data-view="singlemenuData"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit">mode_edit</i></button>
+    <button type="button" class="ws-btn-default"  data-menuID="<%=menuDetails.attributes.menuID%>"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Delete">delete</i></button>
+    <a class="ws-btn-default loadview" href="#pageCustomFields/<%=menuDetails.attributes.menuID%>" data-toggle="tooltip" data-placement="top" data-content="Dynamic Form"><i class="material-icons">extension</i></a> 
+  </td>
+</tr>

@@ -1,0 +1,18 @@
+<div class="form-group form-float">
+          <div class="form-line">
+                    <label for="interval" class="form-label">Interval :</label>
+                    <select for="interval" id="interval" name="interval" title="Interval" class="form-control dropval ws-select show-tick repeatChange">
+                              <% _.each(intervals, function(interval) { %>
+                                        <option <% if( currentElement.interval == interval ){ %> selected <% } %>value="<%=interval%>"> 
+                                                  <%  
+                                                  let columnfield = interval.replace(/_/g, " "); 
+                                                  let upl = columnfield.split(' ')
+                                                  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                                  .join(' '); 
+                                                  %>
+                                                  <%=upl%>
+                                        </option>
+                              <%})%>
+                    </select>
+          </div>
+</div>

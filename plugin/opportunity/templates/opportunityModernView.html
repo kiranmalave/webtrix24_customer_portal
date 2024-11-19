@@ -1,0 +1,88 @@
+
+
+<tr class="even pointer bg- opportunityRow forModerntask" data-opportunityID="<%= opportunityDetails.attributes.opportunity_id %>">
+    <td class="a-center">
+        <div class="listCheckbox">
+        <input id="cAll_<%= opportunityDetails.attributes.opportunity_id %>" class="memberlistcheck chk-col-amber" data-opportunity_id="<%= opportunityDetails.attributes.opportunity_id %>" type="checkbox">
+        <label for="cAll_<%= opportunityDetails.attributes.opportunity_id %>">&nbsp;</label>
+        </div>
+    </td>
+  
+    <% _.each(arrangedColumnList, function(column) { %>
+        <% if(column.column_name == "name" ) { %>
+            <td class="draglinerow truncateWidth">
+                <a class="custName" target="_blank" href="#opportunityDashboard/<%= opportunityDetails.attributes.opportunity_id %>/<%=menuID%>">
+                  <%if (opportunityDetails.attributes.opportunity_image == "" ){%>
+                    <span class="initial" style="background-color : <%=opportunityDetails.attributes.initialBgColor%>; color:<%=opportunityDetails.attributes.initialColor%>" ><%=opportunityDetails.attributes.initial%> </span>
+                  <%}else{%>
+                      <img src="<%=opportunityDetails.attributes.opportunity_image%>" style=" width: 25px; height: 25px; border-radius: 50%;display:flex;flex-shrink:0"/>
+                  <%}%><span class="salutationCls"><%=opportunityDetails.attributes.salutation%>.</span><span class="nametooltip truncateColumns"> <%=opportunityDetails.attributes.name%> </span> 
+                  <% if ((opportunityDetails.attributes.email == '-') || (opportunityDetails.attributes.mobile_no == '-')) { %>
+                    <% if ((opportunityDetails.attributes.email == '-') && (opportunityDetails.attributes.mobile_no == '-')) { %>
+                      <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Email Address & Mobile no. Not Found"/>
+                      <!-- <span class="alertIcon material-icons" data-toggle="tooltip" data-placement="top" data-content="Email Address & Mobile no. Not Found">warning</span> -->
+                    <% } else if ((opportunityDetails.attributes.email == '-')) { %>
+                      <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Email Address Not Found"/>
+                      <!-- <span class="alertIcon material-icons" data-toggle="tooltip" data-placement="top" data-content="Email Address Not Found">warning</span> -->
+                    <% } else { %>
+                      <img src="images/alertIcon.png" class="alertIcon" data-toggle="tooltip" data-placement="top" data-content="Mobile no. Not Found"/>
+                      <!-- <span class="alertIcon material-icons" data-toggle="tooltip" data-placement="top" data-content="Mobile no. Not Found">warning</span> -->
+                    <% } %>
+                  <% } %>
+                </a>
+            </td>
+            <% } else if(column.column_name == "email" ) { %>
+              <td class="draglinerow truncateWidth">
+                  <p class="loadview nametooltip truncateColumns" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>"
+                  data-custMail="<%=opportunityDetails.attributes.email%>" data-view="mail" style="cursor: pointer;">
+                  <%=opportunityDetails.attributes.email%></p>
+              </td>
+          <% } else if(column.column_name == "stages" ) { %>
+            <% if(menuName=="leads" ) { %>
+              <td class="draglinerow truncateWidth">
+                <div class="nametooltip truncateColumns mt-2">
+                  <span <%if(opportunityDetails.attributes.stage_color != "" && opportunityDetails.attributes.stage_color != null){%>style="background: <%=opportunityDetails.attributes.stage_color%>; color:white;  padding:4px 10px; border-radius:5px;line-height: 26px; "<%} else {%>style="color:#00000"<%}%>><%=opportunityDetails.attributes.stages%></span>
+                </div>
+              </td>
+            <% } %>
+            <%} else if(column.column_name == "lead_source" ) { %>
+              <% if(menuName=="leads" ) { %>
+                <td class="draglinerow truncateWidth">
+                  <div class="nametooltip truncateColumns mt-2" >
+                    <span <%if(opportunityDetails.attributes.source_color != "" && opportunityDetails.attributes.source_color != null){%>style="background: <%=opportunityDetails.attributes.source_color%>; color:white;  padding:4px 10px; border-radius:5px;line-height: 26px; "<%} else {%>style="color:#00000"<%}%>><%=opportunityDetails.attributes.lead_source%></span>
+                  </div>
+                </td>
+              <% } %>
+          <% } else if(column.column_name == 'assignee') { %>
+            <td class="draglinerow truncateWidth">
+              <%if (opportunityDetails.attributes.assignee != "-" && opportunityDetails.attributes.assignee != null && opportunityDetails.attributes.assignee != undefined){ %>
+                <span class="d-flex-left">
+                  <%if (opportunityDetails.attributes.assigneePhoto == "" || opportunityDetails.attributes.assigneePhoto == null){%>
+                    <span class="initial" style="background-color : <%=opportunityDetails.attributes.assigneeInitialBgColor%>; color:<%=opportunityDetails.attributes.assigneeInitialColor%>" ><%=opportunityDetails.attributes.assigneeInitial%> </span>
+                  <%}else{%>
+                      <img src="<%=PROFILEPHOTOUPLOAD%><%=ADMINID%>/profilePic/<%=opportunityDetails.attributes.assigneePhoto%>" style=" width: 25px; height: 25px; border-radius: 50%;display:flex;flex-shrink:0"/>
+                  <%}%>
+                  <p class="nametooltip truncateColumns"> <%=opportunityDetails.attributes.assignee%> </p>
+                </span>
+              <% }else{ %>
+                <p class="nametooltip truncateColumns"> <%=opportunityDetails.attributes.assignee%> </p>
+              <% } %>
+            </td>
+          <% } else { %>
+            <td class="draglinerow truncateWidth">
+              <div class="nametooltip truncateColumns">
+                <% if(column.linkedWith !="" && column.linkedWith !=null && column.linkedWith !="undefined" ) { %>
+                  <%=opportunityDetails.attributes[""+column.linkedWith+"_"+column.column_name]%>
+                <% }else { %>
+                  <%=opportunityDetails.attributes[""+column.column_name]%>
+                <% } %>
+              </div>
+            </td>
+            <% } %>
+    <% }); %>
+      <td style="width: 0px;">
+        <div class="opportunityHoverButton">
+          <button type="button" class="ws-btn-default loadview" data-opportunity_id="<%=opportunityDetails.attributes.opportunity_id%>"  data-view="singleopportunityData"><i class="material-icons" data-toggle="tooltip" data-placement="top" data-content="Edit">mode_edit</i></button>
+        </div>
+      </td>
+  </tr>

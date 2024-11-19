@@ -1,0 +1,27 @@
+<tr class="even pointer bg-<%=blogsMasterDetails.attributes.status%>">
+  <td class="a-center">
+    <div class="listCheckbox">
+      <input id="cAll_<%= blogsMasterDetails.attributes.blogID %>" class="memberlistcheck chk-col-amber"
+        data-blogID="<%= blogsMasterDetails.attributes.blogID %>" type="checkbox">
+      <label for="cAll_<%= blogsMasterDetails.attributes.blogID %>">&nbsp;</label>
+    </div>
+  </td><!-- 
+  <td class=""><%=blogsMasterDetails.attributes.blogID%></td> -->
+  <td class="textwrap loadview" data-blogID="<%=blogsMasterDetails.attributes.blogID%>" data-view="singleblogsMasterData"><a target="_blank" href="<%=APPPFRONTATH%><%=blogsMasterDetails.attributes.blogLink%>"><u>
+        <%=blogsMasterDetails.attributes.blogTitle%>
+      </u></a>
+    <% if(blogsMasterDetails.attributes.isHome=='yes' ) { %><span class="badge badge-info">Home Blog</span>
+      <% } %>
+  </td>
+  <td class="textwrap loadview" data-blogID="<%=blogsMasterDetails.attributes.blogID%>" data-view="singleblogsMasterData">
+    <%=blogsMasterDetails.attributes.blogLink%>
+  </td>
+  <td class="textwrap loadview" data-blogID="<%=blogsMasterDetails.attributes.blogID%>" data-view="singleblogsMasterData">
+    <%=blogsMasterDetails.attributes.categoryName%>
+  </td>
+  <td>
+    <button class="ws-btn-default loadview" data-blogID="<%=blogsMasterDetails.attributes.blogID%>" data-view="singleblogsMasterData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+    <a class="ws-btn-default" target="_blank" href="#addnewblog/<%= blogsMasterDetails.attributes.blogID %>"
+      data-toggle="tooltip" data-placement="top" data-content="Design"><i class="material-icons">brush</i></a>
+  </td>
+</tr>

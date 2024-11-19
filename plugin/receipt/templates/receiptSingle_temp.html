@@ -1,0 +1,256 @@
+<div class="tab-pane in active">
+
+  <form id="receiptDetails" name="receiptDetails" action="#">
+    <div class="text-right actionBtns" <% if(model.receipt_id !="" && model.receipt_id !=null && model.receipt_id !=undefined ){%> style="display: none;" <%}%> >
+        <button type="button" class="btn bg-indigo savereceiptDetails" data-action="close">Save</button>
+        <button type="button" class="btn bg-indigo savereceiptDetails" data-action="new">Save & new</button>
+    </div>
+    <div class="row ws-main-container">
+      <div class="col-md-12 ws-appointment-container">
+        <div class="clearfix">&nbsp;</div>
+        <div class="list-row">
+          <div class="icon-left">
+          </div>
+          <div class="right-layout">
+            <% if(model.loadFrom=='project' && model.revenueType=="expected" ){ %> <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <input id="title" type="text" class="form-control txtchange ddcnt" autocomplete="off" name="title" value="<%=model.title%>" />
+            <label for="title" class="form-label">Title <span class="error">*</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-float" >
+          <div class="form-line taskDate">
+              <input id="customer_id" type="text" data-source="customer" data-check="name" data-list="name,customer_id,type" data-stat="false" autocomplete="off" class="form-control ws-freetxt" name="customer" value="<%=model.customer_name%>">
+              <label for="customer_id" class="form-label taskDate">Customer</label>
+          </div>
+          <div class="freeSerachList"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group form-float ws-form-option">
+          <label for="show_history" class="form-label">Show History In Pdf<span class="error"></span>
+          </label>
+          <ul class="item-container" data-valid="show_history">
+            <li class="show_history multiSel" data-render="yes" data-single="Y" data-value="yes">
+              Yes</li>
+            <li class="show_history multiSel" data-render="yes" data-single="Y" data-value="no">No
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="related_to" class="form-label">Related To:</label>
+            <select name="related_to" id="related_to" title="Related To" class="ws-select form-control dropval">
+              <option value="" class="addNew">Select Related to</option>
+              <option <% if(model.related_to=="project" ) {%> selected <% } %> value="project">Project</option>
+              <option <% if(model.related_to=="oportunity" ) {%> selected <% } %> value="oportunity">Oportunity</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <% if(model.related_to==='project' ){ %>
+      <div class="col-md-6">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="record_id" class="form-label">Select Project:</label>
+            <select name="record_id" id="record_id" title="Select Project" class="ws-select form-control dropval">
+              <option class="addNew" value="addNewProject">Add New Project
+              </option>
+              <% _.each(projectsList, function(project) { %>
+                <option <% if(model.record_id==project.attributes.project_id ) {%> selected <% } %> value="<%=project.attributes.project_id%>"><%=project.attributes.title%></option>
+              <%}) %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+    <div class="row">
+      <% if(model.loadFrom=='project' && model.revenueType !="expected" ){ %>
+      <div class="col-md-6">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="income_id" class="form-label">Select Expected Revenue</label>
+            <select name="income_id" id="income_id" title="Select Expected Revenue" class="ws-select form-control dropval">
+              <% _.each(expectedIncomeList, function(income) { %>
+                <option <% if( model.income_id==income.income_id) {%>selected <% } %> value="<%=income.income_id%>"><%=income.title%></option>
+              <%}) %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <% } %>
+      <div <% if(model.loadFrom=='project' && model.revenueType !="expected" ){ %> class="col-md-4" <%}else{%> class="col-md-6" <%}%>>
+                            <div class="form-group form-float">
+                              <div class="form-line">
+                                <label for="account_id" class="form-label">Bank Account <span class="error">*</span></label>
+                                <select id="account_id" name="account_id" class="form-control ws-select dropval" title="Select Bank Account">
+                                  <option class="addNew" value="addNewBankAccount">Add Bank Account</option>
+                                  <% _.each(accounts, function(account) { %> <option <% if(account.attributes.account_id==model.account_id ){ %> selected <% } %> value="<%=account.attributes.account_id%>"><%=account.attributes.name%></option>
+        <%})%>
+        </select>
+      </div>
+    </div>
+</div>
+<div <% if(model.loadFrom=='project' && model.revenueType !="expected" ){ %> class="col-md-4" <%}else{%> class="col-md-6" <%}%>>
+                            <div class="form-group form-float">
+                              <div class="form-line">
+                                <label class="form-label">Payment Amount <span class="error">*</span></label>
+                                <input autocomplete="off" type="number" name="amount" id="amount" class=" txtchange form-control text-right" value="<%= model.amount%>" />
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+  <div class="col-sm-4 form-details">
+    <div class="form-group form-float">
+      <div class="form-line">
+        <label for="mode_of_payment" class="form-label">Payment Mode
+          <span class="error">*</span></label>
+        <select for="mode_of_payment" id="mode_of_payment" name="mode_of_payment" title="Select Payment Mode" class="form-control dropval ws-select show-tick repeatChange">
+          <%if(permission.add=="yes" ) { %>
+          <option class="addNew" value="">Select Mode Of Payment
+          </option>
+          <%}%>
+                              <% _.each(categoryList, function(modelcat) { %>
+          <% if(modelcat.attributes.slug=="payment_mode" ) _.each(modelcat.attributes.sublist, function(model1) { %>
+          <option <% if(model.mode_of_payment==model1.category_id ){%> selected<% } %> value="<%=model1.category_id%>"><%=model1.categoryName%>
+          </option>
+          <%})%>
+          <%})%>
+
+        </select>
+        <!-- <label for="mode_of_payment" class="form-label">Mode Of Payment</label> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 form-details">
+    <div class="form-group form-float">
+      <div class="form-line">
+        <label class="form-label">Transaction ID</label>
+        <input autocomplete="off" type="text" name="transaction_id" id="transaction_id" value="<%= model.transaction_id%>" class=" txtchange form-control" />
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 form-details">
+    <div class="form-group form-float">
+      <div class="form-line">
+        <label class="form-label">Payment Date <span class="error">*</span></label>
+        <input autocomplete="off" type="text" name="payment_log_date" id="payment_log_date" value="<%= model.payment_log_date%>" class=" txtchange form-control" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 form-details">
+    <div class="form-group form-float">
+      <div class="form-line">
+        <label class="form-label">Note : </label>
+        <textarea id="notes" rows="3" cols="50" name="notes" value="" class="txtchange form-control"><%= model.notes%></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+<div class="clearfix">&nbsp;</div>
+
+<div class="list-row">
+  <div class="icon-left">
+    <div class="ws-icon">
+    </div>
+  </div>
+  <div class="right-layout" <% if(model.loadFrom=='project' ) {%> style="display: none;" <% } %>>
+    <div class="row">
+      <div class="col-md-4">
+        <p class="mt-2 logAttachTitle dragdrop-image">Attachments</p>
+      </div>
+    </div>
+    <div class="row attachupdate logAttach col-md-12 left-space">
+      <button type="button" class="ws-logModalbtn dotborder" data-change="ws-bg-image" data-toggle="modal" data-target=""><span class="material-icons">add</span></button>
+      <div id="attachedDoc" class="row logAttachDoc"></div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+
+    <div class="row upload col-md-12" style="display: none;">
+      <div class="icon-left">
+        <div class="ws-icon">
+          <span class="material-symbols-outlined"></span>
+        </div>
+      </div>
+      <div class="right-layout ws-quill ">
+        <div class="row">
+          <div class="col-md-12 ws-dragbox logAttachDragBox">
+            <div class="ws-assignee-column">
+              <input type="file" multiple class="btn btn-default btn__action" id="attachement" />
+            </div>
+          </div>
+          <div class="col-md-12 text-right ">
+            <button type="button" class="btn bg-indigo hideUpload clacel">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="clearfix">&nbsp;</div>
+</div>
+
+<!-- line break -->
+<!-- <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    attachment
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Attachments</strong></label>
+                        </div>
+                    </div>
+                </div> -->
+<!-- <div class="clearfix">&nbsp;</div>   -->
+<!-- <div class="col-md-4">
+                    <div class="customerMediaLoader">
+                        <div class="clearfix">
+                            <input
+                                style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;margin-left: 15px;text-align: center;"
+                                class="btn loadMedia" type="button" value="Attach File" name="Select Picture"
+                                data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="" style="width: 65%;">
+                        <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.customer_image%>">
+                    </div>
+                </div> -->
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<div id="dynamicFormFields" class="dynamic-align"></div>
+<div class="col-xs-12">
+  <h6 class="remainingAmt" style="padding: 10px; color : red;color: red;font-size: medium;font-weight: 500;">
+  </h6>
+  <table id="invoices_table" class="table table-striped">
+    <tbody class="items-holder invoices_body">
+    </tbody>
+  </table>
+</div>
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+</div>
+</div>
+</form>
+</div>

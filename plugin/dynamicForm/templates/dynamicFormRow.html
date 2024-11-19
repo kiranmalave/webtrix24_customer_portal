@@ -1,0 +1,16 @@
+<tr class="even pointer bg-<%=dynamicFormDetails.attributes.status%>" >
+  <td class="a-center">
+    <div class="listCheckbox">
+        <input id="cAll_<%= dynamicFormDetails.attributes.fieldID %>" class="memberlistcheck chk-col-amber" data-fieldID="<%= dynamicFormDetails.attributes.fieldID %>" type="checkbox">
+        <label for="cAll_<%= dynamicFormDetails.attributes.fieldID %>">&nbsp;</label>
+    </div>
+  </td><!-- 
+  <td class=""><%=dynamicFormDetails.attributes.fieldID%></td> -->
+  <td class="loadview"  data-fieldID="<%=dynamicFormDetails.attributes.fieldID%>" data-view="singledynamicFormData" >
+    <a href="javascript:;"><%=dynamicFormDetails.attributes.fieldLabel%></a>
+  </td>
+  <td class=""><%= formatDate(dynamicFormDetails.attributes.created_date,'no') %></td>
+  <td>
+    <button type="button" class="ws-btn-default loadview"  data-fieldID="<%=dynamicFormDetails.attributes.fieldID%>" data-view="singledynamicFormData"><i class="material-icons">Edit</i></button>
+  </td>
+</tr>

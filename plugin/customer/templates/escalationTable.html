@@ -1,0 +1,36 @@
+
+<% if(notificationList.length != 0){ %>  
+    <div class="clearfix">&nbsp;</div>
+    <div class="actionBtns">
+      <button type="button" id="btnNotifications" class="btn bg-indigo btnTrigger">Create Notifications</button>
+    </div>
+
+    <table id="clist" class="table bulk_action tableList table-hover">
+      <thead id="thead">
+        <tr class="headings">
+          <th class="column-title">Name</th>
+          <th class="column-title">User Type</th>
+          <th class="column-title">Notification Type</th>
+          <th class="column-title">Field Name</th>
+          <th class="column-title">Action</th>
+        </tr>
+      </thead>
+      <tbody id="notificationList">
+        <%_.each(notificationList , function(notification){%>
+          <tr class="even pointer bg-<%=notification.attributes.status%>">
+              <td class=""><%=notification.attributes.name%></td>
+              <td class=""><% let columnfield2 = notification.attributes.user_type.replace(/_/g, " "); let upl2 = columnfield2.charAt(0).toUpperCase()+columnfield2.slice(1); %><%=upl2%></td>
+              <td class=""><%=notification.attributes.notification_type%></td>
+              
+              <td class=""><% let columnfield = notification.attributes.field_name.replace(/_/g, " "); let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); %><%=upl%></td>
+              <td class=""><button type="button" class="ws-btn-default editNotification" data-notificationID="<%=notification.attributes.notification_id%>" ><i class="material-icons">mode_edit</i></button>
+                  <button type="button" data-notificationID = "<%=notification.attributes.notification_id%>" class="ws-btn-default deleteNotification "  data-action="close"><i class="material-icons">delete</i></button></td>
+          </tr>
+        <%});%>
+      </tbody>
+    </table>
+
+  <%}%>
+
+
+

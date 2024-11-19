@@ -1,0 +1,185 @@
+<div class="d-flex" style="align-items: end;">
+    <h4>Invoices</h4>
+    <button type="button" class="ws-btn-default loadmodule" data-action="invoice"><i class="material-icons">add</i></button>
+</div>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Invoice Number</th>
+                <th class="p-2">Total Amount</th>
+                <th class="p-2">Recieved Amount</th>
+                <th class="p-2">Pending Amount</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Created Date</th>
+                <th class="p-2">Due Status</th>
+                <th class="p-2">Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% _.each(invoiceList, function(invoice) {%>
+            <tr class="loadSubView" data-invoiceID="<%=invoice.attributes.invoiceID%>" data-view="singletaxInvoiceData">
+                <td class="p-2"><span class="td-highlight"><%=invoice.attributes.invoiceNumber%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=invoice.attributes.grossAmount%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=invoice.attributes.grossAmount - invoice.attributes.pending_amount%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=invoice.attributes.pending_amount%></span></td>
+                <td class="p-2">
+                    <% if(invoice.attributes.payment_status =="partially" ){ %>
+                    <span class=" badge badge-danger">Partial Payment</span>
+                    <% }else{%>
+                    <span class=""><span class="label bg-green"> <i style="position: relative;top: 5px;" class="material-icons">done_all</i> Paid </span></span>
+                    <% } %>
+                </td>
+                <td class="p-2"><span class="td-highlight"><%=invoice.attributes.created_date%></span></td>
+                <td class="p-2"><span class="status late">-</span></td>
+                <td class="p-2"><span class="td-highlight"><%=invoice.attributes.valid_until_date%></span></td>
+            </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+
+<div class="d-flex" style="align-items: end;">
+    <h4>Quotation</h4>
+    <button type="button" class="ws-btn-default loadmodule" data-action="qutation"><i class="material-icons">add</i></button>
+</div>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Quotation Number</th>
+                <th class="p-2">Total Amount</th>
+                <th class="p-2">Recieved Amount</th>
+                <th class="p-2">Pending Amount</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Created Date</th>
+                <th class="p-2">Due Status</th>
+                <th class="p-2">Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% console.log('quotation',quotation);  _.each(quotation, function(quotation) {%>
+            <tr class="loadSubView" data-invoiceID="<%=quotation.attributes.invoiceID%>" data-view="singletaxQuotationData">
+                <td class="p-2"><span class="td-highlight"><%=quotation.attributes.invoiceNumber%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=quotation.attributes.grossAmount%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=quotation.attributes.grossAmount - quotation.attributes.pending_amount%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=quotation.attributes.pending_amount%></span></td>
+                <td class="p-2">
+                    <% if(quotation.attributes.payment_status =="partially" ){ %>
+                    <span class=" badge badge-danger">Partial Payment</span>
+                    <% }else{%>
+                    <span class=""><span class="label bg-green"> <i style="position: relative;top: 5px;" class="material-icons">done_all</i> Paid </span></span>
+                    <% } %>
+                </td>
+                <td class="p-2"><span class="td-highlight"><%=quotation.attributes.created_date%></span></td>
+                <td class="p-2"><span class="status late">-</td>
+                <td class="p-2"><span class="td-highlight"><%=quotation.attributes.valid_until_date%></span></td>
+            </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<!-- REVENUES [EXPECTED]  -->
+<div class="d-flex" style="align-items: end;">
+    <h4>Revenues</h4>
+    <div class="dropdown">
+        <button type="button" class="ws-btn-default dropdown-toggle" style="padding: 7px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons">add</i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item loadmodule" data-action="revenues" data-revenue_type="general">Revenue</a>
+            <a class="dropdown-item loadmodule" data-action="revenues" data-revenue_type="expected">Expected Revenue</a>
+        </div>
+    </div>
+</div>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Revenue Title</th>
+                <th class="p-2">Receipt Number</th>
+                <th class="p-2">Amount</th>
+                <th class="p-2">Payment Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(expectedIncomeList, function(income) { %>
+            <tr>
+                <td class="p-2"><%=income.title%></td>
+                <td class="p-2">-</td>
+                <td class="p-2"><%=income.amount%></td>
+                <td class="p-2">-</td>
+            </tr>
+            <%})%>
+            <%_.each(receipts, function(receipt) { %>
+            <tr class="loadSubView" data-receipt_id="<%=receipt.attributes.receipt_id%>" data-view="singlereceiptData">
+                <td class="p-2">Un-Allocated</td>
+                <td class="p-2"><span class="td-highlight"><%=receipt.attributes.receipt_number%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=receipt.attributes.amount%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=receipt.attributes.payment_log_date%></span></td>
+            </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+
+<!-- EXPENSES -->
+<div class="d-flex" style="align-items: end;">
+    <h4>Expenses</h4>
+    <div class="dropdown">
+        <button type="button" class="ws-btn-default dropdown-toggle" style="padding: 7px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons">add</i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item loadmodule" data-action="expenses" data-expense_type="general">Expense</a>
+            <a class="dropdown-item loadmodule" data-action="expenses" data-expense_type="expected">Expected Expense</a>
+        </div>
+    </div>
+    <!-- <button type="button" class="ws-btn-default loadmodule" data-action="expenses" ><i class="material-icons">add</i></button> -->
+</div>
+<div class="customTableClass">
+    <table id="clist" style="width: 100%;">
+        <thead id="thead">
+            <tr class="headings">
+                <th class="p-2">Expenses Title</th>
+                <th class="p-2">Total Amount</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% _.each(expectedExpenseList, function(expense) { %>
+            <tr>
+                <td class="p-2">Expected - <%=expense.title%></td>
+                <td class="p-2"><%=expense.amount%></td>
+                <td class="p-2">-</td>
+                <td class="p-2"><%=expense.created_date%></td>
+            </tr>
+            <%})%>
+            <% _.each(expensesList, function(expenses) { %>
+            <tr class="loadSubView" data-expenses_id="<%=expenses.attributes.expenses_id%>" data-view="singleExpenseData">
+                <td class="p-2"><span class="td-highlight"><%=expenses.attributes.expense_title%></td>
+                <td class="p-2"><span class="td-highlight"><%=expenses.attributes.amount%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=expenses.attributes.status%></span></td>
+                <td class="p-2"><span class="td-highlight"><%=expenses.attributes.created_date%></span></td>
+            </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>

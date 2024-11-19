@@ -1,0 +1,35 @@
+
+<div class="tab-pane in active">
+  <form id="formAnsDetails" name="formAnsDetails" action="#">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <h4>User Answers</h4>
+        <ul class="nav  panel_toolbox">
+          <li class="mr-4">
+              <h6><strong>Created Date :</strong><%=answerList[0].attributes.createdDate%> </h6>
+            <%console.log(answerList[0].attributes.userID)%>
+          </li>
+          <li>
+            <%if(answerList[0].attributes.firstname){%>
+            <h6><strong>User Name : </strong><%=answerList[0].attributes.firstname%> <%=answerList[0].attributes.lastName%></h6>
+            <%}else{%>
+              <h6><strong>User Name : </strong><%=answerList[0].attributes.userID%></h6>
+            <%}%>
+          </li>
+        </ul>
+        <div class="x_content">
+          <h6><strong>Answer Date : </strong> <%=formatDate(answerList[0].attributes.createdDate,'no')%></h6>
+          <%var count=1;%>
+          <%_.each(answerList,function(model){%>
+               <div class="well well-lg card-body shadow mb-4">
+                 <h5><strong>Q<%=count++%>. <%=model.attributes.question%></strong></h5>
+                 <h6>Ans : <%=model.attributes.answer%></h6>
+                 <%if(model.attributes.options){%><h6>Options : <%=model.attributes.options%></h6><%}%>
+                 <h6>Section Name : <%=model.attributes.sectionName%></h6>
+               </div>
+            <%})%>
+        </div>
+      </div>
+    </div>
+  </form>
+</div> 

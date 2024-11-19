@@ -1,0 +1,19 @@
+<div class="list-row"> 
+    <div class="icon-left">
+        <div class="ws-icon">
+            <i class="material-icons">
+                <%= elementDetails.icon_name %>
+            </i>
+        </div>
+    </div>
+    <div class="right-layout">
+        <select for="<%= elementDetails.column_name %>" data-id="<%= elementDetails.id %>" id="<%= elementDetails.column_name %>" name="<%= elementDetails.column_name %>"
+            title="<%= elementDetails.fieldLabel %>"
+            class="form-control dropval ws-select-dy show-tick repeatChange" <% if (elementDetails.allowMultiSelect == "yes") { %>multiple<% } %>>
+            <% selectOptions.forEach(function(option) { %>
+                <option value="<%= option %>" <% if (elementData[elementDetails.column_name] && elementData[elementDetails.column_name].includes(option)) { %>selected<% } %>><%= option %></option>
+            <% }); %>    
+        </select>
+    </div>
+</div>
+

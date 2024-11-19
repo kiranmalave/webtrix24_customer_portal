@@ -1,0 +1,13 @@
+<div class="col-md-12 dynamic-field">
+    <div class="form-group form-float" style="display: none;">
+        <div class="form-line">
+            <label for="field_name" class="form-label">Value</label>
+            <select for="field_value" id="field_value" name="field_value" title="Field Values" data-in-type="" class="field_value form-control dropval show-tick changeBox repeatChange">
+                <option class="addNew" value="">Select Field Value</option>
+                <% _.each(options, function(option) { %>
+                <option <% if( dVal && dVal.value === option ){ %> selected <% } %> value="<%=option%>"><%=option%></option>
+                <%})%>
+            </select>
+        </div>
+    </div>
+</div>

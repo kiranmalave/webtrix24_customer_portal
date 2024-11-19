@@ -1,0 +1,153 @@
+<div class="tab-pane in active">
+    <div class="row ws-main-container" id="notificationDetails" style="display: none;">
+        <div class="icon-left ">
+        </div>
+
+        <div class="col-md-12 p-0">
+            <!-- TAB PROGRESS -->
+            <div class="row">
+                <div class="progress-bar-container">
+                    <div class="step" data-step_id="1">
+                        <div class="step-circle progress "><i class="material-icons">done_all</i></div>
+                        <div class="label">Basic Info</div>
+                    </div>
+                    <div class="step-line " data-step_id="1"></div>
+                    <div class="step" data-step_id="2">
+                        <div class="step-circle "><i class="material-icons">done_all</i></div>
+                        <div class="label">Notification Method</div>
+                    </div>
+                    <div class="step-line " data-step_id="2"></div>
+                    <div class="step" data-step_id="3">
+                        <div class="step-circle "><i class="material-icons">done_all</i></div>
+                        <div class="label">Actions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 p-0">
+            <div class="list-row">
+                <div class="right-layout">
+                    <div class="clearfix">&nbsp;</div>
+                    <div id="tab1" class="tab-contents active-tab">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <label for="name">Title <span class="error">*</span></label>
+                                                <input id="name" type="text" class="form-control txtchange" name="name" value="<%=model.name%>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="">
+                                            <label for="description">Description</label>
+                                            <div id="description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <label for="user_type">To whom do you want to notify?</label>
+                                                <select for="user_type" id="user_type" name="user_type" title="Whom do you want to notify?" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                    <option class="" <%if(model.user_type=='system_user'){%>selected<%}%> value="system_user">Application Users</option>
+                                                        <option class="" <%if(model.user_type=='customer'){%>selected<%}%>  value="customer">Customer(s)</option>
+                                                        <% if(menuName == 'task' || menuName == 'leads' || menuName == 'customer' ) {%> <option class="" <%if(model.user_type=='assignee'){%>selected<%}%>  value="assignee">Assignee </option>
+                                                        <% } %> </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 sys-user-div" <% if( model.user_type!='system_user'){%>style="display: none;" <%}%> >
+                                            <div class="form-group form-float ws-form-option allSysUser">
+                                                <label class="form-label" for="ig_checkbox">Do you want to notify all users?</label>&nbsp;&nbsp;
+                                                <ul class="item-container" data-valid="sys_user_id">
+                                                    <li class="sys_user_id multiSel" data-single="Y" data-value="all">Yes</li>
+                                                    <li class="sys_user_id <%if(model.sys_user_id !='all'){%>active<%}%> multiSel" data-single="Y" data-value="">No</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 userDiv" <% if( model.user_type != 'system_user' || model.sys_user_id =='all'){%>style="display: none;" <%}%> >
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <select for="sys_user_id" data-live-search="true" id="sys_user_id" multiple name="sys_user_id" title="Which system user you want to notify" class="form-control dropval  ws-select  show-tick repeatChange">
+                                                        <option class="addNew" disabled value="select">Select System User Type </option>  
+                                                        <% _.each(adminList,function(admin){ %> <option <% if(_.contains(model.sys_user_id.split(","),admin.attributes.adminID)){%> selected <%}%> value="<%=admin.attributes.adminID%>"><%=admin.attributes.name%></option>
+                                        <%});%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tab-contents templateSelector"></div>
+            <div id="tab3" class="tab-contents conditionsSelector">
+                <div class="row">
+                    <div class="col-md-12 notificationCls">
+                        <span class="heading">On Which action you want to notify</span>
+                        <div class="form-group">
+                            <input type="radio" name="action" id="Add" class="with-gap notifyDetails" value="add" <% if (model.action_on && model.action_on == 'add') { %>checked<% } %>>
+                            <label for="Add">Add</label>
+                            <input type="radio" name="action" id="Update" class="with-gap notifyDetails" value="update" <% if (model.action_on && model.action_on == 'update') { %>checked<% } %>>
+                            <label for="Update" class="m-l-20">Update</label>
+                            <input type="radio" name="action" id="delete" class="with-gap notifyDetails" value="delete" <% if (model.action_on && model.action_on == 'delete') { %>checked<% } %>>
+                            <label for="delete" class="m-l-20">Delete</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 on_update">
+                        <div class="conditions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="notification_div"></div>
+
+<!-- DEFAULT SCREEN -->
+<div class="noCustRec emptyNotificationImg noCustAdded" <% if(notificationList.length != 0){%> style="display: none;" <%}%> >
+        <div class="noCustRecDetails">
+          <div class="noCustRecPic">
+            <img src="images/noRecrds.png" alt="">
+          </div>
+          <div class="noCustRecText">
+            <h1>You haven’t added any notification triggers here</h1>
+            <div class="addRecords">Click here
+              <div class="buttonAdd">
+                <button type="button" id="btnNotifications" class="ws-btn-default btnTrigger" data-toggle="tooltip" data-placement="top" data-content="Add Notifications">
+                  <i class="material-icons">add</i>
+                </button>
+              </div>
+              to add
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- DEFAULT SCREEN -->
+
+    <!-- ACTION BUTTON -->
+    <div class="text-right notification-action-bar actionBtns" <% if(notificationList.length == 0){%> style="display: none;" <%}%>>
+        <button type="button" id="btnNotifications" class="btn bg-indigo btnTrigger" style="order: 3;">Create Notifications</button> 
+        <div class="ws-wizard" style="display: none;" >
+            <div style="order: 1;">
+                <button type="button" id="btn-pre" data-tab-action="prev" data-tab-prev="0" data-tab-current="1" data-tab-next="2"  class="btn wizard" disabled ><img src="images/prev_inactive.png"></button><!--previous-->
+            </div>
+            <div style="order: 2;">
+                <button type="button" class="btn bg-indigo saveNotification" data-tab-current="1" data-action="close">Save</button>
+                <button type="button" data-tab-action="cancel" class="btn bg-indigo wizard">Cancel</button>
+                <button type="button" id="btn-next" data-tab-action="next" data-tab-prev="0" data-tab-current="1" data-tab-next="2" class="btn wizard"><img src="images/next_active.png"></button><!--btnNext-->
+            </div>
+        </div>
+    </div>
+</div>
+
+             

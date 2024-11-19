@@ -1,0 +1,130 @@
+<div class="tab-pane in active">
+    <div id="testimonialsSingleView">
+        <form id="testimonialsDetails" name="testimonialsDetails" action="#">
+            <div class="text-right actionBtns">
+                <button type="button" class="btn bg-indigo savetestimonialsDetails" data-action="close">Save</button>
+                <button type="button" class="btn bg-indigo savetestimonialsDetails" data-action="new">Save & new</button>
+            </div>
+            <div class="ws-main-container">
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Basic Information</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row left-space">
+                    <div class="col-md-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <label for="testimonial_name" class="form-label">Testimonials Name <span
+                                        class="error">*</span></label>
+                                <input id="testimonial_name" class="form-control txtchange titleChange"
+                                    autocomplete="off" name="testimonial_name" required="" maxlength="45" type="text"
+                                    value="<%=model.testimonial_name%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">  
+                        <div class="form-group form-float ws-form-option">
+                            <label for="designation_show_on_website" class="form-label">Show Designation On Website?
+                                <span class="error"></span>
+                                <span class="info-icon-tooltip">
+                                    <span class="material-icons" data-toggle="tooltip" data-content="Enable this option to display the user's designation (e.g., Job Title or Role) on the website. ">info</span>
+                                </span>
+                            </label>
+                            <ul class="item-container" data-valid="designation_show_on_website">
+                                <li class="designation_show_on_website multiSel" data-render="yes" data-single="Y"
+                                    data-value="yes">Yes</li>
+                                <li class="designation_show_on_website multiSel" data-render="yes" data-single="Y"
+                                    data-value="no">No</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-float ws-form-option">
+                            <label for="status" class="form-label">Status<span class="error">*</span> </label>
+                            <ul class="item-container" data-valid="status">
+                              <li class="status multiSel" data-single="Y" data-value="active">Active</li>
+                              <li class="status multiSel" data-single="Y" data-value="inactive">Inactive</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <% if(model.designation_show_on_website == 'yes'){ %>
+                        <div class="col-md-6 testimonial-designation" >       
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="designation" class="form-label">Testimonials Designation</label>
+                                    <input id="designation" class="form-control txtchange" autocomplete="off" name="designation" type="text" value="<%=model.designation%>">                            
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    sort
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Testimonial Message</strong></label>
+                        </div>
+                    </div>
+                </div>  
+                <div class="ws-quill right-layout">
+                    <div class="row left-space">
+                        <div class="col-md-12">
+                            <div id="testimonial_message" class="form-control">
+                                <%=model.testimonial_message%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row">
+                    <div class="list-row icon-list">
+                        <div class="icon-left">
+                            <div class="ws-icon">
+                                <i class="material-icons">
+                                    mms
+                                </i>
+                            </div>
+                        </div>
+                        <div class="right-layout">
+                            <label> <strong>Media</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>  
+                <div class="col-md-4">
+                    <div class="customerMediaLoader">
+                        <div class="clearfix">
+                            <input
+                                style="background: #f9f9f9;border: 1px dashed #ccc;padding: 23px;width: 90%;margin-left: 15px;text-align: center;"
+                                class="btn loadMedia" type="button" value="Testimonials Image" name="Select Picture"
+                                data-change="ws-bg-image" data-toggle="modal" data-target="#largeModal">
+                        </div>
+                    </div>
+                    <div class="" style="width: 65%;">
+                        <img id="profile_pic_view" style="max-width: 100%;" src="<%=model.customer_image%>">
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </form>
+    </div>
+</div>

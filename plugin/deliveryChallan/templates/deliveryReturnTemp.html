@@ -1,0 +1,293 @@
+<div class="tab-pane in active">
+  <form id="taxInvoiceDetails" name="taxInvoiceDetails" action="#">
+    <!--tax invoice Header starts-->
+    <div class="text-right actionBtns">
+      <% if(model.status !='approved'){ %>
+      <button type="button" class="btn bg-indigo saveTaxInvoiceDetails" data-action="close">Save</button><%}%>
+      
+  </div>
+  <div class="clearfix">&nbsp;</div>
+
+  <div class="clearfix">&nbsp;</div>
+      
+      <div class="row quotation-div" >
+          <div class="col-sm-4 form-details">
+            <div class="form-group form-float">
+              <div class="form-line" >
+                <label for="skillDesc" style="cursor: not-allowed;" class="form-label"> <% if(model.invoiceNumber != null ){%> <% if(menuName=="qoutation" ){%>Quotation <%}else if(menuName=="invoice"){ %>Invoice<%}else if(menuName=="delivery"){%>Delivery<%}else{%>Receipt<%}%> Number:<%}else{%> <% if(menuName=="qoutation" ){%>Quotation <%}else if(menuName=="invoice"){ %>Invoice<%}else if(menuName=="delivery"){%>Delivery<%}else{%>Receipt<%}%> Number Will Auto Generate<%}%> </label>
+                <input autocomplete="off" type="text" name="invoiceNumber" id="invoiceNumber" class="form-control" disabled value="<%=model.invoiceNumber%>"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 form-details">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <select id="customer_id" name="customer_id" class="form-control dropval ws-select show-tick" title="Select Customer">
+                  <option value="">Select Customer</option>
+                  <% _.each(model.customerList, function(model1) { %>
+                    <option   <% if(model1.customer_id==model.customer_id ){ %>selected <% } %> data-state_id = "<%=model1.state_id%>" value="<%=model1.customer_id%>"><%=model1.name%></option>
+                  <%}); %>
+              </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 form-details">
+            <div class="form-group form-float">
+              <div class="form-line">
+                <label for="skillDesc" class="form-label"><% if(menuName=="qoutation" ){%>Quotation <%}else if(menuName=="invoice"){ %>Invoice<%}else if(menuName=="delivery"){%>Delivery<%}else{%>Receipt<%}%> Date:</label>
+                <input autocomplete="off" type="text" name="invoiceDate" id="invoiceDate" class="form-control" value="<%=model.invoiceDate%>" />
+              </div>
+            </div>
+          </div>  
+        </div>
+     
+    <div class="clearfix">&nbsp;</div>
+    <div id="dynamicFormFields" class=""></div>     
+    <!-- <div class="row">  
+      <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="reportMonth" class="form-label">Report Month:</label>
+            <select  id="reportMonth" name="reportMonth"class="form-control dropval ws-select show-tick repeatChange">
+              <option value="">Select Month</option>
+              <option <% if(model.processingMonth =='january'){ %> selected <% } %> value="january">January</option>
+              <option <% if(model.processingMonth =='february'){ %> selected <% } %> value="february">February</option>
+              <option <% if(model.processingMonth =='march'){ %> selected <% } %> value="march">March</option>
+              <option <% if(model.processingMonth =='april'){ %> selected <% } %> value="April">April</option>
+              <option <% if(model.processingMonth =='may'){ %> selected <% } %> value="May">May</option>
+              <option <% if(model.processingMonth =='june'){ %> selected <% } %> value="June">June</option>
+              <option <% if(model.processingMonth =='july'){ %> selected <% } %> value="July">July</option>
+              <option <% if(model.processingMonth =='august'){ %> selected <% } %> value="August">August</option>
+              <option <% if(model.processingMonth =='september'){ %> selected <% } %> value="September">September</option>
+              <option <% if(model.processingMonth =='october'){ %> selected <% } %> value="October">October</option>
+              <option <% if(model.processingMonth =='november'){ %> selected <% } %> value="November">November</option>
+              <option <% if(model.processingMonth =='december'){ %> selected <% } %> value="December">December</option>
+            </select>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="col-sm-4 form-details">
+        <div class="form-group form-float">
+          <div class="form-line">
+            <label for="reportYear" class="form-label">Report Year:</label>
+            <select  name="reportYear"id="reportYear" class="form-control dropval ws-select show-tick repeatChange"><% if(model.isEdit == "no") { %>disabled <%}%></select>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!--tax invoice heade ends-->
+    <div class="col-xs-12">
+      <table id="invoice_table" class="table table-striped">
+        <tbody class="items-holder">
+          <tr id="item-header" class="text-center">
+            <th>SR No.</th>
+            <th>Type</th>
+            <th style="width: 30%">Description</th>
+            <th style="width: 12%">Quantity.</th>
+            <th style="width: 12%">Unit</th>
+            <th style="width: 12%">Rate</th>
+            <th>Amount</th>
+            <th style="width: 4%"><i class="material-icons del-all-row" aria-hidden="true">delete_forever</i></th>
+          </tr>
+          <% if(model.invoiceID != '' && model.invoiceID != null){
+            
+            _.each(model.invoiceLine, function(modelLine) { 
+          %>
+          
+            <tr id="item-<%=modelLine.srNo%>" class="item-list-box">
+              <td class="sno"><%=modelLine.srNo%></td>
+              <td class="custom-dropdown">
+                <div class="col-md-12">
+                  <div class="form-group form-float">
+                      <div class="form-line taskDate">
+                          <% var prod = model.narrList.find((item) => {return item.product_id == modelLine.invoiceLineChrgID; }); %>
+                          <input autocomplete="off" id="narr_<%=modelLine.srNo%>" type="text" product_id="<%=modelLine.invoiceLineChrgID%>" class="form-control pdChange ddcnt taskDate" name="narr_<%=modelLine.srNo%>" value="<%=prod.productName%>" placeholder="Type" />
+                      </div>
+                  </div>
+                  <div class="product-input"></div>
+                  <div id="productDropdown_<%=modelLine.srNo%>" class="dropdown-content custDrop" style="display: none;"></div>
+                </div>
+                <!-- <select id="narr_<%=modelLine.srNo%>" name="narr_<%=modelLine.srNo%>" class="form-control dropval setnarr ws-select show-tick repeatChange">
+                  <option value="">Type</option>
+                  <% _.each(model.narrList, function(model2) { %>
+                    <option data-subtext="<%=model2.model_name%>/<%=model2.processor%>/<%=model2.generation%>/<%=model2.memory%>" <% if(model2.product_id == modelLine.invoiceLineChrgID){ %> selected <% } %>   value="<%=model2.product_id%>"><%=model2.product_name%><br><span><%=model2.product_name%></span></option>
+                  <%}); %>
+                </select> -->
+              </td>
+              <td>
+                <input type="text" name="itemName_<%=modelLine.srNo%>" id="itemName_<%=modelLine.srNo%>" class="form-control amtChange narration" value="<%=modelLine.invoiceLineNarr%>">
+                <%if(menuName=="delivery" && modelLine.invoiceLineNarr != ''){%>
+                  <div class="accessories" ><input type="checkbox" name="usb_mouse_<%=modelLine.srNo%>" id="usb_mouse_<%=modelLine.srNo%>" class="assc" <% if(modelLine.usb_mouse =='yes'){ %> checked <% } %> ><span class="" >USB Mouse</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="usb_keyboard_<%=modelLine.srNo%>" id="usb_keyboard_<%=modelLine.srNo%>" class=" assc" <% if(modelLine.usb_keyboard =='yes'){ %> checked <% } %>><span   class="" >USB Keyboard</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="laptop_backpack_<%=modelLine.srNo%>" id="laptop_backpack_<%=modelLine.srNo%>" class="assc" <% if(modelLine.laptop_backpack =='yes'){ %> checked <% }%> ><span   class="" >Laptop Backpack</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="wifi_adapter_<%=modelLine.srNo%>" id="wifi_adapter_<%=modelLine.srNo%>" class="assc" <% if(modelLine.wifi_adapter =='yes'){ %> checked <% }%> ><span class="" > Wifi Adapter</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="display_connector_<%=modelLine.srNo%>" id="display_connector_<%=modelLine.srNo%>" class="assc" <% if(modelLine.display_connector =='yes'){ %> checked <% }%> ><span class="" >Display Connector</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="usb_c_type_connector_<%=modelLine.srNo%>" id="usb_c_type_connector_<%=modelLine.srNo%>" class="assc" <% if(modelLine.usb_c_type_connector =='yes'){ %> checked <% }%> ><span  class="" >USB & C Type Connector</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="hdmi_cable_<%=modelLine.srNo%>" id="hdmi_cable_<%=modelLine.srNo%>" class="assc" <% if(modelLine.hdmi_cable =='yes'){ %> checked <% }%> ><span class="" >HDMI Cable</span></div> 
+                  <div class="accessories" ><input type="checkbox" name="charger_<%=modelLine.srNo%>" id="charger_<%=modelLine.srNo%>" class="assc" <% if(modelLine.charger =='yes'){ %>checked<%}%> ><span class="" >Charger</span>
+                    <input type="text" name="serial_no_<%=modelLine.srNo%>" id="serial_no_<%=modelLine.srNo%>" class="serial_no_c form-control" value="<%=modelLine.serial_no%>" placeholder="Charger Serial No">
+                  </div> 
+                  
+                <%}%>
+              </td>
+              <td>
+                <input <% if(modelLine.isEdit =='no'){ %> disabled <% } %> type="text" name="itemQuantity_<%=modelLine.srNo%>" id="itemQuantity_<%=modelLine.srNo%>" class="form-control amtChange digits" value="<%=modelLine.invoiceLineQty%>">
+                <div class="apply-taxes">
+                  <input type="checkbox" style="display: none;" <% if(modelLine.is_gst =='y'){ %> checked <% } %> name="apply_taxes_<%=modelLine.srNo%>" id="apply_taxes_<%=modelLine.srNo%>" class="apply_tax-check updateAmt" >
+                  <span  style="display: none;" class="apply_tax-check"  >Apply Taxes</span>
+                </div>
+              </td>
+              <td class="tax-lable">
+                <input <% if(modelLine.isEdit =='no'){ %> disabled <% } %>  type="text" name="itemUnit_<%=modelLine.srNo%>" id="itemUnit_<%=modelLine.srNo%>" class="form-control" value="<%=modelLine.invoiceLineUnit%>">
+                <label style="display: none;" class="item_cgst">CGST</label>
+                <label style="display: none;" class="item_sgst">SGST</label>
+                <label style="display: none;" class="item_igst">IGST</label>
+              </td>
+              <td class="text-right">
+                <input <% if(modelLine.isEdit =='no'){ %> disabled <% } %> type="text" name="itemRate_<%=modelLine.srNo%>" id="itemRate_<%=modelLine.srNo%>" class="form-control amtChange digits" value="<%=modelLine.invoiceLineRate%>">
+                <input type="text" name="centralGstPercent_<%=modelLine.srNo%>" id="centralGstPercent_<%=modelLine.srNo%>" class="form-control item_cgst amtChange" style="display: none;" value="<%=modelLine.cgst%>">
+                <input type="text" name="stateGstPercent_<%=modelLine.srNo%>" id="stateGstPercent_<%=modelLine.srNo%>" class="form-control item_sgst amtChange" style="display: none;" value="<%=modelLine.sgst%>">
+                <input type="text" name="interGstPercent_<%=modelLine.srNo%>" id="interGstPercent_<%=modelLine.srNo%>" class="form-control item_igst amtChange" style="display: none;" value="<%=modelLine.igst%>">
+              </td>              
+              <td class="text-right  total-td" id="itemtotal_<%=modelLine.srNo%>"><%=numberFormat(modelLine.invoiceLineAmount,2)%>
+                <span class="item_cgst" style="display: none;" id="rcgst_<%=modelLine.srNo%>"><%=modelLine.cgst_amt%></span>
+                <span class="item_sgst" style="display: none;" id="rsgst_<%=modelLine.srNo%>"><%=modelLine.sgst_amt%></span>
+                <span class="item_igst" style="display: none;" id="rigst_<%=modelLine.srNo%>"><%=modelLine.igst_amt%></span> 
+              </td>
+              <td class="text-right">
+                <% if(modelLine.isEdit !='no'){ %>
+                 <button id="itemdel_<%=modelLine.srNo%>" class="del-row btn-small btn-default"><i class="material-icons" aria-hidden="true">delete_forever</i></button>
+                <% }else{ %>
+                 &nbsp;
+                <% } %>
+              </td>
+            </tr>
+    
+          <%  });
+          }else{ %>
+            <tr id="item-1" class="item-list-box">
+              <td class="sno">1</td>
+              <td class="custom-dropdown">
+                <div class="col-md-12">
+                  <div class="form-group form-float">
+                      <div class="form-line taskDate">
+                          <input id="narr_1" type="text" class="form-control pdChange ddcnt taskDate" name="narr_1" value="" placeholder="Type" />
+                      </div>
+                  </div>
+                  <div class="product-input"></div>
+                  <div id="productDropdown_1" class="dropdown-content custDrop" style="display: none;"></div>
+                </div>
+                <!-- <select id="narr_1" name="narr_1" class="form-control ws-select dropval setnarr">
+                  <option value="">Type</option>
+                  <% _.each(model.narrList, function(model) { %>
+                    <option  value="<%=model.product_id%>" data-subtext="<%=model.model_name%>/<%=model.processor%>/<%=model.generation%>/<%=model.memory%>" ><%=model.product_name%>(<%=model.balance%>)</option>
+                  <%}); %>
+                </select> -->
+              </td>
+              <td><input type="text" name="itemName_1" id="itemName_1" class="form-control amtChange">
+                <%if(menuName=="delivery"){%>
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="usb_mouse_1" id="usb_mouse_1" class="assc" ><span class="" >USB Mouse</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="usb_keyboard_1" id="usb_keyboard_1" class=" assc" ><span   class="" >USB Keyboard</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="laptop_backpack_1" id="laptop_backpack_1" class="assc" ><span   class="" >Laptop Backpack</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="wifi_adapter_1" id="wifi_adapter_1" class="assc" ><span class="" > Wifi Adapter</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="display_connector_1" id="display_connector_1" class="assc" ><span class="" >Display Connector</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="usb_c_type_connector_1" id="usb_c_type_connector_1" class="assc" ><span  class="" >USB & C Type Connector</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="hdmi_cable_1" id="hdmi_cable_1" class="assc" ><span class="" >HDMI Cable</span></div> 
+                  <div class="accessories" style="display: none;"><input type="checkbox" name="charger_1" id="charger_1" class="assc" ><span class="" >Charger</span> <input style="display: none;" type="text" name="serial_no_1" id="serial_no_1" class="accessories serial_no_c form-control" value=""  placeholder="Charger Serial No"></div> 
+                 
+                <%}%>
+              </td>
+             
+              <td>
+                <input type="text" name="itemQuantity_1" id="itemQuantity_1" class="form-control amtChange">
+                <div class="apply-taxes"><input type="checkbox" style="display: none;" name="apply_taxes_1" id="apply_taxes_1" class=" apply_tax-check updateAmt" ><span  style="display: none;" class="apply_tax-check" >Apply taxes</span></div> 
+              </td>
+              <td class="tax-lable">
+                <input type="text" name="itemUnit_1" id="itemUnit_1" class="form-control">
+                <label style="display: none;" class="item_cgst">CGST</label>
+                <label style="display: none;" class="item_sgst">SGST</label>
+                <label style="display: none;" class="item_igst">IGST</label>
+              </td>
+              <td class="text-right">
+                <input type="text" name="itemRate_1" id="itemRate_1" class="form-control amtChange">
+                <input type="text" name="centralGstPercent_1" id="centralGstPercent_1" class="form-control item_cgst amtChange" style="display: none;" value="<%=model.centralGstPercent%>">
+                <input type="text" name="stateGstPercent_1" id="stateGstPercent_1" class="form-control item_sgst amtChange" style="display: none;" value="<%=model.stateGstPercent%>">
+                <input type="text" name="stateGstPercent_1" id="interGstPercent_1" class="form-control item_igst amtChange" style="display: none;" value="<%=model.interGstPercent%>">
+              </td>
+              <td class="text-right total-td" id="itemtotal_1"></td>
+              <td class="text-right">
+                <button id="itemdel_1" class="del-row btn-small btn-default"><i class="material-icons" aria-hidden="true">delete_forever</i></button>
+              </td>
+            </tr>
+            <!-- <tr id="item-1" class=" tax-tr item-list-box" style="display: none;">
+              <td class="  float-right">
+               
+              </td>
+              <td class="  float-right">
+                
+              </td>
+              <td class="float-right">
+                
+              </td>
+              <td class="float-right">
+                <label class="rcgst_1"></label>
+                <label class="rsgst_1"></label>
+                <label class="rigst_1"></label>
+                 <input type="text" name="centralGstPercent_1" id="centralGstPercent_1" class="form-control item_cgst amtChange" style="display: none;" value="<%=model.centralGstPercent%>">
+                <input type="text" name="stateGstPercent_1" id="stateGstPercent_1" class="form-control item_sgst amtChange" style="display: none;" value="<%=model.stateGstPercent%>">
+                <input type="text" name="stateGstPercent_1" id="interGstPercent_1" class="form-control item_igst amtChange" style="display: none;" value="<%=model.interGstPercent%>"> -->
+              <!-- </td> -->
+            <!-- </tr>  -->
+          <% } %>
+        </tbody>
+      </table>
+      <div class="col-xs-12 text-right">
+        <hr>
+        <button id="addRow" class="btn btn-default">Add Row</button>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+          &nbsp;
+        </div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table id="table-total" class="table">
+            <tbody>
+              <tr>
+                <th style="width:50%">Subtotal:</th>
+                <td align="right" class="subTotal diginum"><%=numberFormat(model.invoiceTotal,2)%></td>
+              </tr>
+              <tr>
+                <th><input type="checkbox" name="issgst" id="issgst" class="updateAmt" <%if(model.stateGstAmount != 0 && model.stateGstAmount != null ){%>  <% } %>   >SGST </th>
+                <td align="right" class="sgst diginum"><%=numberFormat(model.stateGstAmount,2)%> </td>
+              </tr>
+              <tr>
+                <th > <input type="checkbox" name="iscgst" id="iscgst" class="updateAmt" <%if(model.centralGstAmount != 0 && model.centralGstAmount != null ){%>  <% } %> >CGST</th>
+                <td align="right" class="cgst diginum"><%=numberFormat(model.centralGstAmount,2)%></td>
+              </tr>
+              <tr>
+                <th> <input type="checkbox" name="isigst" id="isigst" class="updateAmt" <%if(model.interGstAmount != 0 && model.interGstAmount != null){%> <% } %>  >IGST </th>
+                <td align="right" class="igst diginum"><%=numberFormat(model.interGstAmount,2)%></td>
+              </tr>
+              <tr>
+                <th>Round Off:</th>
+                <td align="right" class="roundOff diginum"><%=numberFormat(model.roundOff,2)%></td>
+              </tr>
+              <tr>
+                <th>Gross Total:</th>
+                <td align="right" class="grossTotal diginum"><%=numberFormat(model.grossAmount,2)%></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> 
+</form>
+</div>
+  
+

@@ -1,0 +1,165 @@
+<div class="row">
+    <div class="col-md-12 p-0">
+        <div class="accordion">
+            <div class="header">
+                <input type="checkbox" class="template_type" id="checkbox" value="Email" name="checkbox" <%if(model.notification_type && (model.notification_type.includes('Email') || model.notification_type== 'both') ){%> checked <%}%>>
+                <label for="checkbox">Emails</label>
+            </div>
+        <div class="collapse">
+        <div class="row">
+            <div class="col-md-4 pr-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-float mb-2">
+                            <div class="form-line">
+                                <label for="name" class="form-label">Fields</label>
+                                <input id="feildSearch" type="text" class="form-control feildSearch" name="feildSearch" placeholder="Search">
+                                <span class="material-icons">search</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="column-field-div">
+                            <div class="panel-body p-0 m-0">
+                                <ul id="sortable">
+                                    <li class="ui-state-default drag-drop-item column-field-val li_sys_user">System User Name</li>
+                                    <li class="ui-state-default drag-drop-item column-field-val li_sys_user">System User Mobile No</li>
+                                    <li class="ui-state-default drag-drop-item column-field-val li_sys_user">System User Email</li>
+                                    <li class="ui-state-default drag-drop-item column-field-val li_sys_user">System User Whatsapp No</li>
+                                    <%_.each(columnlist,function(column){%> <% if(!skipFields.includes(column.Field)){%> <li class="ui-state-default drag-drop-item column-field-val" data-field="<%=column.Field%>"><% let columnfield = column.Field.replace(/_/g, " "); let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); %><%=upl%></li>
+                <% if(column.subColList){%>
+                <div class="panel-body nested-panel-body">
+                    <ul id="sortable">
+                        <%_.each(column.subColList,function(subcolumn){%>
+                            <li class="ui-state-default drag-drop-item column-field-val pl-4" data-field="<%=subcolumn.Field%>"><% let columnfield = subcolumn.Field.replace(/_/g, " "); let upl = columnfield.charAt(0).toUpperCase()+columnfield.slice(1); %><%=upl%></li>
+                        <% })%>
+                    </ul>
+                </div>
+                <% } %>
+                <% } %>
+                <% })%>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+        <div class="col-md-8" style="min-height: 340px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group input-group form-float mb-2">
+                        <div class="form-line">
+                            <label for="emailContentN" class="form-label">Email Template :</label>
+                            <select for="template_id" id="template_id" name="template_id" data-live-search="true" title="Search" class="form-control ws-select show-tick dropval getTemplate repeatChange">
+                                <option class="addNew" value="addEmailTemp">Add Email Template</option>
+                                <%_.each(emailTemps,function(temp){%>
+                                <option <%if(model.template_id == temp.attributes.tempID){%>selected<%}%>  value="<%=temp.attributes.tempID%>"><%=temp.attributes.tempName%></option>
+                                <%});%>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row emailContent">
+                <div class="col-md-12">
+                    <div class="form-group input-group form-float mb-2">
+                        <div class="form-line">
+                            <label for="emailSubject" class="form-label">Subject</label>
+                            <input id="emailSubject" type="text" class="form-control txtchange" autocomplete="off" name="subjectOfEmail" value="">
+                        </div>
+                    </div>
+                    <div id="emailContentN" name="emailContentN" class="form-control mb-5" value=""></div>
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div><div class="clearfix">&nbsp;</div><div class="clearfix">&nbsp;</div><div class="clearfix">&nbsp;</div>
+        </div>
+</div>
+</div>
+
+<div class="header">
+    <input type="checkbox" class="template_type" id="checkbox1" name="checkbox1" value="SMS" <%if(model.notification_type && (model.notification_type.includes('SMS') || model.notification_type== 'both') ){%> checked <%}%> >
+        <label for="checkbox1">SMS</label>
+    </div>
+    <div class="collapse">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group form-float mb-2">
+                    <div class="form-line">
+                        <label for="name" class="form-label">SMS Template</label>
+                        <input id="feildSearch" type="text" class="form-control feildSearch" name="feildSearch" placeholder="Search">
+                        <span class="material-icons">search</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group input-group form-float">
+                    <div class="form-line">
+                        <div id="PreviewSMS" class="form-control showNotification"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <input type="checkbox" class="template_type" id="checkbox3" name="checkbox3" value = "whatsapp" <%if(model.notification_type && (model.notification_type.includes('whatsapp') || model.notification_type== 'both') ){%> checked <%}%> >
+        <label for="checkbox3">What's App</label>
+    </div>
+    <div class="collapse">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group input-group form-float mb-2">
+                    <div class="form-line">
+                        <label for="emailContentN" class="form-label">Whatsapp Template :</label>
+                        <select for="whatsapp_template_id" id="whatsapp_template_id" name="whatsapp_template_id" data-live-search="true" title="Search" class="form-control ws-select show-tick dropval repeatChange">
+                            <option class="addNew" value="addEmailTemp">Add Email Template</option>
+                            <%_.each(emailTemps,function(temp){%>
+                            <option <%if(model.template_id == temp.attributes.tempID){%>selected<%}%>  value="<%=temp.attributes.tempID%>"><%=temp.attributes.tempName%></option>
+                            <%});%>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row whatsappContent">
+            <div class="col-md-12">
+                <div id="whatsappContent" name="whatsappContent" class="form-control mb-5" value=""></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <input type="checkbox" class="template_type" id="checkbox3" name="checkbox3" value = "whatsapp" <%if(model.notification_type && (model.notification_type.includes('whatsapp') || model.notification_type== 'both') ){%> checked <%}%> >
+        <label for="checkbox3">Attachments</label>
+    </div>
+    <div class="collapse">
+        <div class="col-xs-12 notificationAttach">
+            <div class="col-sm-12 ws-assignee-column">
+                <div class="clearfix">&nbsp;
+                    <span class="prvEmail"> Notification Attachment</span>
+                    <input type="file" multiple class="btn btn-default btn__action" id="fileupload" />
+                </div>
+            </div>
+            <div class="col-sm-12 ws-assignee-column">
+                <div id="attachedDoc" class="row taskAttachDoc"></div>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="clearfix">&nbsp;</div>
+</div>
+    </div>
+    
+    
+</div>
+</div>
+</div>

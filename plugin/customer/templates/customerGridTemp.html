@@ -1,0 +1,69 @@
+<div class="leadCustomer" data-customer_id="<%=customerDetails.attributes.customer_id%>" >    
+    <div class="leadDetails" id="leadCard<%=customerDetails.attributes.customer_id%>" >
+        <div class="leadDetailsCard">
+            <div class="leadDetailsCardTop">
+                <div class="namedetails" style="display: flex;">
+                    <div class="image" style="padding-right :10px ;">
+                        <%if (customerDetails.attributes.customer_image == "" ){%>
+                            <span class="initial lead_name" style="background-color : <%=customerDetails.attributes.initialBgColor%>; color:<%=customerDetails.attributes.initialColor%>"><%=customerDetails.attributes.initial%> </span>
+                        <%}else{%>
+                            <img alt="<%=customerDetails.attributes.initial%>" src="<%=customerDetails.attributes.customer_image%>" style=" width: 25px; height: 25px; border-radius: 50%;"/>
+                        <%}%>
+                    </div>
+                    <span><%=customerDetails.attributes.name%></span>
+                </div>
+                 <div class="recordType">
+                    <h6><%=customerDetails.attributes.record_type%></h6>
+                </div>
+              </div>
+            <div class="leadDetailsCardBody">
+                <h5 class="loadview" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-custMail="<%=customerDetails.attributes.email%>"  data-view="mail"><span><i class="material-icons">email</i></span>
+
+                    <% if(customerDetails.attributes.email !=""){%>
+                        <strong><%=customerDetails.attributes.email%></strong>
+                        <%} else {%>
+                        <strong>--</strong>
+                    <%}%>
+                </h5>
+                <p><span><i class="material-icons">call</i></span>
+                    <% if(customerDetails.attributes.mobile_no != ""){%>
+                         <strong><%=customerDetails.attributes.mobile_no%></strong>   
+                    <%} else {%>
+                        <strong>--</strong>
+                    <%}%>
+                </p>
+                <p>
+                    <% if(customerDetails.attributes.last_activity_type == "task"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=customerDetails.attributes.lastActivityTime%> 
+                    <%}else if(customerDetails.attributes.last_activity_type == "apointment"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=customerDetails.attributes.lastActivityTime%> 
+                    <%}else if(customerDetails.attributes.last_activity_type == "email"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=customerDetails.attributes.lastActivityTime%> 
+                    <%}else if(customerDetails.attributes.last_activity_type == "stage"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=customerDetails.attributes.lastActivityTime%> 
+                    <%}else if(customerDetails.attributes.last_activity_type == "notes"){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <%=customerDetails.attributes.lastActivityTime%> 
+                    <%}else if(customerDetails.attributes.last_activity_type == "" || customerDetails.attributes.last_activity_type == null){%>
+                        <span class="lastActivitySpan" data-toggle="tooltip" data-placement="top" data-content="Last Activity Date"> <i class="material-icons">history</i></span>
+                        <strong>-</strong>
+                    <%}%>
+                </p>
+            </div>
+            
+            <div class="leadDetailsCardfooter">
+                <button type="button" class="ws-btn-default loadview"  data-customer_id="<%=customerDetails.attributes.customer_id%>" data-view="singleCustomerData" data-toggle="tooltip" data-placement="top" data-content="Edit"><i class="material-icons">mode_edit</i></button>
+                <button type="button" class="ws-btn-default loadview" data-first_name="<%=customerDetails.attributes.name%>" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-stageID="<%=customerDetails.attributes.stages%>" data-custNote="<%=customerDetails.attributes.note%>" data-view="notes" data-toggle="tooltip" data-placement="top" data-content="Note"><i class="material-icons">assignment</i><%if(customerDetails.attributes.noteCount !=0 ){%><span><%=customerDetails.attributes.noteCount%></span><%}%></button>
+                <button type="button" class="ws-btn-default loadview" data-first_name="<%=customerDetails.attributes.first_name%>"  data-customer_id="<%=customerDetails.attributes.customer_id%>" data-custMail="<%=customerDetails.attributes.email%>" data-view="mail" data-toggle="tooltip" data-placement="top" data-content="Mail"><i class="material-icons">mail</i></button>
+                <button type="button" class="ws-btn-default loadview" data-first_name="<%=customerDetails.attributes.name%>" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-view="history" data-toggle="tooltip" data-placement="top" data-content="History"><i class="material-icons">history</i><%if(customerDetails.attributes.upcomingCount != 0){%><span><%=customerDetails.attributes.upcomingCount%></span><%}%></button>
+                <button type="button" class="ws-btn-default loadview" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-first_name="<%=customerDetails.attributes.name%>" data-view="task" data-toggle="tooltip" data-placement="top" data-content="Task"><i class="material-icons">business_center</i></button>
+                <button type="button" class="ws-btn-default loadview" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-custMail="<%=customerDetails.attributes.email%>" data-first_name="<%=customerDetails.attributes.name%>" data-view="appointment" data-toggle="tooltip" data-placement="top" data-content="Appointment"><i class="material-icons">date_range</i></button>
+                <button type="button" class="ws-btn-default changeStatusGrid" data-customer_id="<%=customerDetails.attributes.customer_id%>" data-view="Delete" data-toggle="tooltip" data-placement="top" data-content="Delete"><i class="material-icons">delete</i></button>
+            </div>
+        </div>
+    </div>
+ </div>
