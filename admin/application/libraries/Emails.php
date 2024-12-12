@@ -29,17 +29,7 @@ class Emails
 		//$this->mail_server = $this->CI->config->item('mail_server');
 	}
 	private function getCompanyDetails($email=''){
-		if($this->CI->input->post('SadminID')){
-			$wherec = array("adminID"=>$this->CI->input->post('SadminID'),"status"=>"active");
-		}else
-		{
-			if (isset($email) && !empty($email)) {
-				$wherec = array("email"=>$email,"status"=>"active");
-			}
-		}
-	 	$dCompany = $this->CI->CommonModel->getMasterDetails("admin","default_company",$wherec);
-		// INFOSETTINGS 
-		$wherec = array("infoID"=>$dCompany[0]->default_company);
+		$wherec = array("infoID"=>1);
 	 	$d = $this->CI->CommonModel->getMasterDetails("info_settings","*",$wherec);
 		if(isset($d) && !empty($d)){
 			$this->companyInfo = $d[0];
@@ -49,7 +39,11 @@ class Emails
 			$config['smtp_host'] = $this->companyInfo->smtp_host;//'mail.mkvisolutions.com';
 			$config['smtp_user'] = $this->companyInfo->smtp_user;//'test@e.webtrixsolutions.com';
 			$config['smtp_pass'] = $this->companyInfo->smtp_pass;
+			if(isset($this->companyInfo->smtp_post))
 			$config['smtp_port'] = $this->companyInfo->smtp_post; // 465
+			else
+			$config['smtp_port'] = 465;
+
 			$config['charset'] = 'UTF-8';
 			$config['mailtype'] = 'html';
 			$config['wordwrap'] = TRUE;

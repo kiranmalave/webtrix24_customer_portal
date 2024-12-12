@@ -13,13 +13,12 @@ define([
   
   ], function ($, _, Backbone, owlcarousal, loginModel,regsiterCompanyView,resetPasswordRequestModel, resetPasswordRequestView,loginTemplateCollection, registerOTP_temp,Swal) {
     var regsiterVerificationView = Backbone.View.extend({
-      model: loginModel,
-      resetReqmodel: resetPasswordRequestModel,
       initialize: function (option) {
         var selfobj = this;
         this.userID = option.userID;
-        this.model = new loginModel();
-        this.resetReqmodel = new resetPasswordRequestModel();
+        if(this.userID=="" || this.userID == null){
+          app_router.navigate("login", { trigger: true });
+        }
         this.slideList = [];
         this.slideList = new loginTemplateCollection();
         this.slideList.fetch({
@@ -27,17 +26,18 @@ define([
             'contentType': 'application/x-www-form-urlencoded', 'SadminID': $.cookie('authid'), 'token': $.cookie('_bb_key'), 'Accept': 'application/json'
           }, error: selfobj.onErrorHandler, type: 'post', data: { status: 'active', getAll: 'Y'}
         }).done(function (res) {
-          console.log(res);
           if (res.flag == "F") {showResponse('',res,'');};
           if (res.statusCode == 994) { app_router.navigate("logout", { trigger: true }); }
           $(".popupLoader").hide();
-          selfobj.render();
+          selfobj.checkverification();
         });
       },
       events:
       {
         "click .loadSubView": "loadSubView",
-        "click .showHidePassword": "showHidePassword",
+        "click .submit": "verifyDetails",
+        "click .resendCode": "resendCode",
+        
       },
       onErrorHandler: function (collection, response, options) {
         Swal.fire({title: 'Failed !',text: "Something was wrong ! Try to refresh the page or contact administer. :(",timer: 2000,icon: 'error',showConfirmButton: false});      
@@ -45,18 +45,18 @@ define([
       },
       initializeValidate: function () {
         var selfobj = this;
-        $("#loginForm").validate({
+        $("#verificationOTP").validate({
           rules: {
-            txt_username: {
+            txt_email_otp: {
               required: true,
             },
-            txt_password: {
+            txt_phone_otp: {
               required:true,
             }
           },
           messages: {
-            txt_username: "Enter Username / Email / Mobile No .",
-            txt_password: "Enter Password"
+            txt_email_otp: "Email OTP required.",
+            txt_phone_otp: "Mobile OTP required."
           },
         });
       },
@@ -69,6 +69,72 @@ define([
             break;
           }
         }
+      },
+      verifyDetails: function (e) {
+        e.preventDefault();
+        var selfobj = this;
+        if (!$("#verificationOTP").valid()) {
+          return false;
+        }
+        $.ajax({
+          url: APIPATH + 'verifyDetails',
+          method: 'POST',
+          data: {"emailOTP":$("#txt_email_otp").val(),"mobileOTP":$("#txt_phone_otp").val(),"txt_password":$("#txt_password").val(),"vcode":selfobj.userID},
+          datatype: 'JSON',
+          beforeSend: function (request) {
+            request.setRequestHeader("contentType", 'application/x-www-form-urlencoded');
+            request.setRequestHeader("Accept", 'application/json');
+          },
+          success: function (res) {
+            if (res.flag == "F") {showResponse('',res,'');return;};
+            if (res.flag == "S"){
+              new regsiterCompanyView({userID:selfobj.userID});
+            }
+          }
+        });
+      },
+      resendCode: function (e) {
+        $.ajax({
+          url: APIPATH + 'resendVerifyDetails',
+          method: 'POST',
+          data:{vcode:selfobj.userID},
+          datatype: 'JSON',
+          beforeSend: function (request) {
+            request.setRequestHeader("contentType", 'application/x-www-form-urlencoded');
+            request.setRequestHeader("Accept", 'application/json');
+          },
+          success: function (res) {
+            if (res.flag == "F") {showResponse('',res,'');return;};
+            if (res.flag == "S"){
+              showNotification("alert-success", "Verification code sent successfully..", null, null, null, null);
+            }
+          }
+        });
+      },
+      checkverification:function(){
+        var selfobj= this;
+        //alert("sdsf");
+        // new regsiterCompanyView({userID:selfobj.userID});
+        // return;
+        $.ajax({
+          url: APIPATH + 'checkVerifyDetails',
+          method: 'POST',
+          data:{vcode:selfobj.userID},
+          datatype: 'JSON',
+          beforeSend: function (request) {
+            request.setRequestHeader("contentType", 'application/x-www-form-urlencoded');
+            request.setRequestHeader("Accept", 'application/json');
+          },
+          success: function (res) {
+            if (res.flag == "S" && res.setup=="pending"){
+              new regsiterCompanyView({userID:selfobj.userID});
+            }else if(res.setup=="done"){
+              app_router.navigate("login", { trigger: true });
+            }else{
+              selfobj.render();
+            }
+          }
+        });
       },
       render: function () {
         var logintemp = registerOTP_temp;

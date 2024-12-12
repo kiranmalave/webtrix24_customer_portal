@@ -14,6 +14,7 @@ define([
     'plugin/login/views/verificationView',
     'plugin/login/views/resetPasswordRequestView',
     'plugin/login/views/registerView',
+    'plugin/login/views/regsiterCompanyView',
     'plugin/dashboard/views/dashboardView',
     'plugin/userProfile/views/userProfileView',
     'plugin/admin/views/adminView',
@@ -70,12 +71,13 @@ define([
     'text!../templates/appFull_temp.html',
     'text!../templates/sideNav_temp.html',
     'text!../templates/topNav_temp.html',
-  ], function ($, _, Backbone, bootstrap, jqueryCookie, Waves, adminjs, bootstrapSelect, notify, custom, Swal, loginView, verificationView, resetPasswordRequestView,registerView, dashboardView, userProfileView, adminView, userRoleView, menuView, emailMasterView, categoryView, pagesMasterView, pagesMasterSingleDesign, blogsMasterView, blogsMasterSingleDesign, dynamicFormView, accessDetailsView, pagesMenuMasterView, themeOptionView, campaignsView, appointmentView, taskView, taskSingleView, customerView, receiptView, pushServiceView, taxInvoiceView, deliveryChallanView, eventView, avablityView, readFilesView, servicesView, careerView, ourClientsView, expencesView, ourTeamView, testimonialsView, faqView, contactUsView, dynamicFormsView, servicesMasterSingleDesign,customModuleView,productStockView, productView, customerdashboardView,companyView,accountView,currencyView,vendorView,imageSliderView,templatesView,loginTemplateView,errorLogView,registrationView, opportunityView,projectsView,appMain_temp, appFull_temp, sidebar, topNav) {
+  ], function ($, _, Backbone, bootstrap, jqueryCookie, Waves, adminjs, bootstrapSelect, notify, custom, Swal, loginView, verificationView, resetPasswordRequestView,registerView,regsiterCompanyView, dashboardView, userProfileView, adminView, userRoleView, menuView, emailMasterView, categoryView, pagesMasterView, pagesMasterSingleDesign, blogsMasterView, blogsMasterSingleDesign, dynamicFormView, accessDetailsView, pagesMenuMasterView, themeOptionView, campaignsView, appointmentView, taskView, taskSingleView, customerView, receiptView, pushServiceView, taxInvoiceView, deliveryChallanView, eventView, avablityView, readFilesView, servicesView, careerView, ourClientsView, expencesView, ourTeamView, testimonialsView, faqView, contactUsView, dynamicFormsView, servicesMasterSingleDesign,customModuleView,productStockView, productView, customerdashboardView,companyView,accountView,currencyView,vendorView,imageSliderView,templatesView,loginTemplateView,errorLogView,registrationView, opportunityView,projectsView,appMain_temp, appFull_temp, sidebar, topNav) {
     return {
         routes: {
           'logout': 'logoutlink_',
           'login': 'loginlink_',
           'register':'registerView_',
+          'customer_setup':'regsiterCompanyView_',
           'userVerification': 'verificationView_',
           'resetpasswordrequest':"resetPasswordRequest_",
           'dashboard':"dashboardview_",
@@ -304,6 +306,13 @@ define([
         $("#master__load").addClass("login");
         $("#master__load").empty().append(template());
         new registerView();
+      },
+      regsiterCompanyView_:function(){
+        var loc = window.location.pathname;
+        var template = _.template(appFull_temp);
+        $("#master__load").addClass("login");
+        $("#master__load").empty().append(template());
+        new regsiterCompanyView();
       },
       pagesMenuMaster_:function(action){
        if (this.preTemp()) {

@@ -16,9 +16,11 @@ define([
     var loginView = Backbone.View.extend({
       model: loginModel,
       resetReqmodel: resetPasswordRequestModel,
-      initialize: function () {
+      initialize: function (options) {
         var selfobj = this;
         this.model = new loginModel();
+        var searchParams = new URLSearchParams(location.href);
+        var code = searchParams.get('vfcode');
         this.resetReqmodel = new resetPasswordRequestModel();
         this.countryListView = new countryExtList();
         this.slideList = new loginTemplateCollection();
@@ -30,7 +32,11 @@ define([
           if (res.flag == "F") {showResponse('',res,'');};
           if (res.statusCode == 994) { app_router.navigate("logout", { trigger: true }); }
           $(".popupLoader").hide();
-          selfobj.render();
+          if(code !="" && code !=null){
+            new regsiterVerificationView({userID:code});
+          }else{
+            selfobj.render();
+          }
           $(".right-layout").hide();
         });
       },
@@ -49,16 +55,13 @@ define([
       registerandVerify: function (e) {
         e.preventDefault();
         var selfobj = this;
-        
-        //var pass = $("#txt_password").val();
-        //console.log('verify : ',$("#loginForm").valid());
         if (!$("#getUserDetails").valid()) {
           return false;
         }
         $.ajax({
           url: APIPATH + 'registeruser',
-          method: 'POST',
-          data: {},
+          method: 'PUT',
+          data: {"name":$("#txt_fname").val(),"email":$("#txt_email").val(),"countryCode":$("#countryCode").val(),"phone":$("#txt_phone").val()},
           datatype: 'JSON',
           crossDomain: true,
           beforeSend: function (request) {
@@ -68,7 +71,7 @@ define([
           success: function (res) {
             if (res.flag == "F") {showResponse('',res,'');return;};
             //var code = res.data.salt;
-            new regsiterVerificationView({ userID:1});
+            new regsiterVerificationView({userID:res.customer_id});
           }
         });
       },
@@ -84,7 +87,7 @@ define([
               required:true,
             },
             txt_phone: {
-            onlyInteger:true
+              number:true
             }
           },
           messages: {

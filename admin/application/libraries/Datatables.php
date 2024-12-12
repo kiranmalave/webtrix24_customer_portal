@@ -94,7 +94,6 @@ class Datatables extends CI_Model
         }
 
         //check is table exit
-
         $fields1 = array(
             'id' => array(
                 'type' => 'INT',
@@ -301,8 +300,151 @@ LIMIT 1");
         }
         return $customData;
     }
-}
+    public function createDatabase($name){
+        if($this->dbforge->create_database($name)){
+            if($this->grant_user_permissions($name)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+        
+    }
 
+    public function copy_database($source_db,$otherDetails,$customerDetails) {
+        // Step 1: Create the Target Database
+        // if (!$this->dbforge->create_database($target_db)) {
+        //     return;
+        // }
+
+        // Step 2: Connect to the Source Database
+        $source_db_config = $this->get_database_config($source_db);
+        $source_db_connection = $this->load->database($source_db_config, TRUE);
+
+        // Step 3: Connect to the Target Database
+        $target_db= $otherDetails['database_name'];
+        $target_db_config = $this->get_database_config($target_db);
+        $source_db_connection->query('SET FOREIGN_KEY_CHECKS = 0;');
+        $target_db_connection = $this->load->database($target_db_config, TRUE);
+        $target_db_connection->query('SET FOREIGN_KEY_CHECKS = 0;');
+        // Step 4: Get all tables from the Source Database
+        $tables = $source_db_connection->list_tables();
+
+        foreach ($tables as $table) {
+            // Step 5: Get the CREATE TABLE statement
+            $create_table_query = $source_db_connection->query("SHOW CREATE TABLE `$table`")->row_array();
+            $create_table_sql = $create_table_query['Create Table'];
+
+            // Execute the CREATE TABLE statement on the Target Database
+            $target_db_connection->query($create_table_sql);
+            // Step 6: Copy the data from the Source Table to the Target Table
+            $data_query = $source_db_connection->get($table);
+            $data = $data_query->result_array();
+
+            if (!empty($data)) {
+                $target_db_connection->insert_batch($table, $data);
+                // check if admin table the n create default user to login
+            }
+        }
+        $target_db_connection->query('SET FOREIGN_KEY_CHECKS = 1;');
+        $source_db_connection->query('SET FOREIGN_KEY_CHECKS = 1;');
+            $data = array();
+            $data["name"] = $customerDetails[0]->name;
+            $data["userName"] = $customerDetails[0]->userName;
+            $data["email"] = $customerDetails[0]->email;
+            $data["password"] = $customerDetails[0]->password;
+            $data["roleID"] = "1";
+            $data["isEmailSend"] ="no";
+            $data["user_setting"] = "";
+            $data["one_drive_access_token"]="";
+            $data["address"]= "";
+            $data["company_id"] = "1";
+            $data["default_company"] = "1";
+            $data["isVerified"] = "Y";
+            $data["is_sys_user"] = "yes";
+            $data["photo"] = "";
+            $data["created_by"] = "1";
+            $data["created_date"] = date("Y/m/d H:i:s");
+            $target_db_connection->insert("ab_admin", $data);
+            $dataCompany = array();
+            $dataCompany["companyName"] = $otherDetails['company_name'];
+            $dataCompany["company_address"] = " ";
+            $dataCompany["fromName"] =  $otherDetails['company_name'];
+            $dataCompany["fromEmail"] = "test@webtrixsolutions.com";
+            $dataCompany["status"] = "active";
+            $dataCompany["is_display_payment"] = "no";
+            $dataCompany["is_gst_billing"] = "no";
+            $dataCompany["created_by"] = "1";
+            $dataCompany["created_date"] =  date("Y/m/d H:i:s");
+            $target_db_connection->insert("ab_info_settings",$dataCompany);
+        return true;
+    }
+    private function get_database_config($database_name) {
+        // Return a configuration array for the given database
+        return [
+            'hostname' => $this->db->hostname,
+            'username' => $this->db->username,
+            'password' => $this->db->password,
+            'database' => $database_name,
+            'dbdriver' => $this->db->dbdriver,
+            'dbprefix' => '',
+            'pconnect' => FALSE,
+            'db_debug' => TRUE,
+            'cache_on' => FALSE,
+            'cachedir' => '',
+            'char_set' => 'utf8',
+            'dbcollat' => 'utf8_general_ci',
+        ];
+    }
+    public function create_user_and_grant_privileges($database,$username,$password) {
+        // Define variables
+        // $database = 'exampledb';         // Target database
+        // $username = 'new_user';          // New MySQL username
+        // $password = 'secure_password';   // New MySQL password
+        $host = 'localhost';             // Host for the user
+
+        // Step 1: Create the MySQL User
+        $create_user_sql = "CREATE USER '$username'@'$host' IDENTIFIED BY '$password';";
+
+        // Step 2: Grant Required Privileges
+        $grant_privileges_sql = "
+            GRANT SELECT, INSERT, UPDATE,DELETE, TRIGGER ON `$database`.* TO '$username'@'$host';
+        ";
+
+        // Step 3: Flush Privileges
+        //$flush_privileges_sql = "FLUSH PRIVILEGES;";
+
+        try {
+            // Execute the SQL statements
+            $this->db->query($create_user_sql);
+            $this->db->query($grant_privileges_sql);
+            //$this->db->query($flush_privileges_sql);
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function grant_user_permissions($database) {
+        // Define the database, user, host, and permissions
+        $user = $this->db->username;
+        $host = 'localhost';
+        $permissions = 'SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER,TRIGGER';
+        $grant_option = 'WITH GRANT OPTION';
+
+        // Construct the GRANT SQL query
+        $sql = "GRANT $permissions ON `$database`.* TO '$user'@'$host' $grant_option;";
+
+        // Execute the query
+        if ($this->db->query($sql)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 //defined('BASEPATH') or exit('No direct script access allowed');
 
 // class Example_model extends CI_Model

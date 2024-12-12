@@ -4,22 +4,24 @@ define([
     'backbone',
     'owlcarousal',
     'RealTimeUpload',
-    '../../core/views/countryExtList',
-    '../models/loginModel',
+    '../../core/views/multiselectOptions',
+    '../models/customerSetupModel',
     "../../loginTemplate/collections/loginTemplateCollection",
     'text!../templates/registerCompany_temp.html',
     'Swal'
   
-  ], function ($, _, Backbone, owlcarousal,RealTimeUpload,countryExtList,loginModel,loginTemplateCollection, registerCompany_temp,Swal) {
+  ], function ($, _, Backbone, owlcarousal,RealTimeUpload,multiselectOptions,customerSetupModel,loginTemplateCollection, registerCompany_temp,Swal) {
     var regsiterCompanyView = Backbone.View.extend({
-      model: loginModel,
+      model: customerSetupModel,
+      fireworks:[],
       initialize: function (option) {
         var selfobj = this;
         this.userID = option.userID;
-        this.model = new loginModel();
+        this.model = new customerSetupModel();
+        
+        this.multiselectOptions = new multiselectOptions();
         this.slideList = [];
-        this.countryListView = new countryExtList();
-        this.countryExtList = this.countryListView.countryExtList;
+        this.model.set("vcode",option.userID);
         this.slideList = new loginTemplateCollection();
         this.slideList.fetch({
           headers: {
@@ -38,7 +40,60 @@ define([
         "click .showHidePassword": "showHidePassword",
         "click .btnNext": "btnNext",
         "click .previous": "previous",
+        "blur .txtchange": "updateOtherDetails",
+        "click .multiSel": "setValues",
+        "click .preSubmit": "companySetup",        
       },
+      updateOtherDetails: function (e) {
+        var valuetxt = $(e.currentTarget).val();
+        var toID = $(e.currentTarget).attr("id");
+        var newdetails = [];
+        newdetails["" + toID] = valuetxt;
+        this.model.set(newdetails);
+      },
+      setValues: function (e) {
+        var selfobj = this;
+        var da = selfobj.multiselectOptions.setCheckedValue(e);
+        selfobj.model.set(da);
+      },
+      companySetup:function(e){
+        e.preventDefault();
+        this.progressContainer.css("display","block");
+        this.progressBar.css("width","0%");
+        $(".login_content").css("display","none");
+        let selfobj = this;
+        this.simulateProgress();
+        this.model.save({}, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded','Accept': 'application/json'
+          }, error: selfobj.onErrorHandler, type: "POST"
+        }).done(function (res) {
+          if (res.flag == "F") {
+            showNotification("alert-danger",res.msg);
+          }else{
+            selfobj.progressBar.css("width","100%");
+            selfobj.progressContainer.css("display","none");
+            $(".congratulations").css("display","block");
+            //showNotification("alert-sucess","Your setup has been completed successfully.");
+            selfobj.triggerFireworksForDuration();
+            setTimeout(() => {
+              window.location.href = "https://"+res.account_name+".webtrix24.com/#login?&ps="+res.data.pass+"&us="+res.data.uname;
+            },4000);
+          }
+        });
+      },
+      simulateProgress:function() {
+        let progress = 0;
+
+        const interval = setInterval(() => {
+            if (progress < 90) { // Progress until 90% (you can set your logic here)
+                progress += 5;
+                progressBar.style.width = `${progress}%`;
+            } else {
+                clearInterval(interval); // Stop interval once it's near 100%
+            }
+        }, 300); // Interval for progress update (you can adjust timing)
+    },
       previous: function () {
         var activeTab = document.querySelector('.active-tab');
         var previousTab;
@@ -74,14 +129,13 @@ define([
         }
         $(".progress-text").html(ctab+"/4");
       },
-  
       btnNext: function () {
         var activeTab = document.querySelector('.active-tab');
         var nextTab;
-  
-        // this.valid= this.validateNotification(activeTab.id)
-        // if(!this.valid)
-        //   return;     
+        if(this.model.get("comapnyName") == "" || this.model.get("comapnyName")== null){
+          showNotification("alert-danger","Comapny name Required");
+          return;
+        }
         if (activeTab) {
           $(".previous").show();
           nextTab = activeTab.nextElementSibling;
@@ -125,20 +179,19 @@ define([
       },
       initializeValidate: function () {
         var selfobj = this;
-        $("#loginForm").validate({
-          rules: {
-            txt_username: {
-              required: true,
-            },
-            txt_password: {
-              required:true,
-            }
-          },
-          messages: {
-            txt_username: "Enter Username / Email / Mobile No .",
-            txt_password: "Enter Password"
-          },
-        });
+        this.progressBar = $("#progressBar");
+        this.progressContainer = $("#progressContainer");
+        this.startRequestButton = $("#startRequest");
+        this.canvas = this.$("#fireworksCanvas")[0];
+        console.log(this.canvas);
+        this.ctx = this.canvas.getContext("2d");
+        console.log(this.ctx);
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        
+        this.isAnimating = false;
+        // Start the animation loop
+        this.animate();
       },
       loadSubView: function (e) {
         var show = $(e.currentTarget).attr("data-show");
@@ -149,11 +202,114 @@ define([
           }
         }
       },
+      Particle: function (x, y, color, velocity) {
+        return {
+            x: x,
+            y: y,
+            color: color,
+            velocity: velocity,
+            alpha: 1,
+            friction: 0.98,
+            gravity: 0.03,
+            update: function () {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.015;
+            },
+            draw: function (ctx) {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(
+                    this.x - this.velocity.x * 2,
+                    this.y - this.velocity.y * 2
+                );
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.closePath();
+                ctx.restore();
+            },
+        };
+    },
+
+    Firework: function (x, y) {
+        const particles = [];
+        const particleCount = 60;
+        const colors = ['#3243a2', '#2599ff', '#754fdd', '#4f3b84', '#f9a335'];
+
+        for (let i = 0; i < particleCount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 3 + 1;
+            const velocity = {
+                x: Math.cos(angle) * speed,
+                y: Math.sin(angle) * speed,
+            };
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particles.push(this.Particle(x, y, color, velocity));
+        }
+
+        return {
+            particles: particles,
+            update: function () {
+                this.particles.forEach((particle, index) => {
+                    particle.update();
+                    if (particle.alpha <= 0) {
+                        this.particles.splice(index, 1);
+                    }
+                });
+            },
+            draw: function (ctx) {
+                this.particles.forEach(particle => particle.draw(ctx));
+            },
+            isDone: function () {
+                return this.particles.length === 0;
+            },
+        };
+    },
+
+    triggerFireworksForDuration: function () {
+      var selfobj = this;
+        if (selfobj.isAnimating) return; // Prevent re-triggering during animation
+        selfobj.isAnimating = true;
+
+        const interval = setInterval(() => {
+            for (let i = 0; i < 4; i++) {
+                const x = Math.random() * selfobj.canvas.width;
+                const y = Math.random() * selfobj.canvas.height * 0.4;
+                selfobj.fireworks.push(this.Firework(x, y));
+            }
+        }, 500);
+
+        setTimeout(() => {
+            clearInterval(interval);
+            selfobj.isAnimating = false;
+        },4000);
+    },
+
+    animate: function () {
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.fireworks.forEach((firework, index) => {
+            firework.update();
+            firework.draw(this.ctx);
+            if (firework.isDone()) {
+                this.fireworks.splice(index, 1);
+            }
+        });
+
+        requestAnimationFrame(this.animate.bind(this));
+    },
       render: function () {
         var logintemp = registerCompany_temp;
         var template = _.template(logintemp);
         // this.$el.html(template());
-        this.$el.html(template({"slideList": this.slideList ? this.slideList.models : [],countryExtList: selfobj.countryExtList}));
+        this.$el.html(template({"slideList": this.slideList ? this.slideList.models : []}));
         $(".main_container").empty().append(this.$el);
         $('#owl-carousel').owlCarousel({
           loop: true,

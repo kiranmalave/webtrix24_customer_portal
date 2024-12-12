@@ -10649,6 +10649,7 @@ a.ws-btn-default:hover {
   background: #457fca !important;
   border: 1px none #062d62;
   display: block;
+  color: #fff;
 }
 
 .error {
@@ -12430,6 +12431,24 @@ button#addRow {
   flex-direction: row;
   gap: 10px;
   height: 4px;
+}
+.progress-bar-reg {
+  border-radius: 5px;
+  height: 10px;
+  background: #08a0fb;
+  width: 0%;
+}
+.progress-container-reg {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 3;
+  display: none; 
+}
+.congratulations{
+  display: none;
 }
 
 .progress-step {
