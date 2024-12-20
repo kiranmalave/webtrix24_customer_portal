@@ -45,6 +45,10 @@ define([
       },
       initializeValidate: function () {
         var selfobj = this;
+        $.validator.addMethod("passwordtxt", function (value, element) {
+          return this.optional(element) || /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
+        }, "Invalid password format.");
+        
         $("#verificationOTP").validate({
           rules: {
             txt_email_otp: {
@@ -52,11 +56,21 @@ define([
             },
             txt_phone_otp: {
               required:true,
+            },
+            txt_password: {
+              required: true,
+              minlength: 8,
+              passwordtxt:true,
             }
           },
           messages: {
             txt_email_otp: "Email OTP required.",
-            txt_phone_otp: "Mobile OTP required."
+            txt_phone_otp: "Mobile OTP required.",
+            txt_password: {
+              required: "Please enter your password.",
+              minlength: "Password must be at least 8 characters long.",
+              passwordtxt: "Password must contain at least 1 uppercase letter, 1 number, and 1 special character."
+           }
           },
         });
       },

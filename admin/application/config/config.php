@@ -36,7 +36,10 @@ $config['mediaPATH'] = $_SERVER['DOCUMENT_ROOT'] . '/LMS/uploads/';
 $config['adminmediaPATH'] = $_SERVER['DOCUMENT_ROOT'] . '/LMS/uploads/';
 $config['adminmediaURL'] = $_SERVER['DOCUMENT_ROOT'] . '/uploads/';
 $config['images_url'] = $_SERVER['DOCUMENT_ROOT'] . 'LMS/images/';
-$config['predictionDataPath'] = $_SERVER['DOCUMENT_ROOT'].'prediction_data/';
+
+
+$config['client_upload'] = '/home/webtrix24/public_html/clients/uploads/';
+//$config['client_upload'] = $_SERVER['DOCUMENT_ROOT'] ."/webtrix24_customer_portal/uploads/";
 
 //Google Settings
 $config['CLIENT_ID'] = '1047776072197-pqg1v82oqb70nhmshii3bskg4t0i3sr0.apps.googleusercontent.com';
@@ -44,6 +47,8 @@ $config['CLIENT_ID'] = '1047776072197-pqg1v82oqb70nhmshii3bskg4t0i3sr0.apps.goog
 $config['CLIENT_SECRET'] = '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';
 // / Google App Redirect Url /
 $config['CLIENT_REDIRECT_URL'] = 'http://localhost/LMS/API/responseToken';
+
+$config['encryption_key'] = 'e8e3ca2b8779d836c84804005144e30791a61d8f727e2006359041e1dcb8713f';
 /*
 |--------------------------------------------------------------------------
 | Index File

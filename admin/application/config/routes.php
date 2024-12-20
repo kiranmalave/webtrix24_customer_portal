@@ -273,3 +273,6 @@ $route['verifyDetails'] = 'systems/RegisterUser/verifyDetails';
 $route['companySetup'] = 'systems/RegisterUser/companySetup';
 $route['checkVerifyDetails'] = 'systems/RegisterUser/checkVerifyDetails';
 $route['resendVerifyDetails'] = 'systems/RegisterUser/resendVerifyDetails';
+$route['companyLogo/(:any)'] = 'systems/RegisterUser/companyLogo/$1';
+$route['companyLogo/(:any)/(:any)'] = 'systems/RegisterUser/companyLogo/$1/$2';
+$route['checkAccount'] = 'systems/RegisterUser/checkAccount';

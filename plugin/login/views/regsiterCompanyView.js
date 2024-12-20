@@ -71,14 +71,20 @@ define([
           if (res.flag == "F") {
             showNotification("alert-danger",res.msg);
           }else{
+            if (res.flag == "F") {showResponse('',res,'');return;};
             selfobj.progressBar.css("width","100%");
             selfobj.progressContainer.css("display","none");
             $(".congratulations").css("display","block");
             //showNotification("alert-sucess","Your setup has been completed successfully.");
             selfobj.triggerFireworksForDuration();
-            setTimeout(() => {
-              window.location.href = "https://"+res.account_name+".webtrix24.com/#login?&ps="+res.data.pass+"&us="+res.data.uname;
-            },4000);
+            if(res.flag == "S"){
+              setTimeout(() => {
+                window.location.href = "https://"+res.account_name+".webtrix24.com/#login?&token="+res.token;
+              },6000);
+            }
+            // setTimeout(() => {
+            //   window.location.href = "https://"+res.account_name+".webtrix24.com/#login?&ps="+res.data.pass+"&us="+res.data.uname;
+            // },6000);
           }
         });
       },
@@ -127,7 +133,7 @@ define([
         if(ctab == 1){
           $(".progress-step.form"+1).addClass("green");
         }
-        $(".progress-text").html(ctab+"/4");
+        $(".progress-text").html(ctab+"/6");
       },
       btnNext: function () {
         var activeTab = document.querySelector('.active-tab');
@@ -143,7 +149,7 @@ define([
   
             activeTab.classList.remove('active-tab');
             nextTab.classList.add('active-tab');
-            if ($(nextTab).attr('id') == 'form4') {
+            if ($(nextTab).attr('id') == 'form6') {
               $('.btnNext').hide();
               $(".preSubmit").show();
             }
@@ -156,7 +162,7 @@ define([
             for (let index = 1; index <= ctab; index++) {
               $(".progress-step.form"+index).addClass("green");
             }
-            $(".progress-text").html(ctab+"/4")
+            $(".progress-text").html(ctab+"/6")
             //$(".progress-step."+ctab).addClass("green");
   
           } else {
@@ -306,6 +312,7 @@ define([
         requestAnimationFrame(this.animate.bind(this));
     },
       render: function () {
+        var selfobj = this;
         var logintemp = registerCompany_temp;
         var template = _.template(logintemp);
         // this.$el.html(template());
@@ -327,15 +334,14 @@ define([
           maxFileSize: 4194304,
           uploadButton: false,
           notification: true,
-          autoUpload: false,
+          autoUpload: true,
           extension: ['png', 'jpg', 'jpeg'],
           // extension: ['png', 'jpg', 'jpeg', 'gif', 'pdf','docx', 'doc', 'xls', 'xlsx'],
           thumbnails: true,
-          action: APIPATH + 'customUpload',
+          action: APIPATH + 'companyLogo/'+selfobj.userID,
           element: "companyLogo", // Use a unique identifier for each element
           onSucess: function () {
-            selfobj.model.attributes.mediaArr.push(this.elements.uploadList[0].name);
-            $('.modal-backdrop').hide();
+            $(".preSubmit").trigger("click");
           }
         });
         this.initializeValidate();

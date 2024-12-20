@@ -33,6 +33,7 @@ class RegisterUser extends CI_Controller
 		$this->load->library("emails");
 		$this->load->library("Datatables");
 		$this->en_key = "f4a2f7b1c4e8a2d3b15d8d0292c0d47ews";
+		$this->load->library('encryption');
 		  // Replace with your Cloudflare Zone ID
 	}
 	// $route['checkVerifyDetails'] = 'systems/RegisterUser/checkVerifyDetails';
@@ -275,6 +276,8 @@ class RegisterUser extends CI_Controller
 		$otherDetails['website'] = $this->validatedata->validate('website', 'Website', false, '', array());
 		$otherDetails['company_size']= $this->validatedata->validate('company_size', 'Company Size', false, '', array());
 		$otherDetails['lead_source'] = $this->validatedata->validate('source', 'Source', false, '', array());
+		$otherDetails['business_type'] = $this->validatedata->validate('business_type', 'Business Type', false, '', array());
+
 		$otherDetails['customer_image'] = $this->validatedata->validate('companyLogo', 'Logo', false, '', array());
 		$user_id = $this->validatedata->validate('vcode', 'User', true, '', array());
 		$this->db->trans_start();
@@ -347,9 +350,17 @@ class RegisterUser extends CI_Controller
 				// 			$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24", $to, $cc = '', $bcc = '', $subject, $msg);
 				// 		}
 				$this->db->trans_commit();
+				$otherDetails = array();
+				$otherDetails['username'] = $customerDetails[0]->userName;
+				$otherDetails['password'] = $customerDetails[0]->password;
+				$otherDetails['timestamp'] =time();
+				// Encrypt payload
+				$encrypted_data = $this->encryption->encrypt(json_encode($otherDetails));
+			
 				$status['customer_id'] = $customer_id[1];
 				$status['account_name'] = $otherDetails['sub_domain_name'];
-				$status['data'] = array("pass"=>$customerDetails[0]->password,"uname"=>$customerDetails[0]->userName);
+				//$status['data'] = array("pass"=>$customerDetails[0]->password,"uname"=>$customerDetails[0]->userName);
+				$status['token'] = $encrypted_data;
 				$status['msg'] = $this->systemmsg->getSucessCode(400);
 				$status['statusCode'] = 400;
 				$status['flag'] = 'S';
@@ -519,5 +530,91 @@ class RegisterUser extends CI_Controller
 		}
 	
 		return $password;
+	}
+	public function companyLogo($customer_id,$secondPart='')
+	{
+		if(isset($secondPart) && !empty($secondPart)){
+			$customer_id = $customer_id."/".$secondPart;
+		}
+		//print $customer_id;exit;
+		$userID = $this->decodeNumber($customer_id,$this->en_key);
+		$extraData = array();
+		$mediapatharr = $this->config->item("client_upload").$userID."/";
+		if (!is_dir($mediapatharr)) {
+			// The directory doesn't exist, so create it
+			if (mkdir($mediapatharr, 0777, true)) {
+				// echo "Directory created successfully: $mediapatharr";
+			} else {
+				$status['msg'] = "Failed to create directory: " . $mediapatharr . "</br>" . $this->systemmsg->getErrorCode(273);
+				$status['statusCode'] = 227;
+				$status['flag'] = 'F';
+				$this->response->output($status, 200);
+			}
+		}
+		$customer_id =  explode("_",$userID);
+		$extraData["customer_id"] = $customer_id[1];
+		$this->load->library('realtimeupload');
+		if(!is_dir($mediapatharr)){
+			mkdir($mediapatharr, 0777);
+			chmod($mediapatharr, 0777);
+		}else{
+			if (!is_writable($mediapatharr)) {
+				chmod($mediapatharr, 0777);
+			}
+		}
+		//print $pathTOSave; exit;
+		$settings = array(
+			'uploadFolder' => $mediapatharr,
+			'extension' => ['png','jpg', 'jpeg'],
+			'maxFolderFiles' => 0,
+			'maxFolderSize' => 0,
+			'rename'=>false,
+			'returnLocation' => false,
+			'uniqueFilename' => false,
+			'dbTable' => 'customer',
+			'fileTypeColumn' => 'customer_image',
+			'fileColumn' => 'customer_image',
+			'forignKey' => '',
+			'forignValue' => '',
+			'docType' => "",
+			'docTypeValue' => '',
+			'isSaveToDB' => "Y",
+			'isUpdate'=>"Y",
+			'primaryKey' => 'customer_id',
+			'primaryValue' => $customer_id[1],
+			'extraData' => $extraData,
+		);
+		$this->realtimeupload->init($settings);
+	}
+	public function checkAccount(){
+		$this->response->decodeRequest();
+		$key = $this->config->item('encryption_key'); // Retrieve the key from config
+		$this->encryption->initialize(['driver' => 'openssl', 'key' => $key]);
+		$where = array();
+		$where["account_id"] = $this->input->post('account_id');
+		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
+		if(isset($customerDetails) && !empty($customerDetails)){
+
+			$otherDetails = array();
+			$otherDetails['username'] = $this->validatedata->validate('username', 'User Name', true, '', array());
+			$otherDetails['password'] = $this->validatedata->validate('password', 'Password', true, '', array());
+			$otherDetails['timestamp'] = time();
+			$encrypted_data = $this->encryption->encrypt(json_encode($otherDetails));
+			
+			$status['account_name'] = $customerDetails[0]->sub_domain_name;
+			$status['msg'] = $this->systemmsg->getSucessCode(400);
+			$status['token'] =$encrypted_data;
+			$status['statusCode'] = 400;
+			$status['flag'] = 'S';
+			$this->response->output($status, 200);
+
+		}else{
+			
+			$status['msg'] = $this->systemmsg->getErrorCode(992);
+			$status['statusCode'] = 992;
+			$status['data'] = array();
+			$status['flag'] = 'F';
+			$this->response->output($status, 200);
+		}
 	}
 }

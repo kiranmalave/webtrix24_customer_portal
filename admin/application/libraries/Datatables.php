@@ -348,6 +348,21 @@ LIMIT 1");
                 // check if admin table the n create default user to login
             }
         }
+        $triggers = $source_db_connection->query("SHOW TRIGGERS")->result_array();
+        foreach ($triggers as $trigger) {
+            $trigger_name = $trigger['Trigger'];
+            $trigger_event = $trigger['Event'];
+            $trigger_timing = $trigger['Timing'];
+            $trigger_table = $trigger['Table'];
+            $trigger_statement = $trigger['Statement'];
+
+            // Construct the CREATE TRIGGER statement
+            $create_trigger_sql = "CREATE TRIGGER `$trigger_name` $trigger_timing $trigger_event ON `$trigger_table`
+            FOR EACH ROW $trigger_statement";
+
+            // Execute the CREATE TRIGGER statement on the Target Database
+            $target_db_connection->query($create_trigger_sql);
+        }
         $target_db_connection->query('SET FOREIGN_KEY_CHECKS = 1;');
         $source_db_connection->query('SET FOREIGN_KEY_CHECKS = 1;');
             $data = array();

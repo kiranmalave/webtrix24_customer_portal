@@ -5,6 +5,9 @@ $.fn.digits = function () {
 }
 
 try {
+  $.validator.addMethod("passwordtxt", function (value, element) {
+    return this.optional(element) || /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
+  }, "Invalid password format.");
   $.validator.addMethod("onlyalpha", function (value, element) {
     // allow any non-whitespace characters as the host part
     return this.optional(element) || /^[a-zA-Z0-9_]*$/.test(value);
@@ -12,7 +15,7 @@ try {
 
   $.validator.addMethod("alpha", function(value, element) {
     return this.optional(element) || /^[a-zA-Z0-9\s]+$/.test(value);
-},'Please enter valid text.Only charactors,numbers and space allowed.');
+  },'Please enter valid text.Only charactors,numbers and space allowed.');
 
 } catch (error) {
   console.log("error menu active class" + error.message);

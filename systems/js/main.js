@@ -2,17 +2,15 @@
 // Filename: main.js
 
 // All Global Path for images and API call
-APPNAME = "Webtrix Solutions LMS";
+APPNAME = "Webtrix Solutions Customer";
 COKI = "/";
-// APPPATH = "https://"+window.location.host+"/";
-// APIPATH = "https://"+window.location.host+"/API/";
-// APPPFRONTATH = "https://"+window.location.host+"/";
+APPPATH = "https://"+window.location.host+"/";
+APIPATH = "https://"+window.location.host+"/API/";
+APPPFRONTATH = "https://"+window.location.host+"/";
 
-APPPATH = "http://localhost/webtrix_24_FE/";
-APIPATH = "http://localhost/webtrix_24_BE/";
-APPPFRONTATH = "http://localhost/webtrix_24_BE/";
-// APIPATH = "http://192.168.0.119/webtrix_24_BE/";
-// APPPFRONTATH = "http://192.168.0.119/webtrix_24_BE/";
+// APPPATH = "http://localhost/webtrix24_customer_portal/";
+// APIPATH = "http://localhost/webtrix24_customer_portal/admin/";
+// APPPFRONTATH = "http://localhost/webtrix24_customer_portal/admin/";
 
 IMAGES = APPPATH + "images";
 UPLOADS = APPPFRONTATH + "uploads";
