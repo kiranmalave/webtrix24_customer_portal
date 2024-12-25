@@ -387,7 +387,7 @@ LIMIT 1");
             $dataCompany["companyName"] = $otherDetails['company_name'];
             $dataCompany["company_address"] = " ";
             $dataCompany["fromName"] =  $otherDetails['company_name'];
-            $dataCompany["fromEmail"] = "test@webtrixsolutions.com";
+            $dataCompany["fromEmail"] = "";
             $dataCompany["status"] = "active";
             $dataCompany["is_display_payment"] = "no";
             $dataCompany["is_gst_billing"] = "no";
@@ -425,8 +425,7 @@ LIMIT 1");
 
         // Step 2: Grant Required Privileges
         $grant_privileges_sql = "
-            GRANT SELECT, INSERT, UPDATE,DELETE, TRIGGER ON `$database`.* TO '$username'@'$host';
-        ";
+            GRANT SELECT, INSERT, UPDATE,DELETE, TRIGGER ON `$database`.* TO '$username'@'$host';";
 
         // Step 3: Flush Privileges
         //$flush_privileges_sql = "FLUSH PRIVILEGES;";

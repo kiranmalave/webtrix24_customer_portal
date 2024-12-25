@@ -65,12 +65,18 @@ define([
           datatype: 'JSON',
           crossDomain: true,
           beforeSend: function (request) {
+            $(e.currentTarget).html("<span>Validation...</span>");
+            $(e.currentTarget).attr("disabled", "disabled");
             request.setRequestHeader("contentType", 'application/x-www-form-urlencoded');
             request.setRequestHeader("Accept", 'application/json');
           },
           success: function (res) {
             if (res.flag == "F") {showResponse('',res,'');return;};
             //var code = res.data.salt;
+            setTimeout(function () {
+              $(e.currentTarget).html("<span>Get Started</span>");
+              $(e.currentTarget).removeAttr("disabled");
+            },10);
             new regsiterVerificationView({userID:res.customer_id});
           }
         });

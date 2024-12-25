@@ -338,7 +338,7 @@ define([
           extension: ['png', 'jpg', 'jpeg'],
           // extension: ['png', 'jpg', 'jpeg', 'gif', 'pdf','docx', 'doc', 'xls', 'xlsx'],
           thumbnails: true,
-          action: APIPATH + 'companyLogo/'+selfobj.userID,
+          action: APIPATH + 'companyLogo/'+btoa(selfobj.userID).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
           element: "companyLogo", // Use a unique identifier for each element
           onSucess: function () {
             $(".preSubmit").trigger("click");

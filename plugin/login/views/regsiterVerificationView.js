@@ -90,6 +90,9 @@ define([
         if (!$("#verificationOTP").valid()) {
           return false;
         }
+        $(e.currentTarget).html("<span>Verifying...</span>");
+        $(e.currentTarget).attr("disabled", "disabled");
+
         $.ajax({
           url: APIPATH + 'verifyDetails',
           method: 'POST',
@@ -100,6 +103,8 @@ define([
             request.setRequestHeader("Accept", 'application/json');
           },
           success: function (res) {
+            $(e.currentTarget).html("<span>Verify</span>");
+            $(e.currentTarget).removeAttr("disabled");
             if (res.flag == "F") {showResponse('',res,'');return;};
             if (res.flag == "S"){
               new regsiterCompanyView({userID:selfobj.userID});
@@ -108,16 +113,21 @@ define([
         });
       },
       resendCode: function (e) {
+        var selfobj = this;
         $.ajax({
           url: APIPATH + 'resendVerifyDetails',
           method: 'POST',
           data:{vcode:selfobj.userID},
           datatype: 'JSON',
           beforeSend: function (request) {
+            $(e.currentTarget).html("<span>Sending...</span>");
+            $(e.currentTarget).attr("disabled", "disabled");
             request.setRequestHeader("contentType", 'application/x-www-form-urlencoded');
             request.setRequestHeader("Accept", 'application/json');
           },
           success: function (res) {
+            $(e.currentTarget).html("<span>click here</span>");
+            $(e.currentTarget).removeAttr("disabled");
             if (res.flag == "F") {showResponse('',res,'');return;};
             if (res.flag == "S"){
               showNotification("alert-success", "Verification code sent successfully..", null, null, null, null);

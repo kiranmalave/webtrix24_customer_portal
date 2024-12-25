@@ -350,17 +350,18 @@ class RegisterUser extends CI_Controller
 				// 			$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24", $to, $cc = '', $bcc = '', $subject, $msg);
 				// 		}
 				$this->db->trans_commit();
-				$otherDetails = array();
-				$otherDetails['username'] = $customerDetails[0]->userName;
-				$otherDetails['password'] = $customerDetails[0]->password;
-				$otherDetails['timestamp'] =time();
+				$userPDetails = array();
+				$userPDetails['username'] = $customerDetails[0]->userName;
+				$userPDetails['password'] = $customerDetails[0]->password;
+				$userPDetails['timestamp'] =time();
 				// Encrypt payload
-				$encrypted_data = $this->encryption->encrypt(json_encode($otherDetails));
+				$encrypted_data = $this->encryption->encrypt(json_encode($userPDetails));
 			
 				$status['customer_id'] = $customer_id[1];
 				$status['account_name'] = $otherDetails['sub_domain_name'];
-				//$status['data'] = array("pass"=>$customerDetails[0]->password,"uname"=>$customerDetails[0]->userName);
-				$status['token'] = $encrypted_data;
+				$status['loadfrom'] = "account";
+				$status['data'] = array();
+				$status['token'] = base64_encode($encrypted_data);
 				$status['msg'] = $this->systemmsg->getSucessCode(400);
 				$status['statusCode'] = 400;
 				$status['flag'] = 'S';
@@ -474,7 +475,7 @@ class RegisterUser extends CI_Controller
     // Sanitize the company name (remove special characters, spaces)
     private function sanitize_company_name($company_name) {
         // Convert to lowercase
-        $company_name = strtolower($company_name);
+        $company_name = strtolower(trim($company_name));
         
         // Replace spaces with hyphens
         $company_name = str_replace(' ', '-', $company_name);
@@ -531,11 +532,10 @@ class RegisterUser extends CI_Controller
 	
 		return $password;
 	}
-	public function companyLogo($customer_id,$secondPart='')
+	public function companyLogo($customer_id)
 	{
-		if(isset($secondPart) && !empty($secondPart)){
-			$customer_id = $customer_id."/".$secondPart;
-		}
+		$customer_id = str_replace(['-', '_'], ['+', '/'], $customer_id);
+		$customer_id = base64_decode($customer_id);
 		//print $customer_id;exit;
 		$userID = $this->decodeNumber($customer_id,$this->en_key);
 		$extraData = array();
@@ -603,7 +603,9 @@ class RegisterUser extends CI_Controller
 			
 			$status['account_name'] = $customerDetails[0]->sub_domain_name;
 			$status['msg'] = $this->systemmsg->getSucessCode(400);
-			$status['token'] =$encrypted_data;
+			$status['loadfrom'] = "login";
+			$status['data'] = array();
+			$status['token'] = base64_encode($encrypted_data);
 			$status['statusCode'] = 400;
 			$status['flag'] = 'S';
 			$this->response->output($status, 200);
@@ -616,5 +618,16 @@ class RegisterUser extends CI_Controller
 			$status['flag'] = 'F';
 			$this->response->output($status, 200);
 		}
+	}
+	public function checklocal(){
+		$toekn1 = "M2Y5Mzc2M2VmMDlmY2M1ZjcwM2I2MjgwOWJkMGFjNzU4MzY5NjE2NDY3ODZiNzA4MzkyYWJmMTBjMDk5YWM2YmU5YWUxZTc1N2RjMTc3MDE0NmVlODQ4MzdkMWJjODYzZTc3MDk3NmI5YjRjNDE3OTQwMjEyZjY4ZDM0N2E4ZWZYSzJjTFozdnB6MFR5eERZZjhDelNMbWNoVm14NC9RbGhRbG9aaGJ5V2dBWHdxMitTUDU1TERFQnp1azMza1A0Y1hYWlZjU0FQWlkwZStUTlFsajM3RmdZeWVGVnkzdFRHU3RnWmlqSjM5cEM5UWNsNm93MWRmemc5YjB1T05ZelZlZTZncGpHTFF5SDF4UzNyOExuc2c9PQ==";
+		$token = base64_decode($toekn1);
+		
+		$key = $this->config->item('encryption_key'); // Retrieve the key from config
+		$this->encryption->initialize(['driver' => 'openssl', 'key' => $key]);
+		// Decode and decrypt the token
+		$decrypted_data = $this->encryption->decrypt($token);
+
+		print_r($decrypted_data);
 	}
 }
