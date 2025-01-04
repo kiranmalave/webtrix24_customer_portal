@@ -32,6 +32,7 @@ class RegisterUser extends CI_Controller
 		$this->load->library("ValidateData");
 		$this->load->library("emails");
 		$this->load->library("Datatables");
+		$this->load->library("WhatsAppApi");
 		$this->en_key = "f4a2f7b1c4e8a2d3b15d8d0292c0d47ews";
 		$this->load->library('encryption');
 		  // Replace with your Cloudflare Zone ID
@@ -126,11 +127,30 @@ class RegisterUser extends CI_Controller
 			$customerDetails['userName'] = strtolower($getFaname[0]);
 			$customerDetails['status'] = "active";//$this->validatedata->validate('status', 'status', false, '', array());
 			$customerDetails['email_code'] = mt_rand(100000, 999999);
-			$customerDetails['mobile_code'] = mt_rand(100000, 999999);
-			// $customerDetails['sub_domain_name'] = $this->validatedata->validate('status', 'status', false, '', array());
-			// $customerDetails['database_name'] = $this->validatedata->validate('status', 'status', false, '', array());
+			//$customerDetails['mobile_code'] = $this->whatsappapi->sendVerificationCode();//mt_rand(100000, 999999);
 			
 			if ($method == "PUT") {
+				// validate if number andemail exits
+				$whereVa = array();
+				$whereVa["email"] = $customerDetails['email'];
+				$validEmail = $this->CommonModel->getMasterDetails('customer','',$whereVa);
+				if(!empty($validEmail) && isset($validEmail)){
+					$status['msg'] = $this->systemmsg->getErrorCode(278);
+					$status['statusCode'] = 278;
+					$status['data'] = array();
+					$status['flag'] = 'F';
+					$this->response->output($status, 200);
+				}
+				$whereVa = array();
+				$whereVa["mobile_no"] =$customerDetails['mobile_no'];
+				$validEmail = $this->CommonModel->getMasterDetails('customer','',$whereVa);
+				if(!empty($validEmail) && isset($validEmail)){
+					$status['msg'] = $this->systemmsg->getErrorCode(279);
+					$status['statusCode'] = 279;
+					$status['data'] = array();
+					$status['flag'] = 'F';
+					$this->response->output($status, 200);
+				}
 				$iscreated = $this->CommonModel->saveMasterDetails('customer', $customerDetails);
 				if (!$iscreated) {
 					$status['msg'] = $this->systemmsg->getErrorCode(998);
@@ -143,6 +163,7 @@ class RegisterUser extends CI_Controller
 					$customer_id = $this->db->insert_id();
 					$account_id = "WS-".str_pad($customer_id, 4, "0", STR_PAD_LEFT);
 					$accountDetails['account_id'] = $account_id;
+					$accountDetails['mobile_code'] = $this->whatsappapi->sendVerificationCode(str_replace("-","",$customerDetails['mobile_no']));
 					$iscreated = $this->CommonModel->updateMasterDetails('customer', $accountDetails,array("customer_id"=>$customer_id));
 					$encNumber = $this->encodeNumber("ws_".$customer_id,$this->en_key);
 					$baseURL = $this->config->item("app_url")."#register?&vfcode=".$encNumber;
@@ -200,9 +221,18 @@ class RegisterUser extends CI_Controller
 		$customer_id =  explode("_",$userID);
 		$where = array("customer_id" => $customer_id[1]);
 		$where["email_code"] = $emailOTP;
-		$where["mobile_code"] = $mobileOTP;
+		//$where["mobile_code"] = $mobileOTP;
+		// verify Mobile OTP from Twilow
 		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
 		if(isset($customerDetails) && !empty($customerDetails)){
+			$mobileVerify = $this->whatsappapi->verifyMobileOTP($mobileOTP,str_replace("-","",$customerDetails[0]->mobile_no));
+			if(!$mobileVerify){
+				$status['msg'] = $this->systemmsg->getErrorCode(304);
+				$status['statusCode'] = 304;
+				$status['data'] = array();
+				$status['flag'] = 'F';
+				$this->response->output($status, 200);
+			}
 			$accountDetails['email_verification_status'] = "y";
 			$accountDetails['mobile_verification_status'] = "y";
 			$accountDetails['password'] = md5($password);
@@ -221,6 +251,8 @@ class RegisterUser extends CI_Controller
 						$msg = $emailBody;
 						if(!$this->config->item('development')){
 							$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24", $to, $cc = '', $bcc = '', $subject, $msg);
+							$templateParams = [['type' => 'text', 'text' => $customerDetails[0]->name]];
+							$this->whatsappapi->sendWhatsAppMsg(str_replace("-","",$customerDetails[0]->mobile_no),'','','HXfa44ce54d84960b13cc6af8570116aea','welcome_message',$templateParams);
 						}
 				$status['customer_id'] = $this->encodeNumber("ws_".$customer_id[1],$this->en_key);//$customer_id[1];
 				$status['msg'] = $this->systemmsg->getSucessCode(400);
@@ -629,5 +661,12 @@ class RegisterUser extends CI_Controller
 		$decrypted_data = $this->encryption->decrypt($token);
 
 		print_r($decrypted_data);
+	}
+	public function sendOTP(){
+		//$templateParams= array("kiran");
+		$templateParams = [['type' => 'text', 'text' => 'Kiran Malave']]; // Replace {{1}} in the template];
+		$nuber = str_replace("-","","+91-9975870714");
+		print_r($nuber);
+		$this->whatsappapi->sendWhatsAppMsg($nuber,'How are you','','','','');
 	}
 }

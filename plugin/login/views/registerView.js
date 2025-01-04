@@ -71,12 +71,12 @@ define([
             request.setRequestHeader("Accept", 'application/json');
           },
           success: function (res) {
-            if (res.flag == "F") {showResponse('',res,'');return;};
-            //var code = res.data.salt;
             setTimeout(function () {
               $(e.currentTarget).html("<span>Get Started</span>");
               $(e.currentTarget).removeAttr("disabled");
             },10);
+            if (res.flag == "F") {showResponse('',res,'');return;};
+            //var code = res.data.salt;
             new regsiterVerificationView({userID:res.customer_id});
           }
         });
