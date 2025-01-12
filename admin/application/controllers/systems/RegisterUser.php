@@ -122,6 +122,7 @@ class RegisterUser extends CI_Controller
 			$cCode = $this->validatedata->validate('countryCode', 'countryCode', true, '', array());
 			$number = $this->validatedata->validate('phone', 'phone', true, '', array());
 			$customerDetails['mobile_no'] = $cCode."-".$number;
+			$customerDetails['wa_number'] = $cCode."-".$number;
 			$customerDetails['email'] = $this->validatedata->validate('email', 'Email', true, '', array());
 			$getFaname = explode(" ",$customerDetails['name']);
 			$customerDetails['userName'] = strtolower($getFaname[0]);
@@ -251,8 +252,10 @@ class RegisterUser extends CI_Controller
 						$msg = $emailBody;
 						if(!$this->config->item('development')){
 							$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24", $to, $cc = '', $bcc = '', $subject, $msg);
+							$otherDetailsWA= array();
+							$otherDetailsWA['customer_id'] = $customerDetails[0]->customer_id;
 							$templateParams = [['type' => 'text', 'text' => $customerDetails[0]->name]];
-							$this->whatsappapi->sendWhatsAppMsg(str_replace("-","",$customerDetails[0]->mobile_no),'','','HXfa44ce54d84960b13cc6af8570116aea','welcome_message',$templateParams);
+							$this->whatsappapi->sendWhatsAppMsg(str_replace("-","",$customerDetails[0]->mobile_no),'','','HX7417552e9907816e7de01264c1b7cc68','onboard_user',$templateParams,$otherDetailsWA);
 						}
 				$status['customer_id'] = $this->encodeNumber("ws_".$customer_id[1],$this->en_key);//$customer_id[1];
 				$status['msg'] = $this->systemmsg->getSucessCode(400);
@@ -665,8 +668,8 @@ class RegisterUser extends CI_Controller
 	public function sendOTP(){
 		//$templateParams= array("kiran");
 		$templateParams = [['type' => 'text', 'text' => 'Kiran Malave']]; // Replace {{1}} in the template];
-		$nuber = str_replace("-","","+91-9975870714");
-		print_r($nuber);
-		$this->whatsappapi->sendWhatsAppMsg($nuber,'How are you','','','','');
+		$otherDetailsWA['customer_id'] = 98;
+		//$templateParams = [['type' => 'text', 'text' => $customerDetails[0]->name]];
+		$this->whatsappapi->sendWhatsAppMsg(str_replace("-","","+91-9975870714"),'','','HX7417552e9907816e7de01264c1b7cc68','onboard_user',$templateParams);
 	}
 }

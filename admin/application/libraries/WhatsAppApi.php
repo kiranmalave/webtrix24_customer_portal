@@ -43,7 +43,7 @@ class WhatsAppApi{
 			$this->messagingServiceSid = $companyDetails[0]->wa_message_sid;
 		}
 	}
-	public function sendWhatsAppMsg($to, $msg = '', $mediaUrl = '', $messageID = '', $templateName = '', $templateParams = [])
+	public function sendWhatsAppMsg($to, $msg = '', $mediaUrl = '', $messageID = '', $templateName = '', $templateParams = [],$otherDetails=[])
 	{
 		$this->getCompanyDetails(); // Ensure Twilio credentials and settings are initialized
 		$twilio = new Client($this->sids, $this->token); // Initialize Twilio client
@@ -90,9 +90,11 @@ class WhatsAppApi{
 				'timestamp' => date('Y-m-d H:i:s')
 			];
 
+			if(isset($otherDetails['customer_id']) && !empty($otherDetails['customer_id'])){
+				$WAlogs['to_id'] = $otherDetails['customer_id'];
+			}
 			// Insert log into database
-			$this->insertLogs($WAlogs);
-
+			$this->insertLogsOutgoing($WAlogs);
 			return [
 				'success' => true,
 				'message' => 'Message sent successfully!',
@@ -147,6 +149,102 @@ class WhatsAppApi{
 	}
 	public function insertLogs($msgDetails = array()){
         $iscreated = $this->CI->CommonModel->saveMasterDetails('messages', $msgDetails);
+        if (!$iscreated) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+	public function insertLogsOutgoing($msgDetails = array()){
+        //$iscreated = $this->CI->CommonModel->saveMasterDetails('messages', $msgDetails);
+		// check is user exits in idex table
+		//print_r($msgDetails);
+		if(isset($msgDetails['to_id']) && !empty($msgDetails['to_id'])){
+			$wherec = array("customer_id" => $msgDetails['to_id']);
+			$isCust = $this->CI->CommonModel->getMasterDetails('messages_index','wa_number',$wherec);
+			if(isset($isCust) && !empty($isCust)){
+				// update index
+				$indexDetails = array();
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->updateMasterDetails('messages_index',$indexDetails,$wherec);
+			}else{
+				//inser new index
+				$indexDetails = array();
+				$indexDetails['customer_id'] = $msgDetails['to_id'];
+				$indexDetails['wa_number'] = $msgDetails['to'];
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->saveMasterDetails('messages_index',$indexDetails);
+			}
+		}else{
+			// check whats app number
+			$wherec = array("wa_number" => $msgDetails['to']);
+			$isCust = $this->CI->CommonModel->getMasterDetails('messages_index','wa_number',$wherec);
+			if(isset($isCust) && !empty($isCust)){
+				// update index
+				$indexDetails = array();
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->updateMasterDetails('messages_index',$indexDetails,$wherec);
+			}else{
+				//inser new index
+				$indexDetails = array();
+				$indexDetails['wa_number'] = $msgDetails['to'];
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->saveMasterDetails('messages_index',$indexDetails);
+			}
+		}
+		$iscreated = $this->CI->CommonModel->saveMasterDetails('messages', $msgDetails);
+        if (!$iscreated) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+	public function insertLogsIncoming($msgDetails = array()){
+        // checkin incoming number is assiciate with lead or customer
+		if(isset($msgDetails['from']) && !empty($msgDetails['from'])){
+			$wherec = array("wa_number" => $msgDetails['from']);
+			$iscustomerNumber = $this->CI->CommonModel->getMasterDetails('customer','customer_id',$wherec);
+		}
+		if(isset($iscustomerNumber) && !empty($iscustomerNumber)){
+			$msgDetails['to_id'] = $iscustomerNumber[0]->customer_id;
+			$msgDetails['from_id'] = 0;
+		}
+		// check is user exits in idex table
+		if(isset($msgDetails['to_id']) && !empty($msgDetails['to_id'])){
+			$wherec = array("customer_id" => $msgDetails['to_id']);
+			$isCust = $this->CI->CommonModel->getMasterDetails('messages_index','wa_number',$wherec);
+			if(isset($isCust) && !empty($isCust)){
+				// update index
+				$indexDetails = array();
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->updateMasterDetails('messages_index',$indexDetails,$wherec);
+			}else{
+				//inser new index
+				$indexDetails = array();
+				$indexDetails['customer_id'] = $msgDetails['to_id'];
+				$indexDetails['wa_number'] = $msgDetails['to'];
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->saveMasterDetails('messages_index',$indexDetails);
+			}
+		}else{
+			// check whats app number
+			$wherec = array("wa_number" => $msgDetails['from']);
+			$isCust = $this->CI->CommonModel->getMasterDetails('messages_index','wa_number',$wherec1);
+			if(isset($isCust) && !empty($isCust)){
+				// update index
+				$indexDetails = array();
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->updateMasterDetails('messages_index',$indexDetails,$wherec);
+			}else{
+				//inser new index
+				$indexDetails = array();
+				$indexDetails['wa_number'] = $msgDetails['to'];
+				$indexDetails['last_msg'] = $msgDetails['body'];
+				$iscreated = $this->CI->CommonModel->saveMasterDetails('messages_index',$indexDetails);
+			}
+		}
+		//$this->sendMessageToWebSocketServer($msgDetails);
+		$iscreated = $this->CI->CommonModel->saveMasterDetails('messages', $msgDetails);
         if (!$iscreated) {
             return false;
         }else{

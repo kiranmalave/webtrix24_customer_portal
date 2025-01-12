@@ -48,15 +48,34 @@ class WASender extends CI_Controller
         // file_put_contents($filePath,json_encode($_POST));
         // print_r($_POST);
         $WAlogs = array();
-        $WAlogs['from'] = $this->validatedata->validate('From', 'From', false, '', array());
+        $WAlogs['from'] = str_replace("whatsapp:","",$this->validatedata->validate('From', 'From', false, '', array()));
         $WAlogs['body'] = $this->validatedata->validate('Body', 'Body', false, '', array()); 
-        $WAlogs['to'] = $this->validatedata->validate('To', 'To', false, '', array()); 
+        $WAlogs['to'] =  str_replace("whatsapp:","",$this->validatedata->validate('To', 'To', false, '', array())); 
         $WAlogs['profile_name'] = $this->validatedata->validate('ProfileName', 'ProfileName', false, '', array()); 
         $WAlogs['message_Sid'] = $this->validatedata->validate('SmsMessageSid', 'SmsMessageSid', false, '', array()); 
         $WAlogs['message_status'] = $this->validatedata->validate('SmsStatus', 'SmsStatus', false, '', array()); 
         //$WAlogs['timestamp'] = $this->validatedata->validate('Timestamp', 'Timestamp', false, '', array());      
-        $this->insertLogs($WAlogs);
+        //$this->insertLogs($WAlogs);
+        $this->whatsappapi->insertLogsIncoming($WAlogs);
+        
     }  
+
+    // public function receiveWhatsAppMsg(){
+    //     // $this->access->checkTokenKey();
+    //     $this->response->decodeRequest();
+    //     // print $filePath = $_SERVER['DOCUMENT_ROOT'].'/response.txt';
+    //     // file_put_contents($filePath,json_encode($_POST));
+    //     // print_r($_POST);
+    //     $WAlogs = array();
+    //     $WAlogs['from'] = $this->validatedata->validate('From', 'From', false, '', array());
+    //     $WAlogs['body'] = $this->validatedata->validate('Body', 'Body', false, '', array()); 
+    //     $WAlogs['to'] = $this->validatedata->validate('To', 'To', false, '', array()); 
+    //     $WAlogs['profile_name'] = $this->validatedata->validate('ProfileName', 'ProfileName', false, '', array()); 
+    //     $WAlogs['message_Sid'] = $this->validatedata->validate('SmsMessageSid', 'SmsMessageSid', false, '', array()); 
+    //     $WAlogs['message_status'] = $this->validatedata->validate('SmsStatus', 'SmsStatus', false, '', array()); 
+    //     //$WAlogs['timestamp'] = $this->validatedata->validate('Timestamp', 'Timestamp', false, '', array());      
+    //     $this->insertLogs($WAlogs);
+    // }  
     // INSERT MESSAGE INTO LOGS
     public function insertLogs($msgDetails = array()){
         $iscreated = $this->CommonModel->saveMasterDetails('messages', $msgDetails);
