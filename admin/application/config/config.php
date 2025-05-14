@@ -48,7 +48,6 @@ $config['CLIENT_SECRET'] = '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';
 // / Google App Redirect Url /
 $config['CLIENT_REDIRECT_URL'] = 'http://localhost/LMS/API/responseToken';
 
-$config['encryption_key'] = 'e8e3ca2b8779d836c84804005144e30791a61d8f727e2006359041e1dcb8713f';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -349,7 +348,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = 'KFjfdJFNBBKIRMICdkf45';
+$config['encryption_key'] = 'e8e3ca2b8779d836c84804005144e30791a61d8f727e2006359041e1dcb8713f';
 
 /*
 |--------------------------------------------------------------------------

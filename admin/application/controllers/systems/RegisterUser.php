@@ -255,7 +255,13 @@ class RegisterUser extends CI_Controller
 							$otherDetailsWA= array();
 							$otherDetailsWA['customer_id'] = $customerDetails[0]->customer_id;
 							$templateParams = [['type' => 'text', 'text' => $customerDetails[0]->name]];
-							$this->whatsappapi->sendWhatsAppMsg(str_replace("-","",$customerDetails[0]->mobile_no),'','','HX7417552e9907816e7de01264c1b7cc68','onboard_user',$templateParams,$otherDetailsWA);
+							//$this->whatsappapi->sendWhatsAppMsg(str_replace("-","",$customerDetails[0]->mobile_no),'','','HX7417552e9907816e7de01264c1b7cc68','onboard_user',$templateParams,$otherDetailsWA);
+							// notify to admin
+							$emailBodynotify = "<p>Dear Admin,</p>
+						<p>".$customerDetails[0]->name." user reigster on the website.</p>
+						<p>Email for user ".$to."</p><p>Phone Number for user ".$customerDetails[0]->mobile_no."</p>";
+
+							$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24",'kiran.malave@webtrixsolutions.com', $cc = 'aarti.jawalkar@webtrixsolutions.com', $bcc = '',"New user Register on webtrix24",$emailBodynotify);
 						}
 				$status['customer_id'] = $this->encodeNumber("ws_".$customer_id[1],$this->en_key);//$customer_id[1];
 				$status['msg'] = $this->systemmsg->getSucessCode(400);

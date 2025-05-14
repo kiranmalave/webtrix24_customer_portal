@@ -277,3 +277,10 @@ $route['companyLogo/(:any)'] = 'systems/RegisterUser/companyLogo/$1';
 $route['checkAccount'] = 'systems/RegisterUser/checkAccount';
 
 $route['checklocal'] = 'systems/RegisterUser/checklocal';
+$route['upgrade/find_diff'] = 'systems/Upgrades/find_diff';
+$route['upgrade/get_file'] = 'systems/Upgrades/get_file';
+$route['upgrade/list_versions'] = 'systems/Upgrades/list_versions';
+$route['upgrade/database/(:num)'] = 'systems/Upgrades/run_all_db_upgrades/$1';
+
+
+

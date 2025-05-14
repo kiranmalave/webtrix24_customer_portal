@@ -215,7 +215,7 @@ class Emails
 										<td height="25" align="center" valign="top">&nbsp;</td>
 									</tr>
 									<tr>
-										<td align="center" valign="top"><a href="{appLink}"><img editable="true" mc:edit="logo" src="{logoPath}" width="140" height="70" alt="{appName}" /></a></td>
+										<td align="center" valign="top"><a href="{appLink}"><img editable="true" mc:edit="logo" src="{logoPath}" height="70" alt="{appName}" /></a></td>
 									</tr>
 									<tr>
 										<td height="25" align="center" valign="top">&nbsp;</td>
