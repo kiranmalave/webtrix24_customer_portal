@@ -60,7 +60,7 @@ $route['verifyUser'] = 'SearchAdmin/verifyUser';
 
 $route['mSalt'] = 'Login/getsaltMobile';
 $route['mLogin'] = 'Login/verifyUserMobile';
-
+$route['userAccount'] = 'Login/getUserAccount';
 $route['dashboardDetails'] = 'Dashboard/getDashboardCount';
 $route['alerts'] = 'Dashboard/alerts';
 
@@ -280,6 +280,8 @@ $route['checklocal'] = 'systems/RegisterUser/checklocal';
 $route['upgrade/find_diff'] = 'systems/Upgrades/find_diff';
 $route['upgrade/get_file'] = 'systems/Upgrades/get_file';
 $route['upgrade/list_versions'] = 'systems/Upgrades/list_versions';
+
+$route['upgrade/database/setupupgrade'] = 'systems/Upgrades/remote_upgrade_all';
 $route['upgrade/database/(:num)'] = 'systems/Upgrades/run_all_db_upgrades/$1';
 
 

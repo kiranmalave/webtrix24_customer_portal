@@ -134,6 +134,60 @@ class Login extends CI_Controller {
 		$status['flag'] = 'S';
 		$this->response->output($status,200);
 	}
+
+	public function getUserAccount(){
+
+		$accountID = $this->input->post('account_id');
+
+		 $this->load->database();
+        $this->load->helper('security');
+
+        $account_id = $this->input->post('account_id', TRUE);
+
+        if (!$account_id) {
+            $status['msg'] = "Account Not Found";
+			$status['statusCode'] = 200;
+			$status['data'] = array();
+			$status['flag'] = 'F';
+			$this->response->output($status,200);
+        }
+
+        $is_enterprise = strpos($account_id, 'WSE-') === 0;
+        $clean_account_id = $is_enterprise ? str_replace('WSE-', '', $account_id) : $account_id;
+
+        if ($is_enterprise) {
+			$details = $this->CommonModel->getMasterDetails('enterprise_customers','*',array('account_id'=>$accountID));
+			if (!isset($details) || empty($details)) {
+				$status['msg'] = "Account Not Found";
+				$status['statusCode'] = 200;
+				$status['data'] = array();
+				$status['flag'] = 'F';
+				$this->response->output($status,200);
+        	}else{
+				$status['msg'] = "sucess";
+				$status['statusCode'] = 200;
+				$status['data'] = array("domainURL"=>$details[0]->domain_name);
+				$status['flag'] = 'F';
+				$this->response->output($status,200);
+			}
+		}else{
+			$details = $this->CommonModel->getMasterDetails('customer','*',array('account_id'=>$accountID));
+			if (!isset($details) || empty($details)) {
+				$status['msg'] = "Account Not Found";
+				$status['statusCode'] = 200;
+				$status['data'] = array();
+				$status['flag'] = 'F';
+				$this->response->output($status,200);
+        	}else{
+				$status['msg'] = "sucess";
+				$status['statusCode'] = 200;
+				$status['data'] = array("domainURL"=>"https://".$details[0]->sub_domain_name.".webtrix24.com");
+				$status['flag'] = 'F';
+				$this->response->output($status,200);
+			}
+		}
+	}
+
 	private function setSession($userDetails=''){
 		$this->session->set_userdata("adminID",$userDetails->adminID);
 		$this->session->set_userdata("name",$userDetails->name);

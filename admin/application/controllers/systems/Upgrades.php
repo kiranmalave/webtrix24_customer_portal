@@ -23,9 +23,9 @@ class Upgrades extends CI_Controller
         $repoPath = $repos[$type];
         $outputDir = $this->basePath."/upgrade-diff/$toVersion/$type/";
         $outputFile = $outputDir . "changed-files.txt";
-        $c1 = "cd $repoPath && git fetch origin $fromVersion:$fromVersion";
+        $c1 = "cd $repoPath && git fetch origin $fromVersion:$fromVersion --force";
         exec($c1,$output1, $status1);
-        $c2 = "cd $repoPath && git fetch origin $toVersion:$toVersion";
+        $c2 = "cd $repoPath && git fetch origin $toVersion:$toVersion --force";
         exec($c2, $output2, $status2);
         if (!is_dir($outputDir)) {
             mkdir($outputDir, 0755, true);
@@ -34,7 +34,7 @@ class Upgrades extends CI_Controller
         // Git diff command
         if ($status1 === 0 && $status2 === 0) {
             if($type =="BE"){
-                $cmd = "cd $repoPath && git diff --name-status origin/$fromVersion origin/$toVersion | grep -v '^D' | cut -f2 > $outputFile";
+            $cmd = "cd $repoPath && git diff --name-status origin/$fromVersion origin/$toVersion | grep -v '^D' | cut -f2 > $outputFile";
             }else{
                 // Folders to exclude from the diff
                 $excludedFolders = ['plugin/','uploads/'];
@@ -204,23 +204,25 @@ class Upgrades extends CI_Controller
         if (!preg_match('/^v\d+\.\d+\.\d+$/', $version)) {
             show_error('Invalid version format.', 400);
         }
-
+    
         if (!in_array($type, ['FE', 'BE']) || !in_array($file, ['code.zip', 'update.sql'])) {
             show_error('Invalid file or type.', 400);
         }
-
-        // === 3. Construct file path
-        if($file == "update.sql"){
-            $basePath = $this->basePath."releases/$version/";
-        }else{
-            $basePath = $this->basePath."releases/$version/{$type}/";
+    
+        // === 3. Build file path
+        if ($file === "update.sql") {
+            $basePath = $this->basePath . "releases/$version/";
+        } else {
+            $basePath = $this->basePath . "releases/$version/$type/";
         }
-        
+    
         $filePath = $basePath . $file;
+    
         if (!file_exists($filePath)) {
-            show_error('Requested file not found.', 404);
+            show_error('Requested file not found: ' . $filePath, 404);
         }
-        // === 4. Serve the file as a secure download
+    
+        // === 4. Serve file
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
         header('Content-Length: ' . filesize($filePath));
@@ -256,10 +258,67 @@ class Upgrades extends CI_Controller
     {
         $where["status"] = "active";
         //$where["sub_domain_name"] = "tushar-s-chaudhari-a";
-        $where["customer_id"] = $customer_id;
-        $customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
-        if(!isset($customerDetails) || empty($customerDetails)){
-            echo "No customer found"; exit;
+        if($customer_id == "setupupgrade"){
+            $clientVersion = 'v1.0.0';
+            $releasePath = $this->basePath.'releases/';
+            $log = [];
+            $availableVersions = [];
+            foreach (scandir($releasePath) as $entry) {
+                if ($entry !== '.' && $entry !== '..' && is_dir($releasePath . $entry)) {
+                    $availableVersions[] = $entry;
+                }
+            }
+            usort($availableVersions, 'version_compare');
+            $currentConfig = $this->db->dsn ? $this->db->dsn : [
+                'hostname' => $this->db->hostname,
+                'username' => $this->db->username,
+                'password' => $this->db->password,
+                'database' => $this->db->database,
+                'dbdriver' => $this->db->dbdriver,
+                'dbprefix' => $this->db->dbprefix,
+                'pconnect' => $this->db->pconnect,
+                'db_debug' => false, // override here
+                'char_set' => $this->db->char_set,
+                'dbcollat' => $this->db->dbcollat
+            ];
+            $cdatabase = $this->db->database;
+            $this->db = $this->load->database($currentConfig, true);
+            $this->switch_database("webtrix24_setup");
+            $check = $this->db->query("SHOW TABLES LIKE 'ab_system_version'");
+            if ($check && $check->num_rows()) {
+                $query = $this->db->query("SELECT version FROM ab_system_version ORDER BY upgrade_id DESC LIMIT 1");
+                if ($query && $query->num_rows()) {
+                    $clientVersion = $query->row()->version;
+                }
+            } else {
+                $log[] = "ℹ️ system_version table not found — assuming base version v1.0.0";
+            }
+
+            $log[] = "➡️ Current version: $clientVersion";
+
+            $fromIndex = array_search($clientVersion, $availableVersions);
+            if ($fromIndex === false || $fromIndex === count($availableVersions) - 1) {
+                $log[] = "✅ Already up to date.";
+            }
+            //$fromIndex = "-1";
+            // Upgrade through next versions
+            for ($i = $fromIndex + 1; $i < count($availableVersions); $i++) {
+                $ver = $availableVersions[$i];
+                $sqlPath = "$releasePath/$ver/update.sql";
+                $this->run_safe_sql($this->basePath."releases/$ver/update.sql", $log, $ver);
+                $this->db->insert('ab_system_version', ['version' => $ver,'old_version' => $clientVersion,"code_type"=>"DB"]);
+            }
+            print "<pre>";
+            print_r($log);
+            print "</pre>";
+            die();
+
+        }else{
+            $where["customer_id"] = $customer_id;
+            $customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
+            if(!isset($customerDetails) || empty($customerDetails)){
+                echo "No customer found"; exit;
+            }
         }
 
         $releasePath = $this->basePath.'releases/';
@@ -274,20 +333,7 @@ class Upgrades extends CI_Controller
         //print_r($availableVersions);
         foreach ($customerDetails as $client) {
             $log[] = "🔧 Subdomain: {$client->sub_domain_name}";
-            // print "<pre>";
-            // print_r($customerDetails);
-            // $config = [
-            //     'hostname' => 'localhost',
-            //     'username' => $client->dbUserName,
-            //     'password' => $client->dbpassword,
-            //     'database' => "webtrix24_customers_".$client->database_name,
-            //     'dbdriver' => 'mysqli',
-            //     'dbprefix' => 'ab_',
-            //     'pconnect' => false,
-            //     'db_debug' => false, // prevent fatal error output
-            //     'char_set' => 'utf8',
-            //     'dbcollat' => 'utf8_general_ci'
-            // ];
+            
             $currentConfig = $this->db->dsn ? $this->db->dsn : [
                 'hostname' => $this->db->hostname,
                 'username' => $this->db->username,
@@ -432,6 +478,174 @@ class Upgrades extends CI_Controller
             return false;
         }
     }
+    public function remote_upgrade_all()
+    {
+        $this->load->helper(['file']);
+        $type = $this->input->get('type') ?: 'FE';
+        
+        $basePath = $this->basePath.'releases/';
+        $versionList = [];
+        foreach (scandir($basePath) as $entry) {
+            if ($entry !== '.' && $entry !== '..' && is_dir($basePath . $entry)) {
+                $versionList[] = $entry;
+            }
+        }
+        // Sort versions in ascending order (e.g., v1.0.1, v1.0.2, ...)
+        usort($versionList, 'version_compare');
+        if (!$versionList || !is_array($versionList)) {
+            die("❌ Could not fetch version list.");
+        }
+        if($type == "FE"){
+            $projectPath = "/home/webtrix24/public_html/clients";
+        }else{
+            $projectPath = "/home/webtrix24/public_html/clients/API/";
+        }
+        
+        $currentVersion = 'v1.0.0';
+        $currentConfig = $this->db->dsn ? $this->db->dsn : [
+            'hostname' => $this->db->hostname,
+            'username' => $this->db->username,
+            'password' => $this->db->password,
+            'database' => $this->db->database,
+            'dbdriver' => $this->db->dbdriver,
+            'dbprefix' => $this->db->dbprefix,
+            'pconnect' => $this->db->pconnect,
+            'db_debug' => false, // override here
+            'char_set' => $this->db->char_set,
+            'dbcollat' => $this->db->dbcollat
+        ];
+        $cdatabase = $this->db->database;
+        $this->db = $this->load->database($currentConfig, true);
+        $this->switch_database("webtrix24_setup");
+        $check = $this->db->query("SHOW TABLES LIKE 'ab_system_version'");
+        if ($check && $check->num_rows()) {
+            $query = $this->db->query("SELECT version FROM ab_system_version where code_type='".$type."' ORDER BY upgrade_id DESC LIMIT 1");
+            if ($query && $query->num_rows()) {
+                $currentVersion = $query->row()->version;
+            }
+        } else {
+            $log[] = "ℹ️ system_version table not found — assuming base version v1.0.0";
+        }
+        $fromIndex = array_search($currentVersion, $versionList);
+        $toIndex = count($versionList) - 1;
+        if ($fromIndex === false || $fromIndex >= $toIndex) {
+            echo "✅ Already on latest version ($currentVersion).<br>";
+            return;
+        }
+        // Prepare backup
+        $ts = date("Ymd_His") . "_$type";
+        $backupDir = dirname($projectPath) . "/backups/$ts/";
+        @mkdir($backupDir, 0755, true);
+
+        // Folders to include
+        if($type == "BE"){
+            $folders = ['application', 'system', 'vendor'];
+        }
+        if($type == "FE"){
+            $folders = ['systems','assets'];
+        }
+            $success = true; // Overall status tracker
+            // Copy selected folders
+            foreach ($folders as $folder) {
+                $src = rtrim($projectPath, '/') . "/$folder";
+                $dst = $backupDir . $folder;
+                exec("cp -r $src $dst", $output, $status);
+                if ($status !== 0 || !is_dir($dst)) {
+                    $log[] = "❌ Failed to copy folder: $folder";
+                    $success = false;
+                } else {
+                    $log[] = "✅ Copied folder: $folder";
+                }
+            }
+
+            // Copy root-level files
+            $rootFiles = scandir($projectPath);
+            foreach ($rootFiles as $file) {
+                $fullPath = $projectPath . $file;
+                $backupPath = $backupDir . $file;
+                if (is_file($fullPath)) {
+                    if (!copy($fullPath, $backupPath)) {
+                        $log[] = "❌ Failed to copy file: $file";
+                        $success = false;
+                    } else {
+                        $log[] = "✅ Copied file: $file";
+                    }
+                }
+            }   
+
+        //exec("cp -r $projectPath {$backupDir}code");
+        if($type == "BE"){
+        $CI =& get_instance();
+        $CI->load->database();
+
+        $db_user = $CI->db->username;
+        $db_pass = $CI->db->password;
+        $db_name = "webtrix24_setup";
+        $dbBackupCmd = "mysqldump --no-tablespaces -u'{$db_user}' -p'{$db_pass}' {$db_name} > {$backupDir}db.sql";
+        exec($dbBackupCmd, $output2, $status2);
+        }else{
+            $status2 = 0;
+        }
+        if (!$success || $status2 !== 0) {
+            echo "❌ Backup failed. Upgrade aborted.<br>";
+            echo "Code backup status: {$success}<br>";
+            echo "DB backup status: $status2<br>";
+            //log_message('error', "Code backup failed: " . implode("\n", $success));
+            log_message('error', "Msql backup failed: " . implode("\n", $output2));
+            return;
+        }
+        $log = [];
+        $log[] = "🔁 Upgrade from $currentVersion to " . end($versionList);
+
+        for ($i = $fromIndex + 1; $i <= $toIndex; $i++) {
+            $version = $versionList[$i];
+            $log[] = "⏫ Applying version $version";
+
+            // Download and extract code.zip
+            //$zipUrl = $this->apiBase . "upgrade/get_file?version=$version&type=$type&file=code.zip&token={$this->token}";
+            $zipUrl = $basePath.$version."/".$type."/code.zip";// "/tmp/code_$version.zip";
+            $zipLocal = "/home/webtrix24/tmp/code_$version.zip";
+            file_put_contents($zipLocal, file_get_contents($zipUrl));
+            $zip = new ZipArchive;
+            if ($zip->open($zipLocal)) {
+                $zip->extractTo($projectPath);
+                $zip->close();
+                $log[] = "✅ Extracted code.zip for $version";
+            } else {
+                $log[] = "❌ Failed to extract $version";
+                return $this->_rollback($backupDir, $log,$type);
+            }
+            // Download and execute update.sql
+            if($type == "BE"){
+                $this->run_safe_sql($this->basePath."releases/$version/update.sql", $log, $version);
+            }
+            
+            // Update version in DB
+            $this->db->insert('ab_system_version', ['version' => $version,"old_version"=>$currentVersion,"code_type"=>$type]);
+            // Update frontend ?v=1.x.x if FE
+            if ($type === 'FE') {
+                $indexPath = '/home/webtrix24/public_html/clients/index.html';
+                if (file_exists($indexPath)) {
+                    $html = file_get_contents($indexPath);
+                    $vname = str_replace("v","v=",$version);
+                    $updated = preg_replace('/(\.js|\.css)\?v=[\d.]+/','$1?'.$vname,$html);
+                    file_put_contents($indexPath, $updated);
+                    $log[] = "🔁 index.html version updated to $version";
+                } else {
+                    $log[] = "⚠️ index.html not found.";
+                }
+            }
+        }
+        $log[] = "🎉 Upgrade completed.";
+        write_file(APPPATH . "logs/remote_upgrade_$type.log", implode(PHP_EOL, $log) . PHP_EOL, 'a');
+        //delete backups
+         $cmd = "rm -rf ".$backupDir."";
+         exec($cmd, $output, $status);
+
+        echo implode("<br>", $log);
+        echo $output;
+    }
+
 
 
 }
