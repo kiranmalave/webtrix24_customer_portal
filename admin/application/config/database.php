@@ -73,14 +73,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['default1'] = array(
+$db['default'] = array(
 	'dsn'	=> '',	
     'hostname' => 'localhost',  //'3.109.158.92',//'127.0.0.1',//192.168.2.13
 	'username' => 'root',//'root',
 	'password' => 'webtrixroot',
 	// 'database' => 'webtrixDev_lms',//ysf
 	// 'database' => 'webtrixDev_startup',//ysf
-	'database' => 'webtrixDev_lms',//ysf
+	'database' => 'webtrix',//ysf
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'ab_',
 	'pconnect' => FALSE,
@@ -97,27 +97,27 @@ $db['default1'] = array(
 	'save_queries' => TRUE
 );
 
-$db['default'] = array(
-	'dsn'	=> '',	
-    'hostname' => '192.168.0.119',  //'3.109.158.92',//'127.0.0.1',//192.168.2.13
+// $db['default'] = array(
+// 	'dsn'	=> '',	
+//     'hostname' => '192.168.0.119',  //'3.109.158.92',//'127.0.0.1',//192.168.2.13
 
-	'username' => 'webtrixDev',//'root',//ysf
-	'password' => 'dujZ8b1q2pr5QaeTo@',
-	// 'database' => 'webtrixDev_lms',//ysf
-	// 'database' => 'webtrixDev_startup',//ysf
-	'database' => 'webtrixDev_lms',//ysf
-	'dbdriver' => 'mysqli',
-	'dbprefix' => 'ab_',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+// 	'username' => 'webtrixDev',//'root',//ysf
+// 	'password' => 'dujZ8b1q2pr5QaeTo@',
+// 	// 'database' => 'webtrixDev_lms',//ysf
+// 	// 'database' => 'webtrixDev_startup',//ysf
+// 	'database' => 'webtrixDev_lms',//ysf
+// 	'dbdriver' => 'mysqli',
+// 	'dbprefix' => 'ab_',
+// 	'pconnect' => FALSE,
+// 	'db_debug' => (ENVIRONMENT !== 'production'),
+// 	'cache_on' => FALSE,
+// 	'cachedir' => '',
+// 	'char_set' => 'utf8',
+// 	'dbcollat' => 'utf8_general_ci',
+// 	'swap_pre' => '',
+// 	'encrypt' => FALSE,
+// 	'compress' => FALSE,
+// 	'stricton' => FALSE,
+// 	'failover' => array(),
+// 	'save_queries' => TRUE
+// );

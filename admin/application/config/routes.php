@@ -283,6 +283,7 @@ $route['upgrade/list_versions'] = 'systems/Upgrades/list_versions';
 
 $route['upgrade/database/setupupgrade'] = 'systems/Upgrades/remote_upgrade_all';
 $route['upgrade/database/(:num)'] = 'systems/Upgrades/run_all_db_upgrades/$1';
-
+$route['WAHub/storeBusinessAccount'] = 'systems/WAHub/storeBusinessAccount';
+$route['WAHub/storeBusinessNumbers'] = 'systems/WAHub/storeBusinessNumbers';
 
 

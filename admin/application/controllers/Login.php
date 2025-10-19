@@ -41,7 +41,7 @@ class Login extends CI_Controller {
 		}
 		if(isset($this->memberDetails[0]->roleID) && !empty($this->memberDetails[0]->roleID)){
 			$whereRole = array("roleID" => $this->memberDetails[0]->roleID);
-			$roleDetails = $this->CommonModel->getMasterDetails('user_role_master', '', $whereRole);
+			$roleDetails = $this->CommonModel->getMasterDetails('user_role_master','', $whereRole);
 			if(isset($roleDetails) && empty($roleDetails)){
 				$this->outputErrorResponse(274);			
 			}
@@ -136,7 +136,7 @@ class Login extends CI_Controller {
 	}
 
 	public function getUserAccount(){
-
+		$this->response->decodeRequest();
 		$this->load->database();
         $this->load->helper('security');
 
@@ -176,7 +176,7 @@ class Login extends CI_Controller {
         	}else{
 				$status['msg'] = "sucess";
 				$status['statusCode'] = 200;
-				$status['data'] = array("domainURL"=>"https://".$details[0]->sub_domain_name.".webtrix24.com");
+				$status['data'] = array("domainURL"=>"https://".$details[0]->sub_domain_name.".webtrix24.com/API/");
 				$status['flag'] = 'S';
 				$this->response->output($status,200);
 			}

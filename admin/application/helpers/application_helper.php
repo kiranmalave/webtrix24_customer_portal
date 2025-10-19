@@ -30,5 +30,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 		return $firstLetter . $lastLetter;
 	}
+	function getSubdomain() {
+		$host = $_SERVER['HTTP_HOST']; // e.g. client1.webtrix24.com
+		$host = strtolower($host);
+		$parts = explode('.', $host);
+		return (count($parts) >= 3) ? $parts[0] : null;
+	}
 
 ?>
