@@ -26,7 +26,13 @@ class WAHub extends CI_Controller
 		if (empty($input)) $input = $this->input->post();
         //$subdomain = $this->getSubdomain(); // detect which tenant sent it
         $subdomain = $this->detectSubdomain();
-        //log_message('info', "Request received from subdomain: {$subdomain}");
+        if (!isset($subdomain) || empty($subdomain)) {
+            return $this->response->output([
+                    'flag' => 'F',
+                    'msg' => "Unauthorized or unknown tenant No subdomain Found. {$subdomain}",
+                ], 400);
+        }
+        log_message('info', "Request received from subdomain: {$subdomain}");
         // find out the tenent details first
         $tenant = $this->CommonModel->getMasterDetails('customer', '*',array('sub_domain_name'=>$subdomain));
         if (!isset($tenant) || empty($tenant)) {
@@ -71,7 +77,7 @@ class WAHub extends CI_Controller
             }
 			$msg = 'Business account added successfully.';
 		}
-		echo json_encode(['flag' => 'S','msg'  => $msg,]);
+		echo json_encode(['flag' => 'S','msg'  => $msg]);
 	}
 
 
@@ -135,12 +141,16 @@ class WAHub extends CI_Controller
 			'msg'  => 'Business numbers stored/updated successfully.',
 		]);
 	}
-    private function detectSubdomain() {
-		$headerSub = $this->input->get_request_header('X-WEBTRIX-SUBDOMAIN', true);
-		//if ($headerSub) return $headerSub;
+    private function detectSubdomain()
+	{
+	    // Always check header first
+	    $headerSub = $this->input->get_request_header('X-WEBTRIX-SUBDOMAIN', true);
+	    if (!empty($headerSub)) return strtolower($headerSub);
 
-		$host = $headerSub ? '' : ($_SERVER['HTTP_HOST']?? '');
-		$parts = explode('.', strtolower($host));
-		return (count($parts) >= 3) ? $parts[0] : null;
+	    // Fallback to domain
+	    $host = $_SERVER['HTTP_HOST'] ?? '';
+	    $parts = explode('.', strtolower($host));
+
+	    return (count($parts) >= 3) ? $parts[0] : null;
 	}
 }
