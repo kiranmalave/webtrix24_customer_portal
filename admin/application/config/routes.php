@@ -283,7 +283,11 @@ $route['upgrade/list_versions'] = 'systems/Upgrades/list_versions';
 
 $route['upgrade/database/setupupgrade'] = 'systems/Upgrades/remote_upgrade_all';
 $route['upgrade/database/(:num)'] = 'systems/Upgrades/run_all_db_upgrades/$1';
-$route['WAHub/storeBusinessAccount'] = 'systems/WAHub/storeBusinessAccount';
-$route['WAHub/storeBusinessNumbers'] = 'systems/WAHub/storeBusinessNumbers';
+$route['WAHub/storeBusinessAccount'] = 'meta/WAHub/storeBusinessAccount';
+$route['WAHub/storeBusinessNumbers'] = 'meta/WAHub/storeBusinessNumbers';
+
+//$route['facebook/webhook'] = 'meta/FacebookConnect/fbWebhook';
+$route['facebook/webhook/receive'] = 'meta/FacebookConnect/fbWebhook';
+
 
 

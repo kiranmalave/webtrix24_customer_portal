@@ -47,6 +47,8 @@ $config['CLIENT_ID'] = '1047776072197-pqg1v82oqb70nhmshii3bskg4t0i3sr0.apps.goog
 $config['CLIENT_SECRET'] = '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';
 // / Google App Redirect Url /
 $config['CLIENT_REDIRECT_URL'] = 'http://localhost/LMS/API/responseToken';
+// this will use to verify the fb token to recieved the lead data
+$config['FB_VERIFY_TOKEN'] = 'WEBTRIX_LEAF_GEN_24';
 
 /*
 |--------------------------------------------------------------------------

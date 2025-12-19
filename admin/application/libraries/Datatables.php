@@ -386,6 +386,7 @@ LIMIT 1");
             $dataCompany = array();
             $dataCompany["companyName"] = $otherDetails['company_name'];
             $dataCompany["company_address"] = " ";
+            $dataCompany["company_key"] = 'c_' . bin2hex(random_bytes(4));
             $dataCompany["fromName"] =  $otherDetails['company_name'];
             $dataCompany["fromEmail"] = "";
             $dataCompany["status"] = "active";
@@ -394,6 +395,8 @@ LIMIT 1");
             $dataCompany["created_by"] = "1";
             $dataCompany["created_date"] =  date("Y/m/d H:i:s");
             $target_db_connection->insert("ab_info_settings",$dataCompany);
+            // copy tentant details as well //tenant_key
+            $target_db_connection->insert("ab_tenant_details",array("tenant_key"=>$customerDetails[0]->tenant_key,"tenant_name"=>$otherDetails['company_name']));
         return true;
     }
     private function get_database_config($database_name) {

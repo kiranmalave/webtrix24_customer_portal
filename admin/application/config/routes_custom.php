@@ -49,4 +49,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$modules_path = APPPATH . 'controllers/';
 
+if (is_dir($modules_path)) {
+    $directoryIterator = new RecursiveDirectoryIterator(
+        $modules_path,
+        RecursiveDirectoryIterator::SKIP_DOTS // ignore . and ..
+    );
+
+    // Use CHILD_FIRST so we don’t skip nested routes due to early directory return
+    $iterator = new RecursiveIteratorIterator(
+        $directoryIterator,
+        RecursiveIteratorIterator::SELF_FIRST
+    );
+
+    foreach ($iterator as $file) {
+        if ($file->isFile() && strtolower($file->getFilename()) === 'routes.php') {
+            include_once $file->getPathname();
+            log_message('debug', '✅ Loaded route file: ' . $file->getPathname());
+        }
+    }
+} else {
+    log_message('error', '❌ Controllers directory not found: ' . $modules_path);
+}

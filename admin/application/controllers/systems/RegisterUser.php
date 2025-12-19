@@ -128,6 +128,7 @@ class RegisterUser extends CI_Controller
 			$customerDetails['userName'] = strtolower($getFaname[0]);
 			$customerDetails['status'] = "active";//$this->validatedata->validate('status', 'status', false, '', array());
 			$customerDetails['email_code'] = mt_rand(100000, 999999);
+			$customerDetails['tenant_key'] = 't_' . bin2hex(random_bytes(8)); // 16 chars
 			//$customerDetails['mobile_code'] = $this->whatsappapi->sendVerificationCode();//mt_rand(100000, 999999);
 			
 			if ($method == "PUT") {
