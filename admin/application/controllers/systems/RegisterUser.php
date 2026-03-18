@@ -357,7 +357,7 @@ class RegisterUser extends CI_Controller
 					$this->response->output($status, 200);
 				}
 				// do database tables setup
-				$setupDB = $this->datatables->copy_database("webtrix24_setup",$otherDetails,$customerDetails);
+				$setupDB = $this->datatables->copy_database("webtrix24_setup_rental",$otherDetails,$customerDetails);
 				
 				if(!$setupDB){
 					$this->db->trans_rollback();

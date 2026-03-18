@@ -1,0 +1,7 @@
+/*
+run this for to subscribe it from apu as well not from EAAbDfz8aOnsBQDupoz8Yk3aNCAWn7FeM87SuDcxomxkUAVy8FL1yc5ZAMbuVai2A0vEK7KmjUSTy9daaxpqm9Fe6uGdqMbmyIuWlUB51JH5thDDKLOmjzCg4U1vLbrtvLbsKWY98t4VZCuixMZCOPGdRoxiFtVDEAZCpyoRGrwM0ZCVAqSYcJ5oabmLdLBh9z
+curl -X POST "https://graph.facebook.com/v17.0/WABA_ID/subscribed_apps" \
+  -H "Authorization: Bearer META_ACCESS_TOKEN"
+curl -X POST "https://graph.facebook.com/v17.0/1820753391898530/subscribed_apps" \
+  -H "Authorization: Bearer EAAbDfz8aOnsBQDupoz8Yk3aNCAWn7FeM87SuDcxomxkUAVy8FL1yc5ZAMbuVai2A0vEK7KmjUSTy9daaxpqm9Fe6uGdqMbmyIuWlUB51JH5thDDKLOmjzCg4U1vLbrtvLbsKWY98t4VZCuixMZCOPGdRoxiFtVDEAZCpyoRGrwM0ZCVAqSYcJ5oabmLdLBh9z"
+  */

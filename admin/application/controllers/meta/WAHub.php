@@ -160,6 +160,8 @@ class WAHub extends CI_Controller
      */
     public function receive()
     {
+        log_message('info', 'WA Webhook Payload webhook called. ');
+        $rawPayload = file_get_contents('php://input');
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             return $this->verifyWebhook();
         }
@@ -167,7 +169,6 @@ class WAHub extends CI_Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->handleIncomingMessage();
         }
-
         show_404();
     }
 
@@ -190,252 +191,163 @@ class WAHub extends CI_Controller
     }
 
     /**
-     * Step 2: Handle incoming WhatsApp messages
+     * Webhook field → handler config map.
+     *
+     * Each registered field needs:
+     *   resolve_by : 'phone_number_id' — tenant identified via waba_id + phone_number_id (message-level events)
+     *                'waba_id'         — tenant identified via waba_id only (account-level events)
+     *
+     * All events are forwarded to the SINGLE tenant endpoint /API/whatsapp/incoming.
+     * The tenant-side controller dispatches to the correct internal method based on the 'field' value.
+     *
+     * ✅ To support a new Meta webhook subscription, just add one line here.
      */
-	private function handleIncomingMessage()
-{
-    $rawPayload = file_get_contents('php://input');
-    $payload    = json_decode($rawPayload, true);
-
-    // Respond fast
-    http_response_code(200);
-
-    log_message('info', 'WA Webhook Payload: ' . $rawPayload);
-
-    if (empty($payload['entry'][0]['changes'][0]['value']['messages'])) {
-        return;
-    }
-
-    /* ===============================
-     * STEP 1: Identify tenant
-     * =============================== */
-    $wabaId        = $payload['entry'][0]['id'];
-    $phoneNumberId = $payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
-
-    $phoneRow = $this->CommonModel->getMasterDetails(
-        'ab_wa_phone_numbers',
-        '*',
-        [
-            'waba_id'          => $wabaId,
-            'phone_number_id' => $phoneNumberId,
-            'platform_type'   => 'meta',
-            'status'          => 'active'
-        ]
-    );
-
-    if (empty($phoneRow)) {
-        log_message('error', "WA Webhook: Unknown phone_number_id {$phoneNumberId}");
-        return;
-    }
-
-    $tenantId  = $phoneRow[0]->tenant_id;
-    $companyId = $phoneRow[0]->company_id;
-
-    /* ===============================
-     * STEP 2: Resolve tenant subdomain
-     * =============================== */
-    $tenant = $this->CommonModel->getMasterDetails(
-        'customer',
-        '*',
-        ['customer_id' => $tenantId]
-    );
-
-    if (empty($tenant)) {
-        log_message('error', "WA Webhook: Tenant not found {$tenantId}");
-        return;
-    }
-
-    $subdomain = $tenant[0]->sub_domain_name;
-	
-
-    /* ===============================
-     * STEP 3: Forward to tenant API
-     * =============================== */
-	if($subdomain == "development"){
-		$subdomain = $tenant[0]->website;
-		$tenantApiUrl = "https://{$subdomain}/API/whatsapp/incoming";
-	}else{
-    	$tenantApiUrl = "https://{$subdomain}.webtrix24.com/API/whatsapp/incoming";
-	}
-
-    $headers = [
-        'Content-Type: application/json',
-        'X-WEBTRIX-SOURCE: wahub',
-        'X-WEBTRIX-TENANT-ID: ' . $tenantId
+    private $webhookFieldHandlers = [
+        'messages'                       => ['resolve_by' => 'phone_number_id'],
+        'message_template_status_update' => ['resolve_by' => 'waba_id'],
+        // 'phone_number_quality_update' => ['resolve_by' => 'waba_id'],
+        // 'account_update'              => ['resolve_by' => 'waba_id'],
     ];
 
-    $ch = curl_init($tenantApiUrl);
-    curl_setopt_array($ch, [
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => $headers,
-        CURLOPT_POSTFIELDS     => $rawPayload,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 5,
-    ]);
+    /** Single tenant-side endpoint that handles all webhook field types */
+    private $tenantWebhookEndpoint = '/API/whatsapp/incoming';
 
-    $response = curl_exec($ch);
-    $error    = curl_error($ch);
-    curl_close($ch);
+    /**
+     * Step 2: Dispatch all incoming webhook changes to the correct tenant endpoint.
+     * Iterates every entry → change so no event is silently dropped.
+     */
+    private function handleIncomingMessage()
+    {
+        $rawPayload = file_get_contents('php://input');
+        $payload    = json_decode($rawPayload, true);
 
-    if ($error) {
-        log_message('error', "WAHub → Tenant API error: {$error} {$tenant[0]->website}");
+        http_response_code(200);
+        log_message('info', 'WA Webhook Payload received: ' . $rawPayload);
+
+        if (empty($payload['entry']) || !is_array($payload['entry'])) {
+            log_message('error', 'WA Webhook: Invalid or empty payload structure: ' . $rawPayload);
+            return;
+        }
+
+        foreach ($payload['entry'] as $entry) {
+            $wabaId  = $entry['id'] ?? null;
+            $changes = $entry['changes'] ?? [];
+
+            foreach ($changes as $change) {
+                $field = $change['field'] ?? null;
+                $value = $change['value'] ?? [];
+
+                if (empty($field)) {
+                    log_message('warning', 'WA Webhook: Skipping change with no field');
+                    continue;
+                }
+
+                // Unknown / not-yet-handled field — log and skip
+                if (!isset($this->webhookFieldHandlers[$field])) {
+                    log_message('warning', "WA Webhook: Unregistered field [{$field}] — add it to webhookFieldHandlers to handle it.");
+                    continue;
+                }
+
+                $handler = $this->webhookFieldHandlers[$field];
+
+                // Resolve which tenant owns this event
+                $tenantInfo = $this->resolveTenant($wabaId, $value, $handler['resolve_by']);
+                if (empty($tenantInfo)) {
+                    log_message('error', "WA Webhook [{$field}]: Could not resolve tenant for wabaId={$wabaId}");
+                    continue;
+                }
+
+                // Wrap the single change back into the standard Meta envelope
+                $forwardPayload = json_encode([
+                    'object' => $payload['object'] ?? 'whatsapp_business_account',
+                    'entry'  => [[
+                        'id'      => $wabaId,
+                        'changes' => [$change]
+                    ]]
+                ]);
+
+                $this->forwardToTenant($tenantInfo, $this->tenantWebhookEndpoint, $forwardPayload, $field);
+            }
+        }
     }
-}
 
-    // private function handleIncomingMessage()
-	// {
-	// 	$rawPayload = file_get_contents('php://input');
-	// 	$payload    = json_decode($rawPayload, true);
+    /**
+     * Resolve tenant info from the webhook change value.
+     *
+     * @param  string $wabaId
+     * @param  array  $value      change['value']
+     * @param  string $resolveBy  'phone_number_id' | 'waba_id'
+     * @return array|null
+     */
+    private function resolveTenant($wabaId, $value, $resolveBy)
+    {
+        if (empty($wabaId)) return null;
 
-	// 	// Always respond 200 FAST (Meta requirement)
-	// 	http_response_code(200);
+        $where = ['waba_id' => $wabaId, 'platform_type' => 'meta', 'status' => 'active'];
 
-	// 	log_message('info', 'WA Webhook Payload: ' . $rawPayload);
+        if ($resolveBy === 'phone_number_id') {
+            $phoneNumberId = $value['metadata']['phone_number_id'] ?? null;
+            if (empty($phoneNumberId)) return null;
+            $where['phone_number_id'] = $phoneNumberId;
+        }
 
-	// 	if (empty($payload['entry'][0]['changes'][0]['value'])) {
-	// 		return;
-	// 	}
+        $phoneRow = $this->CommonModel->getMasterDetails('ab_wa_phone_numbers', '*', $where);
+        if (empty($phoneRow)) return null;
 
-	// 	$value = $payload['entry'][0]['changes'][0]['value'];
+        $tenantId = $phoneRow[0]->tenant_id;
 
-	// 	// Ignore delivery/read statuses
-	// 	if (empty($value['messages'])) {
-	// 		return;
-	// 	}
+        $tenant = $this->CommonModel->getMasterDetails('customer', '*', ['customer_id' => $tenantId]);
+        if (empty($tenant)) return null;
 
-	// 	/* ===============================
-	// 	* STEP 1: Identify tenant
-	// 	* =============================== */
-	// 	$wabaId        = $payload['entry'][0]['id']; // WABA ID
-	// 	$phoneNumberId = $value['metadata']['phone_number_id'];
+        return [
+            'tenant_id'  => $tenantId,
+            'company_id' => $phoneRow[0]->company_id,
+            'subdomain'  => $tenant[0]->sub_domain_name,
+            'website'    => $tenant[0]->website,
+        ];
+    }
 
-	// 	$phoneRow = $this->CommonModel->getMasterDetails(
-	// 		'wa_phone_numbers',
-	// 		'*',
-	// 		[
-	// 			'waba_id'         => $wabaId,
-	// 			'phone_number_id'=> $phoneNumberId,
-	// 			'platform_type'  => 'meta',
-	// 			'status'         => 'active'
-	// 		]
-	// 	);
+    /**
+     * Forward a JSON payload to the tenant's API.
+     *
+     * @param  array  $tenantInfo   result of resolveTenant()
+     * @param  string $endpointPath e.g. '/API/whatsapp/incoming'
+     * @param  string $jsonPayload  JSON-encoded body to POST
+     * @param  string $field        webhook field name (for logging only)
+     */
+    private function forwardToTenant($tenantInfo, $endpointPath, $jsonPayload, $field = '')
+    {
+        $base = ($tenantInfo['subdomain'] === 'development' || $tenantInfo['subdomain'] === 'cms')
+            ? "https://{$tenantInfo['website']}"
+            : "https://{$tenantInfo['subdomain']}.webtrix24.com";
 
-	// 	if (empty($phoneRow)) {
-	// 		log_message('error', "WA Webhook: Unknown phone_number_id {$phoneNumberId}");
-	// 		return;
-	// 	}
+        $url = $base . $endpointPath;
 
-	// 	$tenantId  = $phoneRow[0]->tenant_id;
-	// 	$companyId = $phoneRow[0]->company_id;
+        log_message('info', "WAHub [{$field}] → Forwarding to: {$url}");
 
-	// 	/* ===============================
-	// 	* STEP 2: Load tenant DB
-	// 	* =============================== */
-	// 	$tenantDBData = $this->CommonModel->getMasterDetails(
-	// 		'customer',
-	// 		'*',
-	// 		['customer_id' => $tenantId]
-	// 	);
+        $headers = [
+            'Content-Type: application/json',
+            'X-WEBTRIX-SOURCE: wahub',
+            'X-WEBTRIX-TENANT-ID: ' . $tenantInfo['tenant_id'],
+        ];
 
-	// 	if (empty($tenantDBData)) {
-	// 		log_message('error', "WA Webhook: Tenant DB not found for tenant_id {$tenantId}");
-	// 		return;
-	// 	}
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_POSTFIELDS     => $jsonPayload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 10,
+        ]);
 
-	// 	$db_config = [
-	// 		'hostname' => 'localhost',
-	// 		'username' => $tenantDBData[0]->dbUserName,
-	// 		'password' => $tenantDBData[0]->dbpassword,
-	// 		'database' => $tenantDBData[0]->database_name,
-	// 		'dbdriver' => 'mysqli',
-	// 		'dbprefix' => 'ab_',
-	// 		'pconnect' => false,
-	// 		'db_debug' => false,
-	// 		'char_set' => 'utf8mb4',
-	// 		'dbcollat' => 'utf8mb4_general_ci'
-	// 	];
+        $response = curl_exec($ch);
+        $error    = curl_error($ch);
+        curl_close($ch);
 
-	// 	$tenantDB = $this->load->database($db_config, true);
-
-	// 	/* ===============================
-	// 	* STEP 3: Extract message
-	// 	* =============================== */
-	// 	$message = $value['messages'][0];
-
-	// 	$fromNumber  = $message['from'];
-	// 	$messageId  = $message['id'];
-	// 	$timestamp  = date('Y-m-d H:i:s', $message['timestamp']);
-	// 	$type       = $message['type'];
-
-	// 	$messageText   = null;
-	// 	$buttonPayload = null;
-
-	// 	switch ($type) {
-	// 		case 'text':
-	// 			$messageText = $message['text']['body'];
-	// 			break;
-
-	// 		case 'button':
-	// 			$buttonPayload = $message['button']['payload'] ?? null;
-	// 			$messageText   = $message['button']['text'] ?? null;
-	// 			break;
-
-	// 		case 'interactive':
-	// 			if (!empty($message['interactive']['button_reply'])) {
-	// 				$buttonPayload = $message['interactive']['button_reply']['id'];
-	// 				$messageText   = $message['interactive']['button_reply']['title'];
-	// 			} elseif (!empty($message['interactive']['list_reply'])) {
-	// 				$buttonPayload = $message['interactive']['list_reply']['id'];
-	// 				$messageText   = $message['interactive']['list_reply']['title'];
-	// 			}
-	// 			break;
-
-	// 		default:
-	// 			log_message('info', 'WA Unsupported message type: ' . $type);
-	// 			return;
-	// 	}
-
-	// 	/* ===============================
-	// 	* STEP 4: Prevent duplicates
-	// 	* =============================== */
-	// 	$exists = $tenantDB
-	// 		->where('message_id', $messageId)
-	// 		->get('wa_messages')
-	// 		->row();
-
-	// 	if ($exists) {
-	// 		return;
-	// 	}
-
-	// 	/* ===============================
-	// 	* STEP 5: Insert message
-	// 	* =============================== */
-	// 	$tenantDB->insert('wa_messages', [
-	// 		'tenant_id'       => $tenantId,
-	// 		'company_id'      => $companyId,
-	// 		'platform_type'   => 'meta',
-	// 		'waba_id'         => $wabaId,
-	// 		'phone_number_id'=> $phoneNumberId,
-	// 		'direction'       => 'in',
-	// 		'message_id'      => $messageId,
-	// 		'from_number'     => $fromNumber,
-	// 		'to_number'       => $value['metadata']['display_phone_number'],
-	// 		'message_type'    => $type,
-	// 		'message_text'    => $messageText,
-	// 		'interactive_payload' => $buttonPayload,
-	// 		'status'          => 'received',
-	// 		'sent_at'         => $timestamp,
-	// 		'raw_request'     => $rawPayload,
-	// 		'created_date'    => date('Y-m-d H:i:s')
-	// 	]);
-
-	// 	/* ===============================
-	// 	* NEXT STEPS (optional triggers)
-	// 	* =============================== */
-	// 	// - Auto reply
-	// 	// - Lead / customer mapping
-	// 	// - GPT/Dialogflow
-	// 	// - Agent assignment
-	// }
-
+        if ($error) {
+            log_message('error', "WAHub [{$field}] → Tenant API error: {$error}");
+        } else {
+            log_message('info', "WAHub [{$field}] → Tenant API response: {$response}");
+        }
+    }
 }
