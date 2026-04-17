@@ -42,13 +42,21 @@ $config['client_upload'] = '/home/webtrix24/public_html/clients/uploads/';
 //$config['client_upload'] = $_SERVER['DOCUMENT_ROOT'] ."/webtrix24_customer_portal/uploads/";
 
 //Google Settings
-$config['CLIENT_ID'] = '1047776072197-pqg1v82oqb70nhmshii3bskg4t0i3sr0.apps.googleusercontent.com';
+$config['CLIENT_ID'] = '';
 // / Google App Client Secret /
-$config['CLIENT_SECRET'] = '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';
+$config['CLIENT_SECRET'] = '';
 // / Google App Redirect Url /
 $config['CLIENT_REDIRECT_URL'] = 'http://localhost/LMS/API/responseToken';
 // this will use to verify the fb token to recieved the lead data
 $config['FB_VERIFY_TOKEN'] = 'WEBTRIX_LEAF_GEN_24';
+// Facebook App ID — used by the central OAuth popup page (fb-connect)
+$config['FB_APP_ID']     = '1990349685164693';
+// Facebook App Secret — used server-side ONLY to exchange OAuth code for token (never sent to browser)
+$config['FB_APP_SECRET'] = 'REPLACE_WITH_YOUR_APP_SECRET';
+// Meta Login for Business configuration ID for Embedded Signup (latest flow)
+$config['FB_EMBEDDED_SIGNUP_CONFIG_ID'] = 'REPLACE_WITH_META_CONFIG_ID';
+// Must match EXACTLY the value added in Facebook App > Facebook Login > Settings > Valid OAuth Redirect URIs
+$config['FB_REDIRECT_URI'] = 'https://my.webtrix24.com/API/fb-callback';
 
 /*
 |--------------------------------------------------------------------------
