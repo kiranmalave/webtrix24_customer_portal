@@ -21,8 +21,8 @@ const fillVariants = {
   })
 };
 
-export default function Webtrix24LogoAnimated({ className = "w-full h-auto", webtrixProps,
-  twentyFourProps, ...rest }) {
+export default function Webtrix24LogoAnimated({ className = "w-full h-auto", color = "#1A73E8", webtrixProps,
+  twentyFourColor="#FFB200", ...rest }) {
   const webtrixPaths = [
     // all your "Webtrix" d strings here...
      "M363.067 2.79026C349.467 18.2569 336.134 44.5236 332.667 63.1903C331.734 67.9903 331.734 92.1236 332.534 97.8569C334.534 111.324 344.267 140.924 352.667 159.19C353.734 161.324 356.667 168.257 359.2 174.39C364.134 186.124 376.534 207.324 395.334 236.524C444.534 312.657 463.867 351.59 470.8 387.59C472.8 398.39 471.6 420.257 468.267 433.19C465.334 444.124 461.734 455.19 459.867 458.79C456.8 464.39 460.4 460.39 466 451.724C486.267 420.79 494.667 396.257 494.667 368.124C494.667 344.257 491.467 331.057 478.267 299.857C468.667 277.457 462.934 265.324 455.867 252.924L449.2 241.324L456.667 222.257C460.8 211.724 468.667 191.724 474 177.857C479.467 163.857 488.667 140.39 494.4 125.457L504.934 98.5236H458.667H412.4L402.4 126.124C396.8 141.324 391.734 153.99 391.067 154.124C389.6 154.657 375.734 131.724 366.934 114.39C344.4 69.7236 343.467 37.7236 364 4.52359C367.334 -0.809738 366.934 -1.4764 363.067 2.79026Z",
@@ -52,7 +52,7 @@ export default function Webtrix24LogoAnimated({ className = "w-full h-auto", web
             <motion.path
               d={d}
               fill="none"
-              stroke="#FFFFFF"
+              stroke={color}
               strokeWidth={9}
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -65,13 +65,13 @@ export default function Webtrix24LogoAnimated({ className = "w-full h-auto", web
             {/* Fill, fade in after stroke */}
             <motion.path
               d={d}
-              fill="#FFFFFF"
+              fill={color}
               stroke="none"
               variants={fillVariants}
               initial="hidden"
               animate="visible"
               custom={i}
-               {...twentyFourProps}   // <— ADD THIS
+            
             />
           </React.Fragment>
         ))}
@@ -81,7 +81,7 @@ export default function Webtrix24LogoAnimated({ className = "w-full h-auto", web
         <motion.path
           d="M2012.5 184L1986.5 189L...2012.5 184Z"
           fill="none"
-          stroke="#FFFFFF"
+          stroke={twentyFourColor}
           strokeWidth={14}
           strokeLinejoin="round"
           strokeLinecap="round"
@@ -92,7 +92,7 @@ export default function Webtrix24LogoAnimated({ className = "w-full h-auto", web
         />
         <motion.path
           d="M2012.5 184L1986.5 189L1976.5 192L1974.5 193L1972.5 194L1969.5 195L1967.5 196L1965.5 197L1963.5 198L1961.5 199L1959.5 200L1957.5 201L1946.5 208L1942.5 211L1938.5 214L1933.5 219L1918.5 234L1932.5 249L1950.5 267L1961.5 279L1977.5 263L1982.5 259L1985.5 257L1988.5 255L1990.5 254L1992.5 253L1994.5 252L1996.5 251L1999.5 250L2003.5 249H2022.5L2026.5 250L2029.5 251L2031.5 252L2033.5 253L2035.5 254L2042.5 261C2043.79 263.583 2044.97 266.13 2045.5 269C2046.35 273.608 2046.9 275 2045.5 281C2044.41 285.678 2040 292 2040 292L2029.5 302L1976.5 341L1944.5 370L1940.5 375L1936 380.5L1933 384.5L1930.5 389L1927.5 394L1924.5 398.5L1921.5 404L1920.5 406L1919.5 408L1918.5 410L1915.5 423V470H2167.5L2168.5 471V497L2167.5 498H2121.5V551H2298.5V498H2253.5L2252.5 497V472L2253.5 471H2298.5V409H2253.5L2252.5 408V268L2251.5 267H2168.5L2072.5 387L2061.5 401H2128.5L2163.5 358L2167.5 353H2168.5V408L2167.5 409H2002.5H2000.5V407L2017.5 391L2024.5 385L2030.5 380L2035.5 376L2047 367.5L2067.5 354.5L2090.5 337L2102.5 325L2109.5 315.5L2113.5 308.5L2115.5 303L2117 298L2118.5 287V259L2115.5 244.5L2110 230.5L2101.5 218L2088.5 205L2084.5 202L2081.5 200L2061 190.5L2038.5 185L2012.5 184Z"
-          fill="#FFFFFF"
+          fill={twentyFourColor}
           stroke="none"
           variants={fillVariants}
           initial="hidden"

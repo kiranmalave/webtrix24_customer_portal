@@ -284,3 +284,17 @@ $route['upgrade/list_versions'] = 'systems/Upgrades/list_versions';
 $route['upgrade/database/setupupgrade'] = 'systems/Upgrades/remote_upgrade_all';
 $route['upgrade/database/(:num)'] = 'systems/Upgrades/run_all_db_upgrades/$1';
 
+############### Campaign Cron Dispatcher ###############
+#
+# Two focused cron jobs (recommended):
+#
+#   Every 10 min — enroll records + resume wait nodes:
+#   */10 * * * * curl -s "https://my.webtrix24.com/API/cron/campaigns/dispatch/campaigns?cron_secret=YOUR_SECRET" > /dev/null 2>&1
+#
+#   Every 2 min — send queued messages:
+#   */2  * * * * curl -s "https://my.webtrix24.com/API/cron/campaigns/dispatch/messages?cron_secret=YOUR_SECRET"  > /dev/null 2>&1
+#
+$route['cron/campaigns/dispatch/campaigns'] = 'systems/CampaignCron/dispatchCampaigns';
+$route['cron/campaigns/dispatch/messages']  = 'systems/CampaignCron/dispatchMessages';
+$route['cron/campaigns/dispatch']           = 'systems/CampaignCron/dispatch'; // legacy
+

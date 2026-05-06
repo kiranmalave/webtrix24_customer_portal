@@ -97,13 +97,34 @@ class WAHub extends CI_Controller
 			 exit;
 		}
 		$subdomain = $this->detectSubdomain();
+        log_message('info', "storeBusinessNumbers called from subdomain: {$subdomain}");
 		$tenant = $this->CommonModel->getMasterDetails('customer', '*',array('sub_domain_name'=>$subdomain));
+        log_message('info', "tenant ID details: {$tenant[0]->customer_id}");
         if (!isset($tenant) || empty($tenant)) {
             return $this->response->output([
                     'flag' => 'F',
                     'msg' => "Unauthorized or unknown tenant: {$subdomain}",
                 ], 400);
         }
+		// Check for cross-tenant conflicts before saving any number
+		$conflicting = [];
+		foreach ($input['numbers'] as $num) {
+			if (empty($num['id'])) continue;
+			$existing = $this->CommonModel->getMasterDetails('wa_phone_numbers', '*', ['phone_number_id' => $num['id']]);
+			if (!empty($existing) && (int)$existing[0]->tenant_id !== (int)$tenant[0]->customer_id) {
+				$conflicting[] = $num['display_phone_number'] ?? $num['id'];
+			}
+		}
+		if (!empty($conflicting)) {
+			log_message('error', "storeBusinessNumbers: cross-tenant conflict for subdomain={$subdomain}, numbers=" . implode(', ', $conflicting));
+			echo json_encode([
+				'flag'                => 'F',
+				'msg'                 => 'The following number(s) are already registered under another account: ' . implode(', ', $conflicting) . '. Please remove them from your WhatsApp Business account first.',
+				'conflicting_numbers' => $conflicting,
+			]);
+			exit;
+		}
+
 		foreach ($input['numbers'] as $num) {
 			if (empty($num['id'])) continue;
 
@@ -412,6 +433,46 @@ class WAHub extends CI_Controller
     }
 
     /**
+     * ─────────────────────────────────────────────────────────────────
+     * STANDARD FACEBOOK LOGIN (no Embedded Signup config_id required)
+     * ─────────────────────────────────────────────────────────────────
+     * Use this endpoint while the Embedded Signup permission is pending.
+     * Requires only: whatsapp_business_management, business_management
+     *
+     * URL: GET https://my.webtrix24.com/API/fb-normal-connect
+     *        ?return_origin=https://tenant.webtrix24.com
+     *        &company_id=42
+     *
+     * The popup page loads the FB JS SDK and calls FB.login() with the
+     * standard scope. On success it POSTs the access_token to fb-process,
+     * which forwards it to the tenant's /API/whatsapp/authorize endpoint.
+     */
+    public function fbNormalConnect()
+    {
+        $returnOrigin = trim((string) $this->input->get('return_origin'));
+        $companyId    = (int) $this->input->get('company_id');
+        $appId        = $this->config->item('FB_APP_ID') ?: getenv('FB_APP_ID');
+
+        if (empty($returnOrigin) || empty($companyId)) {
+            show_error('Missing return origin or company ID.', 400);
+            return;
+        }
+
+        if (empty($appId)) {
+            log_message('error', 'fbNormalConnect: FB_APP_ID is not configured.');
+            show_error('Facebook App ID is not configured on this server.', 500);
+            return;
+        }
+
+        $this->load->view('meta/fb_normal_connect', [
+            'return_origin' => htmlspecialchars($returnOrigin, ENT_QUOTES, 'UTF-8'),
+            'company_id'    => $companyId,
+            'app_id'        => htmlspecialchars($appId, ENT_QUOTES, 'UTF-8'),
+            'process_url'   => site_url('fb-process'),
+        ]);
+    }
+
+    /**
      * Step 1 — Open the central popup page for Meta Embedded Signup.
      *
      * URL: GET https://my.webtrix24.com/API/fb-connect
@@ -577,14 +638,15 @@ class WAHub extends CI_Controller
         }
 
         $apiData = json_decode($apiResponse, true);
+        //log_message('info', 'fbProcess: tenant API  response Data '.$apiResponse);
         if (($apiData['flag'] ?? '') !== 'S') {
             $errMsg = $apiData['msg'] ?? 'Account server returned an error.';
-            log_message('error', 'fbProcess: tenant API flag != S — ' . $errMsg);
+            log_message('error', 'fbProcess: tenant API flag != S — ' . $apiData . ' ' . $errMsg);
             echo json_encode(['flag' => 'F', 'msg' => $errMsg]);
             return;
         }
 
-        log_message('info', "fbProcess: embedded signup success for subdomain={$subdomain} company={$companyId}");
+        //log_message('info', "fbProcess: embedded signup success for subdomain={$subdomain} company={$companyId}");
         echo json_encode(['flag' => 'S', 'msg' => 'Embedded signup completed successfully.']);
     }
 

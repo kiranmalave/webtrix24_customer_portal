@@ -18,7 +18,7 @@ const DEFAULT_SLIDES = [
 
 export default function LeftPanel() {
   return (
-    <div className="relative hidden md:flex flex-col justify-center items-center p-12 overflow-hidden bg-gradient-to-br from-blue-700 via-blue-500 to-orange-200">
+    <div className="relative hidden md:flex flex-col justify-center items-center p-12 overflow-hidden bg-gradient-to-br from-blue-700 via-blue-500 to-orange-200 h-screen sticky top-0">
       {/* Decorative circles */}
       <div className="absolute w-[400px] h-[400px] rounded-full bg-white/5 -top-[100px] -left-[100px]" />
       <div className="absolute w-[300px] h-[300px] rounded-full bg-white/5 -bottom-[80px] -right-[80px]" />
@@ -26,6 +26,8 @@ export default function LeftPanel() {
       <div className="relative z-10 text-center text-white max-w-[450px]">
         <div className="text-3xl font-bold text-white mb-2">
           <Webtrix24LogoAnimated
+          color="#fff"
+          twentyFourColor="#fff"
             className="w-[200px] justify-center mx-auto mb-4"
             webtrixProps={{
               whileHover: { scale: 1.04 },

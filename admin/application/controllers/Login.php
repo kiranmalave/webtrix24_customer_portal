@@ -28,11 +28,31 @@ class Login extends CI_Controller {
 
 	public function verifyUser(){
 		$this->response->decodeRequest();
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$account_id = $this->input->post('account_id', TRUE);
+		$username = $this->input->post('txt_username');
+		$password = $this->input->post('txt_password');
+
+		// VALIDATE ACCOUNT ID
+		if (!$account_id) {
+			$this->outputErrorResponse(324);
+		}
+		$is_enterprise = preg_match('/^WSE-\d+$/', $account_id);
+		if ($is_enterprise) {
+			$accountRow = $this->CommonModel->getMasterDetails('enterprise_customers', '*', array('status' => 'active', 'account_id' => $account_id));
+			if (empty($accountRow)) {
+				$this->outputErrorResponse(324);
+			}
+			$domainURL = $accountRow[0]->domain_name;
+		} else {
+			$accountRow = $this->CommonModel->getMasterDetails('customer', '*', array('account_id' => $account_id));
+			if (empty($accountRow)) {
+				$this->outputErrorResponse(324);
+			}
+			$domainURL = 'https://' . $accountRow[0]->sub_domain_name . '.webtrix24.com/API/';
+		}
 
 		// EMPTY USERNAME || PASSWORD
-		if(trim($username) =="" || trim($password) ==""){
+		if(!isset($username) || $username =="" || !isset($password) || trim($password) ==""){
 			$this->outputErrorResponse(324);
 		}	
 		$this->memberDetails = $this->LoginModel->verifyUserDetails($username,$password);
@@ -118,6 +138,7 @@ class Login extends CI_Controller {
 				$status['keyDetails'] = session_id();
 				$status['loginkey'] = $keyecp;
 				$status['data'] = $this->memberDetails[0];
+				$status['domainURL'] = $domainURL;
 				$status['flag'] = 'S';
 				$this->response->output($status,200);
 			}

@@ -49,3 +49,13 @@ export const resetPassword = (data) =>
 // ── Login template / slides ────────────────────────────────
 export const getLoginSlides = () =>
   api.post('logintemplate/getLoginTemplateList', new URLSearchParams({ status: 'active', getAll: 'Y' }));
+
+// ── Country list ───────────────────────────────────────────
+export const getCountryList = (data) =>
+  //api.get('getCountryList');
+  api.post('getCountryList', new URLSearchParams(data));
+
+
+// ── State list by country ──────────────────────────────────
+export const getStateList = (data) =>
+  api.post('getStateList', new URLSearchParams(data));

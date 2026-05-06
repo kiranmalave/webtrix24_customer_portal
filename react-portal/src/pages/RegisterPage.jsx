@@ -7,31 +7,31 @@ import CrmTypeSelector from '../components/CrmTypeSelector';
 import ChipSelector from '../components/ChipSelector';
 import { useTogglePassword } from '../hooks/useTogglePassword';
 import {
-  registerUser, verifyDetails, companySetup, resendVerify,
+  registerUser, verifyDetails, companySetup, resendVerify, getCountryList, getStateList,
 } from '../api/auth';
 import {
-  COUNTRY_CODES, COMPANY_SIZES, LEAD_SOURCES, BUSINESS_TYPES,
+  COUNTRY_CODES, COMPANY_SIZES, LEAD_SOURCES,
 } from '../api/constants';
+import FireworksCanvas from '../components/FireworksCanvas';
+import Webtrix24LogoAnimated from './Webtrix24LogoAnimated';
 
 // ── Steps ──────────────────────────────────────────────────
 // 1 → Personal details (name, email, phone)
 // 2 → OTP verification + set password
 // 3 → CRM type selection
-// 4 → Company name / GST / website
+// 4 → Company name / GST / website + country + state + GST billing
 // 5 → Company size
 // 6 → How did you hear about us
-// 7 → Industry / business type
-// 8 → Demo data preference
-// 9 → Company logo
-// 10 → Setting up (progress)
-// 11 → Congratulations
+// 7 → Company logo
+// 8 → Setting up (progress)
+// 9 → Congratulations
 
-const TOTAL_STEPS = 9; // steps 1-9 visible to user
+const TOTAL_STEPS = 7; // steps 1-7 visible to user
 
 function stepLabel(step) {
   const labels = [
     'Your Details', 'Verify Account', 'CRM Type', 'Company Info', 'Team Size',
-    'Discovery', 'Industry', 'Demo Data', 'Company Logo',
+    'Discovery', 'Company Logo',
   ];
   return labels[step - 1] || '';
 }
@@ -72,14 +72,17 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors2, setErrors2] = useState({});
 
-  // steps 3-8
+  // steps 3-7
   const [companyName, setCompanyName] = useState('');
   const [gst, setGst] = useState('');
   const [website, setWebsite] = useState('');
+  const [isGstBilling, setIsGstBilling] = useState('N');
+  const [countryId, setCountryId] = useState('');
+  const [gstState, setGstState] = useState('');
+  const [countryList, setCountryList] = useState([]);
+  const [stateList, setStateList] = useState([]);
   const [companySize, setCompanySize] = useState('');
   const [source, setSource] = useState('');
-  const [businessType, setBusinessType] = useState('');
-  const [demoData, setDemoData] = useState('');
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
 
@@ -152,9 +155,32 @@ export default function RegisterPage() {
     }
   };
 
-  // ── Steps 3-8 nav ────────────────────────────────────────
+  // ── Steps 3-7 nav ────────────────────────────────────────
   const next = () => setStep((s) => s + 1);
   const prev = () => setStep((s) => s - 1);
+
+  // ── Fetch country list on mount ──────────────────────────
+  useEffect(() => {
+    const data = {getAll:"Y"};
+    getCountryList(data)
+      .then(({ data }) => {
+        const list = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []);
+        setCountryList(list);
+      })
+      .catch(() => {});
+  }, []);
+
+  // ── Fetch state list when country changes ────────────────
+  useEffect(() => {
+    if (!countryId) return;
+    const data = { country: countryId, getAll: 'Y' };
+    getStateList(data)
+      .then(({ data }) => {
+        const list = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []);
+        setStateList(list);
+      })
+      .catch(() => {});
+  }, [countryId]);
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -163,10 +189,10 @@ export default function RegisterPage() {
     setLogoPreview(URL.createObjectURL(file));
   };
 
-  // ── Final submit (step 8 → 9) ────────────────────────────
+  // ── Final submit (step 7 → 8) ────────────────────────────
   const submitCompanySetup = async () => {
     if (!companyName.trim()) { toast.error('Company name is required'); return; }
-    setStep(10);
+    setStep(8);
     setSetupPct(0);
 
     // animate progress
@@ -183,10 +209,11 @@ export default function RegisterPage() {
       formData.append('comapnyName', companyName);
       formData.append('gst', gst);
       formData.append('website', website);
+      formData.append('is_gst_billing', isGstBilling);
+      formData.append('country_id', countryId);
+      formData.append('state', gstState);
       formData.append('company_size', companySize);
       formData.append('source', source);
-      formData.append('business_type', businessType);
-      formData.append('demo_data', demoData);
       formData.append('crm_type', crmType);
       if (logoFile) formData.append('companyLogo', logoFile);
 
@@ -196,15 +223,15 @@ export default function RegisterPage() {
 
       if (data.flag === 'F') {
         toast.error(data.msg || 'Setup failed. Please try again.');
-        setStep(9);
+        setStep(7);
         return;
       }
       setAccountName(data.account_name);
-      setTimeout(() => setStep(11), 600);
+      setTimeout(() => setStep(9), 600);
     } catch {
       clearInterval(iv);
       toast.error('Setup failed. Please contact support.');
-      setStep(9);
+      setStep(7);
     }
   };
 
@@ -213,19 +240,24 @@ export default function RegisterPage() {
     window.location.href = `https://${accountName}.webtrix24.com/`;
   }, [accountName]);
 
-  // Auto-redirect 5 seconds after reaching the congrats screen
+  // Auto-redirect 4.5 seconds after reaching the congrats screen
   useEffect(() => {
-    if (step === 11 && accountName) {
-      const timer = setTimeout(redirectToApp, 5000);
+    if (step === 9 && accountName) {
+      const timer = setTimeout(redirectToApp, 4500);
       return () => clearTimeout(timer);
     }
   }, [step, accountName, redirectToApp]);
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+    <div className="h-screen overflow-hidden grid grid-cols-1 md:grid-cols-2">
       <LeftPanel />
-      <div className="flex flex-col justify-center items-center p-8 bg-white overflow-y-auto">
-        <div className="w-full max-w-[460px]">
+      <div className="flex flex-col items-center p-8 bg-white overflow-y-auto h-full">
+        <div className="w-full max-w-[460px] my-auto py-4">
+
+          {/* ── Mobile logo (hidden on desktop where LeftPanel shows) ── */}
+          <div className="md:hidden flex justify-center mb-6">
+            <Webtrix24LogoAnimated className="w-[160px]" color="#1A73E8" twentyFourColor="#FF5722" />
+          </div>
 
           {/* ── STEP 1: Personal details ─────────────────── */}
           {step === 1 && (
@@ -393,23 +425,93 @@ export default function RegisterPage() {
                 />
               </div>
               <div className="mb-5">
-                <label className="block text-sm font-medium text-slate-800 mb-2">GST Number <span className="text-slate-500 font-normal">(optional)</span></label>
-                <input
-                  className="w-full px-4 py-2.5 border-[1.5px] border-slate-200 rounded-lg text-base leading-normal text-slate-800 bg-white outline-none transition-[border-color,box-shadow] duration-200 focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10" type="text" placeholder="22AAAAA0000A1Z5"
-                  value={gst} onChange={(e) => setGst(e.target.value)}
-                />
-              </div>
-              <div className="mb-5">
                 <label className="block text-sm font-medium text-slate-800 mb-2">Company Website <span className="text-slate-500 font-normal">(optional)</span></label>
                 <input
                   className="w-full px-4 py-2.5 border-[1.5px] border-slate-200 rounded-lg text-base leading-normal text-slate-800 bg-white outline-none transition-[border-color,box-shadow] duration-200 focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10" type="url" placeholder="https://yourcompany.com"
                   value={website} onChange={(e) => setWebsite(e.target.value)}
                 />
               </div>
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-slate-800 mb-2">Country</label>
+                <select
+                  className="w-full px-4 py-2.5 border-[1.5px] border-slate-200 rounded-lg text-base leading-normal text-slate-800 bg-white outline-none transition-[border-color] duration-200 focus:border-blue-500"
+                  value={countryId}
+                  onChange={(e) => { setCountryId(e.target.value); setStateList([]); setGstState(''); setIsGstBilling('N'); setGst(''); }}
+                >
+                  <option value="">Select Country</option>
+                  {countryList.map((c) => (
+                    <option key={c.country_id} value={c.country_id}>{c.country_name}</option>
+                  ))}
+                </select>
+              </div>
+              {(() => {
+                const isIndia = countryList.find((c) => c.country_id === countryId)?.country_name?.toLowerCase() === 'india';
+                return (
+                  <>
+                    {countryId && (
+                      <div className="mb-5">
+                        <label className="block text-sm font-medium text-slate-800 mb-2">
+                          State
+                          {isIndia && <span className="text-slate-500 font-normal"> (GST State)</span>}
+                          {isIndia && <span className="text-red-500 ml-0.5">*</span>}
+                        </label>
+                        <select
+                          className="w-full px-4 py-2.5 border-[1.5px] border-slate-200 rounded-lg text-base leading-normal text-slate-800 bg-white outline-none transition-[border-color] duration-200 focus:border-blue-500"
+                          value={gstState}
+                          onChange={(e) => setGstState(e.target.value)}
+                        >
+                          <option value="">Select State</option>
+                          {stateList.map((s) => (
+                            <option
+                              key={s.state_id ?? s.gst_state_code}
+                              value={isIndia ? s.gst_state_code : s.state_id}
+                            >
+                              {s.state_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    {isIndia && (
+                      <>
+                        <div className="mb-5">
+                          <label className="block text-sm font-medium text-slate-800 mb-3">GST Billing <span className="text-slate-500 font-normal">(Is your business GST registered?)</span></label>
+                          <div className="flex gap-6">
+                            {[{ label: 'Yes', value: 'Y' }, { label: 'No', value: 'N' }].map((opt) => (
+                              <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                  type="radio"
+                                  name="is_gst_billing"
+                                  value={opt.value}
+                                  checked={isGstBilling === opt.value}
+                                  onChange={() => setIsGstBilling(opt.value)}
+                                  className="w-4 h-4 accent-blue-600"
+                                />
+                                <span className="text-sm text-slate-700 font-medium">{opt.label}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                        {isGstBilling === 'Y' && (
+                          <div className="mb-5">
+                            <label className="block text-sm font-medium text-slate-800 mb-2">GST Number <span className="text-slate-500 font-normal">(optional)</span></label>
+                            <input
+                              className="w-full px-4 py-2.5 border-[1.5px] border-slate-200 rounded-lg text-base leading-normal text-slate-800 bg-white outline-none transition-[border-color,box-shadow] duration-200 focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10" type="text" placeholder="22AAAAA0000A1Z5"
+                              value={gst} onChange={(e) => setGst(e.target.value)}
+                            />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                );
+              })()}
               <div className="flex gap-3 mt-6">
                 <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-transparent text-slate-500 border-[1.5px] border-slate-200 cursor-pointer transition-all duration-200 hover:bg-slate-50" onClick={prev}>← Back</button>
                 <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700" onClick={() => {
                   if (!companyName.trim()) { toast.error('Company name is required'); return; }
+                  const isIndia = countryList.find((c) => c.country_id === countryId)?.country_name?.toLowerCase() === 'india';
+                  if (isIndia && !gstState) { toast.error('Please select your state'); return; }
                   next();
                 }}>
                   Next →
@@ -454,50 +556,14 @@ export default function RegisterPage() {
             </>
           )}
 
-          {/* ── STEP 7: Business type ────────────────────── */}
+          {/* ── STEP 7: Logo upload ──────────────────────── */}
           {step === 7 && (
-            <>
-              <div className="mb-8">
-                <h1 className="text-[1.75rem] font-bold text-slate-800 mb-1.5">Your Industry</h1>
-                <p className="text-slate-500 text-[0.95rem]">Which sector does your business operate in?</p>
-              </div>
-              <StepBar step={7} total={TOTAL_STEPS} />
-              <div className="mb-5">
-                <ChipSelector options={BUSINESS_TYPES} value={businessType} onChange={setBusinessType} single />
-              </div>
-              <div className="flex gap-3 mt-6">
-                <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-transparent text-slate-500 border-[1.5px] border-slate-200 cursor-pointer transition-all duration-200 hover:bg-slate-50" onClick={prev}>← Back</button>
-                <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700" onClick={next}>Next →</button>
-              </div>
-            </>
-          )}
-
-          {/* ── STEP 8: Demo data ────────────────────────── */}
-          {step === 8 && (
-            <>
-              <div className="mb-8">
-                <h1 className="text-[1.75rem] font-bold text-slate-800 mb-1.5">Demo Data</h1>
-                <p className="text-slate-500 text-[0.95rem]">Would you like us to pre-fill your account with sample data?</p>
-              </div>
-              <StepBar step={8} total={TOTAL_STEPS} />
-              <div className="mb-5">
-                <ChipSelector options={['Yes', 'No']} value={demoData} onChange={setDemoData} single />
-              </div>
-              <div className="flex gap-3 mt-6">
-                <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-transparent text-slate-500 border-[1.5px] border-slate-200 cursor-pointer transition-all duration-200 hover:bg-slate-50" onClick={prev}>← Back</button>
-                <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700" onClick={next}>Next →</button>
-              </div>
-            </>
-          )}
-
-          {/* ── STEP 9: Logo upload ──────────────────────── */}
-          {step === 9 && (
             <>
               <div className="mb-8">
                 <h1 className="text-[1.75rem] font-bold text-slate-800 mb-1.5">Company Logo</h1>
                 <p className="text-slate-500 text-[0.95rem]">Upload a PNG/JPG (200×140 px recommended)</p>
               </div>
-              <StepBar step={9} total={TOTAL_STEPS} />
+              <StepBar step={7} total={TOTAL_STEPS} />
               <label className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center cursor-pointer transition-all duration-200 block hover:border-blue-600 hover:bg-blue-50">
                 <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
                 {logoPreview ? (
@@ -516,6 +582,14 @@ export default function RegisterPage() {
                   <li>Dimensions: 200×140 px recommended.</li>
                 </ul>
               </div>
+              {/* 🧪 TEMP: test fireworks */}
+              {/* <button
+                type="button"
+                className="w-full mt-4 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-amber-100 text-amber-700 border border-amber-300 cursor-pointer hover:bg-amber-200"
+                onClick={() => setStep(9)}
+              >
+                🎆 Preview Fireworks (temp)
+              </button> */}
               <div className="flex gap-3 mt-6">
                 <button type="button" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-transparent text-slate-500 border-[1.5px] border-slate-200 cursor-pointer transition-all duration-200 hover:bg-slate-50" onClick={prev}>← Back</button>
                 <button
@@ -530,8 +604,8 @@ export default function RegisterPage() {
             </>
           )}
 
-          {/* ── STEP 10: Setup in progress ───────────────── */}
-          {step === 10 && (
+          {/* ── STEP 8: Setup in progress ───────────────── */}
+          {step === 8 && (
             <div className="text-center py-8">
               <div className="text-5xl mb-4">⚙️</div>
               <h2 className="text-[1.5rem] font-bold text-slate-800 mb-2">Setting Up Your Workspace</h2>
@@ -545,26 +619,29 @@ export default function RegisterPage() {
             </div>
           )}
 
-          {/* ── STEP 11: Congratulations ─────────────────── */}
-          {step === 11 && (
-            <div className="text-center py-8">
-              <div className="text-6xl mb-4">🎉</div>
-              <h2 className="text-[1.5rem] font-bold text-slate-800 mb-2">Congratulations!</h2>
-              <p className="text-slate-500 mb-6">Your Webtrix24 workspace is ready. Welcome aboard!</p>
-              {accountName && (
-                <p className="text-slate-500 mb-6">
-                  Your subdomain:{' '}
-                  <strong>{accountName}.webtrix24.com</strong>
-                </p>
-              )}
-              <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700" onClick={redirectToApp}>
-                Go to My Dashboard →
-              </button>
-              <div className="text-[0.85rem] text-slate-500 mt-4 flex items-center justify-center gap-1.5">
-                <span className="inline-block w-[18px] h-[18px] border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin" />
-                Redirecting automatically in 5 seconds…
+          {/* ── STEP 9: Congratulations ─────────────────── */}
+          {step === 9 && (
+            <>
+              <FireworksCanvas />
+              <div className="text-center py-8">
+                <div className="text-6xl mb-4">🎉</div>
+                <h2 className="text-[1.5rem] font-bold text-slate-800 mb-2">Congratulations!</h2>
+                <p className="text-slate-500 mb-6">Your Webtrix24 workspace is ready. Welcome aboard!</p>
+                {accountName && (
+                  <p className="text-slate-500 mb-6">
+                    Your subdomain:{' '}
+                    <strong>{accountName}.webtrix24.com</strong>
+                  </p>
+                )}
+                <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700" onClick={redirectToApp}>
+                  Go to My Dashboard →
+                </button>
+                <div className="text-[0.85rem] text-slate-500 mt-4 flex items-center justify-center gap-1.5">
+                  <span className="inline-block w-[18px] h-[18px] border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin" />
+                  Redirecting automatically in a few seconds…
+                </div>
               </div>
-            </div>
+            </>
           )}
 
         </div>

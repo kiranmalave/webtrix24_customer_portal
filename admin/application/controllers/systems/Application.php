@@ -201,7 +201,7 @@ class Application extends CI_Controller
 
 	public function getCountryList()
 	{
-		$this->access->checkTokenKey();
+		//$this->access->checkTokenKey();
 		$this->response->decodeRequest();
 		$isAll = $this->input->post('getAll');
 		$textSearch = $this->input->post('textSearch');
@@ -247,7 +247,7 @@ class Application extends CI_Controller
 
 	public function getStateList()
 	{
-		$this->access->checkTokenKey();
+		//$this->access->checkTokenKey();
 		$this->response->decodeRequest();
 		$isAll = $this->input->post('getAll');
 		$countryId = $this->input->post('country');

@@ -32,7 +32,7 @@ export const BUSINESS_TYPES = [
 
 export const CRM_TYPES = [
   {
-    value: 'crm',
+    value: 'generic',
     icon: '🏢',
     label: 'Generic CRM',
     desc: 'All-in-one sales & support',
@@ -40,13 +40,13 @@ export const CRM_TYPES = [
   {
     value: 'rental',
     icon: '🔑',
-    label: 'Rental CRM',
-    desc: 'Property & asset rentals',
+    label: 'Computer Rental CRM',
+    desc: 'Computer H/W & asset rentals',
   },
   {
     value: 'insurance',
     icon: '🛡️',
-    label: 'Insurance CRM',
+    label: 'Insurance Agent CRM',
     desc: 'Policies & claims management',
   },
 ];

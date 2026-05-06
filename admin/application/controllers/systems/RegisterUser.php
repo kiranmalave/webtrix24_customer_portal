@@ -262,7 +262,7 @@ class RegisterUser extends CI_Controller
 						<p>".$customerDetails[0]->name." user reigster on the website.</p>
 						<p>Email for user ".$to."</p><p>Phone Number for user ".$customerDetails[0]->mobile_no."</p>";
 
-							$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24",'kiran.malave@webtrixsolutions.com', $cc = 'aarti.jawalkar@webtrixsolutions.com', $bcc = '',"New user Register on webtrix24",$emailBodynotify);
+							$this->emails->sendMailDetails("test@webtrix24.com", "Webtrix24",'kiran.malave@webtrixsolutions.com', $cc = 'kiran.malave@gmail.com', $bcc = '',"New user Register on webtrix24",$emailBodynotify);
 						}
 				$status['customer_id'] = $this->encodeNumber("ws_".$customer_id[1],$this->en_key);//$customer_id[1];
 				$status['msg'] = $this->systemmsg->getSucessCode(400);
@@ -313,25 +313,49 @@ class RegisterUser extends CI_Controller
 		$customerDetails = array();
 		$updateDate = date("Y/m/d H:i:s");
 		$otherDetails = array();
-		$otherDetails['company_name'] = $this->validatedata->validate('comapnyName', 'Company Name', true, '', array());
-		$otherDetails['gst_no'] = $this->validatedata->validate('gst', 'Mobile OTP', false, '', array());
-		$otherDetails['website'] = $this->validatedata->validate('website', 'Website', false, '', array());
-		$otherDetails['company_size']= $this->validatedata->validate('company_size', 'Company Size', false, '', array());
-		$otherDetails['lead_source'] = $this->validatedata->validate('source', 'Source', false, '', array());
-		$otherDetails['business_type'] = $this->validatedata->validate('business_type', 'Business Type', false, '', array());
-
+		$otherDetails['company_name']   = $this->validatedata->validate('comapnyName', 'Company Name', true, '', array());
+		$otherDetails['gst_no']         = $this->validatedata->validate('gst', 'GST Number', false, '', array());
+		$otherDetails['website']        = $this->validatedata->validate('website', 'Website', false, '', array());
+		$otherDetails['is_gst_billing'] = $this->validatedata->validate('is_gst_billing', 'GST Billing', false, '', array());
+		$otherDetails['country_id']     = $this->validatedata->validate('country_id', 'Country', false, '', array());
+		$otherDetails['gst_state']      = $this->validatedata->validate('state', 'State', false, '', array());
+		$otherDetails['company_size']   = $this->validatedata->validate('company_size', 'Company Size', false, '', array());
+		$otherDetails['lead_source']    = $this->validatedata->validate('source', 'Source', false, '', array());
+		$crm_type = $this->validatedata->validate('crm_type', 'CRM Type', true, '', array());
 		$otherDetails['customer_image'] = $this->validatedata->validate('companyLogo', 'Logo', false, '', array());
 		$user_id = $this->validatedata->validate('vcode', 'User', true, '', array());
+
+		// CRM type determines subdomain suffix and setup template database
+		
+		$allowed_types = array('general', 'rental', 'insurance');
+		if (!in_array($crm_type, $allowed_types, true)) { $crm_type = 'general'; }
 		$this->db->trans_start();
 		$userID = $this->decodeNumber($user_id,$this->en_key);
 		$customer_id =  explode("_",$userID);
 		$where = array("customer_id" => $customer_id[1]);
 		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
 		if(isset($customerDetails) && !empty($customerDetails)){
-			// 1. create subdoamin
-			$subdoamin = $this->create_subdomain($otherDetails['company_name']);
+			// 1. create subdomain — suffix depends on CRM type
+			$cleanedCompany = $this->create_subdomain($otherDetails['company_name']);
+
+			if ($crm_type === 'insurance') {
+				$subdoamin = $cleanedCompany;// . '.ins';
+			} else {
+				$subdoamin = $cleanedCompany;
+			}
+
 			$otherDetails['sub_domain_name'] = $subdoamin;
-			$otherDetails['database_name'] = "webtrix24_customers_".$subdoamin;
+			$otherDetails['crm_type']        = $crm_type;
+			$otherDetails['database_name']   = "webtrix24_customers_" . $cleanedCompany;
+
+			// Select the correct template database based on CRM type
+			if ($crm_type === 'insurance') {
+				$template_db = "webtrix24_setup_insurance";
+			} elseif ($crm_type === 'rental') {
+				$template_db = "webtrix24_setup_rental";
+			} else {
+				$template_db = "webtrix24_setup"; // generic CRM uses same base setup
+			}
 			// create database table here
 			$iscreatedDB = $this->datatables->createDatabase($otherDetails['database_name']);
 			if(!$iscreatedDB){
@@ -356,8 +380,8 @@ class RegisterUser extends CI_Controller
 					$status['flag'] = 'F';
 					$this->response->output($status, 200);
 				}
-				// do database tables setup
-				$setupDB = $this->datatables->copy_database("webtrix24_setup_rental",$otherDetails,$customerDetails);
+				// do database tables setup from the correct template
+				$setupDB = $this->datatables->copy_database($template_db,$otherDetails,$customerDetails);
 				
 				if(!$setupDB){
 					$this->db->trans_rollback();
@@ -370,7 +394,19 @@ class RegisterUser extends CI_Controller
 			}
 			$otherDetails['database_name'] = str_replace('webtrix24_customers_','',$otherDetails['database_name']);
 			$otherDetails['account_setup'] = "y";
+
+			// 3. Create cPanel subdomain record
+			$cpRootDomain = 'webtrix24.com';
+			if ($crm_type === 'insurance') {
+				$cpDirectory = $this->config->item('cpanel_insurance_dir');
+			} elseif ($crm_type === 'rental') {
+				$cpDirectory = $this->config->item('cpanel_clients_dir');
+			} else {
+				$cpDirectory = $this->config->item('cpanel_general_dir');
+			}
+			$this->create_cpanel_subdomain($cleanedCompany, $cpRootDomain, $cpDirectory);
 			
+
 			$iscreated = $this->CommonModel->updateMasterDetails('customer', $otherDetails, $where);
 			if($iscreated){
 				// Now setup it's database and Cname record so user can access the subdoamins
@@ -481,6 +517,59 @@ class RegisterUser extends CI_Controller
 			return false;
         }
     }
+	/**
+	 * Create a subdomain in cPanel via UAPI.
+	 * @param  string $subdomain   The subdomain label (e.g. "acme")
+	 * @param  string $rootdomain  Root domain (e.g. "webtrix24.com" or "ins.webtrix24.com")
+	 * @param  string $directory   Server path for the subdomain document root
+	 * @return bool  true on success, false on cURL or API error
+	 */
+	private function create_cpanel_subdomain($subdomain, $rootdomain, $directory) {
+		$cpanelUser = $this->config->item('cpanel_user');
+		$apiToken   = $this->config->item('cpanel_api_token');
+		$serverHost = rtrim($this->config->item('cpanel_host'), '/');
+
+		$url = $serverHost . '/execute/SubDomain/addsubdomain';
+
+		$postData = array(
+			'domain'     => $subdomain,
+			'rootdomain' => $rootdomain,
+			'dir'        => $directory,
+		);
+
+		$headers = array(
+			"Authorization: cpanel {$cpanelUser}:{$apiToken}",
+		);
+
+		$ch = curl_init();
+		curl_setopt_array($ch, array(
+			CURLOPT_URL            => $url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_POST           => true,
+			CURLOPT_POSTFIELDS     => http_build_query($postData),
+			CURLOPT_HTTPHEADER     => $headers,
+			CURLOPT_SSL_VERIFYPEER => false,
+			CURLOPT_SSL_VERIFYHOST => false,
+		));
+
+		$response  = curl_exec($ch);
+		$curlError = curl_error($ch);
+		curl_close($ch);
+
+		if ($curlError) {
+			log_message('error', 'cPanel subdomain creation failed for ' . $subdomain . '.' . $rootdomain . ': ' . $curlError);
+			return false;
+		}
+
+		$result = json_decode($response, true);
+		if (!isset($result['status']) || $result['status'] != 1) {
+			log_message('error', 'cPanel subdomain API error for ' . $subdomain . '.' . $rootdomain . ': ' . $response);
+			return false;
+		}
+
+		return true;
+	}
+
 	public function create_subdomain($company_name) {
         // Step 1: Clean the company name to remove unwanted characters
         $cleaned_name = $this->sanitize_company_name($company_name);

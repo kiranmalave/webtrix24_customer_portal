@@ -41,6 +41,55 @@ $config['images_url'] = $_SERVER['DOCUMENT_ROOT'] . 'LMS/images/';
 $config['client_upload'] = '/home/webtrix24/public_html/clients/uploads/';
 //$config['client_upload'] = $_SERVER['DOCUMENT_ROOT'] ."/webtrix24_customer_portal/uploads/";
 
+// cPanel API settings — used to create tenant subdomains on registration
+$config['cpanel_user']          = 'your_cpanel_username';
+$config['cpanel_api_token']     = 'your_cpanel_api_token';
+$config['cpanel_host']          = 'https://yourdomain.com:2083';
+$config['cpanel_clients_dir']   = '/home/webtrix24/public_html/clients';      // CRM & Rental clients
+$config['cpanel_insurance_dir'] = '/home/webtrix24/public_html/insurance_clients'; // Insurance clients
+$config['cpanel_general_dir']   = '/home/webtrix24/public_html/general_clients'; // General clients
+
+/*
+|--------------------------------------------------------------------------
+| Campaign Cron Dispatcher Settings
+|--------------------------------------------------------------------------
+|
+| tenant_base_domain      — Production base domain for tenant API URLs.
+|                           Tenant URL = https://{sub_domain_name}.{tenant_base_domain}/API
+|
+| tenant_test_domain      — Test/staging base domain (e.g. coachgenie.in).
+|                           Used for any tenant whose sub_domain_name appears in
+|                           tenant_test_subdomains.
+|
+| tenant_test_subdomains  — Array of sub_domain_name values that are hosted on
+|                           the test server (tenant_test_domain). All others
+|                           fall back to tenant_base_domain.
+|
+| cron_secret             — Shared secret sent as the X-Cron-Secret header with
+|                           every cron API call. Set the SAME value in the tenant
+|                           BE's config/config.php under $config['cron_secret'].
+|
+| cron_batch_size         — How many tenants to call in parallel per curl_multi batch.
+|                           50–100 is safe on most servers.
+|
+| cron_timeout_sec        — Per-tenant HTTP timeout in seconds. The BE cron endpoints
+|                           internally cap at 90 s, so 120 s here gives a safe margin.
+|
+| cron_dev_mode           — When TRUE, the dispatcher ONLY fires for subdomains listed
+|                           in tenant_test_subdomains (on tenant_test_domain). All live
+|                           production tenants are skipped entirely. Set to FALSE when
+|                           the system goes live and you want to process all tenants.
+*/
+$config['tenant_base_domain']     = 'webtrix24.com';   // ← production root domain
+$config['tenant_test_domain']     = 'coachgenie.in';   // ← test/staging root domain
+$config['tenant_test_subdomains'] = [                  // ← subdomains hosted on test server
+    // 'demo', 'test123',
+];
+$config['cron_dev_mode']      = true;                  // ← set FALSE when going live
+$config['cron_secret']        = '';                    // ← set a strong random string
+$config['cron_batch_size']    = 50;
+$config['cron_timeout_sec']   = 120;
+
 //Google Settings
 $config['CLIENT_ID'] = '';
 // / Google App Client Secret /
