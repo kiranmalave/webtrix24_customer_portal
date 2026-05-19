@@ -336,6 +336,7 @@ class CampaignCron extends CI_Controller
      * Accepted forms:
      *   - X-Cron-Secret header
      *   - ?cron_secret= query param
+     *   - CLI 4th URI segment: php index.php systems/CampaignCron dispatchMessages <secret>
      *
      * If $config['cron_secret'] is empty, all callers are allowed (dev mode).
      */
@@ -351,7 +352,15 @@ class CampaignCron extends CI_Controller
             : '';
         $fromQuery  = (string)($this->input->get('cron_secret', true) ?? '');
 
+        // CLI invocation: php index.php systems/CampaignCron dispatchMessages <secret>
+        // CI3 joins argv[1..n] as URI segments: systems/CampaignCron/dispatchMessages/<secret>
+        $fromCli = '';
+        if ($this->input->is_cli_request()) {
+            $fromCli = (string)($this->uri->segment(4) ?? '');
+        }
+
         return hash_equals($expected, $fromHeader)
-            || hash_equals($expected, $fromQuery);
+            || hash_equals($expected, $fromQuery)
+            || ($fromCli !== '' && hash_equals($expected, $fromCli));
     }
 }

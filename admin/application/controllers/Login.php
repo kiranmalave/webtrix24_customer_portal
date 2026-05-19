@@ -48,7 +48,7 @@ class Login extends CI_Controller {
 			if (empty($accountRow)) {
 				$this->outputErrorResponse(324);
 			}
-			$domainURL = 'https://' . $accountRow[0]->sub_domain_name . '.webtrix24.com/API/';
+			$domainURL = 'https://' . $accountRow[0]->sub_domain_name . '.webtrix24.com/';
 		}
 
 		// EMPTY USERNAME || PASSWORD
@@ -197,7 +197,7 @@ class Login extends CI_Controller {
         	}else{
 				$status['msg'] = "sucess";
 				$status['statusCode'] = 200;
-				$status['data'] = array("domainURL"=>"https://".$details[0]->sub_domain_name.".webtrix24.com/API/");
+				$status['data'] = array("domainURL"=>"https://".$details[0]->sub_domain_name.".webtrix24.com/");
 				$status['flag'] = 'S';
 				$this->response->output($status,200);
 			}

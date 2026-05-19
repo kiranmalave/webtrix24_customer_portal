@@ -298,3 +298,17 @@ $route['cron/campaigns/dispatch/campaigns'] = 'systems/CampaignCron/dispatchCamp
 $route['cron/campaigns/dispatch/messages']  = 'systems/CampaignCron/dispatchMessages';
 $route['cron/campaigns/dispatch']           = 'systems/CampaignCron/dispatch'; // legacy
 
+############### Insurance Renewal Reminder Cron Dispatcher ###############
+#
+# Two focused cron jobs (recommended):
+#
+#   Once daily (06:00 AM) — scan policies and queue reminder records:
+#   0 6 * * * curl -s "https://my.webtrix24.com/API/cron/insurance/dispatch/reminders?cron_secret=YOUR_SECRET" > /dev/null 2>&1
+#
+#   Every 10 min — send queued WA / Email reminders:
+#   */10 * * * * curl -s "https://my.webtrix24.com/API/cron/insurance/dispatch/messages?cron_secret=YOUR_SECRET" > /dev/null 2>&1
+#
+$route['cron/insurance/dispatch/reminders'] = 'systems/InsuranceCron/dispatchReminders';
+$route['cron/insurance/dispatch/messages']  = 'systems/InsuranceCron/dispatchMessages';
+$route['cron/insurance/dispatch']           = 'systems/InsuranceCron/dispatch'; // legacy
+
