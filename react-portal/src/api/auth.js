@@ -16,7 +16,7 @@ export const registerUser = (data) =>
 
 // ── Email + Mobile OTP verification + password ─────────────
 export const verifyDetails = (data) =>
-  api.post('verifydDetails', new URLSearchParams(data));
+  api.post('verifyDetails', new URLSearchParams(data));
 
 // ── Company setup (multi-step form 1-6) ────────────────────
 export const companySetup = (data) =>

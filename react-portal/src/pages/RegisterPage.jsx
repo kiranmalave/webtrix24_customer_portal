@@ -54,6 +54,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [setupPct, setSetupPct] = useState(0);
   const [accountName, setAccountName] = useState('');
+  const [isDashboardButtonEnabled, setIsDashboardButtonEnabled] = useState(false);
 
   // step 1
   const [name, setName] = useState('');
@@ -241,10 +242,16 @@ export default function RegisterPage() {
   }, [accountName]);
 
   // Auto-redirect 4.5 seconds after reaching the congrats screen
+  // Enable button after 3 seconds to allow manual click if needed
   useEffect(() => {
     if (step === 9 && accountName) {
-      const timer = setTimeout(redirectToApp, 4500);
-      return () => clearTimeout(timer);
+      setIsDashboardButtonEnabled(false);
+      const enableTimer = setTimeout(() => setIsDashboardButtonEnabled(true), 3000);
+      const redirectTimer = setTimeout(redirectToApp, 4500);
+      return () => {
+        clearTimeout(enableTimer);
+        clearTimeout(redirectTimer);
+      };
     }
   }, [step, accountName, redirectToApp]);
 
@@ -273,7 +280,7 @@ export default function RegisterPage() {
                   <input
                     className={`w-full px-4 py-2.5 border-[1.5px] rounded-lg text-base leading-normal text-slate-800 bg-white outline-none transition-[border-color,box-shadow] duration-200 focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/10 ${errors1.name ? 'border-red-500' : 'border-slate-200'}`}
                     type="text" placeholder="John Doe"
-                    value={name} onChange={(e) => setName(e.target.value)}
+                    value={name} onChange={(e) => setName(e.target.value.replace(/\b\w/g, char => char.toUpperCase()))}
                   />
                   {errors1.name && <div className="text-[0.8rem] text-red-500 mt-1.5 flex items-center gap-1">⚠ {errors1.name}</div>}
                 </div>
@@ -633,7 +640,7 @@ export default function RegisterPage() {
                     <strong>{accountName}.webtrix24.com</strong>
                   </p>
                 )}
-                <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700" onClick={redirectToApp}>
+                <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-blue-600 text-white cursor-pointer border-none transition-all duration-200 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={redirectToApp} disabled={!isDashboardButtonEnabled}>
                   Go to My Dashboard →
                 </button>
                 <div className="text-[0.85rem] text-slate-500 mt-4 flex items-center justify-center gap-1.5">
