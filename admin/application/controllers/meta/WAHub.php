@@ -478,17 +478,32 @@ class WAHub extends CI_Controller
      * URL: GET https://my.webtrix24.com/API/fb-connect
      *        ?return_origin=https://tenant.webtrix24.com
      *        &company_id=42
+     *        &mode=coexistence   (optional; 'coexistence' | 'standard'; default: 'coexistence')
      *
-     * The popup remains on the central domain and runs the latest Meta
-     * Embedded Signup flow through the JS SDK.
+     * Use mode=coexistence (default) for businesses whose phone number is already
+     * registered in the WhatsApp Business App — prevents error #3441061.
+     * Use mode=standard only for net-new numbers that have never been on the WA app.
      */
     public function fbConnect()
     {
         $returnOrigin = trim((string) $this->input->get('return_origin'));
         $companyId    = (int) $this->input->get('company_id');
+        $mode         = trim((string) $this->input->get('mode'));
+        if (!in_array($mode, ['standard', 'coexistence'], true)) {
+            $mode = 'coexistence'; // safe default — works for both new and existing WA app numbers
+        }
 
-        $appId    = $this->config->item('FB_APP_ID') ?: getenv('FB_APP_ID');
-        $configId = $this->config->item('FB_EMBEDDED_SIGNUP_CONFIG_ID') ?: getenv('FB_EMBEDDED_SIGNUP_CONFIG_ID');
+        $appId = $this->config->item('FB_APP_ID') ?: getenv('FB_APP_ID');
+
+        if ($mode === 'coexistence') {
+            $configId = $this->config->item('FB_COEXISTENCE_CONFIG_ID') ?: getenv('FB_COEXISTENCE_CONFIG_ID');
+            if (empty($configId)) {
+                // Fall back to the standard config ID when no separate coexistence ID is set
+                $configId = $this->config->item('FB_EMBEDDED_SIGNUP_CONFIG_ID') ?: getenv('FB_EMBEDDED_SIGNUP_CONFIG_ID');
+            }
+        } else {
+            $configId = $this->config->item('FB_EMBEDDED_SIGNUP_CONFIG_ID') ?: getenv('FB_EMBEDDED_SIGNUP_CONFIG_ID');
+        }
 
         if (empty($returnOrigin) || empty($companyId)) {
             show_error('Missing return origin or company ID.', 400);
@@ -502,16 +517,26 @@ class WAHub extends CI_Controller
         }
 
         if (empty($configId)) {
-            log_message('error', 'fbConnect: FB_EMBEDDED_SIGNUP_CONFIG_ID is not configured.');
+            log_message('error', 'fbConnect: config ID is not configured (mode=' . $mode . ').');
             show_error('WhatsApp Embedded Signup is not configured on this server.', 500);
             return;
         }
+
+        // feature_type maps directly to the FB.login extras.featureType:
+        //   whatsapp_business_app_onboarding → shows existing WA Business App WABAs in the dropdown
+        //   coexistence                      → requires Meta Solution Partner approval (not yet available)
+        // Both modes use whatsapp_business_app_onboarding until Meta grants Coexistence access.
+        $featureType = 'whatsapp_business_app_onboarding';
+
+        log_message('info', "fbConnect: mode={$mode} featureType={$featureType} companyId={$companyId}");
 
         $this->load->view('meta/fb_connect', [
             'return_origin' => htmlspecialchars($returnOrigin, ENT_QUOTES, 'UTF-8'),
             'company_id'    => $companyId,
             'app_id'        => htmlspecialchars($appId, ENT_QUOTES, 'UTF-8'),
             'config_id'     => htmlspecialchars((string) $configId, ENT_QUOTES, 'UTF-8'),
+            'feature_type'  => htmlspecialchars($featureType, ENT_QUOTES, 'UTF-8'),
+            'mode'          => $mode,
             'process_url'   => site_url('fb-process'),
         ]);
     }
@@ -541,6 +566,7 @@ class WAHub extends CI_Controller
         $returnOrigin = $input['return_origin'] ?? null;
         $companyId    = (int) ($input['company_id'] ?? 0);
         $signupEvent  = isset($input['signup_event']) && is_array($input['signup_event']) ? $input['signup_event'] : [];
+        $mode         = ($input['mode'] ?? '') === 'coexistence' ? 'coexistence' : 'standard';
 
         if ((empty($accessToken) && empty($authCode)) || empty($returnOrigin) || empty($companyId)) {
             echo json_encode(['flag' => 'F', 'msg' => 'Missing required fields.']);
@@ -608,6 +634,7 @@ class WAHub extends CI_Controller
             'access_token'     => $accessToken,
             'integration_type' => 'whatsapp',
             'embedded_signup'  => !empty($authCode) ? 'y' : 'n',
+            'coexistence'      => $mode === 'coexistence' ? 'y' : 'n',
             'waba_id'          => $signupEvent['waba_id'] ?? null,
             'business_id'      => $signupEvent['business_id'] ?? null,
             'phone_number_id'  => $signupEvent['phone_number_id'] ?? null,

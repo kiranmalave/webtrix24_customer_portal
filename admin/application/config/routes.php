@@ -298,6 +298,13 @@ $route['cron/campaigns/dispatch/campaigns'] = 'systems/CampaignCron/dispatchCamp
 $route['cron/campaigns/dispatch/messages']  = 'systems/CampaignCron/dispatchMessages';
 $route['cron/campaigns/dispatch']           = 'systems/CampaignCron/dispatch'; // legacy
 
+############### Task Repeat Cron Dispatcher ###############
+#
+#   Once daily (midnight or desired time):
+#   0 0 * * * curl -s "https://my.webtrix24.com/API/cron/tasks/dispatch/repeat?cron_secret=YOUR_SECRET" > /dev/null 2>&1
+#
+$route['cron/tasks/dispatch/repeat'] = 'systems/TaskCron/dispatchRepeat';
+
 ############### Insurance Renewal Reminder Cron Dispatcher ###############
 #
 # Two focused cron jobs (recommended):

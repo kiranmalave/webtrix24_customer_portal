@@ -103,7 +103,11 @@ $config['FB_APP_ID']     = '1990349685164693';
 // Facebook App Secret — used server-side ONLY to exchange OAuth code for token (never sent to browser)
 $config['FB_APP_SECRET'] = 'REPLACE_WITH_YOUR_APP_SECRET';
 // Meta Login for Business configuration ID for Embedded Signup (latest flow)
-$config['FB_EMBEDDED_SIGNUP_CONFIG_ID'] = 'REPLACE_WITH_META_CONFIG_ID';
+// config name: Webtrix24_EM | ES version: v4 | Session Info Version: 3
+$config['FB_EMBEDDED_SIGNUP_CONFIG_ID'] = '1586433905766247';
+// Coexistence Embedded Signup config ID — for businesses already using the WhatsApp Business App.
+// Same config_id works once Feature Type = Coexistence is set in Meta App Dashboard.
+$config['FB_COEXISTENCE_CONFIG_ID'] = '1586433905766247';
 // Must match EXACTLY the value added in Facebook App > Facebook Login > Settings > Valid OAuth Redirect URIs
 $config['FB_REDIRECT_URI'] = 'https://my.webtrix24.com/API/fb-callback';
 

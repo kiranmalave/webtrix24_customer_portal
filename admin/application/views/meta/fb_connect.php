@@ -66,6 +66,8 @@
     var COMPANY_ID    = <?php echo (int) $company_id; ?>;
     var FB_APP_ID     = '<?php echo $app_id; ?>';
     var FB_CONFIG_ID  = '<?php echo isset($config_id) ? $config_id : ''; ?>';
+    var FB_FEATURE_TYPE = '<?php echo isset($feature_type) ? $feature_type : 'coexistence'; ?>';
+    var FB_MODE       = '<?php echo isset($mode) ? $mode : 'coexistence'; ?>';
     var PROCESS_URL   = '<?php echo $process_url; ?>';
     var signupEventData = {};
 
@@ -155,7 +157,9 @@
         return;
       }
 
-      setStatus('Opening WhatsApp Embedded Signup…', false);
+      setStatus(FB_MODE === 'coexistence'
+        ? 'Opening WhatsApp Embedded Signup (Coexistence)…'
+        : 'Opening WhatsApp Embedded Signup…', false);
 
       var loginOptions = {
         config_id: FB_CONFIG_ID,
@@ -163,7 +167,7 @@
         override_default_response_type: true,
         extras: {
           setup: {},
-          featureType: 'whatsapp_business_app_onboarding',
+          featureType: FB_FEATURE_TYPE,
           sessionInfoVersion: '3'
         }
       };
@@ -186,7 +190,8 @@
           access_token: accessToken,
           return_origin: RETURN_ORIGIN,
           company_id: COMPANY_ID,
-          signup_event: signupEventData
+          signup_event: signupEventData,
+          mode: FB_MODE
         });
       }, loginOptions);
     }
