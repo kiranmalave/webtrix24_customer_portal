@@ -210,7 +210,7 @@ export default function RegisterPage() {
       formData.append('comapnyName', companyName);
       formData.append('gst', gst);
       formData.append('website', website);
-      formData.append('is_gst_billing', isGstBilling);
+      formData.append('is_tax_billing', isGstBilling);
       formData.append('country_id', countryId);
       formData.append('state', gstState);
       formData.append('company_size', companySize);
@@ -488,7 +488,7 @@ export default function RegisterPage() {
                               <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                                 <input
                                   type="radio"
-                                  name="is_gst_billing"
+                                  name="is_tax_billing"
                                   value={opt.value}
                                   checked={isGstBilling === opt.value}
                                   onChange={() => setIsGstBilling(opt.value)}
