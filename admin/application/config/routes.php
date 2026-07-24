@@ -317,5 +317,8 @@ $route['cron/tasks/dispatch/repeat'] = 'systems/TaskCron/dispatchRepeat';
 #
 $route['cron/insurance/dispatch/reminders'] = 'systems/InsuranceCron/dispatchReminders';
 $route['cron/insurance/dispatch/messages']  = 'systems/InsuranceCron/dispatchMessages';
+$route['cron/insurance/dispatch/digest']    = 'systems/InsuranceCron/dispatchDigest';
 $route['cron/insurance/dispatch']           = 'systems/InsuranceCron/dispatch'; // legacy
+// Insurance Admin Digest — WA dispatcher (called server-to-server from tenant AdminDigest)
+$route['insurance/digest/send-wa']          = 'insurance/InsuranceDigestWA/sendWA';
 

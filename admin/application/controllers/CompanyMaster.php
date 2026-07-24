@@ -185,7 +185,7 @@ class CompanyMaster extends CI_Controller
 			$infoDetails['lut_no'] = $this->validatedata->validate('lut_no','lut no',false,'',array());
 			$infoDetails['mcir_code'] = $this->validatedata->validate('mcir_code','mcir code',false,'',array());
 			$infoDetails['bank_details'] = $this->validatedata->validate('bank_details','bank details',false,'',array());
-			$infoDetails['is_gst_billing'] = $this->validatedata->validate('is_gst_billing','gst billing',false,'',array());
+			$infoDetails['is_tax_billing'] = $this->validatedata->validate('is_tax_billing','gst billing',false,'',array());
 			$infoDetails['is_display_payment'] = $this->validatedata->validate('is_display_payment','is Display Payment',false,'',array());
 			$infoDetails['country'] = $this->validatedata->validate('country','country',false,'',array());
 			$infoDetails['state'] = $this->validatedata->validate('state','state',false,'',array());

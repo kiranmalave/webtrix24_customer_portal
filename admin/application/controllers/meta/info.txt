@@ -1,7 +1,14 @@
 /*
-run this for to subscribe it from apu as well not from EAAbDfz8aOnsBQDupoz8Yk3aNCAWn7FeM87SuDcxomxkUAVy8FL1yc5ZAMbuVai2A0vEK7KmjUSTy9daaxpqm9Fe6uGdqMbmyIuWlUB51JH5thDDKLOmjzCg4U1vLbrtvLbsKWY98t4VZCuixMZCOPGdRoxiFtVDEAZCpyoRGrwM0ZCVAqSYcJ5oabmLdLBh9z
+run this for to subscribe it from apu as well not from EA... (token redacted — see note below)
 curl -X POST "https://graph.facebook.com/v17.0/WABA_ID/subscribed_apps" \
   -H "Authorization: Bearer META_ACCESS_TOKEN"
 curl -X POST "https://graph.facebook.com/v17.0/1820753391898530/subscribed_apps" \
-  -H "Authorization: Bearer EAAbDfz8aOnsBQDupoz8Yk3aNCAWn7FeM87SuDcxomxkUAVy8FL1yc5ZAMbuVai2A0vEK7KmjUSTy9daaxpqm9Fe6uGdqMbmyIuWlUB51JH5thDDKLOmjzCg4U1vLbrtvLbsKWY98t4VZCuixMZCOPGdRoxiFtVDEAZCpyoRGrwM0ZCVAqSYcJ5oabmLdLBh9z"
+  -H "Authorization: Bearer META_ACCESS_TOKEN"
   */
+
+/*
+SECURITY NOTE: this file previously contained a live-looking Meta access token in plaintext.
+It has been redacted here, but it is still present in git history. Treat that token as
+compromised: revoke/rotate it in the Meta App Dashboard (Business Settings > System Users, or
+the relevant Page/WABA token) regardless of whether it is still valid.
+*/

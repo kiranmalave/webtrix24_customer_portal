@@ -183,7 +183,6 @@ class WAHub extends CI_Controller
     public function receive()
     {
         log_message('info', 'WA Webhook Payload webhook called. ');
-        $rawPayload = file_get_contents('php://input');
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             return $this->verifyWebhook();
         }
@@ -244,7 +243,16 @@ class WAHub extends CI_Controller
     private function handleIncomingMessage()
     {
         $rawPayload = file_get_contents('php://input');
-        $payload    = json_decode($rawPayload, true);
+
+        $this->load->library('Meta_signature');
+        if (!$this->meta_signature->verifyRequest($rawPayload, 'FB_APP_SECRET')) {
+            log_message('error', 'WA Webhook: signature verification failed — rejecting.');
+            http_response_code(403);
+            echo 'Invalid signature';
+            return;
+        }
+
+        $payload = json_decode($rawPayload, true);
 
         http_response_code(200);
         log_message('info', 'WA Webhook Payload received: ' . $rawPayload);
@@ -592,7 +600,8 @@ class WAHub extends CI_Controller
                 return;
             }
 
-            $tokenUrl = 'https://graph.facebook.com/v21.0/oauth/access_token?' . http_build_query([
+            $graphVersion = $this->config->item('META_GRAPH_VERSION') ?: 'v23.0';
+            $tokenUrl = "https://graph.facebook.com/{$graphVersion}/oauth/access_token?" . http_build_query([
                 'client_id'     => $appId,
                 'client_secret' => $appSecret,
                 'code'          => $authCode,
@@ -737,7 +746,8 @@ class WAHub extends CI_Controller
         $redirectUri = $this->config->item('FB_REDIRECT_URI') ?: getenv('FB_REDIRECT_URI') ?: 'https://my.webtrix24.com/API/fb-callback';
         
         // --- Exchange code → access token (server-side, never in browser) ---
-        $tokenUrl = 'https://graph.facebook.com/v17.0/oauth/access_token?' . http_build_query([
+        $graphVersion = $this->config->item('META_GRAPH_VERSION') ?: 'v23.0';
+        $tokenUrl = "https://graph.facebook.com/{$graphVersion}/oauth/access_token?" . http_build_query([
             'client_id'     => $appId,
             'client_secret' => $appSecret,
             'redirect_uri'  => $redirectUri,

@@ -391,7 +391,7 @@ LIMIT 1");
             $dataCompany["fromEmail"] = "";
             $dataCompany["status"] = "active";
             $dataCompany["is_display_payment"] = "no";
-            $dataCompany["is_gst_billing"] = (!empty($otherDetails['is_gst_billing']) && strtoupper($otherDetails['is_gst_billing']) === 'Y') ? 'yes' : 'no';
+            $dataCompany["is_tax_billing"] = (!empty($otherDetails['is_tax_billing']) && strtoupper($otherDetails['is_tax_billing']) === 'Y') ? 'yes' : 'no';
             $dataCompany["country"]    = isset($otherDetails['country_id'])  ? $otherDetails['country_id']  : null;
             $dataCompany["state"]         = isset($otherDetails['gst_state'])   ? $otherDetails['gst_state']   : null;
             $dataCompany["created_by"] = "1";

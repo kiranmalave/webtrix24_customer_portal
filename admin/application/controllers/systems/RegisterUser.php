@@ -316,7 +316,7 @@ class RegisterUser extends CI_Controller
 		$otherDetails['company_name']   = $this->validatedata->validate('comapnyName', 'Company Name', true, '', array());
 		$otherDetails['gst_no']         = $this->validatedata->validate('gst', 'GST Number', false, '', array());
 		$otherDetails['website']        = $this->validatedata->validate('website', 'Website', false, '', array());
-		$otherDetails['is_gst_billing'] = $this->validatedata->validate('is_gst_billing', 'GST Billing', false, '', array());
+		$otherDetails['is_tax_billing'] = $this->validatedata->validate('is_tax_billing', 'GST Billing', false, '', array());
 		$otherDetails['country_id']     = $this->validatedata->validate('country_id', 'Country', false, '', array());
 		$otherDetails['gst_state']      = $this->validatedata->validate('state', 'State', false, '', array());
 		$otherDetails['company_size']   = $this->validatedata->validate('company_size', 'Company Size', false, '', array());

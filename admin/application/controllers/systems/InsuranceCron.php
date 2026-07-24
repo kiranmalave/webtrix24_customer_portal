@@ -33,6 +33,7 @@ class InsuranceCron extends CI_Controller
     private const WAVE_PATHS = [
         'reminders' => '/insurance/renewal-reminders/cron/run',
         'messages'  => '/insurance/renewal-reminders/cron/send-queued',
+        'digest'    => '/insurance/admin-digest/cron/run',
     ];
 
     public function __construct()
@@ -72,6 +73,21 @@ class InsuranceCron extends CI_Controller
     public function dispatchMessages()
     {
         $this->_run('messages');
+    }
+
+    /**
+     * GET|POST /cron/insurance/dispatch/digest   (weekly, recommended Monday morning)
+     *
+     * Dispatches the admin digest wave to all active insurance tenants.
+     * Each tenant checks its schedule and sends email + WA summaries to
+     * configured admin recipients.
+     *
+     * Cron tab entry (run daily so each tenant decides its own schedule):
+     *   0 9 * * 1 curl -s "https://my.webtrix24.com/API/cron/insurance/dispatch/digest?cron_secret=SECRET" > /dev/null 2>&1
+     */
+    public function dispatchDigest()
+    {
+        $this->_run('digest');
     }
 
     /**

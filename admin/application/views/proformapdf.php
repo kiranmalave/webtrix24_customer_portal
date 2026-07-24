@@ -313,7 +313,7 @@
 		<th style="width:10%;" class="rate text-right font-6">Rate</th>
 		<th style="width:10%;" class="rate text-right font-6">Discount</th>
 		<th style="width:10%;" class="rate text-right font-6">Total</th>
-      	<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { 
+      	<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { 
 			if($taxInvoiceData[0]->state_id != $taxInvoiceData[0]->customer_state_id) { ?>
 				<th style="width:10%;" class="tax text-right font-6">IGST</th> 
 			<?php }else{ ?>
@@ -377,7 +377,7 @@
 			?>
 		</td>
 		<!-- GST -->
-		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { 
+		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { 
 			if($taxInvoiceData[0]->state_id != $taxInvoiceData[0]->customer_state_id) { ?>
 				<td class="text-right border-right"><?php echo number_format($value->igst_amt,2, '.', ''); ?></td>
 			<?php }else{?>
@@ -408,7 +408,7 @@
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"newRate")),2, '.', ''); ?></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"disAmt")),2, '.', ''); ?></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"aggAmt")),2, '.', ''); ?></td>
-		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { 
+		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { 
 			if($taxInvoiceData[0]->state_id != $taxInvoiceData[0]->customer_state_id) { ?>
 				<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"igst_amt")),2, '.', ''); ?></td>
 			<?php }else{ ?>
@@ -471,7 +471,7 @@
 									<tr class="borderBottom" >
 										<td class="text-left"><strong><?php echo $value['title'].'' ;?></strong></td>
 										<td class="text-right"><?php
-											if ($taxInvoiceData[0]->is_gst_billing == 'yes') 
+											if ($taxInvoiceData[0]->is_tax_billing == 'yes') 
 												$tgst = $value['rate'] + ( $value['rate'] * ( $value['gst'] / 100) );
 											else
 												$tgst = $value['rate'];

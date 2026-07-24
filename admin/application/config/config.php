@@ -100,16 +100,40 @@ $config['CLIENT_REDIRECT_URL'] = 'http://localhost/LMS/API/responseToken';
 $config['FB_VERIFY_TOKEN'] = 'WEBTRIX_LEAF_GEN_24';
 // Facebook App ID — used by the central OAuth popup page (fb-connect)
 $config['FB_APP_ID']     = '1990349685164693';
-// Facebook App Secret — used server-side ONLY to exchange OAuth code for token (never sent to browser)
+// Facebook App Secret — used server-side ONLY to exchange OAuth code for token (never sent to browser).
+// Also doubles as the HMAC key for X-Hub-Signature-256 webhook signature verification (Meta_signature) —
+// MUST be filled in with the real app secret for both OAuth exchange and webhook verification to work.
 $config['FB_APP_SECRET'] = 'REPLACE_WITH_YOUR_APP_SECRET';
-// Meta Login for Business configuration ID for Embedded Signup (latest flow)
+// Graph API version — pin here; every Graph URL built by this hub must read this constant
+// instead of hardcoding a version, so bumping versions is a one-line change.
+$config['META_GRAPH_VERSION'] = 'v23.0';
+// Meta Login for Business configuration ID for Embedded Signup (latest flow) — WhatsApp only.
 // config name: Webtrix24_EM | ES version: v4 | Session Info Version: 3
 $config['FB_EMBEDDED_SIGNUP_CONFIG_ID'] = '1586433905766247';
 // Coexistence Embedded Signup config ID — for businesses already using the WhatsApp Business App.
 // Same config_id works once Feature Type = Coexistence is set in Meta App Dashboard.
 $config['FB_COEXISTENCE_CONFIG_ID'] = '1586433905766247';
+// Facebook Login for Business config_id for the Pages / Lead Ads connector — a SEPARATE Business
+// Login Configuration from the WhatsApp config IDs above (does not affect or share state with them).
+// Create it in Meta App Dashboard > Facebook Login for Business, scoped to: pages_show_list,
+// pages_read_engagement, pages_manage_metadata, leads_retrieval, pages_manage_ads, ads_read,
+// business_management.
+$config['FB_PAGES_CONFIG_ID'] = 'REPLACE_WITH_PAGES_LOGIN_CONFIG_ID';
 // Must match EXACTLY the value added in Facebook App > Facebook Login > Settings > Valid OAuth Redirect URIs
 $config['FB_REDIRECT_URI'] = 'https://my.webtrix24.com/API/fb-callback';
+// Instagram Business Login — a DIFFERENT App ID/Secret from FB_APP_ID/FB_APP_SECRET above.
+// Instagram Business Login connects directly to an Instagram professional account (no Facebook
+// Page involved), using Instagram's own OAuth endpoints (api.instagram.com / graph.instagram.com)
+// rather than graph.facebook.com. Get these from Meta App Dashboard > Instagram > API setup with
+// Instagram Login (or the "Manage messaging & content on Instagram" use case).
+$config['INSTAGRAM_APP_ID']     = '1318434733454071';
+$config['INSTAGRAM_APP_SECRET'] = 'REPLACE_WITH_INSTAGRAM_APP_SECRET';
+// Must match EXACTLY the redirect_uri registered for Instagram Business Login.
+$config['INSTAGRAM_REDIRECT_URI'] = 'https://my.webtrix24.com/API/instagram-callback';
+// Shared secret this hub sends as the X-WEBTRIX-META-SECRET header when forwarding Meta webhook
+// events (leadgen, etc.) to a tenant's internal ingest endpoint. The tenant backend's own
+// META_TENANT_FORWARD_SECRET (application/config/meta.php) must be set to the same value.
+$config['META_TENANT_FORWARD_SECRET'] = '4a731a40bb702fb4d69c44a40e699e2c43d2b002166655a5408006230119d1d9';
 
 /*
 |--------------------------------------------------------------------------

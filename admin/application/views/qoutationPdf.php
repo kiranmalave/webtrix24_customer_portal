@@ -256,7 +256,7 @@
 	<tr class="borderBottom">
 		<th style="width:5%;" class="srNo text-center font-6">No.</th>
 		<th style="width:20%;" class="desc text-left font-6">Description</th>
-		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { ?>
+		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { ?>
 			<th style="width:5%;" class="unit text-left font-6">HSN</th>
 			<th style="width:5%;" class="unit text-left font-6">UQC</th>
 		<?php } ?>
@@ -265,7 +265,7 @@
 		<th style="width:10%;" class="rate text-right font-6">Rate</th>
 		<th style="width:10%;" class="rate text-right font-6">Discount</th>
 		<th style="width:10%;" class="rate text-right font-6">Total</th>
-      		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { 
+      		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { 
 			if($taxInvoiceData[0]->state_id != $taxInvoiceData[0]->customer_state_id) { ?>
 				<th style="width:10%;" class="tax text-right">IGST</th> 
 			<?php }else{ ?>
@@ -281,7 +281,7 @@
     <tr class="borderBottom">
 		<td  class="srNo border-right"><?php echo $value->srNo; ?></td>	
 		<td  class="type border-right text-left"><?php echo $value->product_name; ?></td>
-		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { ?>
+		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { ?>
 			<td  class="hsn border-right text-left"><?php echo '---'; ?></td>
 			<td  class="uqc border-right text-left"><?php echo '---'; ?></td>
 		<?php } ?>
@@ -342,7 +342,7 @@
 			?>
 		</td>
 		<!-- GST -->
-		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { 
+		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { 
 			if($taxInvoiceData[0]->state_id != $taxInvoiceData[0]->customer_state_id) { ?>
 				<td class="text-right border-right"><?php echo number_format($value->igst_amt,2, '.', ''); ?></td>
 			<?php }else{?>
@@ -374,14 +374,14 @@
     </tr>
     <?php } ?>
 	<tr>
-		<?php ($taxInvoiceData[0]->is_gst_billing == 'yes') ? $colsp = '4' : $colsp = '2' ; ?>
+		<?php ($taxInvoiceData[0]->is_tax_billing == 'yes') ? $colsp = '4' : $colsp = '2' ; ?>
 		<td colspan='<?php echo $colsp ;?>' class="border-right text-right" style='vertical-align: top;'></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"invoiceLineQty")),0, '.', ''); ?></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo '---'; ?></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"newRate")),2, '.', ''); ?></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"disAmt")),2, '.', ''); ?></td>
 		<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"aggAmt")),2, '.', ''); ?></td>
-		<?php if ($taxInvoiceData[0]->is_gst_billing == 'yes') { 
+		<?php if ($taxInvoiceData[0]->is_tax_billing == 'yes') { 
 			if($taxInvoiceData[0]->state_id != $taxInvoiceData[0]->customer_state_id) { ?>
 				<td class="border-right text-right" style='vertical-align: top;'><?php echo number_format(array_sum(array_column($invoiceLineDetails,"igst_amt")),2, '.', ''); ?></td>
 			<?php }else{ ?>
@@ -444,7 +444,7 @@
 									<tr class="borderBottom" >
 										<td class="text-left"><strong><?php echo $value['title'].'' ;?></strong></td>
 										<td class="text-right"><?php
-											if ($taxInvoiceData[0]->is_gst_billing == 'yes') 
+											if ($taxInvoiceData[0]->is_tax_billing == 'yes') 
 												$tgst = $value['rate'] + ( $value['rate'] * ( $value['gst'] / 100) );
 											else
 												$tgst = $value['rate'];
