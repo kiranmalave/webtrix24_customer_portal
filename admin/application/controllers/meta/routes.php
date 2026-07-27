@@ -30,6 +30,10 @@ $route['facebook/data-deletion-status'] = 'meta/DataDeletion/status';
 // ── Instagram Business Login — standalone, own App ID/Secret, NOT a Page-linked flow ──
 $route['instagram-callback']              = 'meta/InstagramLogin/callback';
 $route['InstagramLogin/storeAccount']     = 'meta/InstagramLogin/storeAccount';
+
+// Central dispatcher — hits every tenant's /API/meta/cron/work. Schedule this, not the
+// per-tenant endpoint directly. Mirrors systems/TaskCron.php's dispatch route convention.
+$route['meta/cron/dispatch'] = 'meta/MetaCron/dispatch';
 // TEMPORARY DEBUG — remove after Facebook App is configured
 $route['fb-debug']    = 'meta/WAHub/fbDebug';
 //$route['facebook/webhook'] = 'meta/FacebookConnect/fbWebhook';
