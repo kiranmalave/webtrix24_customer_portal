@@ -576,6 +576,12 @@ class WAHub extends CI_Controller
         $signupEvent  = isset($input['signup_event']) && is_array($input['signup_event']) ? $input['signup_event'] : [];
         $mode         = ($input['mode'] ?? '') === 'coexistence' ? 'coexistence' : 'standard';
 
+        // Full raw session-info payload from the embedded signup popup — for Coexistence
+        // (FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING) this is where waba_id/business_id/
+        // phone_number_id come from. Log it unconditionally so a missing/renamed field on
+        // Meta's side shows up here first, before it turns into a downstream lookup failure.
+        log_message('info', 'fbProcess: mode=' . $mode . ' raw signup_event=' . json_encode($signupEvent));
+
         if ((empty($accessToken) && empty($authCode)) || empty($returnOrigin) || empty($companyId)) {
             echo json_encode(['flag' => 'F', 'msg' => 'Missing required fields.']);
             return;

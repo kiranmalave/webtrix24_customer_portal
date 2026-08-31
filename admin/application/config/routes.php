@@ -305,6 +305,13 @@ $route['cron/campaigns/dispatch']           = 'systems/CampaignCron/dispatch'; /
 #
 $route['cron/tasks/dispatch/repeat'] = 'systems/TaskCron/dispatchRepeat';
 
+############### Core System Cron Dispatcher ###############
+#
+#   Every minute — fan-call each tenant's core cron (follow-up reminders, …):
+#   * * * * * curl -s "https://my.webtrix24.com/API/cron/core/dispatch?cron_secret=YOUR_SECRET" > /dev/null 2>&1
+#
+$route['cron/core/dispatch'] = 'systems/CoreCron/dispatchCron';
+
 ############### Insurance Renewal Reminder Cron Dispatcher ###############
 #
 # Two focused cron jobs (recommended):

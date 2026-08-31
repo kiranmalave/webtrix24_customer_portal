@@ -300,7 +300,16 @@ LIMIT 1");
         }
         return $customData;
     }
+    // MySQL database names and GRANT statements are safest with "_" only —
+    // hyphens (e.g. from a "<tenant>-<suffix>" subdomain) caused
+    // "Access denied ... to database 'webtrix24_customers_tenant-suffix'".
+    // Callers should already pass an underscored name; this is a safety net.
+    private function sanitizeDbName($name) {
+        return str_replace('-', '_', $name);
+    }
+
     public function createDatabase($name){
+        $name = $this->sanitizeDbName($name);
         if($this->dbforge->create_database($name)){
             if($this->grant_user_permissions($name)){
                 return true;
@@ -310,7 +319,7 @@ LIMIT 1");
         }else{
             return false;
         }
-        
+
     }
 
     public function copy_database($source_db,$otherDetails,$customerDetails) {
@@ -324,7 +333,7 @@ LIMIT 1");
         $source_db_connection = $this->load->database($source_db_config, TRUE);
 
         // Step 3: Connect to the Target Database
-        $target_db= $otherDetails['database_name'];
+        $target_db= $this->sanitizeDbName($otherDetails['database_name']);
         $target_db_config = $this->get_database_config($target_db);
         $source_db_connection->query('SET FOREIGN_KEY_CHECKS = 0;');
         $target_db_connection = $this->load->database($target_db_config, TRUE);
@@ -423,6 +432,7 @@ LIMIT 1");
         // $database = 'exampledb';         // Target database
         // $username = 'new_user';          // New MySQL username
         // $password = 'secure_password';   // New MySQL password
+        $database = $this->sanitizeDbName($database);
         $host = 'localhost';             // Host for the user
 
         // Step 1: Create the MySQL User
@@ -448,6 +458,7 @@ LIMIT 1");
     }
     public function grant_user_permissions($database) {
         // Define the database, user, host, and permissions
+        $database = $this->sanitizeDbName($database);
         $user = $this->db->username;
         $host = 'localhost';
         $permissions = 'SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER,TRIGGER';

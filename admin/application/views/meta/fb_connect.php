@@ -108,6 +108,11 @@
         return;
       }
 
+      // Raw session-info payload straight from Meta — logged unconditionally (every event,
+      // not just FINISH) so the exact shape Meta sent (event name, and for Coexistence,
+      // data.waba_id) is visible in devtools while debugging onboarding.
+      console.log('[WA Embedded Signup] postMessage received:', data);
+
       if (data.type === 'WA_EMBEDDED_SIGNUP') {
         if (
           data.event === 'FINISH' ||
@@ -115,6 +120,7 @@
           data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
         ) {
           signupEventData = data.data || {};
+          console.log('[WA Embedded Signup] event=' + data.event + ' captured data:', signupEventData);
           setStatus('WhatsApp Business setup completed. Finalizing…', false);
         } else if (data.event === 'CANCEL') {
           setStatus('Embedded signup was cancelled.', true);

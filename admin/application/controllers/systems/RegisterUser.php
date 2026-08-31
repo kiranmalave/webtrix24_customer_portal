@@ -1,6 +1,31 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Tenant registration for the new (non-cPanel) server.
+ *
+ * The old VPS used cPanel, which couldn't do wildcard vhost entries, so each
+ * tenant needed its own cPanel "addsubdomain" API call plus its own DNS
+ * record. The new server has no cPanel — instead it has three shared vhost
+ * files, one per CRM type, each owning a wildcard on a fixed "-<type>" suffix
+ * so a single ServerAlias covers every tenant of that type:
+ *   - insurance -> <company>-insu.webtrix24.com   (ServerAlias *-insu.webtrix24.com)
+ *   - rental    -> <company>-rental.webtrix24.com (ServerAlias *-rental.webtrix24.com)
+ *   - general   -> <company>-gen.webtrix24.com    (ServerAlias *-gen.webtrix24.com)
+ * The full "<company>-<type>" string is what gets stored in sub_domain_name
+ * and is what PreConfig::checkAccess() (hooks/userAccess.php) matches against
+ * the leftmost segment of HTTP_HOST — no hook changes needed. So no
+ * per-tenant subdomain registration is needed — a tenant just needs its row
+ * in the DB and its database provisioned.
+ *
+ * DNS is likewise a one-time wildcard entry (*.webtrix24.com) rather than a
+ * per-tenant CNAME/A record, so create_cname_record() is no longer called
+ * automatically here. It's kept for the rare case a one-off record needs to
+ * be created by hand — point it at the new server IP (200.141.14.165).
+ *
+ * The previous cPanel-based flow is preserved as-is in
+ * RegisterUserCpanelLegacy.php for reference.
+ */
 class RegisterUser extends CI_Controller
 {
 
@@ -21,7 +46,16 @@ class RegisterUser extends CI_Controller
 	 */
 	private $api_token = '4YIIZ1jTkVwyboesGhDTbNVfc_3U24M7Vn6tHXBt';  // Replace with your Cloudflare API Token
 	private $zone_id = '34770c11525b869106ee899822ea7f72';
-	private $default_chars = 'abcdefghijklmnopqrstuvwxyz0123456789';  
+	private $default_chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+	private $server_ip = '200.141.14.165'; // new server IP — used only for manual/one-off DNS record creation
+	// CRM type -> subdomain suffix. Each has its own shared vhost aliased on
+	// *-<suffix>.webtrix24.com, so a tenant's full subdomain is
+	// <tenant>-<suffix>, e.g. "acme-insu" -> acme-insu.webtrix24.com.
+	private $crm_subdomain_suffix = array(
+		'insurance' => 'insu',
+		'rental'    => 'rental',
+		'general'   => 'gen',
+	);
 	function __construct()
 	{
 		parent::__construct();
@@ -44,8 +78,16 @@ class RegisterUser extends CI_Controller
 		$method = $this->input->method(TRUE);
 		$customerDetails = array();
 		$user = $this->validatedata->validate('vcode', 'Unauthorized Access Attempt Detected', true, '', array());
-		$userID = $this->decodeNumber($user,$this->en_key);
-		$customer_id =  explode("_",$userID);
+		$customerId = $this->resolveCustomerIdFromVcode($user);
+		if ($customerId === null) {
+			$status['msg'] = $this->systemmsg->getErrorCode(304);
+			$status['statusCode'] = 304;
+			$status['data'] = array();
+			$status['flag'] = 'F';
+			$this->response->output($status, 200);
+			return;
+		}
+		$customer_id = array(1 => $customerId);
 		$where = array("customer_id" => $customer_id[1]);
 		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
 		if(isset($customerDetails) && !empty($customerDetails)){
@@ -81,8 +123,16 @@ class RegisterUser extends CI_Controller
 		$method = $this->input->method(TRUE);
 		$customerDetails = array();
 		$user = $this->validatedata->validate('vcode', 'Unauthorized Access Attempt Detected', true, '', array());
-		$userID = $this->decodeNumber($user,$this->en_key);
-		$customer_id =  explode("_",$userID);
+		$customerId = $this->resolveCustomerIdFromVcode($user);
+		if ($customerId === null) {
+			$status['msg'] = $this->systemmsg->getErrorCode(304);
+			$status['statusCode'] = 304;
+			$status['data'] = array();
+			$status['flag'] = 'F';
+			$this->response->output($status, 200);
+			return;
+		}
+		$customer_id = array(1 => $customerId);
 		$where = array("customer_id" => $customer_id[1]);
 		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
 		if(isset($customerDetails) && !empty($customerDetails)){
@@ -215,12 +265,16 @@ class RegisterUser extends CI_Controller
 		$mobileOTP = $this->validatedata->validate('mobileOTP', 'Mobile OTP', true, '', array());
 		$user = $this->validatedata->validate('vcode', 'Unauthorized Access Attempt Detected', true, '', array());
 		$password = $this->validatedata->validate('txt_password', 'Password', true, '', array());
-		$userID = $this->decodeNumber($user,$this->en_key);
-		// print "<pre>";
-		// print_r($userID);
-		// $encNumber = $this->encodeNumber("ws_10",$this->en_key);
-		// print $encNumber;
-		$customer_id =  explode("_",$userID);
+		$customerId = $this->resolveCustomerIdFromVcode($user);
+		if ($customerId === null) {
+			$status['msg'] = $this->systemmsg->getErrorCode(304);
+			$status['statusCode'] = 304;
+			$status['data'] = array();
+			$status['flag'] = 'F';
+			$this->response->output($status, 200);
+			return;
+		}
+		$customer_id = array(1 => $customerId);
 		$where = array("customer_id" => $customer_id[1]);
 		$where["email_code"] = $emailOTP;
 		//$where["mobile_code"] = $mobileOTP;
@@ -330,23 +384,33 @@ class RegisterUser extends CI_Controller
 		$allowed_types = array('general', 'rental', 'insurance');
 		if (!in_array($crm_type, $allowed_types, true)) { $crm_type = 'general'; }
 		$this->db->trans_start();
-		$userID = $this->decodeNumber($user_id,$this->en_key);
-		$customer_id =  explode("_",$userID);
+		$customerId = $this->resolveCustomerIdFromVcode($user_id);
+		if ($customerId === null) {
+			$this->db->trans_rollback();
+			$status['msg'] = $this->systemmsg->getErrorCode(304);
+			$status['statusCode'] = 304;
+			$status['data'] = array();
+			$status['flag'] = 'F';
+			$this->response->output($status, 200);
+			return;
+		}
+		$customer_id = array(1 => $customerId);
 		$where = array("customer_id" => $customer_id[1]);
 		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
 		if(isset($customerDetails) && !empty($customerDetails)){
-			// 1. create subdomain — suffix depends on CRM type
-			$cleanedCompany = $this->create_subdomain($otherDetails['company_name']);
-
-			if ($crm_type === 'insurance') {
-				$subdoamin = $cleanedCompany;// . '.ins';
-			} else {
-				$subdoamin = $cleanedCompany;
-			}
+			// 1. build subdomain — suffixed by CRM type so the server's shared
+			// vhost for that type (ServerAlias *-<suffix>.webtrix24.com) picks it
+			// up without any per-tenant registration
+			$suffix = $this->crm_subdomain_suffix[$crm_type];
+			$subdoamin = $this->create_subdomain($otherDetails['company_name'], $suffix);
+			$cleanedCompany = $subdoamin;
 
 			$otherDetails['sub_domain_name'] = $subdoamin;
 			$otherDetails['crm_type']        = $crm_type;
-			$otherDetails['database_name']   = "webtrix24_customers_" . $cleanedCompany;
+			// MySQL database/GRANT identifiers use "_" — the subdomain's "-" separators
+			// (tenant-suffix) don't belong in the actual DB name, that caused
+			// "Access denied ... to database 'webtrix24_customers_tenant-suffix'"
+			$otherDetails['database_name']   = "webtrix24_customers_" . str_replace('-', '_', $cleanedCompany);
 
 			// Select the correct template database based on CRM type
 			if ($crm_type === 'insurance') {
@@ -395,24 +459,13 @@ class RegisterUser extends CI_Controller
 			$otherDetails['database_name'] = str_replace('webtrix24_customers_','',$otherDetails['database_name']);
 			$otherDetails['account_setup'] = "y";
 
-			// 3. Create cPanel subdomain record
-			$cpRootDomain = 'webtrix24.com';
-			if ($crm_type === 'insurance') {
-				$cpDirectory = $this->config->item('cpanel_insurance_dir');
-			} elseif ($crm_type === 'rental') {
-				$cpDirectory = $this->config->item('cpanel_clients_dir');
-			} else {
-				$cpDirectory = $this->config->item('cpanel_general_dir');
-			}
-			$this->create_cpanel_subdomain($cleanedCompany, $cpRootDomain, $cpDirectory);
-			
+			// No per-tenant subdomain registration needed — the server's shared
+			// vhost for this CRM type already routes on the insu-/rental-/gen- prefix.
 
 			$iscreated = $this->CommonModel->updateMasterDetails('customer', $otherDetails, $where);
 			if($iscreated){
-				// Now setup it's database and Cname record so user can access the subdoamins
-				
-				// 2. create A Record
-				$Arecord = $this->create_cname_record($otherDetails['sub_domain_name']);
+				// DNS is a one-time wildcard entry (*.webtrix24.com) already in place,
+				// so no per-tenant CNAME/A record is created here.
 				//$baseURL = $this->config->item("app_url")."#register?&vfcode=".$this->encodeNumber("ws_".$customer_id,$this->en_key);
 				// $emailBody = "<p>Dear ".$customerDetails['name'].",</p>
 				// 		<p>Congratulations! Your email has been successfully verified, and your account is now active.</p>
@@ -465,24 +518,66 @@ class RegisterUser extends CI_Controller
 	public function decodeNumber($encodedNumberWithIV, $encryption_key) {
 		$cipher = 'AES-128-CTR';
 		$options = 0;
-	
+
 		// Decode the base64 encoded data
 		$decodedData = base64_decode($encodedNumberWithIV);
 		$iv_length = openssl_cipher_iv_length($cipher);
-	
+
+		// A genuine token is always at least IV-length bytes long once decoded.
+		// Anything shorter (garbage/test input) would make openssl_decrypt() throw
+		// an "IV passed is only N bytes long" warning — bail out cleanly instead.
+		if ($decodedData === false || strlen($decodedData) <= $iv_length) {
+			return false;
+		}
+
 		// Extract the IV and the encrypted data
 		$iv = substr($decodedData, 0, $iv_length);
 		$encodedDataOnly = substr($decodedData, $iv_length);
-	
+
 		// Decrypt the data
 		return openssl_decrypt($encodedDataOnly, $cipher, $encryption_key, $options, $iv);
 	}
+
+	/**
+	 * Decode a vcode token (produced by encodeNumber("ws_<id>", ...)) into the
+	 * bare customer_id, or null if the token is missing/garbage/tampered —
+	 * so callers can short-circuit to a clean 304 instead of feeding
+	 * explode()'s output straight into a DB query and tripping an
+	 * "Undefined array key" notice.
+	 */
+	private function resolveCustomerIdFromVcode($vcode) {
+		$userID = $this->decodeNumber($vcode, $this->en_key);
+		return $this->parseCustomerIdFromDecoded($userID);
+	}
+
+	/**
+	 * Pull the bare customer_id out of an already-decoded "ws_<id>" string
+	 * (i.e. decodeNumber()'s return value), or null if it's not well-formed.
+	 */
+	private function parseCustomerIdFromDecoded($userID) {
+		if ($userID === false || strpos($userID, 'ws_') !== 0) {
+			return null;
+		}
+		$parts = explode('_', $userID);
+		if (!isset($parts[1]) || $parts[1] === '' || !ctype_digit($parts[1])) {
+			return null;
+		}
+		return $parts[1];
+	}
+	/**
+	 * Create a one-off DNS (A) record for a subdomain via Cloudflare.
+	 *
+	 * Not called automatically by companySetup() — the new server is covered
+	 * by a one-time wildcard DNS entry (*.webtrix24.com -> $this->server_ip),
+	 * so per-tenant records are no longer needed. Kept for the rare case a
+	 * specific subdomain needs its own record created by hand.
+	 */
 	public function create_cname_record($name) {
-        // Prepare CNAME record details
+        // Prepare DNS record details
         $cname_data = array(
             'type' => 'A',
-            'name' => $name,           // The subdomain for CNAME (e.g., www.example.com)
-            'content' => '184.168.127.218',  // The target of the CNAME (e.g., example.com)
+            'name' => $name,           // The subdomain for the record (e.g., www.example.com)
+            'content' => $this->server_ip,  // The target IP
             'ttl' => 3600,              // Time-to-live in seconds
             'proxied' => true         // Set to true if you want Cloudflare proxying the traffic
         );
@@ -517,85 +612,47 @@ class RegisterUser extends CI_Controller
 			return false;
         }
     }
+
 	/**
-	 * Create a subdomain in cPanel via UAPI.
-	 * @param  string $subdomain   The subdomain label (e.g. "acme")
-	 * @param  string $rootdomain  Root domain (e.g. "webtrix24.com" or "ins.webtrix24.com")
-	 * @param  string $directory   Server path for the subdomain document root
-	 * @return bool  true on success, false on cURL or API error
+	 * Build a unique, suffixed subdomain for a tenant, e.g. "acme-insu".
+	 * The suffix identifies which of the server's three shared vhosts
+	 * (ServerAlias *-<suffix>.webtrix24.com) should serve this tenant, so no
+	 * per-tenant subdomain registration is needed.
+	 * @param  string $company_name
+	 * @param  string $suffix  e.g. 'insu', 'rental', 'gen'
+	 * @return string  full "<company>-<suffix>", unique subdomain
 	 */
-	private function create_cpanel_subdomain($subdomain, $rootdomain, $directory) {
-		$cpanelUser = $this->config->item('cpanel_user');
-		$apiToken   = $this->config->item('cpanel_api_token');
-		$serverHost = rtrim($this->config->item('cpanel_host'), '/');
-
-		$url = $serverHost . '/execute/SubDomain/addsubdomain';
-
-		$postData = array(
-			'domain'     => $subdomain,
-			'rootdomain' => $rootdomain,
-			'dir'        => $directory,
-		);
-
-		$headers = array(
-			"Authorization: cpanel {$cpanelUser}:{$apiToken}",
-		);
-
-		$ch = curl_init();
-		curl_setopt_array($ch, array(
-			CURLOPT_URL            => $url,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_POST           => true,
-			CURLOPT_POSTFIELDS     => http_build_query($postData),
-			CURLOPT_HTTPHEADER     => $headers,
-			CURLOPT_SSL_VERIFYPEER => false,
-			CURLOPT_SSL_VERIFYHOST => false,
-		));
-
-		$response  = curl_exec($ch);
-		$curlError = curl_error($ch);
-		curl_close($ch);
-
-		if ($curlError) {
-			log_message('error', 'cPanel subdomain creation failed for ' . $subdomain . '.' . $rootdomain . ': ' . $curlError);
-			return false;
-		}
-
-		$result = json_decode($response, true);
-		if (!isset($result['status']) || $result['status'] != 1) {
-			log_message('error', 'cPanel subdomain API error for ' . $subdomain . '.' . $rootdomain . ': ' . $response);
-			return false;
-		}
-
-		return true;
-	}
-
-	public function create_subdomain($company_name) {
+	public function create_subdomain($company_name, $suffix = '') {
         // Step 1: Clean the company name to remove unwanted characters
         $cleaned_name = $this->sanitize_company_name($company_name);
-        // Step 2: Shorten the name if necessary
-        $shortened_name = $this->shorten_company_name($cleaned_name);
+        // Step 2: Shorten the name if necessary, leaving room for "-<suffix>"
+        $shortened_name = $this->shorten_company_name($cleaned_name, strlen($suffix) + 1);
         // Step 3: Ensure the name is valid for a subdomain
         $subdomain = $this->validate_subdomain($shortened_name);
-        
+
         // Step 4: If invalid, generate a fallback subdomain with random characters and a number
         if (!$this->is_valid_subdomain($subdomain)) {
-            
+            $subdomain = $this->generate_fallback_subdomain();
         }
-		while(!$this->validateDomain($subdomain)){
+
+		// Step 5: the base company name must be unique on its own — if this
+		// company (under any CRM type/suffix) is already registered, fall
+		// back to a random base instead of reusing it
+		while($this->isBaseNameTaken($subdomain)){
 				$subdomain = $this->generate_fallback_subdomain();
 		}
-		return $subdomain;
+		return $subdomain . '-' . $suffix;
     }
-	private function validateDomain($subdomain){
-		$where = array();
-		$where["sub_domain_name"] = $subdomain;
-		$customerDetails = $this->CommonModel->getMasterDetails('customer','',$where);
-		if(isset($customerDetails) && !empty($customerDetails)){
-			return false;
-		}else{
-			return true;
-			}
+	/**
+	 * True if $baseName is already registered — either as an exact
+	 * sub_domain_name, or as the base of an existing "<baseName>-<suffix>"
+	 * tenant under any CRM type.
+	 */
+	private function isBaseNameTaken($baseName){
+		if ($baseName === '') { return true; }
+		$this->db->where('sub_domain_name', $baseName);
+		$this->db->or_like('sub_domain_name', $baseName . '-', 'after');
+		return $this->db->count_all_results('customer') > 0;
 	}
 	  // Check if the subdomain is valid
 	private function is_valid_subdomain($subdomain) {
@@ -607,27 +664,35 @@ class RegisterUser extends CI_Controller
     private function sanitize_company_name($company_name) {
         // Convert to lowercase
         $company_name = strtolower(trim($company_name));
-        
-        // Replace spaces with hyphens
-        $company_name = str_replace(' ', '-', $company_name);
-        
+
+        // Collapse any run of whitespace (extra/trailing spaces) to a single hyphen
+        $company_name = preg_replace('/\s+/', '-', $company_name);
+
         // Remove any special characters (only keep letters, numbers, and hyphens)
         $company_name = preg_replace('/[^a-z0-9\-]/', '', $company_name);
-        
+
+        // Collapse repeated hyphens left by stripped characters, and trim leading/trailing hyphens
+        $company_name = preg_replace('/-+/', '-', $company_name);
+        $company_name = trim($company_name, '-');
+
         return $company_name;
     }
 
     // Shorten the name if it's too long (ensure it's within subdomain length limit)
-    private function shorten_company_name($company_name) {
-        // Define the max length for subdomains (usually 63 characters max)
-        $max_length = 20;
-        
+    private function shorten_company_name($company_name, $prefixLength = 0) {
+        // Define the max length for subdomains (usually 63 characters max), leaving room for the type prefix
+        $max_length = max(20 - $prefixLength, 6);
+
         // Shorten the company name to the desired length
         if (strlen($company_name) > $max_length) {
-            // If name is too long, use the first 20 characters and append an abbreviation or initials
+            // If name is too long, use the first N characters and append an abbreviation or initials
             $company_name = substr($company_name, 0, $max_length);
+            // Truncation may land right on a hyphen (e.g. "rudraksha-financial-services"
+            // cut at 20 chars -> "rudraksha-financial-") — trim it so we never hand back
+            // a name ending in "-", which would collide with the "-<suffix>" separator
+            $company_name = rtrim($company_name, '-');
         }
-        
+
         return $company_name;
     }
 
@@ -650,18 +715,45 @@ class RegisterUser extends CI_Controller
 
         return $random_string . $random_number;  // Final fallback subdomain
     }
+	/**
+	 * Generate a DB user password. This is interpolated straight into a raw
+	 * "CREATE USER ... IDENTIFIED BY '$password'" string in
+	 * Datatables::create_user_and_grant_privileges(), so the pool below
+	 * excludes quotes/backslash on purpose — never add them back.
+	 *
+	 * A password drawn uniformly from a mixed pool can by chance miss a
+	 * whole character class (all-lowercase, no digit, etc.), which MySQL's
+	 * validate_password policy rejects with "password does not satisfy the
+	 * current policy requirements". So one char from each class is forced in,
+	 * then the result is shuffled.
+	 */
 	function generateDbPassword($length = 16) {
-		// Define a pool of characters for the password
-		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
-		$password = '';
-		
-		// Use a secure random generator to pick characters
-		$maxIndex = strlen($characters) - 1;
-		for ($i = 0; $i < $length; $i++) {
-			$password .= $characters[random_int(0, $maxIndex)];
+		$lower   = 'abcdefghijklmnopqrstuvwxyz';
+		$upper   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$digits  = '0123456789';
+		$special = '!@#$%^&*()-_=+[]{}|;:,.?';
+		$all     = $lower . $upper . $digits . $special;
+
+		if ($length < 4) { $length = 4; }
+
+		$password = array(
+			$lower[random_int(0, strlen($lower) - 1)],
+			$upper[random_int(0, strlen($upper) - 1)],
+			$digits[random_int(0, strlen($digits) - 1)],
+			$special[random_int(0, strlen($special) - 1)],
+		);
+		for ($i = count($password); $i < $length; $i++) {
+			$password[] = $all[random_int(0, strlen($all) - 1)];
 		}
-	
-		return $password;
+
+		// Fisher-Yates shuffle with a CSPRNG so the guaranteed classes above
+		// aren't always in the same first four positions
+		for ($i = count($password) - 1; $i > 0; $i--) {
+			$j = random_int(0, $i);
+			[$password[$i], $password[$j]] = [$password[$j], $password[$i]];
+		}
+
+		return implode('', $password);
 	}
 	public function companyLogo($customer_id)
 	{
@@ -669,6 +761,14 @@ class RegisterUser extends CI_Controller
 		$customer_id = base64_decode($customer_id);
 		//print $customer_id;exit;
 		$userID = $this->decodeNumber($customer_id,$this->en_key);
+		$parsedCustomerId = $this->parseCustomerIdFromDecoded($userID);
+		if ($parsedCustomerId === null) {
+			$status['msg'] = $this->systemmsg->getErrorCode(304);
+			$status['statusCode'] = 304;
+			$status['flag'] = 'F';
+			$this->response->output($status, 200);
+			return;
+		}
 		$extraData = array();
 		$mediapatharr = $this->config->item("client_upload").$userID."/";
 		if (!is_dir($mediapatharr)) {
@@ -682,8 +782,7 @@ class RegisterUser extends CI_Controller
 				$this->response->output($status, 200);
 			}
 		}
-		$customer_id =  explode("_",$userID);
-		$extraData["customer_id"] = $customer_id[1];
+		$extraData["customer_id"] = $parsedCustomerId;
 		$this->load->library('realtimeupload');
 		if(!is_dir($mediapatharr)){
 			mkdir($mediapatharr, 0777);
@@ -712,7 +811,7 @@ class RegisterUser extends CI_Controller
 			'isSaveToDB' => "Y",
 			'isUpdate'=>"Y",
 			'primaryKey' => 'customer_id',
-			'primaryValue' => $customer_id[1],
+			'primaryValue' => $parsedCustomerId,
 			'extraData' => $extraData,
 		);
 		$this->realtimeupload->init($settings);
