@@ -119,6 +119,13 @@ class Systemmsg extends CI_Log
 		$errorList[338] = "Menu Details not Found";
 		$errorList[339] = "Duplicate Product found. Please try with another name.";
 
+		// ACCOUNT DELETION
+		$errorList[340] = "Account not found for the given Account ID.";
+		$errorList[341] = "Account deletion is already in progress for this account.";
+		$errorList[342] = "Invalid or expired OTP. Please request a new one.";
+		$errorList[343] = "No pending deletion request found for this account.";
+		$errorList[344] = "This account has already been deleted.";
+
 		$errorList[991] = "WhatsApp Error !";
 		$errorList[992] = "CompanyDetails not found. Please contact to administrator.";
 		$errorList[993] = "Error while deleting records. Please contact to administrator.";
@@ -149,6 +156,10 @@ class Systemmsg extends CI_Log
 		$sucessList[425] = "The password has been reset successfully..!";
 		$sucessList[426] = "Email Attachment Upload Succeed...!";
 		$sucessList[427] = "Email Attachment Removed...!";
+		$sucessList[428] = "An OTP has been sent to your registered email address for account deletion verification.";
+		$sucessList[429] = "Your account deletion has been confirmed. It will be permanently deleted after 7 days unless you cancel the request before then.";
+		$sucessList[430] = "Your account deletion request has been cancelled successfully.";
+		$sucessList[431] = "Account deleted successfully.";
 		return $sucessList[$codeID];
 	}
 }

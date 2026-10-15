@@ -277,6 +277,19 @@ $route['companyLogo/(:any)'] = 'systems/RegisterUser/companyLogo/$1';
 $route['checkAccount'] = 'systems/RegisterUser/checkAccount';
 
 $route['checklocal'] = 'systems/RegisterUser/checklocal';
+
+############### Account Deletion (central "delete my account" flow) ###############
+# 1. requestAccountDeletion  -> looks up account_id, emails an OTP
+# 2. verifyAccountDeletion   -> confirms the OTP, schedules deletion 7 days out
+# 3. cancelAccountDeletion   -> cancels a pending deletion within the grace window
+$route['requestAccountDeletion'] = 'systems/AccountDeletion/requestDeletion';
+$route['verifyAccountDeletion'] = 'systems/AccountDeletion/verifyDeletion';
+$route['cancelAccountDeletion'] = 'systems/AccountDeletion/cancelDeletion';
+#
+#   Once daily — finalize accounts whose 7-day grace period has passed:
+#   0 1 * * * curl -s "https://my.webtrix24.com/API/cron/account/dispatch/deletion?cron_secret=YOUR_SECRET" > /dev/null 2>&1
+#
+$route['cron/account/dispatch/deletion'] = 'systems/AccountDeletion/processScheduledDeletions';
 $route['upgrade/find_diff'] = 'systems/Upgrades/find_diff';
 $route['upgrade/get_file'] = 'systems/Upgrades/get_file';
 $route['upgrade/list_versions'] = 'systems/Upgrades/list_versions';

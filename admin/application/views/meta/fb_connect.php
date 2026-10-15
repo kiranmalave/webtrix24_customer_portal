@@ -207,7 +207,7 @@
         appId: FB_APP_ID,
         cookie: true,
         xfbml: false,
-        version: 'v21.0'
+        version: '<?php echo htmlspecialchars($this->config->item('META_GRAPH_VERSION') ?: 'v23.0', ENT_QUOTES, 'UTF-8'); ?>' // config/config.php → META_GRAPH_VERSION
       });
       onFBReady();
     };
